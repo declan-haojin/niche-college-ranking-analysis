@@ -57,7 +57,7 @@ library(tidyverse)
 ```{r}
 #| label: load-data-2
 
-# add code here
+read.csv("data/earthquakes.csv")
 ```
 
 # Data 3
