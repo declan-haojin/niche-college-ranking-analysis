@@ -4,7 +4,11 @@ format: pdf
 editor: visual
 ---
 
+<<<<<<< HEAD
 This project was developed by **\[team name\]** For [STA 199: Introduction to Data Science](https://sta199-f22-1.github.io/) at Duke University. The team is comprised of the following team members.
+=======
+This project was developed by 2cool4school For [STA 199: Introduction to Data Science](https://sta199-f22-1.github.io/) at Duke University. The team is comprised of the following team members.
+>>>>>>> ec210d0e36ad41c332916bf02978ac7382b24420
 
 -   Samantha Bernier: One sentence description of Team member 1 (e.g., year, major, etc.).
 -   Team member 2: One sentence description of Team member 2 (e.g., year, major, etc.).
