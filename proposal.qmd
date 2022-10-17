@@ -16,11 +16,11 @@ library(tidyverse)
 
 ## Introduction and data
 
--   Identify the source of the data.
+-   The \`lemur_data.csv\` comes from Kaggle.com
 
--   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
+-   The dataset was originally collected from the [2019 data release from the Duke Lemur Center Database](https://lemur.duke.edu/duke-lemur-center-database/) by Zehr, SM, Roach RG, Haring D, Taylor J, Cameron FH, Yoder AD.
 
--   Write a brief description of the observations.
+-   This dataset contains information on over 3,500 observations. Each observation represent a lemur, including lemur-information such as ancestry, reproduction, longevity, and body mass (in total 54 columns).
 
 ## Research question
 
@@ -33,7 +33,7 @@ library(tidyverse)
 ```{r}
 #| label: load-data-1
 
-# add code here
+lemur = read_csv("data/lemur_data.csv")
 ```
 
 # Data 2
