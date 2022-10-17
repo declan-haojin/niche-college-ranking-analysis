@@ -1,0 +1,85 @@
+---
+title: "Project title"
+subtitle: "Proposal"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: load-pkgs
+#| message: false
+
+library(tidyverse)
+```
+
+# Data 1
+
+## Introduction and data
+
+-   Identify the source of the data.
+
+-   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
+
+-   Write a brief description of the observations.
+
+## Research question
+
+-   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
+-   A description of the research topic along with a concise statement of your hypotheses on this topic.
+-   Identify the types of variables in your research question. Categorical? Quantitative?
+
+## Glimpse of data
+
+```{r}
+#| label: load-data-1
+
+# add code here
+```
+
+# Data 2
+
+## Introduction and data
+
+-   Identify the source of the data.
+
+-   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
+
+-   Write a brief description of the observations.
+
+## Research question
+
+-   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
+-   A description of the research topic along with a concise statement of your hypotheses on this topic.
+-   Identify the types of variables in your research question. Categorical? Quantitative?
+
+## Glimpse of data
+
+```{r}
+#| label: load-data-2
+
+# add code here
+```
+
+# Data 3
+
+## Introduction and data
+
+-   Identify the source of the data.
+
+-   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
+
+-   Write a brief description of the observations.
+
+## Research question
+
+-   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
+-   A description of the research topic along with a concise statement of your hypotheses on this topic.
+-   Identify the types of variables in your research question. Categorical? Quantitative?
+
+## Glimpse of data
+
+```{r}
+#| label: load-data-3
+
+# add code here
+```

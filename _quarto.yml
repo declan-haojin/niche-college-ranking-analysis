@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+  resources:
+    - presentation.pdf
+
+website:
+  navbar:
+    left:
+      - href: index.qmd
+      - text: "Proposal"
+        href: proposal.qmd
+      - text: "Presentation"
+        href: presentation.pdf
+      - text: "Report"
+        href: report.qmd
+      - text: "About"
+        href: about.qmd
+
+format:
+  html:
+    theme: default
