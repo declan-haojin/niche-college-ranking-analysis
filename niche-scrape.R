@@ -8,7 +8,7 @@ library(dplyr)
 
 # check that we can scrape data from Forbes ------------------------------------
 
-paths_allowed("https://www.niche.com/colleges/search/best-colleges/?page=1")
+paths_allowed("https://www.niche.com/colleges/search/best-colleges/")
 
 # read page --------------------------------------------------------------------
 
@@ -16,10 +16,12 @@ page <- read_html("https://www.niche.com/colleges/search/best-colleges/")
 
 # parse components -------------------------------------------------------------
 
-urls <- c(str_c("https://www.niche.com/colleges/search/best-colleges/?page=", c(1:20)))
+urls <- c(str_c("https://www.niche.com/colleges/search/best-colleges/?page=", c(13:20)))
 
 scrape_niche <- function(url){
-  Sys.sleep(runif(1))
+
+  Sys.sleep(runif(1, min = 0, max = 5))
+
   page <- read_html(url)
 
   colleges <- page |>
@@ -43,13 +45,20 @@ page1 <- scrape_niche("https://www.niche.com/colleges/search/best-colleges/?page
 page2 <- scrape_niche("https://www.niche.com/colleges/search/best-colleges/?page=2")
 page3 <- scrape_niche("https://www.niche.com/colleges/search/best-colleges/?page=3")
 
-first_three_pages_list <- c(page1, page2, page3)
 
 first_three_pages <- merge(page1, merge(page2, page3, all = TRUE), all = TRUE) |>
   arrange(rank)
 
 write_csv(first_three_pages, "data/first_three_pages_niche.csv")
 
+four_to_seven <- map_dfr(urls, scrape_niche)
+eight_to_twelve <- map_dfr(urls, scrape_niche)
+
+
+one_to_three <- read_csv("data/first_three_pages_niche.csv")
+
+one_to_twelve <- bind_rows(one_to_three, four_to_seven, eight_to_twelve)
+write_csv(one_to_twelve, "data/one_to_twelve.csv")
 
 # this causes an error 403
 niche_rankings <- map_dfr(urls, scrape_niche)
