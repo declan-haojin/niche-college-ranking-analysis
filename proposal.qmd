@@ -33,13 +33,9 @@ library(tidyverse)
 ```{r}
 #| label: load-data-1
 
-<<<<<<< HEAD
-lemur = read_csv("data/lemur_data.csv")
+lemur <- read_csv("data/lemur_data.csv")
 
 glimpse(lemur)
-=======
-lemur <- read_csv("data/lemur_data.csv")
->>>>>>> 67c1c4f655bc3b38e52f7f8e39fac052cc14d975
 ```
 
 # Data 2
