@@ -71,10 +71,13 @@ one_to_three <- read_csv("data/first_three_pages_niche.csv")
 one_to_twelve <- bind_rows(one_to_three, four_to_seven, eight_to_twelve)
 write_csv(one_to_twelve, "data/one_to_twelve.csv")
 
-
 one_to_twelve <- read_csv("data/one_to_twelve.csv")
 one_to_sixteen <- bind_rows(one_to_twelve, thirteen_to_sixteen)
 write_csv(one_to_sixteen, "data/one_to_sixteen.csv")
+
+one_to_sixteen <- read_csv("data/one_to_sixteen.csv")
+niche_data <- bind_rows(one_to_sixteen, seventeen_to_twenty)
+write_csv(niche_data, "data/niche_data_500")
 
 
 # this causes an error 403
