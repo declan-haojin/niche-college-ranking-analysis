@@ -3,6 +3,8 @@ title: "Project title"
 subtitle: "Proposal"
 format: pdf
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r}
@@ -16,7 +18,7 @@ library(tidyverse)
 
 ## Introduction and data
 
--   THe dataset \`lemur_data.csv\` comes from Kaggle.com
+-   The dataset \`lemur_data.csv\` comes from Kaggle.com
 
 -   The dataset was originally collected from the [2019 data release from the Duke Lemur Center Database](https://lemur.duke.edu/duke-lemur-center-database/) by Zehr, SM, Roach RG, Haring D, Taylor J, Cameron FH, Yoder AD.
 
@@ -31,7 +33,7 @@ library(tidyverse)
 ## Glimpse of data
 
 ```{r}
-#| label: load-data-1
+#| label: load-lemur-data
 
 lemur <- read_csv("data/lemur_data.csv")
 
@@ -39,32 +41,6 @@ glimpse(lemur)
 ```
 
 # Data 2
-
-## Introduction and data
-
--   The data comes from CORGIS (Collection of Really Great, Interesting, Situated Datasets) website.
-
--   The earthquake data was originally collected on 6/7/2016 from the United States Geological Survey by Ryan Whitcomb.
-
--   Each observation contains a unique earthquake and all the information surrounding the circumstances of the earthquake, including but not limited to: coordinates of where the earthquake occurred, its magnitude, time of earthquake, and the depth of the earthquake.
-
-## Research question
-
--   Are earthquakes stronger in places where they occur most often? Does the frequency of an earthquake's location have any correlation to its strength and magnitude?
--   A rough look at the first 50 observations showed that a lot of earthquakes happened in Alaska and California. This made us wonder why this was the case and to see if those patterns are consistent throughout the rest of the data. Furthermore, because earthquakes happen more often in those states, we wonder if they are often stronger than earthquakes that only occur once at a certain location. Our hypothesis is that location and magnitude have a positive correlation.
--   Our research question focuses on two things: location and magnitude. For location, we can consider the categorical variable "location.name" which gives us the state/country in which the earthquake occurred. We can also consider "location.longitude" and "location.latitude" which gives us the exact coordinates of an earthquake's location, which would be a quantitative variable. "Impact.magnitude" displays the magnitude of an earthquake which is a quantitative variable.
-
-## Glimpse of data
-
-```{r}
-#| label: load-data-2
-
-earthquakes <- read.csv("data/earthquakes.csv")
-
-glimpse(earthquakes)
-```
-
-# Data 3
 
 ## Introduction and data
 
@@ -83,7 +59,38 @@ glimpse(earthquakes)
 ## Glimpse of data
 
 ```{r}
-#| label: load-data-3
+#| label: load-earthquake-data
 
-# add code here
+earthquakes <- read.csv("data/earthquakes.csv")
+
+glimpse(earthquakes)
+```
+
+# Data 3
+
+## Introduction and data
+
+-   The data is combined from Niche's "2023 Best Colleges in America" list
+
+    (https://www.niche.com/colleges/search/best-colleges/) and the U.S. Department of Education.
+
+-   State when and how it was originally collected (by the original data curator, not necessarily how you found the data). The Niche data was scraped by Maia on October 17-19 2022.
+
+-   Write a brief description of the observations.
+
+## Research question
+
+-   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
+-   A description of the research topic along with a concise statement of your hypotheses on this topic.
+-   Identify the types of variables in your research question. Categorical? Quantitative?
+
+## Glimpse of data
+
+```{r}
+#| label: load-college-data
+
+niche_data_500 <- read_csv("data/niche_data_500.csv")
+# load DoE data
+
+# colleges <- left_join(niche_data_500, ___)
 ```
