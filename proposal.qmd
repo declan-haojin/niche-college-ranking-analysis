@@ -18,19 +18,20 @@ library(tidyverse)
 
 ## Introduction and data
 
--   The dataset \`lemur_data.csv\` comes from Kaggle (kaggle.com).
+-   The dataset \`lemur_data.csv\` comes from [Kaggle.com](https://www.kaggle.com/datasets/jessemostipak/duke-lemur-center-data) and was released by Jesse Mostipak.
 
--   The dataset was originally collected from the [2019 data release from the Duke Lemur Center Database](https://lemur.duke.edu/duke-lemur-center-database/) by Zehr, SM, Roach RG, Haring D, Taylor J, Cameron FH, Yoder AD.
+-   The dataset was orginally collected from the [2019 data release from the Duke Lemur Center Database](https://lemur.duke.edu/duke-lemur-center-database/) and further compiled by Zehr, SM, Roach RG, Haring D, Taylor J, Cameron FH, Yoder AD in their [research paper](https://www.nature.com/articles/sdata201419).
+
+-   Animal data have been collected and entered by Duke Lemur Center staff according to standard operating procedures and USDA, AZA, and IACUC guidelines throughout the history of the center (United States Department of Agriculture, Association of Zoos and Aquariums, Institutional Animal Care and Use Committee respectively). Births, deaths, weights, enclosure moves, behaviors, and other significant events are recorded daily by animal care, veterinary, and research staff and subsequently entered into the permanent records by the DLC Registrar.
 
 -   This dataset contains information on over 3,500 observations. Each observation represent a lemur, including lemur-information such as ancestry, reproduction, longevity, and body mass (in total 54 columns).
 
 ## Research question
 
--   Potential questions:
-    -   What are the top 3 factors that influence the lifespan of lemurs?
--   Why is it important - lemurs are endangered etc etc
+-   What are the top 3 factors that influence the lifespan of lemurs?
+-   Lemurs are the most endangered group of mammals. In fact, 98% of lemur species are endangered, and 31% of species are critically endangered nowadays. Therefore, it is crucial to conduct researches on the lifespan of lemurs to save the endangered species. Moreover, Duke Lemur Center has been the world leader in the study, care, and protection of lemurs since it was founded in 1966. As Duke students, we are able to utilize the resources at DLC to research on lemurs and potentially contribute to their studies.
 -   Through our preliminary investigation, we found that the death age of lemurs varies a lot ranging from 0 to 35. Thus, we are interested in researching on what are the determining factors of lemurs' lifespan. Our hypotheses is that taxon, sex, weight are the top 3 factors that would affect the lifespan of lemurs.
--   We're going to look at all of the variables bc we don't know which ones will or won't affect lifespan. There are both categorical and quantitative variables involved in our research questions since categorical variables such as taxon and quantitative variables such as weight can all play a role in their lifespan. (include types of categorical and quantitative variables and examples)
+-   We plan to research on all the variables within the dataset that could potentially affect lemur's lifespan. There are both categorical and quantitative variables involved in our research questions since categorical variables such as taxon and quantitative variables such as weight can all play a role in their lifespan. (include types of categorical and quantitative variables and examples)
 
 ## Glimpse of data
 
