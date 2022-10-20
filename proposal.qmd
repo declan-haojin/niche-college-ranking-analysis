@@ -54,9 +54,9 @@ glimpse(lemur)
 
 ## Research question
 
--   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
--   A description of the research topic along with a concise statement of your hypotheses on this topic.
--   Identify the types of variables in your research question. Categorical? Quantitative?
+-   Are earthquakes stronger in places where they occur most often? Does the frequency of an earthquake's location have any correlation to its strength and magnitude?
+-   A rough look at the first 50 observations showed that a lot of earthquakes happened in Alaska and California. This made us wonder why this was the case and to see if those patterns are consistent throughout the rest of the data. Furthermore, because earthquakes happen more often in those states, we wonder if they are stronger than earthquakes that only occur once at a certain location. Our hypothesis is that location and magnitude have a positive correlation.
+-   Our research question focuses on two things: location and magnitude. For location, we can consider the categorical variable "location.name" which gives us the state/country in which the earthquake occurred. We can also consider "location.longitude" and "location.latitude" which gives us the exact coordinates of an earthquake's location, which would be a quantitative variable. "Impact.magnitude" displays the magnitude of an earthquake which is a quantitative variable.
 
 ## Glimpse of data
 
