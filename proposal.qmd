@@ -48,7 +48,7 @@ glimpse(lemur)
 
 -   The data comes from CORGIS (Collection of Really Great, Interesting, Situated Datasets) website.
 
--   The earthquake data was originally collected on 6/7/2016 from the United States Geological Survey by Ryan Whitcomb. -- How was it collected?
+-   The earthquake data was originally collected on 6/7/2016 by simply collecting information from the United States Geological Survey by Ryan Whitcomb.
 
 -   Each observation contains a unique earthquake and all the information surrounding the circumstances of the earthquake, including but not limited to: coordinates of where the earthquake occurred, its magnitude, time of earthquake, and the depth of the earthquake.
 
