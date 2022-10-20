@@ -18,7 +18,7 @@ library(tidyverse)
 
 ## Introduction and data
 
--   The dataset \`lemur_data.csv\` comes from Kaggle.com
+-   The dataset \`lemur_data.csv\` comes from Kaggle (kaggle.com).
 
 -   The dataset was originally collected from the [2019 data release from the Duke Lemur Center Database](https://lemur.duke.edu/duke-lemur-center-database/) by Zehr, SM, Roach RG, Haring D, Taylor J, Cameron FH, Yoder AD.
 
@@ -26,9 +26,11 @@ library(tidyverse)
 
 ## Research question
 
--   What are the top 3 factors that influence the lifespan of lemurs?
+-   Potential questions:
+    -   What are the top 3 factors that influence the lifespan of lemurs?
+-   Why is it important - lemurs are endangered etc etc
 -   Through our preliminary investigation, we found that the death age of lemurs varies a lot ranging from 0 to 35. Thus, we are interested in researching on what are the determining factors of lemurs' lifespan. Our hypotheses is that taxon, sex, weight are the top 3 factors that would affect the lifespan of lemurs.
--   There are both categorical and quantitative variables involved in our research questions since categorical variables such as taxon and quantitative variables such as weight can all play a role in their lifespan.
+-   We're going to look at all of the variables bc we don't know which ones will or won't affect lifespan. There are both categorical and quantitative variables involved in our research questions since categorical variables such as taxon and quantitative variables such as weight can all play a role in their lifespan. (include types of categorical and quantitative variables and examples)
 
 ## Glimpse of data
 
