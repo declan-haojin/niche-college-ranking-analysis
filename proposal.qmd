@@ -44,11 +44,11 @@ glimpse(lemur)
 
 ## Introduction and data
 
--   Identify the source of the data.
+-   The data comes from CORGIS (Collection of Really Great, Interesting, Situated Datasets) website.
 
--   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
+-   The earthquake data was originally collected on 6/7/2016 from the United States Geological Survey by Ryan Whitcomb.
 
--   Write a brief description of the observations.
+-   Each observation contains a unique earthquake and all the information surrounding the circumstances of the earthquake, including but not limited to: coordinates of where the earthquake occurred, its magnitude, time of earthquake, and the depth of the earthquake.
 
 ## Research question
 
