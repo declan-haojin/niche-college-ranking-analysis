@@ -57,10 +57,10 @@ glimpse(lemur)
 
 ## Research question
 
--   Does the frequency of an earthquake's location have any correlation to its magnitude?
--   This question is important because by determining if there is a correlation between the two variables, we can then consider the living conditions of people that live in those locations. There might be certain locations in which earthquakes are at their strongest and people should not be living there, or maybe locations in which we have to consider what kinds of infrastructure buildings should have to prevent them from collapsing as a result of multiple strong earthquakes.
--   A rough look at the first 50 observations showed that a lot of earthquakes happened in Alaska and California. This made us wonder why this was the case and to see if those patterns are consistent throughout the rest of the data. Furthermore, because earthquakes happen more often in those states, we wonder if they are stronger than earthquakes that only occur once at a certain location and if they overall have a higher significance. Our hypothesis is that location and magnitude will have a positive correlation, and that the average significance of the more frequent locations will be higher than the average significance of less frequent locations.
--   Our research question focuses on three things: location, magnitude, and significance. For location, we can consider the nominal categorical variable "location.name" which gives us the state/country in which the earthquake occurred. We can also consider "location.longitude" and "location.latitude" which gives us the exact coordinates of an earthquake's location, which would be continuous numerical variables. "Impact.magnitude" displays the magnitude of an earthquake which is a continuous numerical variable. Lastly, we will consider "impact.significance" which is a discrete numerical variable.
+-   Does the frequency of earthquakes at a certain location have any relationship to their magnitude or significance?
+-   This question is important because by determining if there are relationships between the variables, we can then consider the living conditions of people that live in those locations. There might be certain locations in which earthquakes are at their strongest and people should not be living there, or maybe locations in which we have to consider what kinds of infrastructure buildings should have to prevent them from collapsing as a result of multiple strong earthquakes.
+-   A rough look at the first 50 observations showed that a lot of earthquakes happened in Alaska and California. This made us wonder why this was the case and to see if those patterns are consistent throughout the rest of the data. Furthermore, because earthquakes happen more often in those states, we wonder if they are stronger than earthquakes that only occur once at a certain location and if they overall have a higher significance. Our hypothesis is that frequency and magnitude will have a positive correlation, and that the average significance of the more frequent locations will be higher than the average significance of less frequent locations.
+-   Our research question focuses on four variables: location, frequency, magnitude, and significance. For location, we can consider the nominal categorical variable `location.name` which gives us the state/country in which the earthquake occurred. We can also consider `location.longitude` and `location.latitude` which gives us the exact coordinates of an earthquake's location, which would be continuous numerical variables. `impact.magnitude` displays the magnitude of an earthquake which is a continuous numerical variable. We will also consider `impact.significance`, which is a discrete numerical variable and gives the significance of each earthquake based on a range of factors including estimated impact, magnitude, and felt reports. Lastly, we will calculate frequency, a discrete numerical variable, based on the location data.
 
 ## Glimpse of data
 
@@ -88,7 +88,7 @@ To answer our question, we want to join two data sets. Both are listed below.
 
 -   There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: the name of the school and the rank of the school.
 
-**Data Set #1: US Department of Education**
+**Data Set #2: US Department of Education**
 
 -   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to select the variables we needed to import.
 
@@ -110,9 +110,9 @@ The Department of Education data set was left joined to Niche dataset by school 
 
     2.  Which three variable have the greatest impact on a college's ranking?
 
-    3.  Do "input variables" like ACT/SAT, GPA, type of high school matter more to a college's ranking than "output variable" like median income and graduation rate?
+    3.  Do "input variables" like ACT/SAT, GPA, and type of high school matter more to a college's ranking than "output variable" like median income and graduation rate?
 
--   These questions are important because students applying to college trust these ranking and weigh them into their college decisions. Due to large impact that a college has on a student's life, it is important to know where these ranking come from and what they actually measure.
+-   These questions are important because students applying to college trust these rankings and weigh them into their college decisions. Due to large impact that a college has on a student's life, it is important to know where these ranking come from and what they actually measure.
 
 -   In general, we want to examine how different variables affect a school's ranking on the Niche College Ranking List. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
 
@@ -122,11 +122,11 @@ The Department of Education data set was left joined to Niche dataset by school 
 
     2.  ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.
 
-    3.  input variables will matter more.
+    3.  input variables will matter more because they are more important to students applying to college, and the ranking list is geared towards them.
 
 -   Here are the types of variables involved in our research questions:
 
-    -   Categorical:
+    -   Categorical (nominal):
 
         -   city
 
@@ -138,17 +138,13 @@ The Department of Education data set was left joined to Niche dataset by school 
 
         -   control (public vs. private)
 
-        -   carnegie classification.
+        -   Carnegie classification
 
-    -   Quantitative:
+    -   Numerical (continuous):
 
         -   latitude, longitude
 
         -   admission rate
-
-        -   25th/50th/75th/mean ACT/SAT scores for sub-tests and composite.
-
-        -   Enrollment of undergraduate certificate/degree-seeking students
 
         -   Total share of enrollment by racial groups
 
@@ -158,7 +154,7 @@ The Department of Education data set was left joined to Niche dataset by school 
 
         -   average faculty salary
 
-        -   percentage of undergraduates who receive a pell grant
+        -   percentage of undergraduates who receive a Pell grant
 
         -   completion rate
 
@@ -176,7 +172,13 @@ The Department of Education data set was left joined to Niche dataset by school 
 
         -   Value of school's endowment
 
--   Glimpse of data
+    -   Numerical (discrete)
+
+        -   25th/50th/75th/mean ACT/SAT scores for sub-tests and composite
+
+        -   Enrollment of undergraduate certificate/degree-seeking students
+
+## Glimpse of data
 
 ```{r}
 #| label: load-college-data
