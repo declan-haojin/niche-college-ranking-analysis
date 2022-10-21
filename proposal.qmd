@@ -1,6 +1,6 @@
 ---
-title: "Project title"
-subtitle: "Proposal"
+title: "Team 2cool4school"
+subtitle: "Project Proposal"
 format: pdf
 editor: visual
 editor_options: 
@@ -75,27 +75,121 @@ glimpse(earthquakes)
 
 ## Introduction and data
 
--   The data is combined from Niche's "2023 Best Colleges in America" list
+To answer our question, we want to join two data sets. Both are listed below.
 
-    (https://www.niche.com/colleges/search/best-colleges/) and the U.S. Department of Education.
+**Data Set #1: Niche**
 
--   State when and how it was originally collected (by the original data curator, not necessarily how you found the data). The Niche data was scraped by Maia on October 17-19 2022.
+-   The first data set comes from Niche's "2023 Best Colleges in America" list
 
--   Write a brief description of the observations.
+    (https://www.niche.com/colleges/search/best-colleges/)
+
+-   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives; although, data from the US Department o Education is only received on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
+
+-   There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: the name of the school and the rank of the school.
+
+**Data Set #1: US Department of Education**
+
+-   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to select the variables we needed to import.
+
+    (https://collegescorecard.ed.gov/data/)
+
+-   The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.
+
+-   There are 6681 observations in the data set, representing all of the colleges and universities in the United States. There are 63 variables in the data set, which give information about each different school.
+
+-   There are no obvious ethical or privacy concerns with this data. The schools did not report data on individual students but rather summary data of all students.
+
+The Department of Education data set was left joined to Niche dataset by school name to make a new data set with 500 observations and 64 variables.
 
 ## Research question
 
--   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
--   A description of the research topic along with a concise statement of your hypotheses on this topic.
--   Identify the types of variables in your research question. Categorical? Quantitative?
+-   Here are three potential research questions:
 
-## Glimpse of data
+    1.  How do rankings compare across different types of schools (by region, by racial makeup, by school type)?
+
+    2.  Which three variable have the greatest impact on a college's ranking?
+
+    3.  Do "input variables" like ACT/SAT, GPA, type of high school matter more to a college's ranking than "output variable" like median income and graduation rate?
+
+-   These questions are important because students applying to college trust these ranking and weigh them into their college decisions. Due to large impact that a college has on a student's life, it is important to know where these ranking come from and what they actually measure.
+
+-   In general, we want to examine how different variables affect a school's ranking on the Niche College Ranking List. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
+
+    We hypothesize that:
+
+    1.  schools that are from the northeast, are majority-white, and are private will have higher rankings on average.
+
+    2.  ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.
+
+    3.  input variables will matter more.
+
+-   Here are the types of variables involved in our research questions:
+
+    -   Categorical:
+
+        -   city
+
+        -   state
+
+        -   zip
+
+        -   accreditor institution
+
+        -   control (public vs. private)
+
+        -   carnegie classification.
+
+    -   Quantitative:
+
+        -   latitude, longitude
+
+        -   admission rate
+
+        -   25th/50th/75th/mean ACT/SAT scores for sub-tests and composite.
+
+        -   Enrollment of undergraduate certificate/degree-seeking students
+
+        -   Total share of enrollment by racial groups
+
+        -   average net price
+
+        -   average cost of attendance
+
+        -   average faculty salary
+
+        -   percentage of undergraduates who receive a pell grant
+
+        -   completion rate
+
+        -   average age of entry
+
+        -   share of female students
+
+        -   share of married students
+
+        -   share of first generation students
+
+        -   median & mean family income
+
+        -   median & mean earning 10 years after entry
+
+        -   Value of school's endowment
+
+-   Glimpse of data
 
 ```{r}
 #| label: load-college-data
 
 niche_data_500 <- read_csv("data/niche_data_500.csv")
-# load DoE data
 
-# colleges <- left_join(niche_data_500, ___)
+glimpse(niche_data_500)
+
+us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv")
+
+glimpse(us_dep_of_ed)
+
+colleges <- niche_data_500 |> 
+  left_join(us_dep_of_ed, by = c("college" ="INSTNM"))
+
+glimpse(colleges)
 ```
