@@ -31,7 +31,7 @@ library(tidyverse)
 -   What are the top 3 factors that influence the lifespan of lemurs?
 -   Lemurs are the most endangered group of mammals. In fact, 98% of lemur species are endangered, and 31% of species are critically endangered nowadays. Therefore, it is crucial to conduct researches on the lifespan of lemurs to save the endangered species. Moreover, Duke Lemur Center has been the world leader in the study, care, and protection of lemurs since it was founded in 1966. As Duke students, we are able to utilize the resources at DLC to research on lemurs and potentially contribute to their studies.
 -   Through our preliminary investigation, we found that the death age of lemurs varies a lot ranging from 0 to 35. Thus, we are interested in researching on what are the determining factors of lemurs' lifespan. Our hypotheses is that taxon, sex, weight are the top 3 factors that would affect the lifespan of lemurs.
--   We plan to research on all the variables within the dataset that could potentially affect lemur's lifespan. There are both categorical and quantitative variables involved in our research questions since categorical variables such as taxon and quantitative variables such as weight can all play a role in their lifespan. (include types of categorical and quantitative variables and examples)
+-   We plan to research on all the variables within the dataset that could potentially affect lemur's lifespan. There are both categorical and quantitative variables involved in our research questions since categorical variables such as taxon and quantitative variables such as weight can all play a role in their lifespan.
 
 ## Glimpse of data
 
