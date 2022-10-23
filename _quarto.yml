@@ -20,3 +20,4 @@ website:
 format:
   html:
     theme: default
+    toc: true
