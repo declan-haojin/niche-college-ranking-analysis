@@ -99,7 +99,19 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-and-data" id="toc-introduction-and-data" class="nav-link active" data-scroll-target="#introduction-and-data">Introduction and data</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
+  <ul class="collapse">
+  <li><a href="#prepare-data" id="toc-prepare-data" class="nav-link" data-scroll-target="#prepare-data">Prepare Data</a></li>
+  <li><a href="#build-model-iterations" id="toc-build-model-iterations" class="nav-link" data-scroll-target="#build-model-iterations">Build model (Iterations)</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -121,9 +133,80 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Add project writeup here.</p>
+<section id="introduction-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-and-data">Introduction and data</h2>
+<ul>
+<li><p>Here are three potential research questions:</p>
+<ol type="1">
+<li>Which three variables have the greatest impact on a college’s ranking?</li>
+</ol></li>
+<li><p>These questions are important because students applying to college trust these rankings and weigh them into their college decisions. Due to large impact that a college has on a student’s life, it is important to know where these ranking come from and what they actually measure.</p></li>
+<li><p>In general, we want to examine how different variables affect a school’s ranking on the Niche College Ranking List. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren’t typically thought of such as geographic region or endowment size.</p>
+<p>We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.</p></li>
+<li><p>Here are the types of variables involved in our research questions:</p>
+<ul>
+<li><p>Categorical (nominal):</p>
+<ul>
+<li><p>city</p></li>
+<li><p>state</p></li>
+<li><p>zip</p></li>
+<li><p>accreditor institution</p></li>
+<li><p>control (public vs.&nbsp;private)</p></li>
+<li><p>Carnegie classification</p></li>
+</ul></li>
+<li><p>Numerical (continuous):</p>
+<ul>
+<li><p>latitude, longitude</p></li>
+<li><p>admission rate</p></li>
+<li><p>Total share of enrollment by racial groups</p></li>
+<li><p>average net price</p></li>
+<li><p>average cost of attendance</p></li>
+<li><p>average faculty salary</p></li>
+<li><p>percentage of undergraduates who receive a Pell grant</p></li>
+<li><p>completion rate</p></li>
+<li><p>average age of entry</p></li>
+<li><p>share of female students</p></li>
+<li><p>share of married students</p></li>
+<li><p>share of first generation students</p></li>
+<li><p>median &amp; mean family income</p></li>
+<li><p>median &amp; mean earning 10 years after entry</p></li>
+<li><p>Value of school’s endowment</p></li>
+</ul></li>
+<li><p>Numerical (discrete)</p>
+<ul>
+<li><p>25th/50th/75th/mean ACT/SAT scores for sub-tests and composite</p></li>
+<li><p>Enrollment of undergraduate certificate/degree-seeking students</p></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="methodology" class="level2">
+<h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
+<p>The methodology section should include visualizations and summary statistics relevant to your research question. You should also justify the choice of statistical method(s) used to answer your research question.</p>
+<section id="prepare-data" class="level3">
+<h3 class="anchored" data-anchor-id="prepare-data">Prepare Data</h3>
+<ol type="1">
+<li><p>Pick variables that make sense to focus on</p></li>
+<li><p>Standardize all the continuous variables to z-scores, mean = 0, standard devation = 1</p></li>
+<li><p>Check correlation coefficients between all the the all the exponential variables. For the ones that have a r &gt; 0.8, pick one to put in the model. We can create multiple models with different options.</p></li>
+</ol>
+</section>
+<section id="build-model-iterations" class="level3">
+<h3 class="anchored" data-anchor-id="build-model-iterations">Build model (Iterations)</h3>
+<ol type="1">
+<li><p>Put all of our chosen variables into a model</p></li>
+<li><p>Remove variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.</p></li>
+<li><p>Look at slope coefficients for variables in models for variables in the model. The one with the highest slope is the most significant.</p></li>
+</ol>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>Showcase how you arrived at answers to your research question using the techniques we have learned in class (and beyond, if you're feeling adventurous).</p>
+<p>Provide only the main results from your analysis. The goal is not to do an exhaustive data analysis (calculate every possible statistic and perform every possible procedure for all variables). Rather, you should demonstrate that you are proficient at asking meaningful questions and answering them using data, that you are skilled in interpreting and presenting results, and that you can accomplish these tasks using R. More is not better.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -7,4 +7,94 @@ execute:
   echo: true
 ---
 
-Add project writeup here.
+## Introduction and data
+
+-   Here are three potential research questions:
+
+    1.  Which three variables have the greatest impact on a college's ranking?
+
+-   These questions are important because students applying to college trust these rankings and weigh them into their college decisions. Due to large impact that a college has on a student's life, it is important to know where these ranking come from and what they actually measure.
+
+-   In general, we want to examine how different variables affect a school's ranking on the Niche College Ranking List. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
+
+    We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.
+
+-   Here are the types of variables involved in our research questions:
+
+    -   Categorical (nominal):
+
+        -   city
+
+        -   state
+
+        -   zip
+
+        -   accreditor institution
+
+        -   control (public vs. private)
+
+        -   Carnegie classification
+
+    -   Numerical (continuous):
+
+        -   latitude, longitude
+
+        -   admission rate
+
+        -   Total share of enrollment by racial groups
+
+        -   average net price
+
+        -   average cost of attendance
+
+        -   average faculty salary
+
+        -   percentage of undergraduates who receive a Pell grant
+
+        -   completion rate
+
+        -   average age of entry
+
+        -   share of female students
+
+        -   share of married students
+
+        -   share of first generation students
+
+        -   median & mean family income
+
+        -   median & mean earning 10 years after entry
+
+        -   Value of school's endowment
+
+    -   Numerical (discrete)
+
+        -   25th/50th/75th/mean ACT/SAT scores for sub-tests and composite
+
+        -   Enrollment of undergraduate certificate/degree-seeking students
+
+## Methodology
+
+The methodology section should include visualizations and summary statistics relevant to your research question. You should also justify the choice of statistical method(s) used to answer your research question.
+
+### Prepare Data
+
+1.  Pick variables that make sense to focus on
+
+2.  Standardize all the continuous variables to z-scores, mean = 0, standard devation = 1
+
+3.  Check correlation coefficients between all the the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
+
+### Build model (Iterations)
+
+1.  Put all of our chosen variables into a model
+
+2.  Remove variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.
+
+3.  Look at slope coefficients for variables in models for variables in the model. The one with the highest slope is the most significant.
+
+## Results
+
+Showcase how you arrived at answers to your research question using the techniques we have learned in class (and beyond, if you\'re feeling adventurous).
+
+Provide only the main results from your analysis. The goal is not to do an exhaustive data analysis (calculate every possible statistic and perform every possible procedure for all variables). Rather, you should demonstrate that you are proficient at asking meaningful questions and answering them using data, that you are skilled in interpreting and presenting results, and that you can accomplish these tasks using R. More is not better.
