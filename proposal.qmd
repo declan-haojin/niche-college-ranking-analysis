@@ -194,5 +194,7 @@ glimpse(us_dep_of_ed)
 colleges <- niche_data_500 |> 
   left_join(us_dep_of_ed, by = c("college" ="INSTNM"))
 
+write_csv(colleges, "data/colleges.csv")
+
 glimpse(colleges)
 ```

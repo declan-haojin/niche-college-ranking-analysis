@@ -23,11 +23,7 @@ execute:
 
     -   Categorical (nominal):
 
-        -   city
-
-        -   state
-
-        -   zip
+        -   geographic region
 
         -   accreditor institution
 
@@ -36,8 +32,6 @@ execute:
         -   Carnegie classification
 
     -   Numerical (continuous):
-
-        -   latitude, longitude
 
         -   admission rate
 
@@ -69,7 +63,7 @@ execute:
 
     -   Numerical (discrete)
 
-        -   25th/50th/75th/mean ACT/SAT scores for sub-tests and composite
+        -   mean (if there is one) and median ACT/SAT scores for sub-tests and composite
 
         -   Enrollment of undergraduate certificate/degree-seeking students
 
