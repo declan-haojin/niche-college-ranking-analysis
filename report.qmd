@@ -75,7 +75,7 @@ The methodology section should include visualizations and summary statistics rel
 
 1.  Pick variables that make sense to focus on
 
-2.  Standardize all the continuous variables to z-scores, mean = 0, standard devation = 1
+2.  Standardize all the continuous variables to z-scores, mean = 0, standard deviation = 1
 
 3.  Check correlation coefficients between all the the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
 
@@ -89,6 +89,6 @@ The methodology section should include visualizations and summary statistics rel
 
 ## Results
 
-Showcase how you arrived at answers to your research question using the techniques we have learned in class (and beyond, if you\'re feeling adventurous).
+Showcase how you arrived at answers to your research question using the techniques we have learned in class (and beyond, if you're feeling adventurous).
 
 Provide only the main results from your analysis. The goal is not to do an exhaustive data analysis (calculate every possible statistic and perform every possible procedure for all variables). Rather, you should demonstrate that you are proficient at asking meaningful questions and answering them using data, that you are skilled in interpreting and presenting results, and that you can accomplish these tasks using R. More is not better.
