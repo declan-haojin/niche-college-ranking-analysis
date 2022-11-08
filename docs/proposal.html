@@ -215,7 +215,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="introduction-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-and-data">Introduction and data</h2>
 <ul>
-<li><p>The dataset `lemur_data.csv` comes from <a href="https://www.kaggle.com/datasets/jessemostipak/duke-lemur-center-data">Kaggle.com</a> and was released by Jesse Mostipak.</p></li>
+<li><p>The dataset <code>lemur_data.csv</code> comes from <a href="https://www.kaggle.com/datasets/jessemostipak/duke-lemur-center-data">Kaggle.com</a> and was released by Jesse Mostipak.</p></li>
 <li><p>The dataset was orginally collected from the <a href="https://lemur.duke.edu/duke-lemur-center-database/">2019 data release from the Duke Lemur Center Database</a> and further compiled by Zehr, SM, Roach RG, Haring D, Taylor J, Cameron FH, Yoder AD in their <a href="https://www.nature.com/articles/sdata201419">research paper</a>.</p></li>
 <li><p>Animal data have been collected and entered by Duke Lemur Center staff according to standard operating procedures and USDA, AZA, and IACUC guidelines throughout the history of the center (United States Department of Agriculture, Association of Zoos and Aquariums, Institutional Animal Care and Use Committee respectively). Births, deaths, weights, enclosure moves, behaviors, and other significant events are recorded daily by animal care, veterinary, and research staff and subsequently entered into the permanent records by the DLC Registrar.</p></li>
 <li><p>This dataset contains information on over 3,500 observations. Each observation represent a lemur, including lemur-information such as ancestry, reproduction, longevity, and body mass (in total 54 columns).</p></li>
@@ -535,7 +535,7 @@ $ MD_EARN_WNE_P10 &lt;chr&gt; "36339", "46990", "37895", "54361", "32084", "5275
 $ ENDOWBEGIN      &lt;chr&gt; "NULL", "537349307", "174805", "77250279", "94536751",…</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>colleges <span class="ot">&lt;-</span> niche_data_500 <span class="sc">|&gt;</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(us_dep_of_ed, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"college"</span> <span class="ot">=</span><span class="st">"INSTNM"</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(us_dep_of_ed, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"college"</span> <span class="ot">=</span> <span class="st">"INSTNM"</span>))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(colleges, <span class="st">"data/colleges.csv"</span>)</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
