@@ -15,7 +15,7 @@ editor_options:
 
 library(tidyverse)
 library(corrplot)
-library(PerformanceAnalytics)
+
 ```
 
 ## Introduction and data
@@ -201,6 +201,8 @@ The methodology section should include visualizations and summary statistics rel
           CCBASIC == 33 ~ "Tribal Colleges"
         )
       )
+    
+    data
 ```
 
 2.  Standardize all the continuous variables to z-scores, mean = 0, standard deviation = 1
@@ -208,8 +210,9 @@ The methodology section should include visualizations and summary statistics rel
 ```{r}
 #| label: scale-variables
 
+
 scaled_continuous_numeric_variables <- data |>
-  select_if(is.numeric) |>
+  select_if(is.numeric)
   select(-rank) |>
   scale() |>
   data.frame()
@@ -228,17 +231,24 @@ scaled_continuous_numeric_variables
 
     ```{r}
 
-    data_for_corr = scaled_continuous_numeric_variables
+    data_for_corr = data
+    data
 
-    data_for_corr |>
-      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P", "MARRIED", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |>
-      na.omit() |>
+    dataset <- data_for_corr |>
+      select(-c(("NPT4_PUB"), ("NPT4_PRIV"), "COSTT4_P", "MARRIED", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |>
+        na.omit()
+      # cor() |>
+      # corrplot(method="color")
+    # #cor(na.omit(data_for_corr))
+    dataset
+      
+    cor <- dataset |> 
       cor() |>
-      corrplot(method="color")
-    #cor(na.omit(data_for_corr))
+      corrplot(method = "color")
+
+    cor
 
     correlations = data_for_corr |>
-      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P", "MARRIED", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |>
       na.omit() |>
       cor()
       
@@ -255,9 +265,14 @@ The second output sections only shows the correlation entries with a value great
 
 1.  Put all of our chosen variables into a model
 
-2.  Remove variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.
+```{r}
+data_set <- data |>
+  select(-)
+```
 
-3.  Look at slope coefficients for variables in models for variables in the model. The one with the highest slope is the most significant.
+1.  Remove variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.
+
+2.  Look at slope coefficients for variables in models for variables in the model. The one with the highest slope is the most significant.
 
 ## Results
 
