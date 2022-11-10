@@ -201,15 +201,12 @@ The methodology section should include visualizations and summary statistics rel
           CCBASIC == 33 ~ "Tribal Colleges"
         )
       )
-    
-    data
 ```
 
 2.  Standardize all the continuous variables to z-scores, mean = 0, standard deviation = 1
 
 ```{r}
 #| label: scale-variables
-
 
 scaled_continuous_numeric_variables <- data |>
   select_if(is.numeric) |>
@@ -221,9 +218,11 @@ other_variables <- data |>
   select(rank | REGION | CONTROL | CCBASIC | !where(is.numeric))
       
 data <- cbind(other_variables, scaled_continuous_numeric_variables) 
-
-scaled_continuous_numeric_variables
 ```
+
+`select_if()` from https://www.r-bloggers.com/2019/10/selecting-columns-based-on-type/
+
+`scale()` from https://www.r-bloggers.com/2021/12/how-to-use-the-scale-function-in-r/
 
 3.  Check correlation coefficients between all the the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
 
@@ -231,7 +230,7 @@ scaled_continuous_numeric_variables
 
     ```{r}
 
-    data_for_corr = scaled_continuous_numeric_variables
+    data_for_corr <- scaled_continuous_numeric_variables
 
 
 
@@ -262,8 +261,6 @@ The second output sections only shows the correlation entries with a value great
 1.  Put all of our chosen variables into a model
 
 ```{r}
-
-data
 
 data_set <- data |>
   select(c("ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "rank", "REGION", "CONTROL", "CCBASIC", "college", "ACCREDAGENCY", "FEMALE", "MARRIED", "FIRST_GEN"))
