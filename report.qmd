@@ -6,7 +6,7 @@ editor: visual
 execute:
   echo: true
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r}
@@ -15,7 +15,7 @@ editor_options:
 
 library(tidyverse)
 library(corrplot)
-
+library(tidymodels)
 ```
 
 ## Introduction and data
@@ -262,16 +262,57 @@ The second output sections only shows the correlation entries with a value great
 1.  Put all of our chosen variables into a model
 
 ```{r}
+
+data
+
 data_set <- data |>
-  select(-)
+  select(c("ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "rank", "REGION", "CONTROL", "CCBASIC", "college", "ACCREDAGENCY", "FEMALE", "MARRIED", "FIRST_GEN"))
+
+data_set
 ```
 
-1.  Remove variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.
+```{r}
+# data_set_fit <- linear_reg() |>
+#   fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN+ COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG + rank + REGION + CONTROL + CCBASIC + college + ACCREDAGENCY, data = data_set)
+# 
+# tidy(data_set_fit)
 
-2.  Look at slope coefficients for variables in models for variables in the model. The one with the highest slope is the most significant.
+data_set_fit <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN+ COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG + rank, data = data_set)
+
+tidy(data_set_fit)
+```
+
+1.  We created a model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college. At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the \`SAT_AVG\`, the lower the college is ranked on a numerical scale. So the college is ranked higher.
+
+2.  Remove variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.
+
+```{r}
+data_set_fit_true <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + AVGFACSAL + PCTPELL + SAT_AVG + rank, data = data_set)
+
+tidy(data_set_fit_true)
+glance(data_set_fit_true)
+```
+
+We removed variables that had a slope with an absolute value less than 10 because that would mean that they have less of an impact on ranking than other variables.
+
+1.  Look at slope coefficients for variables in models for variables in the model. The one with the highest slope is the most significant.
+
+```{r}
+data_set |>
+  ggplot(aes(x = UGDS_WHITE, y = rank, color = REGION)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  scale_x_continuous(limits = c(-2,2)) +
+  labs(x = "Proportion of White-Identifying Undergraduate Students" ,
+       y = "School Ranking")
+```
 
 ## Results
 
 Showcase how you arrived at answers to your research question using the techniques we have learned in class (and beyond, if you're feeling adventurous).
+
+Our preliminary result shows that the number of undergraduate students that identify as white has major impact on the ranking of a college. Because of the positive slope, the more white students a college has, the number of the ranking is bigger which means a "lower" ranking.
 
 Provide only the main results from your analysis. The goal is not to do an exhaustive data analysis (calculate every possible statistic and perform every possible procedure for all variables). Rather, you should demonstrate that you are proficient at asking meaningful questions and answering them using data, that you are skilled in interpreting and presenting results, and that you can accomplish these tasks using R. More is not better.
