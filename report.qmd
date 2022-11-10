@@ -14,6 +14,8 @@ editor_options:
 #| message: false
 
 library(tidyverse)
+library(corrplot)
+library(PerformanceAnalytics)
 ```
 
 ## Introduction and data
@@ -216,9 +218,38 @@ other_variables <- data |>
   select(rank | REGION | CONTROL | CCBASIC | !where(is.numeric))
       
 data <- cbind(other_variables, scaled_continuous_numeric_variables) 
+
+scaled_continuous_numeric_variables
 ```
 
 3.  Check correlation coefficients between all the the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
+
+    We remove the columns that has more than 100 NA and leave the rest for calculating correlations.
+
+    ```{r}
+
+    data_for_corr = scaled_continuous_numeric_variables
+
+    data_for_corr |>
+      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P", "MARRIED", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |>
+      na.omit() |>
+      cor() |>
+      corrplot(method="color")
+    #cor(na.omit(data_for_corr))
+
+    correlations = data_for_corr |>
+      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P", "MARRIED", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |>
+      na.omit() |>
+      cor()
+      
+
+    correlations[correlations < 0.8 | correlations == 1] <- ""
+    correlations
+    ```
+
+According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8).
+
+The second output sections only shows the correlation entries with a value greater than 0.8. These variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
 
 ### Build model (Iterations)
 
