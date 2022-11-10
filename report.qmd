@@ -91,7 +91,7 @@ The methodology section should include visualizations and summary statistics rel
 ```{r}
 #| label: select-variables
 
-    colleges <- read_csv("data/colleges.csv")
+    colleges <- read_csv("data/colleges.csv", na = c("", "NA", "NULL"))
 
     chosen_variables <- c(
       "college",
@@ -212,7 +212,7 @@ The methodology section should include visualizations and summary statistics rel
 
 
 scaled_continuous_numeric_variables <- data |>
-  select_if(is.numeric)
+  select_if(is.numeric) |>
   select(-rank) |>
   scale() |>
   data.frame()
@@ -231,26 +231,22 @@ scaled_continuous_numeric_variables
 
     ```{r}
 
-    data_for_corr = data
-    data
+    data_for_corr = scaled_continuous_numeric_variables
 
-    dataset <- data_for_corr |>
-      select(-c(("NPT4_PUB"), ("NPT4_PRIV"), "COSTT4_P", "MARRIED", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |>
-        na.omit()
-      # cor() |>
-      # corrplot(method="color")
-    # #cor(na.omit(data_for_corr))
-    dataset
-      
-    cor <- dataset |> 
-      cor() |>
-      corrplot(method = "color")
 
-    cor
 
     correlations = data_for_corr |>
-      na.omit() |>
-      cor()
+      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |>
+        na.omit() |>
+        cor() 
+
+    correlations |>
+        corrplot(method="color")
+
+
+    # correlations <- dataset |>
+    #   na.omit() |>
+    #   cor()
       
 
     correlations[correlations < 0.8 | correlations == 1] <- ""
