@@ -18,7 +18,7 @@ library(tidyverse)
 
 ## Introduction and data
 
--   The dataset \`lemur_data.csv\` comes from [Kaggle.com](https://www.kaggle.com/datasets/jessemostipak/duke-lemur-center-data) and was released by Jesse Mostipak.
+-   The dataset `lemur_data.csv` comes from [Kaggle.com](https://www.kaggle.com/datasets/jessemostipak/duke-lemur-center-data) and was released by Jesse Mostipak.
 
 -   The dataset was orginally collected from the [2019 data release from the Duke Lemur Center Database](https://lemur.duke.edu/duke-lemur-center-database/) and further compiled by Zehr, SM, Roach RG, Haring D, Taylor J, Cameron FH, Yoder AD in their [research paper](https://www.nature.com/articles/sdata201419).
 
@@ -192,7 +192,9 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv")
 glimpse(us_dep_of_ed)
 
 colleges <- niche_data_500 |> 
-  left_join(us_dep_of_ed, by = c("college" ="INSTNM"))
+  left_join(us_dep_of_ed, by = c("college" = "INSTNM"))
+
+write_csv(colleges, "data/colleges.csv")
 
 glimpse(colleges)
 ```

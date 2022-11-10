@@ -4,7 +4,232 @@ subtitle: "Report"
 format: html
 editor: visual
 execute:
-  echo: true
+  echo: false
+editor_options: 
+  chunk_output_type: console
 ---
 
-Add project writeup here.
+```{r}
+#| label: load-pkgs
+#| message: false
+
+library(tidyverse)
+```
+
+## Introduction and data
+
+-   Here are three potential research questions:
+
+    1.  Which three variables have the greatest impact on a college's ranking?
+
+-   These questions are important because students applying to college trust these rankings and weigh them into their college decisions. Due to large impact that a college has on a student's life, it is important to know where these ranking come from and what they actually measure.
+
+-   In general, we want to examine how different variables affect a school's ranking on the Niche College Ranking List. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
+
+    We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.
+
+-   Here are the types of variables involved in our research questions:
+
+    -   Categorical (nominal):
+
+        -   geographic region
+
+        -   accreditor institution
+
+        -   control (public vs. private)
+
+        -   Carnegie classification
+
+    -   Numerical (continuous):
+
+        -   admission rate
+
+        -   Total share of enrollment by racial groups
+
+        -   average net price
+
+        -   average cost of attendance
+
+        -   average faculty salary
+
+        -   percentage of undergraduates who receive a Pell grant
+
+        -   completion rate
+
+        -   average age of entry
+
+        -   share of female students
+
+        -   share of married students
+
+        -   share of first generation students
+
+        -   median & mean family income
+
+        -   median & mean earning 10 years after entry
+
+        -   Value of school's endowment
+
+    -   Numerical (discrete)
+
+        -   mean (if there is one) and median ACT/SAT scores for sub-tests and composite
+
+        -   Enrollment of undergraduate certificate/degree-seeking students
+
+The Observations for `University of South Florida - Sarasota-Manatee` and `University of South Florida - St. Petersburg` have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations
+
+## Methodology
+
+The methodology section should include visualizations and summary statistics relevant to your research question. You should also justify the choice of statistical method(s) used to answer your research question.
+
+### Prepare Data
+
+1.  Pick variables that make sense to focus on
+
+```{r}
+#| label: select-variables
+
+    colleges <- read_csv("data/colleges.csv")
+
+    chosen_variables <- c(
+      "college",
+      "rank",
+      "REGION",
+      "ACCREDAGENCY",
+      "CONTROL",
+      "CCBASIC",
+      "ADM_RATE",
+      "UGDS",
+      "UGDS_WHITE",
+      "UGDS_BLACK",
+      "UGDS_HISP",
+      "UGDS_ASIAN",
+      "UGDS_AIAN",
+      "UGDS_NHPI",
+      "UGDS_2MOR",
+      "UGDS_NRA",
+      "UGDS_UNKN",
+      "NPT4_PUB",
+      "NPT4_PRIV",
+      "COSTT4_A",
+      "COSTT4_P",
+      "AVGFACSAL",
+      "PCTPELL",
+      "C150_4",
+      "AGE_ENTRY",
+      "FEMALE",
+      "MARRIED",
+      "FIRST_GEN",
+      "FAMINC",
+      "MD_FAMINC",
+      "ENDOWBEGIN",
+      "SAT_AVG",
+      "SATVRMID",
+      "SATMTMID",
+      "SATWRMID",
+      "ACTCMMID",
+      "ACTENMID",
+      "ACTMTMID",
+      "ACTWRMID"
+    )
+
+    data <- colleges |>
+      select(chosen_variables)
+```
+
+```{r}
+#| label: clean-categorical-variables
+
+    data <- data |>
+      mutate(
+        REGION = as.character(REGION),
+        REGION = case_when(
+          REGION == 1 ~ "New England",
+          REGION == 2 ~ "Mid East",
+          REGION == 3 ~ "Great Lakes",
+          REGION == 4 ~ "Plains",
+          REGION == 5 ~ "Southeast",
+          REGION == 6 ~ "Southwest",
+          REGION == 7 ~ "Rocky Mountains",
+          REGION == 8 ~ "Far West",
+          REGION == 9 ~ "Outlying Areas"
+        ),
+        CONTROL = as.character(CONTROL),
+        CONTROL = case_when(
+          CONTROL == 1 ~ "Public",
+          CONTROL == 2 ~ "Private, Nonprofit",
+          CONTROL == 3 ~ "Proprietary"
+        ),
+        CCBASIC = as.character(CCBASIC),
+        CCBASIC = case_when(
+          CCBASIC == -2 ~ "Not applicable",
+          CCBASIC == 0 ~ "Not classified",
+          CCBASIC == 1 ~ "Associate's Colleges: High Transfer-High Traditional",
+          CCBASIC == 2 ~ "Associate's Colleges: High Transfer-Mixed Traditional/Nontraditional",
+          CCBASIC == 3 ~ "Associate's Colleges: High Transfer-High Nontraditional",
+          CCBASIC == 4 ~ "Associate's Colleges: Mixed Transfer/Career & Technical-High Traditional",
+          CCBASIC == 5 ~ "Associate's Colleges: Mixed Transfer/Career & Technical-Mixed Traditional/Nontraditional",
+          CCBASIC == 6 ~ "Associate's Colleges: Mixed Transfer/Career & Technical-High Nontraditional",
+          CCBASIC == 7 ~ "Associate's Colleges: High Career & Technical-High Traditional",
+          CCBASIC == 8 ~ "Associate's Colleges: High Career & Technical-Mixed Traditional/Nontraditional",
+          CCBASIC == 9 ~ "Associate's Colleges: High Career & Technical-High Nontraditional",
+          CCBASIC == 10 ~ "Special Focus Two-Year: Health Professions",
+          CCBASIC == 11 ~ "Special Focus Two-Year: Technical Professions",
+          CCBASIC == 12 ~ "Special Focus Two-Year: Arts & Design",
+          CCBASIC == 13 ~ "Special Focus Two-Year: Other Fields",
+          CCBASIC == 14 ~ "Baccalaureate/Associate's Colleges: Associate's Dominant",
+          CCBASIC == 15 ~ "Doctoral Universities: Very High Research Activity",
+          CCBASIC == 16 ~ "Doctoral Universities: High Research Activity",
+          CCBASIC == 17 ~ "Doctoral/Professional Universities",
+          CCBASIC == 18 ~ "Master's Colleges & Universities: Larger Programs",
+          CCBASIC == 19 ~ "Master's Colleges & Universities: Medium Programs",
+          CCBASIC == 20 ~ "Master's Colleges & Universities: Small Programs",
+          CCBASIC == 21 ~ "Baccalaureate Colleges: Arts & Sciences Focus",
+          CCBASIC == 22 ~ "Baccalaureate Colleges: Diverse Fields",
+          CCBASIC == 23 ~ "Baccalaureate/Associate's Colleges: Mixed Baccalaureate/Associate's",
+          CCBASIC == 24 ~ "Special Focus Four-Year: Faith-Related Institutions",
+          CCBASIC == 25 ~ "Special Focus Four-Year: Medical Schools & Centers",
+          CCBASIC == 26 ~ "Special Focus Four-Year: Other Health Professions Schools",
+          CCBASIC == 27 ~ "Special Focus Four-Year: Engineering Schools",
+          CCBASIC == 28 ~ "Special Focus Four-Year: Other Technology-Related Schools",
+          CCBASIC == 29 ~ "Special Focus Four-Year: Business & Management Schools",
+          CCBASIC == 30 ~ "Special Focus Four-Year: Arts, Music & Design Schools",
+          CCBASIC == 31 ~ "Special Focus Four-Year: Law Schools",
+          CCBASIC == 32 ~ "Special Focus Four-Year: Other Special Focus Institutions",
+          CCBASIC == 33 ~ "Tribal Colleges"
+        )
+      )
+```
+
+2.  Standardize all the continuous variables to z-scores, mean = 0, standard deviation = 1
+
+```{r}
+#| label: scale-variables
+
+scaled_continuous_numeric_variables <- data |>
+  select_if(is.numeric) |>
+  select(-rank) |>
+  scale() |>
+  data.frame()
+
+other_variables <- data |>
+  select(rank | REGION | CONTROL | CCBASIC | !where(is.numeric))
+      
+data <- cbind(other_variables, scaled_continuous_numeric_variables) 
+```
+
+3.  Check correlation coefficients between all the the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
+
+### Build model (Iterations)
+
+1.  Put all of our chosen variables into a model
+
+2.  Remove variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.
+
+3.  Look at slope coefficients for variables in models for variables in the model. The one with the highest slope is the most significant.
+
+## Results
+
+Showcase how you arrived at answers to your research question using the techniques we have learned in class (and beyond, if you're feeling adventurous).
+
+Provide only the main results from your analysis. The goal is not to do an exhaustive data analysis (calculate every possible statistic and perform every possible procedure for all variables). Rather, you should demonstrate that you are proficient at asking meaningful questions and answering them using data, that you are skilled in interpreting and presenting results, and that you can accomplish these tasks using R. More is not better.
