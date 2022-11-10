@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -134,7 +197,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="introduction-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-and-data">Introduction and data</h2>
@@ -190,17 +253,61 @@ ul.task-list li input[type="checkbox"] {
 <li>Pick variables that make sense to focus on</li>
 </ol>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    colleges <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/colleges.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 498 Columns: 64
+<pre><code>Rows: 500 Columns: 64
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
-chr  (5): college, CITY, STABBR, ZIP, ACCREDAGENCY
-dbl (58): rank, UNITID, OPEID, OPEID6, LATITUDE, LONGITUDE, REGION, CCBASIC,...
-lgl  (1): UG
+chr (39): college, CITY, STABBR, ZIP, ACCREDAGENCY, ADM_RATE, SATVR25, SATVR...
+dbl (25): rank, UNITID, OPEID, OPEID6, LATITUDE, LONGITUDE, REGION, CCBASIC,...
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    chosen_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="st">"college"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>      <span class="st">"rank"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">"REGION"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ACCREDAGENCY"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"CONTROL"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"CCBASIC"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ADM_RATE"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS_WHITE"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS_BLACK"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS_HISP"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS_ASIAN"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS_AIAN"</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS_NHPI"</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS_2MOR"</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS_NRA"</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UGDS_UNKN"</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"NPT4_PUB"</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"NPT4_PRIV"</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"COSTT4_A"</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">"COSTT4_P"</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"AVGFACSAL"</span>,</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"PCTPELL"</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C150_4"</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"AGE_ENTRY"</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"FEMALE"</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">"MARRIED"</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"FIRST_GEN"</span>,</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">"FAMINC"</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">"MD_FAMINC"</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ENDOWBEGIN"</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SAT_AVG"</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SATVRMID"</span>,</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SATMTMID"</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SATWRMID"</span>,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ACTCMMID"</span>,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ACTENMID"</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ACTMTMID"</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ACTWRMID"</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> colleges <span class="sc">|&gt;</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(chosen_variables)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
 ℹ Please use `all_of()` or `any_of()` instead.
@@ -214,13 +321,80 @@ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</co
 </div>
 </div>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">REGION =</span> <span class="fu">as.character</span>(REGION),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">REGION =</span> <span class="fu">case_when</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>          REGION <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"New England"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>          REGION <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Mid East"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>          REGION <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Great Lakes"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>          REGION <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Plains"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>          REGION <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Southeast"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>          REGION <span class="sc">==</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"Southwest"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>          REGION <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="st">"Rocky Mountains"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>          REGION <span class="sc">==</span> <span class="dv">8</span> <span class="sc">~</span> <span class="st">"Far West"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>          REGION <span class="sc">==</span> <span class="dv">9</span> <span class="sc">~</span> <span class="st">"Outlying Areas"</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">CONTROL =</span> <span class="fu">as.character</span>(CONTROL),</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">CONTROL =</span> <span class="fu">case_when</span>(</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>          CONTROL <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Public"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>          CONTROL <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Private, Nonprofit"</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>          CONTROL <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Proprietary"</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">CCBASIC =</span> <span class="fu">as.character</span>(CCBASIC),</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">CCBASIC =</span> <span class="fu">case_when</span>(</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"Not applicable"</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Not classified"</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Associate's Colleges: High Transfer-High Traditional"</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Associate's Colleges: High Transfer-Mixed Traditional/Nontraditional"</span>,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Associate's Colleges: High Transfer-High Nontraditional"</span>,</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Associate's Colleges: Mixed Transfer/Career &amp; Technical-High Traditional"</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Associate's Colleges: Mixed Transfer/Career &amp; Technical-Mixed Traditional/Nontraditional"</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"Associate's Colleges: Mixed Transfer/Career &amp; Technical-High Nontraditional"</span>,</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="st">"Associate's Colleges: High Career &amp; Technical-High Traditional"</span>,</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">8</span> <span class="sc">~</span> <span class="st">"Associate's Colleges: High Career &amp; Technical-Mixed Traditional/Nontraditional"</span>,</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">9</span> <span class="sc">~</span> <span class="st">"Associate's Colleges: High Career &amp; Technical-High Nontraditional"</span>,</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="st">"Special Focus Two-Year: Health Professions"</span>,</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">11</span> <span class="sc">~</span> <span class="st">"Special Focus Two-Year: Technical Professions"</span>,</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">12</span> <span class="sc">~</span> <span class="st">"Special Focus Two-Year: Arts &amp; Design"</span>,</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">13</span> <span class="sc">~</span> <span class="st">"Special Focus Two-Year: Other Fields"</span>,</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">14</span> <span class="sc">~</span> <span class="st">"Baccalaureate/Associate's Colleges: Associate's Dominant"</span>,</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">15</span> <span class="sc">~</span> <span class="st">"Doctoral Universities: Very High Research Activity"</span>,</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">16</span> <span class="sc">~</span> <span class="st">"Doctoral Universities: High Research Activity"</span>,</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">17</span> <span class="sc">~</span> <span class="st">"Doctoral/Professional Universities"</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">18</span> <span class="sc">~</span> <span class="st">"Master's Colleges &amp; Universities: Larger Programs"</span>,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">19</span> <span class="sc">~</span> <span class="st">"Master's Colleges &amp; Universities: Medium Programs"</span>,</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">20</span> <span class="sc">~</span> <span class="st">"Master's Colleges &amp; Universities: Small Programs"</span>,</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">21</span> <span class="sc">~</span> <span class="st">"Baccalaureate Colleges: Arts &amp; Sciences Focus"</span>,</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">22</span> <span class="sc">~</span> <span class="st">"Baccalaureate Colleges: Diverse Fields"</span>,</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">23</span> <span class="sc">~</span> <span class="st">"Baccalaureate/Associate's Colleges: Mixed Baccalaureate/Associate's"</span>,</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">24</span> <span class="sc">~</span> <span class="st">"Special Focus Four-Year: Faith-Related Institutions"</span>,</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">25</span> <span class="sc">~</span> <span class="st">"Special Focus Four-Year: Medical Schools &amp; Centers"</span>,</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">26</span> <span class="sc">~</span> <span class="st">"Special Focus Four-Year: Other Health Professions Schools"</span>,</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">27</span> <span class="sc">~</span> <span class="st">"Special Focus Four-Year: Engineering Schools"</span>,</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">28</span> <span class="sc">~</span> <span class="st">"Special Focus Four-Year: Other Technology-Related Schools"</span>,</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">29</span> <span class="sc">~</span> <span class="st">"Special Focus Four-Year: Business &amp; Management Schools"</span>,</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Special Focus Four-Year: Arts, Music &amp; Design Schools"</span>,</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">31</span> <span class="sc">~</span> <span class="st">"Special Focus Four-Year: Law Schools"</span>,</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">32</span> <span class="sc">~</span> <span class="st">"Special Focus Four-Year: Other Special Focus Institutions"</span>,</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>          CCBASIC <span class="sc">==</span> <span class="dv">33</span> <span class="sc">~</span> <span class="st">"Tribal Colleges"</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>Standardize all the continuous variables to z-scores, mean = 0, standard deviation = 1</li>
 </ol>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>scaled_continuous_numeric_variables <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>rank) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>other_variables <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(rank <span class="sc">|</span> REGION <span class="sc">|</span> CONTROL <span class="sc">|</span> CCBASIC <span class="sc">|</span> <span class="sc">!</span><span class="fu">where</span>(is.numeric))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(other_variables, scaled_continuous_numeric_variables) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>Check correlation coefficients between all the the all the exponential variables. For the ones that have a r &gt; 0.8, pick one to put in the model. We can create multiple models with different options.</li>

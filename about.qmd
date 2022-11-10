@@ -4,8 +4,7 @@ format: html
 editor: visual
 ---
 
-This project was developed by 2cool4school For [STA 199: Introduction to Data Science](https://sta199-f22-1.github.io/) at Duke University.
-The team is comprised of the following team members.
+This project was developed by 2cool4school For [STA 199: Introduction to Data Science](https://sta199-f22-1.github.io/) at Duke University. The team is comprised of the following team members.
 
 -   Samantha Bernier: sophomore, math
 -   Mikey Schwartz: sophomore, public policy
