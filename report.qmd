@@ -1,10 +1,10 @@
 ---
-title: "Project title"
+title: "College Ranking Predictions"
 subtitle: "Report"
 format: html
 editor: visual
 execute:
-  echo: true
+  echo: false
 editor_options: 
   chunk_output_type: inline
 ---
@@ -20,23 +20,29 @@ library(tidymodels)
 
 ## Introduction and data
 
-Every year, millions of students apply to colleges across the United State, and many of them use college rankings lists from sources such as *US News and World Report*, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on "exclusivity and resources, rather than accessibility and economic mobility" (1).The system can also be easily gamed by a university if that university focuses on improving the metrics used in the list, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list, in only 17 year; the president even explicitly stated that it a top priority of the university to raise its ranking (2).
+### Research Background
+
+Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as *US News and World Report*, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on "exclusivity and resources, rather than accessibility and economic mobility" (1).The system can also be easily manipulated by a university if that university prioritize certain metrics to raise their rankings, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list in only 17 years. The president of Northeastern University even explicitly stated that it a top priority of the university to raise its ranking (2).
 
 \(1\) https://thehill.com/changing-america/enrichment/education/3641004-the-scandal-facing-college-ranking-lists-explained/
 
 \(2\) https://www.bostonmagazine.com/news/2014/08/26/how-northeastern-gamed-the-college-rankings/
 
-These lists are important because students applying to college trust these rankings and weigh them into their college decisions. Due to large impact that a college has on a student's life, it is important to know where these ranking come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college's ranking.
+These lists are important because students applying to college trust these rankings and weigh them into their college decisions. Due to the large impact that a college has on a student's life, it is important to know where these rankings come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college's ranking.
 
-In general, we want to examine how different variables affect a school's ranking on the **Niche College Ranking List**. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
+In general, we want to examine how different variables affect a school's ranking on the **Niche College Ranking List**. We plan to look at variables that are typically thought to influence school rank such as average SAT score and admission rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
 
-**Question:** What variables (and what types of variables) have the greatest influence on school's place in the Niche College Ranking List?
+### Research Questions and Hypothesis
+
+**Question:** What variables (and what types of variables) have the greatest influence on a school's place in the Niche College Ranking List?
 
 **Hypothesis:** We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.
 
 In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard
 
-**Data Set #1: Niche**
+### Data
+
+#### Data Set #1: Niche
 
 -   The first data set comes from Niche's "2023 Best Colleges in America" list
 
@@ -44,9 +50,9 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 -   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives; although, data from the US Department o Education is only received on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
 
--   There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: the name of the school (`college`) and (`rank`) and the rank of the school.
+-   There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: `college` and `rank`.
 
-**Data Set #2: US Department of Education**
+#### Data Set #2: US Department of Education
 
 -   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.
 
@@ -56,53 +62,95 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 -   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 63 variables.There are 6681 observations in the data set, representing all of the colleges and universities in the United States.
 
-    -   Here is a summary of the data we will be using in or analysis.
+### Data summary
 
-        | Variable Name | C/Q | Description                                                                                                        | Levels of Cat. Variable                                                                                     |
-        |-------------|-------------|-------------|---------------------------------|
-        | college       | C   | Institution name                                                                                                   |                                                                                                             |
-        | rank          | Q   | Niche rank                                                                                                         |                                                                                                             |
-        | REGION        | C   |                                                                                                                    | New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas |
-        | ACCREDAGENCY  | C   | Accreditor for Institution                                                                                         |                                                                                                             |
-        | CONTROL       | C   |                                                                                                                    | Public, Private nonprofit, private for-profit                                                               |
-        | CCBASIC       | C   | Carnegie Classification \--basic                                                                                   |                                                                                                             |
-        | ADM_RATE      | Q   | Admission rate                                                                                                     |                                                                                                             |
-        | UGDS          | Q   | Enrollment of undergraduate certificate/degree-seeking students                                                    |                                                                                                             |
-        | UGDS_WHITE    | Q   | Total share of enrollment of undergraduate degree-seeking students who are white                                   |                                                                                                             |
-        | UGDS_BLACK    | Q   | Total share of enrollment of undergraduate degree-seeking students who are black                                   |                                                                                                             |
-        | UGDS_HISP     | Q   | Total share of enrollment of undergraduate degree-seeking students who are Hispanic                                |                                                                                                             |
-        | UGDS_ASIAN    | Q   | Total share of enrollment of undergraduate degree-seeking students who are Asian                                   |                                                                                                             |
-        | UGDS_AIAN     | Q   | Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native           |                                                                                                             |
-        | UGDS_NHPI     | Q   | Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander        |                                                                                                             |
-        | UGDS_2MOR     | Q   | Total share of enrollment of undergraduate degree-seeking students who are two or more races                       |                                                                                                             |
-        | UGDS_NRA      | Q   | Total share of enrollment of undergraduate degree-seeking students who are non-resident aliens                     |                                                                                                             |
-        | UGDS_UNKN     | Q   | Total share of enrollment of undergraduate degree-seeking students whose race is unknown                           |                                                                                                             |
-        | NPT4_PUB      | Q   | Average net price for Title IV institutions (public institutions)                                                  |                                                                                                             |
-        | NPT4_PRIV     | Q   | Average net price for Title IV institutions (private for-profit and nonprofit institutions)                        |                                                                                                             |
-        | COSTT4_A      | Q   | Average cost of attendance (academic year institutions)                                                            |                                                                                                             |
-        | COSTT4_P      | Q   | Average cost of attendance (program-year institutions)                                                             |                                                                                                             |
-        | AVGFACSAL     | Q   | Average faculty salary                                                                                             |                                                                                                             |
-        | PCTPELL       | Q   | Percentage of undergraduates who receive a Pell Grant                                                              |                                                                                                             |
-        | C150_4        | Q   | Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion) |                                                                                                             |
-        | AGE_ENTRY     | Q   | Average age of entry                                                                                               |                                                                                                             |
-        | FEMALE        | Q   | Share of female students                                                                                           |                                                                                                             |
-        | MARRIED       | Q   | Share of married students                                                                                          |                                                                                                             |
-        | FIRST_GEN     | Q   | Share of first-generation students                                                                                 |                                                                                                             |
-        | FAMINC        | Q   | Average family income                                                                                              |                                                                                                             |
-        | MD_FAMINC     | Q   | Median family income                                                                                               |                                                                                                             |
-        | ENDOWBEGIN    | Q   | Value of school's endowment at the beginning of the fiscal year                                                    |                                                                                                             |
-        | SAT_AVG       | Q   | Average SAT equivalent score of students admitted                                                                  |                                                                                                             |
-        | SATVRMID      | Q   | Midpoint of SAT scores at the institution (critical reading)                                                       |                                                                                                             |
-        | SATMTMID      | Q   | Midpoint of SAT scores at the institution (math)                                                                   |                                                                                                             |
-        | SATWRMID      | Q   | Midpoint of SAT scores at the institution (writing)                                                                |                                                                                                             |
-        | ACTCMMID      | Q   | Midpoint of the ACT cumulative score                                                                               |                                                                                                             |
-        | ACTENMID      | Q   | Midpoint of the ACT english score                                                                                  |                                                                                                             |
-        | ACTMTMID      | Q   | Midpoint of the ACT math score                                                                                     |                                                                                                             |
-        | ACTWRMID      | Q   | Midpoint of the ACT writing score                                                                                  |                                                                                                             |
+Here is a summary of the data we will be using in or analysis.
+
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| Variable Name | Categorical (C)  | Description                                                                                                        | Levels of Cat. Variable                                                                                     |
+|               |                  |                                                                                                                    |                                                                                                             |
+|               | Quantitative (Q) |                                                                                                                    |                                                                                                             |
++===============+==================+====================================================================================================================+=============================================================================================================+
+| college       | C                | Institution name                                                                                                   |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| rank          | Q                | Niche rank                                                                                                         |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| REGION        | C                |                                                                                                                    | New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ACCREDAGENCY  | C                | Accreditor for Institution                                                                                         |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| CONTROL       | C                |                                                                                                                    | Public, Private nonprofit, private for-profit                                                               |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| CCBASIC       | C                | Carnegie Classification \--basic                                                                                   |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ADM_RATE      | Q                | Admission rate                                                                                                     |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS          | Q                | Enrollment of undergraduate certificate/degree-seeking students                                                    |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS_WHITE    | Q                | Total share of enrollment of undergraduate degree-seeking students who are white                                   |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS_BLACK    | Q                | Total share of enrollment of undergraduate degree-seeking students who are black                                   |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS_HISP     | Q                | Total share of enrollment of undergraduate degree-seeking students who are Hispanic                                |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS_ASIAN    | Q                | Total share of enrollment of undergraduate degree-seeking students who are Asian                                   |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS_AIAN     | Q                | Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native           |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS_NHPI     | Q                | Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander        |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS_2MOR     | Q                | Total share of enrollment of undergraduate degree-seeking students who are two or more races                       |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS_NRA      | Q                | Total share of enrollment of undergraduate degree-seeking students who are non-resident aliens                     |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| UGDS_UNKN     | Q                | Total share of enrollment of undergraduate degree-seeking students whose race is unknown                           |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| NPT4_PUB      | Q                | Average net price for Title IV institutions (public institutions)                                                  |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| NPT4_PRIV     | Q                | Average net price for Title IV institutions (private for-profit and nonprofit institutions)                        |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| COSTT4_A      | Q                | Average cost of attendance (academic year institutions)                                                            |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| COSTT4_P      | Q                | Average cost of attendance (program-year institutions)                                                             |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| AVGFACSAL     | Q                | Average faculty salary                                                                                             |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| PCTPELL       | Q                | Percentage of undergraduates who receive a Pell Grant                                                              |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| C150_4        | Q                | Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion) |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| AGE_ENTRY     | Q                | Average age of entry                                                                                               |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| FEMALE        | Q                | Share of female students                                                                                           |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| MARRIED       | Q                | Share of married students                                                                                          |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| FIRST_GEN     | Q                | Share of first-generation students                                                                                 |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| FAMINC        | Q                | Average family income                                                                                              |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| MD_FAMINC     | Q                | Median family income                                                                                               |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ENDOWBEGIN    | Q                | Value of school's endowment at the beginning of the fiscal year                                                    |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| SAT_AVG       | Q                | Average SAT equivalent score of students admitted                                                                  |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| SATVRMID      | Q                | Midpoint of SAT scores at the institution (critical reading)                                                       |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| SATMTMID      | Q                | Midpoint of SAT scores at the institution (math)                                                                   |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| SATWRMID      | Q                | Midpoint of SAT scores at the institution (writing)                                                                |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ACTCMMID      | Q                | Midpoint of the ACT cumulative score                                                                               |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ACTENMID      | Q                | Midpoint of the ACT english score                                                                                  |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ACTMTMID      | Q                | Midpoint of the ACT math score                                                                                     |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+| ACTWRMID      | Q                | Midpoint of the ACT writing score                                                                                  |                                                                                                             |
++---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
 
 ## Methodology
-
-The methodology section should include visualizations and summary statistics relevant to your research question. You should also justify the choice of statistical method(s) used to answer your research question.
 
 ### Import, Tidy, and Join Data
 
@@ -889,6 +937,7 @@ colleges |>
     We remove the columns that has more than 100 NA and leave the rest for calculating correlations.
 
     ```{r}
+    #| label: correlations
 
     data_for_corr <- scaled_continuous_numeric_variables
 
