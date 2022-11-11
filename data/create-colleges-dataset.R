@@ -435,4 +435,132 @@ colleges <- niche_data_500 |>
   filter(rank != 141) |>
   filter(rank != 181)
 
+# write colleges dataset--------------------------------------------------------
+
 write_csv(colleges, "data/colleges.csv")
+
+# select variables--------------------------------------------------------------
+colleges <- read_csv("data/colleges.csv", na = c("", "NA", "NULL"))
+
+chosen_variables <- c(
+  "college",
+  "rank",
+  "REGION",
+  "ACCREDAGENCY",
+  "CONTROL",
+  "CCBASIC",
+  "ADM_RATE",
+  "UGDS",
+  "UGDS_WHITE",
+  "UGDS_BLACK",
+  "UGDS_HISP",
+  "UGDS_ASIAN",
+  "UGDS_AIAN",
+  "UGDS_NHPI",
+  "UGDS_2MOR",
+  "UGDS_NRA",
+  "UGDS_UNKN",
+  "NPT4_PUB",
+  "NPT4_PRIV",
+  "COSTT4_A",
+  "COSTT4_P",
+  "AVGFACSAL",
+  "PCTPELL",
+  "C150_4",
+  "AGE_ENTRY",
+  "FEMALE",
+  "MARRIED",
+  "FIRST_GEN",
+  "FAMINC",
+  "MD_FAMINC",
+  "ENDOWBEGIN",
+  "SAT_AVG",
+  "SATVRMID",
+  "SATMTMID",
+  "SATWRMID",
+  "ACTCMMID",
+  "ACTENMID",
+  "ACTMTMID",
+  "ACTWRMID"
+)
+
+data <- colleges |>
+  select(chosen_variables)
+
+# clean categorical variables---------------------------------------------------
+data <- data |>
+  mutate(
+    REGION = as.character(REGION),
+    REGION = case_when(
+      REGION == 1 ~ "New England",
+      REGION == 2 ~ "Mid East",
+      REGION == 3 ~ "Great Lakes",
+      REGION == 4 ~ "Plains",
+      REGION == 5 ~ "Southeast",
+      REGION == 6 ~ "Southwest",
+      REGION == 7 ~ "Rocky Mountains",
+      REGION == 8 ~ "Far West",
+      REGION == 9 ~ "Outlying Areas"
+    ),
+    CONTROL = as.character(CONTROL),
+    CONTROL = case_when(
+      CONTROL == 1 ~ "Public",
+      CONTROL == 2 ~ "Private, Nonprofit",
+      CONTROL == 3 ~ "Proprietary"
+    ),
+    CCBASIC = as.character(CCBASIC),
+    CCBASIC = case_when(
+      CCBASIC == -2 ~ "Not applicable",
+      CCBASIC == 0 ~ "Not classified",
+      CCBASIC == 1 ~ "Associate's Colleges: High Transfer-High Traditional",
+      CCBASIC == 2 ~ "Associate's Colleges: High Transfer-Mixed Traditional/Nontraditional",
+      CCBASIC == 3 ~ "Associate's Colleges: High Transfer-High Nontraditional",
+      CCBASIC == 4 ~ "Associate's Colleges: Mixed Transfer/Career & Technical-High Traditional",
+      CCBASIC == 5 ~ "Associate's Colleges: Mixed Transfer/Career & Technical-Mixed Traditional/Nontraditional",
+      CCBASIC == 6 ~ "Associate's Colleges: Mixed Transfer/Career & Technical-High Nontraditional",
+      CCBASIC == 7 ~ "Associate's Colleges: High Career & Technical-High Traditional",
+      CCBASIC == 8 ~ "Associate's Colleges: High Career & Technical-Mixed Traditional/Nontraditional",
+      CCBASIC == 9 ~ "Associate's Colleges: High Career & Technical-High Nontraditional",
+      CCBASIC == 10 ~ "Special Focus Two-Year: Health Professions",
+      CCBASIC == 11 ~ "Special Focus Two-Year: Technical Professions",
+      CCBASIC == 12 ~ "Special Focus Two-Year: Arts & Design",
+      CCBASIC == 13 ~ "Special Focus Two-Year: Other Fields",
+      CCBASIC == 14 ~ "Baccalaureate/Associate's Colleges: Associate's Dominant",
+      CCBASIC == 15 ~ "Doctoral Universities: Very High Research Activity",
+      CCBASIC == 16 ~ "Doctoral Universities: High Research Activity",
+      CCBASIC == 17 ~ "Doctoral/Professional Universities",
+      CCBASIC == 18 ~ "Master's Colleges & Universities: Larger Programs",
+      CCBASIC == 19 ~ "Master's Colleges & Universities: Medium Programs",
+      CCBASIC == 20 ~ "Master's Colleges & Universities: Small Programs",
+      CCBASIC == 21 ~ "Baccalaureate Colleges: Arts & Sciences Focus",
+      CCBASIC == 22 ~ "Baccalaureate Colleges: Diverse Fields",
+      CCBASIC == 23 ~ "Baccalaureate/Associate's Colleges: Mixed Baccalaureate/Associate's",
+      CCBASIC == 24 ~ "Special Focus Four-Year: Faith-Related Institutions",
+      CCBASIC == 25 ~ "Special Focus Four-Year: Medical Schools & Centers",
+      CCBASIC == 26 ~ "Special Focus Four-Year: Other Health Professions Schools",
+      CCBASIC == 27 ~ "Special Focus Four-Year: Engineering Schools",
+      CCBASIC == 28 ~ "Special Focus Four-Year: Other Technology-Related Schools",
+      CCBASIC == 29 ~ "Special Focus Four-Year: Business & Management Schools",
+      CCBASIC == 30 ~ "Special Focus Four-Year: Arts, Music & Design Schools",
+      CCBASIC == 31 ~ "Special Focus Four-Year: Law Schools",
+      CCBASIC == 32 ~ "Special Focus Four-Year: Other Special Focus Institutions",
+      CCBASIC == 33 ~ "Tribal Colleges"
+    )
+  )
+
+# scale numerical variables-----------------------------------------------------
+scaled_continuous_numeric_variables <- data |>
+  select_if(is.numeric) |>
+  select(-rank) |>
+  scale() |>
+  data.frame()
+
+other_variables <- data |>
+  select(rank | REGION | CONTROL | CCBASIC | !where(is.numeric))
+
+scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables)
+
+#select_if() from https://www.r-bloggers.com/2019/10/selecting-columns-based-on-type/
+#scale() from https://www.r-bloggers.com/2021/12/how-to-use-the-scale-function-in-r/
+
+write_csv(scaled_data, "data/scaled_data.csv")
