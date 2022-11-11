@@ -182,9 +182,8 @@ These steps were done in an R script titled `create-datasets.R`
 
 1.  Pick variables that make sense to focus on
 
-```{=html}
 <!-- -->
-```
+
 2.  Standardize all the continuous variables to z-scores, mean = 0, standard deviation = 1
 
 ```{r}
@@ -222,96 +221,22 @@ colleges_levels |>
 ```
 
 ```{r}
-
-#| label: rank-vs-ADM_RATE
-
-colleges |> 
-  ggplot(aes(x = ADM_RATE, y = rank)) +
-  geom_point()
-
-```
-
-```{r}
-
-#| label: ADM_RATE-vs-rank-stand
-
-scaled_data |> 
-  ggplot(aes(x = ADM_RATE, y = rank)) +
-  geom_point()
-```
-
-```{r}
-
-#| label: rank-vsADM_RATE-by-CCBASIC
-
-scaled_data |> 
-  ggplot(aes(x = ADM_RATE, y = rank, color = CCBASIC)) +
-  geom_point()
-
-```
-
-```{r}
-#| label: ADM_RATE-vs-rank-by-region
+#| label: graphs
 
 scaled_data |> 
   ggplot(aes(x = ADM_RATE, y = rank, color = CONTROL)) +
   geom_point()
-```
-
-```{r}
-
-#| label: ADM_RATE-vs-rank-by-ACCREDAGENCY
-
-scaled_data |> 
-  ggplot(aes(x = ADM_RATE, y = rank, color = ACCREDAGENCY)) +
-  geom_point(show.legend = F)
-
-```
-
-```{r}
 
 colleges |> 
   ggplot(aes(x = UGDS_WHITE, y = rank)) +
   geom_point()
 
 colleges |> 
-  ggplot(aes(x = UGDS_ASIAN, y = rank)) +
-  geom_point()
-
-colleges |> 
-  ggplot(aes(x = UGDS_ASIAN, y = log(rank))) +
-  geom_point()
-
-colleges |> 
   ggplot(aes(x = UGDS_BLACK, y = rank)) +
-  geom_point()
-
-colleges |> 
-  ggplot(aes(x = UGDS_BLACK, y = log(rank))) +
-  geom_point()
-
-```
-
-```{r}
-
-scaled_data |> 
-  ggplot(aes(x = FIRST_GEN, y = rank)) +
   geom_point()
 
 scaled_data |> 
   ggplot(aes(x = UGDS, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = NPT4_PRIV, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = NPT4_PUB, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = NPT4_PUB, y = rank)) +
   geom_point()
 
 scaled_data |> 
@@ -323,56 +248,16 @@ scaled_data |>
   geom_point()
 
 scaled_data |> 
-  ggplot(aes(x = PCTPELL, y = rank)) +
-  geom_point()
-
-scaled_data |> 
   ggplot(aes(x = C150_4, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = AGE_ENTRY, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = FEMALE, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = MARRIED, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = FIRST_GEN, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = FAMINC, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = MD_FAMINC, y = rank)) +
   geom_point()
 
 scaled_data |> 
   ggplot(aes(x = ENDOWBEGIN, y = rank)) +
   geom_point()
 
-
-```
-
-```{r}
-
-#| label: rank-vs-SAT_AVG
-
 colleges |> 
   ggplot(aes(x = SAT_AVG, y = rank)) +
   geom_point()
-```
-
-```{r}
-
-#| label: rank-vs-ACTCMMID
 
 colleges |> 
   ggplot(aes(x = ACTCMMID, y = rank)) +
