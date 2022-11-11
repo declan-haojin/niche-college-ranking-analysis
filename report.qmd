@@ -194,10 +194,10 @@ colleges <- read_csv("data/colleges.csv")
 scaled_data <- read_csv("data/scaled_data.csv")
 ```
 
-**Summarize and Visualize**
+### Preliminary Data Exploration and Visualization
 
 ```{r}
-
+#| label: exploration
 colleges_levels <- colleges |> 
   mutate(
     level = case_when(
@@ -219,10 +219,6 @@ colleges_levels |>
     mean_UGDS_ASIAN = mean(UGDS_ASIAN, na.rm = T),
     mean_COSTT4_A = mean(COSTT4_A, na.rm = T)
   )
-
-
-
-
 ```
 
 ```{r}
