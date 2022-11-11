@@ -611,7 +611,7 @@ colleges <- niche_data_500 |>
 
 ## Tidy Data
 
-### Pick variable that make sense to focus on
+### Choose Variables
 
 ```{r}
 #| label: select-variables
@@ -662,7 +662,7 @@ data <- colleges |>
   select(chosen_variables)
 ```
 
-### Edit categorical variables
+### Clean Categorical Variables
 
 ```{r}
 #| label: clean-categorical-variables
@@ -728,7 +728,7 @@ data <- data |>
   )
 ```
 
-### Standardize all the continuous variables to z-scores, mean = 0, standard deviation = 1 
+### Standardize Variables 
 
 ```{r}
 #| label: scale-numerical-variables
@@ -745,7 +745,7 @@ other_variables <- data |>
 scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables)
 ```
 
-**Summarize and Visualize**
+## **Summarize and Visualize**
 
 ```{r}
 
