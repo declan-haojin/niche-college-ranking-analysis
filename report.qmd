@@ -609,7 +609,6 @@ colleges <- niche_data_500 |>
   filter(rank != 181)
 ```
 
-
 ### Variable Selections
 
 ```{r}
@@ -771,50 +770,95 @@ colleges_levels |>
   )
 ```
 
+We have broken down the data into 5 different groups based on the college rank, and then taken the mean of selected variables for each of the groups. This gives us an idea of how different variables change across different types of school.
+
 ```{r}
 #| label: graphs
 
-scaled_data |> 
+scaled_data|> 
   ggplot(aes(x = ADM_RATE, y = rank, color = CONTROL)) +
-  geom_point()
+  geom_point() +
+  labs(
+    x = "Admission Rate",
+    y = "Rank",
+    title = "Rank vs Admission Rate by Control"
+  )
 
 colleges |> 
   ggplot(aes(x = UGDS_WHITE, y = rank)) +
-  geom_point()
+  geom_point() +
+  labs(
+    x = "% of undergrads who are white",
+    y = "Rank",
+    title = "Rank vs % of undergrads who are white"
+  )
+  
 
 colleges |> 
   ggplot(aes(x = UGDS_BLACK, y = rank)) +
-  geom_point()
-
-scaled_data |> 
-  ggplot(aes(x = UGDS, y = rank)) +
-  geom_point()
+  geom_point() +
+  labs(
+    x = "% of undergrads who are black",
+    y = "Rank",
+    title = "Rank vs % of undergrads who are black"
+  )
 
 scaled_data |> 
   ggplot(aes(x = COSTT4_A, y = rank, color = CONTROL)) +
-  geom_point()
+  geom_point() +
+  labs(
+    x = "Cost of Attendance", 
+    y = "Rank",
+    title = "Rank vs Cost of Attendance by Control"
+  ) 
 
 scaled_data |> 
   ggplot(aes(x = AVGFACSAL, y = rank)) +
-  geom_point()
+  geom_point() +
+  labs(
+    x = "Average Fauculty Salary", 
+    y = "Rank",
+    title = "Rank vs Average Fauculty Salary"
+  ) 
 
 scaled_data |> 
   ggplot(aes(x = C150_4, y = rank)) +
-  geom_point()
+  geom_point() +
+  labs(
+    x = "Graduation Rate", 
+    y = "Rank",
+    title = "Rank vs Graduation Rate"
+  ) 
 
 scaled_data |> 
   ggplot(aes(x = ENDOWBEGIN, y = rank)) +
-  geom_point()
+  geom_point() +
+  labs(
+    x = "Endowment Size", 
+    y = "Rank",
+    title = "Rank vs Endowment Size"
+  ) 
 
 colleges |> 
   ggplot(aes(x = SAT_AVG, y = rank)) +
-  geom_point()
+  geom_point() +
+  labs(
+    x = "Mean SAT", 
+    y = "Rank",
+    title = "Rank vs Mean SAT"
+  ) 
 
 colleges |> 
   ggplot(aes(x = ACTCMMID, y = rank)) +
-  geom_point()
-
+  geom_point() +
+  labs(
+    x = "Median ACT", 
+    y = "Rank",
+    title = "Rank vs Median ACT"
+  ) 
 ```
+
+We have plotted rank vs. several of the numerical variables. This gives us an idea of how the metrics above affect college rank. Just by looking at the graphs, Admission Rate, Man SAT, Median ACT, Average faculty Salary, and Graduation Rate seem to have the strongest correlation.
 
 3.  Check correlation coefficients between all the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
 
