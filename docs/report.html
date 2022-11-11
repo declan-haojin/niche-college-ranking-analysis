@@ -169,6 +169,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#introduction-and-data" id="toc-introduction-and-data" class="nav-link active" data-scroll-target="#introduction-and-data">Introduction and data</a></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
+  <li><a href="#import-tidy-and-join-data" id="toc-import-tidy-and-join-data" class="nav-link" data-scroll-target="#import-tidy-and-join-data">Import, Tidy, and Join Data</a></li>
   <li><a href="#prepare-data" id="toc-prepare-data" class="nav-link" data-scroll-target="#prepare-data">Prepare Data</a></li>
   <li><a href="#build-model-iterations" id="toc-build-model-iterations" class="nav-link" data-scroll-target="#build-model-iterations">Build model (Iterations)</a></li>
   </ul></li>
@@ -203,52 +204,297 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <section id="introduction-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-and-data">Introduction and data</h2>
+<p>Every year, millions of students apply to colleges across the United State, and many of them use college rankings lists from sources such as <em>US News and World Report</em>, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on “exclusivity and resources, rather than accessibility and economic mobility” (1).The system can also be easily gamed by a university if that university focuses on improving the metrics used in the list, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list, in only 17 year; the president even explicitly stated that it a top priority of the university to raise its ranking (2).</p>
+<p>(1) https://thehill.com/changing-america/enrichment/education/3641004-the-scandal-facing-college-ranking-lists-explained/</p>
+<p>(2) https://www.bostonmagazine.com/news/2014/08/26/how-northeastern-gamed-the-college-rankings/</p>
+<p>These lists are important because students applying to college trust these rankings and weigh them into their college decisions. Due to large impact that a college has on a student’s life, it is important to know where these ranking come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college’s ranking.</p>
+<p>In general, we want to examine how different variables affect a school’s ranking on the <strong>Niche College Ranking List</strong>. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren’t typically thought of such as geographic region or endowment size.</p>
+<p><strong>Question:</strong> What variables (and what types of variables) have the greatest influence on school’s place in the Niche College Ranking List?</p>
+<p><strong>Hypothesis:</strong> We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.</p>
+<p>In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard</p>
+<p><strong>Data Set #1: Niche</strong></p>
 <ul>
-<li><p>Here are three potential research questions:</p>
-<ol type="1">
-<li>Which three variables have the greatest impact on a college’s ranking?</li>
-</ol></li>
-<li><p>These questions are important because students applying to college trust these rankings and weigh them into their college decisions. Due to large impact that a college has on a student’s life, it is important to know where these ranking come from and what they actually measure.</p></li>
-<li><p>In general, we want to examine how different variables affect a school’s ranking on the Niche College Ranking List. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren’t typically thought of such as geographic region or endowment size.</p>
-<p>We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.</p></li>
-<li><p>Here are the types of variables involved in our research questions:</p>
+<li><p>The first data set comes from Niche’s “2023 Best Colleges in America” list</p>
+<p>(https://www.niche.com/colleges/search/best-colleges/)</p></li>
+<li><p>Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives; although, data from the US Department o Education is only received on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.</p></li>
+<li><p>There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: the name of the school (<code>college</code>) and (<code>rank</code>) and the rank of the school.</p></li>
+</ul>
+<p><strong>Data Set #2: US Department of Education</strong></p>
 <ul>
-<li><p>Categorical (nominal):</p>
+<li><p>The second data set comes from the US Department of Education’s College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.</p>
+<p>(https://collegescorecard.ed.gov/data/)</p></li>
+<li><p>The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.</p></li>
+<li><p>There were 2,989 variables in the original data set, many of which we don’t need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 63 variables.There are 6681 observations in the data set, representing all of the colleges and universities in the United States.</p>
 <ul>
-<li><p>geographic region</p></li>
-<li><p>accreditor institution</p></li>
-<li><p>control (public vs.&nbsp;private)</p></li>
-<li><p>Carnegie classification</p></li>
-</ul></li>
-<li><p>Numerical (continuous):</p>
-<ul>
-<li><p>admission rate</p></li>
-<li><p>Total share of enrollment by racial groups</p></li>
-<li><p>average net price</p></li>
-<li><p>average cost of attendance</p></li>
-<li><p>average faculty salary</p></li>
-<li><p>percentage of undergraduates who receive a Pell grant</p></li>
-<li><p>completion rate</p></li>
-<li><p>average age of entry</p></li>
-<li><p>share of female students</p></li>
-<li><p>share of married students</p></li>
-<li><p>share of first generation students</p></li>
-<li><p>median &amp; mean family income</p></li>
-<li><p>median &amp; mean earning 10 years after entry</p></li>
-<li><p>Value of school’s endowment</p></li>
-</ul></li>
-<li><p>Numerical (discrete)</p>
-<ul>
-<li><p>mean (if there is one) and median ACT/SAT scores for sub-tests and composite</p></li>
-<li><p>Enrollment of undergraduate certificate/degree-seeking students</p></li>
-</ul></li>
+<li><p>Here is a summary of the data we will be using in or analysis.</p>
+<table class="table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Name</th>
+<th>C/Q</th>
+<th>Description</th>
+<th>Levels of Cat. Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>college</td>
+<td>C</td>
+<td>Institution name</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>rank</td>
+<td>Q</td>
+<td>Niche rank</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>REGION</td>
+<td>C</td>
+<td></td>
+<td>New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas</td>
+</tr>
+<tr class="even">
+<td>ACCREDAGENCY</td>
+<td>C</td>
+<td>Accreditor for Institution</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>CONTROL</td>
+<td>C</td>
+<td></td>
+<td>Public, Private nonprofit, private for-profit</td>
+</tr>
+<tr class="even">
+<td>CCBASIC</td>
+<td>C</td>
+<td>Carnegie Classification --basic</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>ADM_RATE</td>
+<td>Q</td>
+<td>Admission rate</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>UGDS</td>
+<td>Q</td>
+<td>Enrollment of undergraduate certificate/degree-seeking students</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>UGDS_WHITE</td>
+<td>Q</td>
+<td>Total share of enrollment of undergraduate degree-seeking students who are white</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>UGDS_BLACK</td>
+<td>Q</td>
+<td>Total share of enrollment of undergraduate degree-seeking students who are black</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>UGDS_HISP</td>
+<td>Q</td>
+<td>Total share of enrollment of undergraduate degree-seeking students who are Hispanic</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>UGDS_ASIAN</td>
+<td>Q</td>
+<td>Total share of enrollment of undergraduate degree-seeking students who are Asian</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>UGDS_AIAN</td>
+<td>Q</td>
+<td>Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>UGDS_NHPI</td>
+<td>Q</td>
+<td>Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>UGDS_2MOR</td>
+<td>Q</td>
+<td>Total share of enrollment of undergraduate degree-seeking students who are two or more races</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>UGDS_NRA</td>
+<td>Q</td>
+<td>Total share of enrollment of undergraduate degree-seeking students who are non-resident aliens</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>UGDS_UNKN</td>
+<td>Q</td>
+<td>Total share of enrollment of undergraduate degree-seeking students whose race is unknown</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>NPT4_PUB</td>
+<td>Q</td>
+<td>Average net price for Title IV institutions (public institutions)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>NPT4_PRIV</td>
+<td>Q</td>
+<td>Average net price for Title IV institutions (private for-profit and nonprofit institutions)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>COSTT4_A</td>
+<td>Q</td>
+<td>Average cost of attendance (academic year institutions)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>COSTT4_P</td>
+<td>Q</td>
+<td>Average cost of attendance (program-year institutions)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AVGFACSAL</td>
+<td>Q</td>
+<td>Average faculty salary</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>PCTPELL</td>
+<td>Q</td>
+<td>Percentage of undergraduates who receive a Pell Grant</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>C150_4</td>
+<td>Q</td>
+<td>Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>AGE_ENTRY</td>
+<td>Q</td>
+<td>Average age of entry</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>FEMALE</td>
+<td>Q</td>
+<td>Share of female students</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>MARRIED</td>
+<td>Q</td>
+<td>Share of married students</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>FIRST_GEN</td>
+<td>Q</td>
+<td>Share of first-generation students</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>FAMINC</td>
+<td>Q</td>
+<td>Average family income</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>MD_FAMINC</td>
+<td>Q</td>
+<td>Median family income</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>ENDOWBEGIN</td>
+<td>Q</td>
+<td>Value of school’s endowment at the beginning of the fiscal year</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>SAT_AVG</td>
+<td>Q</td>
+<td>Average SAT equivalent score of students admitted</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>SATVRMID</td>
+<td>Q</td>
+<td>Midpoint of SAT scores at the institution (critical reading)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>SATMTMID</td>
+<td>Q</td>
+<td>Midpoint of SAT scores at the institution (math)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>SATWRMID</td>
+<td>Q</td>
+<td>Midpoint of SAT scores at the institution (writing)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>ACTCMMID</td>
+<td>Q</td>
+<td>Midpoint of the ACT cumulative score</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>ACTENMID</td>
+<td>Q</td>
+<td>Midpoint of the ACT english score</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>ACTMTMID</td>
+<td>Q</td>
+<td>Midpoint of the ACT math score</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>ACTWRMID</td>
+<td>Q</td>
+<td>Midpoint of the ACT writing score</td>
+<td></td>
+</tr>
+</tbody>
+</table></li>
 </ul></li>
 </ul>
-<p>The Observations for <code>University of South Florida - Sarasota-Manatee</code> and <code>University of South Florida - St. Petersburg</code> have been dropped from the <code>colleges</code> data set due to their non-existence in the <code>us_dep_of_ed</code> data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the <code>colleges</code> data set only has 498 observations</p>
 </section>
 <section id="methodology" class="level2">
 <h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
 <p>The methodology section should include visualizations and summary statistics relevant to your research question. You should also justify the choice of statistical method(s) used to answer your research question.</p>
+<section id="import-tidy-and-join-data" class="level3">
+<h3 class="anchored" data-anchor-id="import-tidy-and-join-data">Import, Tidy, and Join Data</h3>
+<p>These steps were done in an R Markdown File</p>
+<ol type="1">
+<li><p>Scrape the data Niche.com and download data from the US Department of Education, and import.</p></li>
+<li><p>Change college names in Department of Education file to match Niche file</p></li>
+<li><p>Left join the <code>us_dep_of_ed</code> data set to Niche data set (<code>colleges</code>) by school name to make a new data set with 500 observations and 64 variables.</p></li>
+<li><p>The Observations for <code>University of South Florida - Sarasota-Manatee</code> and <code>University of South Florida - St. Petersburg</code> have been dropped from the <code>colleges</code> data set due to their non-existence in the <code>us_dep_of_ed</code> data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the <code>colleges</code> data set only has 498 observations</p></li>
+</ol>
+</section>
 <section id="prepare-data" class="level3">
 <h3 class="anchored" data-anchor-id="prepare-data">Prepare Data</h3>
 <ol type="1">
@@ -401,21 +647,22 @@ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</co
 </div>
 <p><code>select_if()</code> from https://www.r-bloggers.com/2019/10/selecting-columns-based-on-type/</p>
 <p><code>scale()</code> from https://www.r-bloggers.com/2021/12/how-to-use-the-scale-function-in-r/</p>
+<p><strong>Summarize and Visualize</strong></p>
+<p>**Need to replace with actualt</p>
 <ol start="3" type="1">
-<li><p>Check correlation coefficients between all the the all the exponential variables. For the ones that have a r &gt; 0.8, pick one to put in the model. We can create multiple models with different options.</p>
+<li><p>Check correlation coefficients between all the all the exponential variables. For the ones that have a r &gt; 0.8, pick one to put in the model. We can create multiple models with different options.</p>
 <p>We remove the columns that has more than 100 NA and leave the rest for calculating correlations.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_for_corr <span class="ot">&lt;-</span> scaled_continuous_numeric_variables</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>correlations <span class="ot">=</span> data_for_corr <span class="sc">|&gt;</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">"NPT4_PUB"</span>, <span class="st">"NPT4_PRIV"</span>, <span class="st">"COSTT4_P"</span>, <span class="st">"SATWRMID"</span>, <span class="st">"SATVRMID"</span>, <span class="st">"SATMTMID"</span>, <span class="st">"ACTENMID"</span>, <span class="st">"ACTMTMID"</span>, <span class="st">"ACTWRMID"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">na.omit</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cor</span>() </span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>correlations <span class="sc">|&gt;</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">corrplot</span>(<span class="at">method=</span><span class="st">"color"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>correlations <span class="ot">=</span> data_for_corr <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">"NPT4_PUB"</span>, <span class="st">"NPT4_PRIV"</span>, <span class="st">"COSTT4_P"</span>, <span class="st">"SATWRMID"</span>, <span class="st">"SATVRMID"</span>, <span class="st">"SATMTMID"</span>, <span class="st">"ACTENMID"</span>, <span class="st">"ACTMTMID"</span>, <span class="st">"ACTWRMID"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">na.omit</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cor</span>() </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>correlations <span class="sc">|&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">corrplot</span>(<span class="at">method=</span><span class="st">"color"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -4571,7 +4818,7 @@ ACTCMMID   ""                 </code></pre>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># tidy(data_set_fit)</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>data_set_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(rank <span class="sc">~</span> ADM_RATE <span class="sc">+</span> UGDS <span class="sc">+</span> UGDS_WHITE <span class="sc">+</span> UGDS_BLACK <span class="sc">+</span> UGDS_HISP <span class="sc">+</span> UGDS_ASIAN <span class="sc">+</span> UGDS_AIAN <span class="sc">+</span> UGDS_NHPI <span class="sc">+</span> UGDS_2MOR <span class="sc">+</span> UGDS_NRA <span class="sc">+</span> UGDS_UNKN<span class="sc">+</span> COSTT4_A <span class="sc">+</span> AVGFACSAL <span class="sc">+</span> PCTPELL <span class="sc">+</span> AGE_ENTRY <span class="sc">+</span> FAMINC <span class="sc">+</span> ENDOWBEGIN <span class="sc">+</span> SAT_AVG <span class="sc">+</span> rank, <span class="at">data =</span> data_set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(rank <span class="sc">~</span> ADM_RATE <span class="sc">+</span> UGDS <span class="sc">+</span> UGDS_WHITE <span class="sc">+</span> UGDS_BLACK <span class="sc">+</span> UGDS_HISP <span class="sc">+</span> UGDS_ASIAN <span class="sc">+</span> UGDS_AIAN <span class="sc">+</span> UGDS_NHPI <span class="sc">+</span> UGDS_2MOR <span class="sc">+</span> UGDS_NRA <span class="sc">+</span> UGDS_UNKN <span class="sc">+</span> COSTT4_A <span class="sc">+</span> AVGFACSAL <span class="sc">+</span> PCTPELL <span class="sc">+</span> AGE_ENTRY <span class="sc">+</span> FAMINC <span class="sc">+</span> ENDOWBEGIN <span class="sc">+</span> SAT_AVG <span class="sc">+</span> rank, <span class="at">data =</span> data_set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in model.matrix.default(mt, mf, contrasts): the response appeared on the
 right-hand side and was dropped</code></pre>

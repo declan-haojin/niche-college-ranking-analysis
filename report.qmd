@@ -20,69 +20,101 @@ library(tidymodels)
 
 ## Introduction and data
 
--   Here are three potential research questions:
+Every year, millions of students apply to colleges across the United State, and many of them use college rankings lists from sources such as *US News and World Report*, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on "exclusivity and resources, rather than accessibility and economic mobility" (1).The system can also be easily gamed by a university if that university focuses on improving the metrics used in the list, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list, in only 17 year; the president even explicitly stated that it a top priority of the university to raise its ranking (2).
 
-    1.  Which three variables have the greatest impact on a college's ranking?
+\(1\) https://thehill.com/changing-america/enrichment/education/3641004-the-scandal-facing-college-ranking-lists-explained/
 
--   These questions are important because students applying to college trust these rankings and weigh them into their college decisions. Due to large impact that a college has on a student's life, it is important to know where these ranking come from and what they actually measure.
+\(2\) https://www.bostonmagazine.com/news/2014/08/26/how-northeastern-gamed-the-college-rankings/
 
--   In general, we want to examine how different variables affect a school's ranking on the Niche College Ranking List. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
+These lists are important because students applying to college trust these rankings and weigh them into their college decisions. Due to large impact that a college has on a student's life, it is important to know where these ranking come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college's ranking.
 
-    We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.
+In general, we want to examine how different variables affect a school's ranking on the **Niche College Ranking List**. We plan to look at variables that are typically thought to influence school rank such as average SAT score and acceptance rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
 
--   Here are the types of variables involved in our research questions:
+**Question:** What variables (and what types of variables) have the greatest influence on school's place in the Niche College Ranking List?
 
-    -   Categorical (nominal):
+**Hypothesis:** We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.
 
-        -   geographic region
+In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard
 
-        -   accreditor institution
+**Data Set #1: Niche**
 
-        -   control (public vs. private)
+-   The first data set comes from Niche's "2023 Best Colleges in America" list
 
-        -   Carnegie classification
+    (https://www.niche.com/colleges/search/best-colleges/)
 
-    -   Numerical (continuous):
+-   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives; although, data from the US Department o Education is only received on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
 
-        -   admission rate
+-   There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: the name of the school (`college`) and (`rank`) and the rank of the school.
 
-        -   Total share of enrollment by racial groups
+**Data Set #2: US Department of Education**
 
-        -   average net price
+-   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.
 
-        -   average cost of attendance
+    (https://collegescorecard.ed.gov/data/)
 
-        -   average faculty salary
+-   The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.
 
-        -   percentage of undergraduates who receive a Pell grant
+-   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 63 variables.There are 6681 observations in the data set, representing all of the colleges and universities in the United States.
 
-        -   completion rate
+    -   Here is a summary of the data we will be using in or analysis.
 
-        -   average age of entry
-
-        -   share of female students
-
-        -   share of married students
-
-        -   share of first generation students
-
-        -   median & mean family income
-
-        -   median & mean earning 10 years after entry
-
-        -   Value of school's endowment
-
-    -   Numerical (discrete)
-
-        -   mean (if there is one) and median ACT/SAT scores for sub-tests and composite
-
-        -   Enrollment of undergraduate certificate/degree-seeking students
-
-The Observations for `University of South Florida - Sarasota-Manatee` and `University of South Florida - St. Petersburg` have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations
+        | Variable Name | C/Q | Description                                                                                                        | Levels of Cat. Variable                                                                                     |
+        |-------------|-------------|-------------|---------------------------------|
+        | college       | C   | Institution name                                                                                                   |                                                                                                             |
+        | rank          | Q   | Niche rank                                                                                                         |                                                                                                             |
+        | REGION        | C   |                                                                                                                    | New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas |
+        | ACCREDAGENCY  | C   | Accreditor for Institution                                                                                         |                                                                                                             |
+        | CONTROL       | C   |                                                                                                                    | Public, Private nonprofit, private for-profit                                                               |
+        | CCBASIC       | C   | Carnegie Classification \--basic                                                                                   |                                                                                                             |
+        | ADM_RATE      | Q   | Admission rate                                                                                                     |                                                                                                             |
+        | UGDS          | Q   | Enrollment of undergraduate certificate/degree-seeking students                                                    |                                                                                                             |
+        | UGDS_WHITE    | Q   | Total share of enrollment of undergraduate degree-seeking students who are white                                   |                                                                                                             |
+        | UGDS_BLACK    | Q   | Total share of enrollment of undergraduate degree-seeking students who are black                                   |                                                                                                             |
+        | UGDS_HISP     | Q   | Total share of enrollment of undergraduate degree-seeking students who are Hispanic                                |                                                                                                             |
+        | UGDS_ASIAN    | Q   | Total share of enrollment of undergraduate degree-seeking students who are Asian                                   |                                                                                                             |
+        | UGDS_AIAN     | Q   | Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native           |                                                                                                             |
+        | UGDS_NHPI     | Q   | Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander        |                                                                                                             |
+        | UGDS_2MOR     | Q   | Total share of enrollment of undergraduate degree-seeking students who are two or more races                       |                                                                                                             |
+        | UGDS_NRA      | Q   | Total share of enrollment of undergraduate degree-seeking students who are non-resident aliens                     |                                                                                                             |
+        | UGDS_UNKN     | Q   | Total share of enrollment of undergraduate degree-seeking students whose race is unknown                           |                                                                                                             |
+        | NPT4_PUB      | Q   | Average net price for Title IV institutions (public institutions)                                                  |                                                                                                             |
+        | NPT4_PRIV     | Q   | Average net price for Title IV institutions (private for-profit and nonprofit institutions)                        |                                                                                                             |
+        | COSTT4_A      | Q   | Average cost of attendance (academic year institutions)                                                            |                                                                                                             |
+        | COSTT4_P      | Q   | Average cost of attendance (program-year institutions)                                                             |                                                                                                             |
+        | AVGFACSAL     | Q   | Average faculty salary                                                                                             |                                                                                                             |
+        | PCTPELL       | Q   | Percentage of undergraduates who receive a Pell Grant                                                              |                                                                                                             |
+        | C150_4        | Q   | Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion) |                                                                                                             |
+        | AGE_ENTRY     | Q   | Average age of entry                                                                                               |                                                                                                             |
+        | FEMALE        | Q   | Share of female students                                                                                           |                                                                                                             |
+        | MARRIED       | Q   | Share of married students                                                                                          |                                                                                                             |
+        | FIRST_GEN     | Q   | Share of first-generation students                                                                                 |                                                                                                             |
+        | FAMINC        | Q   | Average family income                                                                                              |                                                                                                             |
+        | MD_FAMINC     | Q   | Median family income                                                                                               |                                                                                                             |
+        | ENDOWBEGIN    | Q   | Value of school's endowment at the beginning of the fiscal year                                                    |                                                                                                             |
+        | SAT_AVG       | Q   | Average SAT equivalent score of students admitted                                                                  |                                                                                                             |
+        | SATVRMID      | Q   | Midpoint of SAT scores at the institution (critical reading)                                                       |                                                                                                             |
+        | SATMTMID      | Q   | Midpoint of SAT scores at the institution (math)                                                                   |                                                                                                             |
+        | SATWRMID      | Q   | Midpoint of SAT scores at the institution (writing)                                                                |                                                                                                             |
+        | ACTCMMID      | Q   | Midpoint of the ACT cumulative score                                                                               |                                                                                                             |
+        | ACTENMID      | Q   | Midpoint of the ACT english score                                                                                  |                                                                                                             |
+        | ACTMTMID      | Q   | Midpoint of the ACT math score                                                                                     |                                                                                                             |
+        | ACTWRMID      | Q   | Midpoint of the ACT writing score                                                                                  |                                                                                                             |
 
 ## Methodology
 
 The methodology section should include visualizations and summary statistics relevant to your research question. You should also justify the choice of statistical method(s) used to answer your research question.
+
+### Import, Tidy, and Join Data
+
+These steps were done in an R Markdown File
+
+1.  Scrape the data Niche.com and download data from the US Department of Education, and import.
+
+2.  Change college names in Department of Education file to match Niche file
+
+3.  Left join the `us_dep_of_ed` data set to Niche data set (`colleges`) by school name to make a new data set with 500 observations and 64 variables.
+
+4.  The Observations for `University of South Florida - Sarasota-Manatee` and `University of South Florida - St. Petersburg` have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations
 
 ### Prepare Data
 
@@ -224,14 +256,17 @@ data <- cbind(other_variables, scaled_continuous_numeric_variables)
 
 `scale()` from https://www.r-bloggers.com/2021/12/how-to-use-the-scale-function-in-r/
 
-3.  Check correlation coefficients between all the the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
+**Summarize and Visualize**
+
+\*\*Need to replace with actualt
+
+3.  Check correlation coefficients between all the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
 
     We remove the columns that has more than 100 NA and leave the rest for calculating correlations.
 
     ```{r}
 
     data_for_corr <- scaled_continuous_numeric_variables
-
 
 
     correlations = data_for_corr |>
@@ -275,7 +310,7 @@ data_set
 # tidy(data_set_fit)
 
 data_set_fit <- linear_reg() |>
-  fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN+ COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG + rank, data = data_set)
+  fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG + rank, data = data_set)
 
 tidy(data_set_fit)
 ```
