@@ -440,7 +440,6 @@ colleges <- niche_data_500 |>
 write_csv(colleges, "data/colleges.csv")
 
 # select variables--------------------------------------------------------------
-colleges <- read_csv("data/colleges.csv", na = c("", "NA", "NULL"))
 
 chosen_variables <- c(
   "college",
