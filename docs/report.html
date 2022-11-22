@@ -103,11 +103,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-and-data" id="toc-introduction-and-data" class="nav-link active" data-scroll-target="#introduction-and-data">Introduction and data</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
   <li><a href="#research-background" id="toc-research-background" class="nav-link" data-scroll-target="#research-background">Research Background</a></li>
   <li><a href="#research-questions-and-hypothesis" id="toc-research-questions-and-hypothesis" class="nav-link" data-scroll-target="#research-questions-and-hypothesis">Research Questions and Hypothesis</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  </ul></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
+  <ul class="collapse">
   <li><a href="#data-summary" id="toc-data-summary" class="nav-link" data-scroll-target="#data-summary">Data summary</a></li>
   </ul></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
@@ -115,16 +117,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#scrape-data" id="toc-scrape-data" class="nav-link" data-scroll-target="#scrape-data">Scrape Data</a></li>
   <li><a href="#import-dataset" id="toc-import-dataset" class="nav-link" data-scroll-target="#import-dataset">Import Dataset</a></li>
   <li><a href="#change-college-names-in-department-of-education-file-to-match-niche-file" id="toc-change-college-names-in-department-of-education-file-to-match-niche-file" class="nav-link" data-scroll-target="#change-college-names-in-department-of-education-file-to-match-niche-file">Change college names in Department of Education file to match Niche file</a></li>
-  <li><a href="#join-niche-and-department-of-education-datasets" id="toc-join-niche-and-department-of-education-datasets" class="nav-link" data-scroll-target="#join-niche-and-department-of-education-datasets">Join Niche and Department of Education datasets</a></li>
-  </ul></li>
-  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data">Tidy Data</a>
-  <ul class="collapse">
-  <li><a href="#choose-variables" id="toc-choose-variables" class="nav-link" data-scroll-target="#choose-variables">Choose Variables</a></li>
+  <li><a href="#join-datasets" id="toc-join-datasets" class="nav-link" data-scroll-target="#join-datasets">Join Datasets</a></li>
+  <li><a href="#variable-selections" id="toc-variable-selections" class="nav-link" data-scroll-target="#variable-selections">Variable Selections</a></li>
   <li><a href="#clean-categorical-variables" id="toc-clean-categorical-variables" class="nav-link" data-scroll-target="#clean-categorical-variables">Clean Categorical Variables</a></li>
   <li><a href="#standardize-variables" id="toc-standardize-variables" class="nav-link" data-scroll-target="#standardize-variables">Standardize Variables</a></li>
-  </ul></li>
-  <li><a href="#summarize-and-visualize" id="toc-summarize-and-visualize" class="nav-link" data-scroll-target="#summarize-and-visualize"><strong>Summarize and Visualize</strong></a>
-  <ul class="collapse">
+  <li><a href="#preliminary-exploration-and-visualization" id="toc-preliminary-exploration-and-visualization" class="nav-link" data-scroll-target="#preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</a></li>
   <li><a href="#build-model-iterations" id="toc-build-model-iterations" class="nav-link" data-scroll-target="#build-model-iterations">Build model (Iterations)</a></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
@@ -154,8 +151,8 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 
 </div>
-<section id="introduction-and-data" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-and-data">Introduction and data</h2>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <section id="research-background" class="level3">
 <h3 class="anchored" data-anchor-id="research-background">Research Background</h3>
 <p>Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as <em>US News and World Report</em>, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on “exclusivity and resources, rather than accessibility and economic mobility” (1).The system can also be easily manipulated by a university if that university prioritize certain metrics to raise their rankings, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list in only 17 years. The president of Northeastern University even explicitly stated that it a top priority of the university to raise its ranking (2).</p>
@@ -170,8 +167,9 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Hypothesis:</strong> We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.</p>
 <p>In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard</p>
 </section>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
 <section id="data-set-1-niche" class="level4">
 <h4 class="anchored" data-anchor-id="data-set-1-niche">Data Set #1: Niche</h4>
 <ul>
@@ -189,7 +187,6 @@ ul.task-list li input[type="checkbox"] {
 <li><p>The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.</p></li>
 <li><p>There were 2,989 variables in the original data set, many of which we don’t need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 63 variables.There are 6681 observations in the data set, representing all of the colleges and universities in the United States.</p></li>
 </ul>
-</section>
 </section>
 <section id="data-summary" class="level3">
 <h3 class="anchored" data-anchor-id="data-summary">Data summary</h3>
@@ -459,25 +456,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="import-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="import-dataset">Import Dataset</h3>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 500 Columns: 2
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): college
-dbl (1): rank
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-Rows: 6681 Columns: 63
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (5): INSTNM, CITY, STABBR, ZIP, ACCREDAGENCY
-dbl (57): UNITID, OPEID, OPEID6, LATITUDE, LONGITUDE, REGION, CCBASIC, CONTR...
-lgl  (1): UG
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 </div>
 </section>
 <section id="change-college-names-in-department-of-education-file-to-match-niche-file" class="level3">
@@ -487,29 +466,16 @@ lgl  (1): UG
 </div>
 <p>The Observations for <code>University of South Florida - Sarasota-Manatee</code> and <code>University of South Florida - St. Petersburg</code> have been dropped from the <code>colleges</code> data set due to their non-existence in the <code>us_dep_of_ed</code> data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the <code>colleges</code> data set only has 498 observations.</p>
 </section>
-<section id="join-niche-and-department-of-education-datasets" class="level3">
-<h3 class="anchored" data-anchor-id="join-niche-and-department-of-education-datasets">Join Niche and Department of Education datasets</h3>
+<section id="join-datasets" class="level3">
+<h3 class="anchored" data-anchor-id="join-datasets">Join Datasets</h3>
 <div class="cell">
 
 </div>
 </section>
-</section>
-<section id="tidy-data" class="level2">
-<h2 class="anchored" data-anchor-id="tidy-data">Tidy Data</h2>
-<section id="choose-variables" class="level3">
-<h3 class="anchored" data-anchor-id="choose-variables">Choose Variables</h3>
+<section id="variable-selections" class="level3">
+<h3 class="anchored" data-anchor-id="variable-selections">Variable Selections</h3>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
-ℹ Please use `all_of()` or `any_of()` instead.
-  # Was:
-  data %&gt;% select(chosen_variables)
 
-  # Now:
-  data %&gt;% select(all_of(chosen_variables))
-
-See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</code></pre>
-</div>
 </div>
 </section>
 <section id="clean-categorical-variables" class="level3">
@@ -524,9 +490,8 @@ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</co
 
 </div>
 </section>
-</section>
-<section id="summarize-and-visualize" class="level2">
-<h2 class="anchored" data-anchor-id="summarize-and-visualize"><strong>Summarize and Visualize</strong></h2>
+<section id="preliminary-exploration-and-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</h3>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 7
@@ -543,204 +508,41 @@ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</co
 </div>
 </div>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/graphs-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="report_files/figure-html/graphs-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="report_files/figure-html/graphs-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="report_files/figure-html/graphs-4.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/ADM_RATE-vs-rank-by-region-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="report_files/figure-html/graphs-5.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="report_files/figure-html/graphs-6.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="report_files/figure-html/graphs-7.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="report_files/figure-html/graphs-8.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-14-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="report_files/figure-html/graphs-9.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-14-4.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-14-5.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 21 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 200 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 302 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-4.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 302 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-5.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-6.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-7.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 4 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-8.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-9.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-10.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 13 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-11.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 133 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-12.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 21 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-13.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-14.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-15.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 14 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-15-16.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 81 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 83 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/graphs-10.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <ol start="3" type="1">
 <li><p>Check correlation coefficients between all the all the exponential variables. For the ones that have a r &gt; 0.8, pick one to put in the model. We can create multiple models with different options.</p>
 <p>We remove the columns that has more than 100 NA and leave the rest for calculating correlations.</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Use of bare predicate functions was deprecated in tidyselect 1.1.0.
-ℹ Please use wrap predicates in `where()` instead.
-  # Was:
-  data %&gt;% select(is.numeric)
-
-  # Now:
-  data %&gt;% select(where(is.numeric))</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/correlations-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -906,6 +708,7 @@ ACTCMMID   ""                 </code></pre>
 </ol>
 <p>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value &gt; 0.8).</p>
 <p>The second output sections only shows the correlation entries with a value greater than 0.8. These variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.</p>
+</section>
 <section id="build-model-iterations" class="level3">
 <h3 class="anchored" data-anchor-id="build-model-iterations">Build model (Iterations)</h3>
 <ol type="1">
@@ -5407,14 +5210,6 @@ ACTCMMID   ""                 </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in model.matrix.default(mt, mf, contrasts): the response appeared on the
-right-hand side and was dropped</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in model.matrix.default(mt, mf, contrasts): problem with term 19 in
-model.matrix: no columns are assigned</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 19 × 5
    term        estimate std.error statistic   p.value
@@ -5445,14 +5240,6 @@ model.matrix: no columns are assigned</code></pre>
 <li><p>Remove variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.</p></li>
 </ol>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in model.matrix.default(mt, mf, contrasts): the response appeared on the
-right-hand side and was dropped</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in model.matrix.default(mt, mf, contrasts): problem with term 15 in
-model.matrix: no columns are assigned</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 15 × 5
    term        estimate std.error statistic   p.value
@@ -5487,81 +5274,15 @@ model.matrix: no columns are assigned</code></pre>
 <li>Look at slope coefficients for variables in models for variables in the model. The one with the highest slope is the most significant.</li>
 </ol>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using method = 'loess' and formula 'y ~ x'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 24 rows containing non-finite values (stat_smooth).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : span too small. fewer data values than degrees of freedom.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : at 0.20523</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : radius 2.2618e-05</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : all data on boundary of neighborhood. make span bigger</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : pseudoinverse used at 0.20523</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : neighborhood radius 0.0047559</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : reciprocal condition number 1</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : at 1.1659</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : radius 2.2618e-05</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : all data on boundary of neighborhood. make span bigger</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : There are other near singularities as well. 2.2618e-05</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : zero-width neighborhood. make span bigger
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
-parametric, : zero-width neighborhood. make span bigger</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Computation failed in `stat_smooth()`:
-NA/NaN/Inf in foreign function call (arg 5)</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 24 rows containing missing values (geom_point).</code></pre>
-</div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>Showcase how you arrived at answers to your research question using the techniques we have learned in class (and beyond, if you’re feeling adventurous).</p>
 <p>Our preliminary result shows that the number of undergraduate students that identify as white has major impact on the ranking of a college. Because of the positive slope, the more white students a college has, the number of the ranking is bigger which means a “lower” ranking.</p>
-<p>Provide only the main results from your analysis. The goal is not to do an exhaustive data analysis (calculate every possible statistic and perform every possible procedure for all variables). Rather, you should demonstrate that you are proficient at asking meaningful questions and answering them using data, that you are skilled in interpreting and presenting results, and that you can accomplish these tasks using R. More is not better.</p>
 
 
 </section>

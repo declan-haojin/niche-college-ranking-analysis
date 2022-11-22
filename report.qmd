@@ -5,6 +5,8 @@ format: html
 editor: visual
 execute:
   echo: false
+message: false
+warning: false
 editor_options: 
   chunk_output_type: inline
 ---
@@ -608,7 +610,6 @@ colleges <- niche_data_500 |>
   filter(rank != 141) |>
   filter(rank != 181)
 ```
-
 
 ### Variable Selections
 
