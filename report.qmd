@@ -728,7 +728,7 @@ data <- data |>
   )
 ```
 
-### Standardize Variables 
+### Standardize Variables
 
 ```{r}
 #| label: scale-numerical-variables
