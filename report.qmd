@@ -4,7 +4,9 @@ subtitle: "Report"
 format: html
 editor: visual
 execute:
-  echo: false
+  echo: true
+message: false
+warning: false
 editor_options: 
   chunk_output_type: inline
 ---
@@ -22,7 +24,7 @@ library(tidymodels)
 
 ### Research Background
 
-Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as *US News and World Report*, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on "exclusivity and resources, rather than accessibility and economic mobility" (1).The system can also be easily manipulated by a university if that university prioritize certain metrics to raise their rankings, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list in only 17 years. The president of Northeastern University even explicitly stated that it a top priority of the university to raise its ranking (2).
+Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as *US News and World Report*, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on "exclusivity and resources, rather than accessibility and economic mobility" (1).The system can also be easily manipulated by a university if that university prioritize certain metrics to raise their rankings, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list in only 17 years. The president of Northeastern University even explicitly stated that it was a top priority of the university to raise its ranking (2).
 
 \(1\) https://thehill.com/changing-america/enrichment/education/3641004-the-scandal-facing-college-ranking-lists-explained/
 
@@ -48,7 +50,7 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
     (https://www.niche.com/colleges/search/best-colleges/)
 
--   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives; although, data from the US Department o Education is only received on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
+-   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
 
 -   There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: `college` and `rank`.
 
@@ -60,11 +62,11 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 -   The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.
 
--   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 63 variables.There are 6681 observations in the data set, representing all of the colleges and universities in the United States.
+-   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 63 variables. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.
 
 ### Data summary
 
-Here is a summary of the data we will be using in or analysis.
+Here is a summary of the variables we will be using in our analysis.
 
 +---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
 | Variable Name | Categorical (C)  | Description                                                                                                        | Levels of Cat. Variable                                                                                     |
@@ -154,7 +156,7 @@ Here is a summary of the data we will be using in or analysis.
 
 ### Scrape Data
 
-Scrape the data Niche.com and download data from the US Department of Education, and import.
+To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported.
 
 The steps were done in an R script titled `niche-scrape.R`
 
@@ -607,6 +609,8 @@ colleges <- niche_data_500 |>
   left_join(us_dep_of_ed, by = c("college" ="INSTNM")) |>
   filter(rank != 141) |>
   filter(rank != 181)
+
+colleges
 ```
 
 ### Variable Selections
@@ -767,10 +771,11 @@ colleges_levels |>
     mean_UGDS_WHITE = mean(UGDS_WHITE, na.rm = T),
     mean_UGDS_ASIAN = mean(UGDS_ASIAN, na.rm = T),
     mean_COSTT4_A = mean(COSTT4_A, na.rm = T)
-  )
+  ) |>
+  knitr::kable()
 ```
 
-We have broken down the data into 5 different groups based on the college rank, and then taken the mean of selected variables for each of the groups. This gives us an idea of how different variables change across different types of school.
+We broke down the data into 5 different groups based on the college rank, and then took the mean of selected variables for each of the groups. This gave us an idea of how different variables change across different types of school.
 
 ```{r}
 #| label: graphs
@@ -816,9 +821,9 @@ scaled_data |>
   ggplot(aes(x = AVGFACSAL, y = rank)) +
   geom_point() +
   labs(
-    x = "Average Fauculty Salary", 
+    x = "Average Faculty Salary", 
     y = "Rank",
-    title = "Rank vs Average Fauculty Salary"
+    title = "Rank vs Average Faculty Salary"
   ) 
 
 scaled_data |> 
@@ -858,14 +863,14 @@ colleges |>
   ) 
 ```
 
-We have plotted rank vs. several of the numerical variables. This gives us an idea of how the metrics above affect college rank. Just by looking at the graphs, Admission Rate, Man SAT, Median ACT, Average faculty Salary, and Graduation Rate seem to have the strongest correlation.
+We have plotted rank vs. several of the numerical variables. This gives us an idea of how the metrics above affect college rank. Just by looking at the graphs, Admission Rate, Mean SAT, Median ACT, Average Faculty Salary, and Graduation Rate seem to have the strongest correlation.
 
 3.  Check correlation coefficients between all the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
 
     We remove the columns that has more than 100 NA and leave the rest for calculating correlations.
 
     ```{r}
-    #| label: correlations
+    #| label: correlation-matrix
 
     data_for_corr <- scaled_data |>
       select(is.numeric)
@@ -880,11 +885,6 @@ We have plotted rank vs. several of the numerical variables. This gives us an id
         corrplot(method="color")
 
 
-    # correlations <- dataset |>
-    #   na.omit() |>
-    #   cor()
-      
-
     correlations[correlations < 0.8 | correlations == 1] <- ""
     correlations
     ```
@@ -895,21 +895,19 @@ The second output sections only shows the correlation entries with a value great
 
 ### Build model (Iterations)
 
-1.  Put all of our chosen variables into a model
+1.  We began our modeling by putting all of our chosen variables into a model
 
 ```{r}
+#| label: glimpsed-data
 
 data_set <- scaled_data |>
   select(c("ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "rank", "REGION", "CONTROL", "CCBASIC", "college", "ACCREDAGENCY", "FEMALE", "MARRIED", "FIRST_GEN"))
 
-data_set
+glimpse(data_set)
 ```
 
 ```{r}
-# data_set_fit <- linear_reg() |>
-#   fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN+ COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG + rank + REGION + CONTROL + CCBASIC + college + ACCREDAGENCY, data = data_set)
-# 
-# tidy(data_set_fit)
+#| label: linear-reg-data
 
 data_set_fit <- linear_reg() |>
   fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG + rank, data = data_set)
@@ -917,11 +915,13 @@ data_set_fit <- linear_reg() |>
 tidy(data_set_fit)
 ```
 
-1.  We created a model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college. At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the \`SAT_AVG\`, the lower the college is ranked on a numerical scale. So the college is ranked higher.
+1.  We created a model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college. At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the \`SAT_AVG\`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.
 
-2.  Remove variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.
+2.  We then removed variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.
 
 ```{r}
+#| label: true-data-fit
+
 data_set_fit_true <- linear_reg() |>
   fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + AVGFACSAL + PCTPELL + SAT_AVG + rank, data = data_set)
 
@@ -929,11 +929,13 @@ tidy(data_set_fit_true)
 glance(data_set_fit_true)
 ```
 
-We removed variables that had a slope with an absolute value less than 10 because that would mean that they have less of an impact on ranking than other variables.
+These were variables that had a slope with an absolute value less than 10 because that would mean that they have less of an impact on ranking than other variables.
 
-1.  Look at slope coefficients for variables in models for variables in the model. The one with the highest slope is the most significant.
+1.  Then, by looking at the slope coefficients of the variables in the model, we determined that the one with the highest slope is the most significant.
 
 ```{r}
+#| label: ggplot-example-variable-ugds-white
+
 data_set |>
   ggplot(aes(x = UGDS_WHITE, y = rank, color = REGION)) +
   geom_point() +
@@ -945,4 +947,4 @@ data_set |>
 
 ## Results
 
-Our preliminary result shows that the number of undergraduate students that identify as white has major impact on the ranking of a college. Because of the positive slope, the more white students a college has, the number of the ranking is bigger which means a "lower" ranking.
+Our preliminary result shows that the number of undergraduate students that identify as white has major impact on the ranking of a college. Because of the positive slope, the more white students a college has, the number of the ranking is bigger which corresponds to a "lower" ranking.
