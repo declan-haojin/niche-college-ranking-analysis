@@ -8,7 +8,7 @@ execute:
 message: false
 warning: false
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r}
@@ -883,8 +883,6 @@ colleges |>
 
     correlations |>
         corrplot(method="color")
-
-    correlations
     ```
 According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
 
