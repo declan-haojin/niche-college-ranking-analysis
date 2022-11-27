@@ -867,7 +867,7 @@ We have plotted rank vs. several of the numerical variables. This gives us an id
 
 3.  Check correlation coefficients between all the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
 
-    We remove the columns that has more than 100 NA and leave the rest for calculating correlations.
+We remove the columns that has more than 100 NA and leave the rest for calculating correlations. And here is the correlation matrix for every pair of variables that we are using.
 
     ```{r}
     #| label: correlation-matrix
@@ -884,18 +884,24 @@ We have plotted rank vs. several of the numerical variables. This gives us an id
     correlations |>
         corrplot(method="color")
 
-
-    correlations[correlations < 0.8 | correlations == 1] <- ""
     correlations
     ```
+According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
 
-According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8).
+```{r} 
+#| label: display-correlation-pair-to-be-removed
 
-The second output sections only shows the correlation entries with a value greater than 0.8. These variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
+correlations[correlations < 0.8 | correlations ==1] <- ""
 
-### Build model (Iterations)
+correlations |> knitr::kable() 
+```
 
-1.  We began our modeling by putting all of our chosen variables into a model
+
+Accoridng to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
+
+### Build model
+
+We began our modeling by putting all of our chosen variables into a model
 
 ```{r}
 #| label: glimpsed-data
@@ -906,44 +912,131 @@ data_set <- scaled_data |>
 glimpse(data_set)
 ```
 
+Then we need to split dataset into two parts: a training and a test set. We will use 80% of the college data for trainning our model and the rest 20% for testing our model.
+
+```{r}
+#| label: split-data
+
+set.seed(777)
+
+# Build training data set
+train <- data_set |>
+  sample_frac(.80)
+
+# Build testing data set
+test <- anti_join(data_set, train, by = 'rank')
+```
+
+
+#### Iteration #0
+
+We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college. 
+
 ```{r}
 #| label: linear-reg-data
 
-data_set_fit <- linear_reg() |>
-  fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG + rank, data = data_set)
+fit1 <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG , data = train)
 
-tidy(data_set_fit)
+tidy(fit1) |> knitr::kable() 
 ```
 
-1.  We created a model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college. At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the \`SAT_AVG\`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.
 
-2.  We then removed variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.
+At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the \`SAT_AVG\`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher. 
+
+Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around 0.3, which is much greater than 0.05. Therefore, we need to drop these variables for the next model iteration.
+
+Then we can evaluation our first primitive model by Rsqure:
 
 ```{r}
-#| label: true-data-fit
+#| label: evaluation1
 
-data_set_fit_true <- linear_reg() |>
-  fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + AVGFACSAL + PCTPELL + SAT_AVG + rank, data = data_set)
+test_results <- predict(fit1, new_data = test) |>
+                            bind_cols(test)
 
-tidy(data_set_fit_true)
-glance(data_set_fit_true)
+
+# R2 on test set
+rsq(test_results,
+    truth = test$rank,
+    estimate = .pred) |> knitr::kable() 
 ```
+As we can see the model R square is around 70%. 
 
-These were variables that had a slope with an absolute value less than 10 because that would mean that they have less of an impact on ranking than other variables.
+#### Iteration #1
 
-1.  Then, by looking at the slope coefficients of the variables in the model, we determined that the one with the highest slope is the most significant.
+First we need to avoid using the variables with high p-values as mentioned above to train a new model.
 
 ```{r}
-#| label: ggplot-example-variable-ugds-white
+#| label: fit2
 
-data_set |>
-  ggplot(aes(x = UGDS_WHITE, y = rank, color = REGION)) +
-  geom_point() +
-  geom_smooth(se = FALSE) +
-  scale_x_continuous(limits = c(-2,2)) +
-  labs(x = "Proportion of White-Identifying Undergraduate Students" ,
-       y = "School Ranking")
+fit2 <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG, data = train)
+
+tidy(fit2) |> knitr::kable() 
 ```
+Then we can evaluation our second model by Rsqure:
+
+```{r}
+test_results <- predict(fit2, new_data = test) |>
+                            bind_cols(test)
+
+# R2 on test set
+rsq(test_results,
+    truth = test$rank,
+    estimate = .pred) |> knitr::kable() 
+```
+
+Since the rsq value is 0.68 which is even smaller than 0.69 of our first model, we need to implement forward selection by adding variables back to our model.
+
+#### Iteration #3
+
+From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.
+
+
+```{r}
+#| label: fit3
+
+fit3 <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG + AGE_ENTRY, data = train)
+
+tidy(fit3) |> knitr::kable() 
+```
+
+```{r}
+test_results <- predict(fit3, new_data = test) |>
+                            bind_cols(test)
+
+# R2 on test set
+rsq(test_results,
+    truth = test$rank,
+    estimate = .pred) |> knitr::kable() 
+```
+
+However the model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.
+
+#### Iteration #4
+
+From our first and second iteration, UGDS_UNKN, among the variables removed, has the smallest p-value of 0.310. Therefore we are going to add UGDS_UNKN back to our model for the iteration.
+
+```{r}
+#| label: fit4
+
+fit4 <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG + AGE_ENTRY + UGDS_UNKN, data = train)
+
+tidy(fit4) |> knitr::kable() 
+```
+
+```{r}
+test_results <- predict(fit4, new_data = test) |>
+                            bind_cols(test)
+
+# R2 on test set
+rsq(test_results,
+    truth = test$rank,
+    estimate = .pred) |> knitr::kable() 
+```
+
 
 ## Results
 

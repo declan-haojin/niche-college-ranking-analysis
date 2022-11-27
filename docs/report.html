@@ -185,7 +185,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#clean-categorical-variables" id="toc-clean-categorical-variables" class="nav-link" data-scroll-target="#clean-categorical-variables">Clean Categorical Variables</a></li>
   <li><a href="#standardize-variables" id="toc-standardize-variables" class="nav-link" data-scroll-target="#standardize-variables">Standardize Variables</a></li>
   <li><a href="#preliminary-exploration-and-visualization" id="toc-preliminary-exploration-and-visualization" class="nav-link" data-scroll-target="#preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</a></li>
-  <li><a href="#build-model-iterations" id="toc-build-model-iterations" class="nav-link" data-scroll-target="#build-model-iterations">Build model (Iterations)</a></li>
+  <li><a href="#build-model" id="toc-build-model" class="nav-link" data-scroll-target="#build-model">Build model</a></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   </ul>
@@ -1221,11 +1221,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 </div>
 </div>
-<<<<<<< HEAD
-<p>We have broken down the data into 5 different groups based on the college rank, and then taken the mean of selected variables for each of the groups. This gives us an idea of how different variables change across different types of school.</p>
-=======
 <p>We broke down the data into 5 different groups based on the college rank, and then took the mean of selected variables for each of the groups. This gave us an idea of how different variables change across different types of school.</p>
->>>>>>> f6069634704c77a67189fee8de5c2e942e0bcea3
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>scaled_data<span class="sc">|&gt;</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ADM_RATE, <span class="at">y =</span> rank, <span class="at">color =</span> CONTROL)) <span class="sc">+</span></span>
@@ -1238,10 +1234,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/graphs-1.png" class="img-fluid" width="672"></p>
 </div>
-<<<<<<< HEAD
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-=======
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>colleges <span class="sc">|&gt;</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> UGDS_WHITE, <span class="at">y =</span> rank)) <span class="sc">+</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -1296,7 +1288,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/graphs-6.png" class="img-fluid" width="672"></p>
->>>>>>> f6069634704c77a67189fee8de5c2e942e0bcea3
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>scaled_data <span class="sc">|&gt;</span> </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ENDOWBEGIN, <span class="at">y =</span> rank)) <span class="sc">+</span></span>
@@ -1307,14 +1298,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rank vs Endowment Size"</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<<<<<<< HEAD
-<p><img src="report_files/figure-html/graphs-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-=======
 <p><img src="report_files/figure-html/graphs-7.png" class="img-fluid" width="672"></p>
->>>>>>> f6069634704c77a67189fee8de5c2e942e0bcea3
 </div>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>colleges <span class="sc">|&gt;</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> SAT_AVG, <span class="at">y =</span> rank)) <span class="sc">+</span></span>
@@ -1325,43 +1309,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rank vs Mean SAT"</span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<<<<<<< HEAD
-<p><img src="report_files/figure-html/graphs-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/graphs-4.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/graphs-5.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/graphs-6.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 14 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/graphs-7.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 81 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/graphs-8.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 83 rows containing missing values (geom_point).</code></pre>
-</div>
-=======
 <p><img src="report_files/figure-html/graphs-8.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>colleges <span class="sc">|&gt;</span> </span>
@@ -1372,209 +1319,954 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Rank"</span>,</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rank vs Median ACT"</span></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
->>>>>>> f6069634704c77a67189fee8de5c2e942e0bcea3
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/graphs-9.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<<<<<<< HEAD
-<p>We have plotted rank vs.&nbsp;several of the numerical variables. This gives us an idea of how the metrics above affect college rank. Just by looking at the graphs, Admission Rate, Man SAT, Median ACT, Average faculty Salary, and Graduation Rate seem to have the strongest correlation.</p>
-=======
 <p>We have plotted rank vs.&nbsp;several of the numerical variables. This gives us an idea of how the metrics above affect college rank. Just by looking at the graphs, Admission Rate, Mean SAT, Median ACT, Average Faculty Salary, and Graduation Rate seem to have the strongest correlation.</p>
->>>>>>> f6069634704c77a67189fee8de5c2e942e0bcea3
 <ol start="3" type="1">
-<li><p>Check correlation coefficients between all the all the exponential variables. For the ones that have a r &gt; 0.8, pick one to put in the model. We can create multiple models with different options.</p>
-<p>We remove the columns that has more than 100 NA and leave the rest for calculating correlations.</p>
+<li>Check correlation coefficients between all the all the exponential variables. For the ones that have a r &gt; 0.8, pick one to put in the model. We can create multiple models with different options.</li>
+</ol>
+<p>We remove the columns that has more than 100 NA and leave the rest for calculating correlations. And here is the correlation matrix for every pair of variables that we are using.</p>
+<pre><code>::: {.cell}
+
+```{.r .cell-code}
+data_for_corr &lt;- scaled_data |&gt;
+  select(is.numeric)
+
+
+correlations = data_for_corr |&gt;
+  select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |&gt;
+    na.omit() |&gt;
+    cor() 
+
+correlations |&gt;
+    corrplot(method="color")
+```
+
+::: {.cell-output-display}
+![](report_files/figure-html/correlation-matrix-1.png){width=672}
+:::
+
+```{.r .cell-code}
+correlations
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+                  rank    ADM_RATE         UGDS  UGDS_WHITE  UGDS_BLACK
+rank        1.00000000  0.55044917 -0.420411083  0.14400303  0.20114281
+ADM_RATE    0.55044917  1.00000000 -0.069158305  0.35334838 -0.06145588
+UGDS       -0.42041108 -0.06915830  1.000000000 -0.21008758 -0.10779395
+UGDS_WHITE  0.14400303  0.35334838 -0.210087575  1.00000000 -0.31040761
+UGDS_BLACK  0.20114281 -0.06145588 -0.107793951 -0.31040761  1.00000000
+UGDS_HISP   0.06088804 -0.05061892  0.212860347 -0.68771067 -0.10077483
+UGDS_ASIAN -0.39331243 -0.40384619  0.277252066 -0.67361549 -0.11365497
+UGDS_AIAN   0.11795028  0.17913675 -0.160680312  0.08665457  0.03043630
+UGDS_NHPI   0.12645680  0.12715281 -0.110625679 -0.23478316 -0.09305166
+UGDS_2MOR  -0.18566862 -0.07329989  0.081722704 -0.22013193 -0.14969209
+UGDS_NRA   -0.49651957 -0.49331119  0.134164011 -0.43163020 -0.14402932
+UGDS_UNKN   0.12468835 -0.06954490 -0.160381169 -0.11075979  0.09848920
+COSTT4_A   -0.27201291 -0.39542952 -0.399352302 -0.10211526 -0.13963709
+AVGFACSAL  -0.67884995 -0.54446346  0.402805784 -0.41911320 -0.19451551
+PCTPELL     0.46940406  0.16134621 -0.004582988 -0.41620068  0.43887177
+C150_4     -0.71312844 -0.54497143  0.256601953 -0.06125451 -0.34780462
+AGE_ENTRY   0.33594483  0.17235239 -0.162201749 -0.08913984  0.26811304
+FEMALE      0.27419222  0.08003102 -0.148767400 -0.10047002  0.28974253
+MARRIED     0.32025327  0.21349289 -0.171546763  0.06383986  0.11915344
+FIRST_GEN   0.46656396  0.19607810  0.090481491 -0.41237256  0.23360962
+FAMINC     -0.38641500 -0.14934262 -0.096405796  0.35970108 -0.36986066
+MD_FAMINC  -0.25315577 -0.01824658 -0.139119041  0.47206739 -0.37101413
+ENDOWBEGIN -0.42876775 -0.45736752  0.154630245 -0.15147671 -0.04736168
+SAT_AVG    -0.77583307 -0.63940640  0.245209865 -0.08972800 -0.26404757
+ACTCMMID   -0.76355860 -0.63153571  0.249962915 -0.11713680 -0.25954980
+              UGDS_HISP  UGDS_ASIAN   UGDS_AIAN   UGDS_NHPI   UGDS_2MOR
+rank        0.060888042 -0.39331243  0.11795028  0.12645680 -0.18566862
+ADM_RATE   -0.050618921 -0.40384619  0.17913675  0.12715281 -0.07329989
+UGDS        0.212860347  0.27725207 -0.16068031 -0.11062568  0.08172270
+UGDS_WHITE -0.687710668 -0.67361549  0.08665457 -0.23478316 -0.22013193
+UGDS_BLACK -0.100774830 -0.11365497  0.03043630 -0.09305166 -0.14969209
+UGDS_HISP   1.000000000  0.24575670 -0.04364226  0.14273237 -0.01469618
+UGDS_ASIAN  0.245756700  1.00000000 -0.26197321  0.21150773  0.37701662
+UGDS_AIAN  -0.043642260 -0.26197321  1.00000000  0.06345218  0.03146234
+UGDS_NHPI   0.142732370  0.21150773  0.06345218  1.00000000  0.55887232
+UGDS_2MOR  -0.014696180  0.37701662  0.03146234  0.55887232  1.00000000
+UGDS_NRA    0.064632873  0.52849739 -0.10586031 -0.02336233  0.14261390
+UGDS_UNKN  -0.084633497 -0.05960927  0.17481580  0.13663767 -0.12952589
+COSTT4_A   -0.062775569  0.19126151 -0.13825344  0.08052838  0.14802591
+AVGFACSAL   0.139714650  0.68470223 -0.26452394 -0.07628978  0.28339742
+PCTPELL     0.431923392 -0.01032507  0.09457201  0.09949715 -0.14408477
+C150_4     -0.108763323  0.45471742 -0.32412112 -0.09974923  0.22735214
+AGE_ENTRY   0.072794184 -0.18533513  0.24168029  0.10337964 -0.13538674
+FEMALE      0.083839108 -0.11124592  0.01817602  0.12808848 -0.07074307
+MARRIED     0.005150736 -0.29132180  0.28035454  0.14874255 -0.12070222
+FIRST_GEN   0.488096995  0.05213983  0.12355126  0.12071486 -0.11866761
+FAMINC     -0.324789371 -0.00848595 -0.20062818 -0.08806082  0.10210101
+MD_FAMINC  -0.369909770 -0.12893261 -0.17629734 -0.09976770  0.02024661
+ENDOWBEGIN -0.036801744  0.28350391 -0.09306727 -0.07324690  0.12265683
+SAT_AVG    -0.188110571  0.47802457 -0.22052555 -0.17776538  0.22291077
+ACTCMMID   -0.151395293  0.49528806 -0.26165034 -0.17016352  0.22241190
+               UGDS_NRA   UGDS_UNKN    COSTT4_A   AVGFACSAL      PCTPELL
+rank       -0.496519574  0.12468835 -0.27201291 -0.67884995  0.469404062
+ADM_RATE   -0.493311190 -0.06954490 -0.39542952 -0.54446346  0.161346206
+UGDS        0.134164011 -0.16038117 -0.39935230  0.40280578 -0.004582988
+UGDS_WHITE -0.431630203 -0.11075979 -0.10211526 -0.41911320 -0.416200685
+UGDS_BLACK -0.144029321  0.09848920 -0.13963709 -0.19451551  0.438871767
+UGDS_HISP   0.064632873 -0.08463350 -0.06277557  0.13971465  0.431923392
+UGDS_ASIAN  0.528497395 -0.05960927  0.19126151  0.68470223 -0.010325074
+UGDS_AIAN  -0.105860306  0.17481580 -0.13825344 -0.26452394  0.094572008
+UGDS_NHPI  -0.023362327  0.13663767  0.08052838 -0.07628978  0.099497148
+UGDS_2MOR   0.142613903 -0.12952589  0.14802591  0.28339742 -0.144084773
+UGDS_NRA    1.000000000 -0.02202044  0.39117551  0.57951265 -0.217249605
+UGDS_UNKN  -0.022020438  1.00000000  0.14333114 -0.14880986  0.060980677
+COSTT4_A    0.391175508  0.14333114  1.00000000  0.29925013 -0.414976403
+AVGFACSAL   0.579512648 -0.14880986  0.29925013  1.00000000 -0.325259180
+PCTPELL    -0.217249605  0.06098068 -0.41497640 -0.32525918  1.000000000
+C150_4      0.448847745 -0.12573459  0.51885861  0.69996095 -0.614838516
+AGE_ENTRY  -0.156547317  0.26458822 -0.15630962 -0.39697205  0.390816106
+FEMALE     -0.191413253  0.07108273  0.07786231 -0.28583977  0.236382634
+MARRIED    -0.155058049  0.25540588 -0.14150148 -0.43828058  0.297519303
+FIRST_GEN  -0.143496145  0.10891594 -0.44633708 -0.25433217  0.773780304
+FAMINC      0.115213925 -0.08558544  0.55168946  0.28485459 -0.808684209
+MD_FAMINC  -0.005336392 -0.06322403  0.41791836  0.11871071 -0.743356969
+ENDOWBEGIN  0.301195201 -0.00942274  0.27614897  0.54928480 -0.267908380
+SAT_AVG     0.563254839 -0.10426007  0.47594107  0.76264385 -0.611136387
+ACTCMMID    0.550263194 -0.11065347  0.48880809  0.77175728 -0.594722193
+                C150_4   AGE_ENTRY      FEMALE      MARRIED   FIRST_GEN
+rank       -0.71312844  0.33594483  0.27419222  0.320253267  0.46656396
+ADM_RATE   -0.54497143  0.17235239  0.08003102  0.213492887  0.19607810
+UGDS        0.25660195 -0.16220175 -0.14876740 -0.171546763  0.09048149
+UGDS_WHITE -0.06125451 -0.08913984 -0.10047002  0.063839862 -0.41237256
+UGDS_BLACK -0.34780462  0.26811304  0.28974253  0.119153444  0.23360962
+UGDS_HISP  -0.10876332  0.07279418  0.08383911  0.005150736  0.48809700
+UGDS_ASIAN  0.45471742 -0.18533513 -0.11124592 -0.291321796  0.05213983
+UGDS_AIAN  -0.32412112  0.24168029  0.01817602  0.280354542  0.12355126
+UGDS_NHPI  -0.09974923  0.10337964  0.12808848  0.148742546  0.12071486
+UGDS_2MOR   0.22735214 -0.13538674 -0.07074307 -0.120702222 -0.11866761
+UGDS_NRA    0.44884775 -0.15654732 -0.19141325 -0.155058049 -0.14349614
+UGDS_UNKN  -0.12573459  0.26458822  0.07108273  0.255405883  0.10891594
+COSTT4_A    0.51885861 -0.15630962  0.07786231 -0.141501478 -0.44633708
+AVGFACSAL   0.69996095 -0.39697205 -0.28583977 -0.438280576 -0.25433217
+PCTPELL    -0.61483852  0.39081611  0.23638263  0.297519303  0.77378030
+C150_4      1.00000000 -0.53533896 -0.21092483 -0.515393805 -0.62546593
+AGE_ENTRY  -0.53533896  1.00000000  0.31853556  0.905880210  0.60445727
+FEMALE     -0.21092483  0.31853556  1.00000000  0.188369809  0.25388999
+MARRIED    -0.51539381  0.90588021  0.18836981  1.000000000  0.49235622
+FIRST_GEN  -0.62546593  0.60445727  0.25388999  0.492356219  1.00000000
+FAMINC      0.66505515 -0.59313364 -0.16567718 -0.501591397 -0.86035196
+MD_FAMINC   0.54512168 -0.57577400 -0.17498690 -0.467077746 -0.82787768
+ENDOWBEGIN  0.43116409 -0.12698433 -0.10526328 -0.143313826 -0.21424110
+SAT_AVG     0.83893042 -0.42934991 -0.35175044 -0.392443726 -0.58094594
+ACTCMMID    0.84938484 -0.42012958 -0.33371579 -0.401684828 -0.56191506
+                FAMINC    MD_FAMINC  ENDOWBEGIN    SAT_AVG   ACTCMMID
+rank       -0.38641500 -0.253155766 -0.42876775 -0.7758331 -0.7635586
+ADM_RATE   -0.14934262 -0.018246578 -0.45736752 -0.6394064 -0.6315357
+UGDS       -0.09640580 -0.139119041  0.15463024  0.2452099  0.2499629
+UGDS_WHITE  0.35970108  0.472067395 -0.15147671 -0.0897280 -0.1171368
+UGDS_BLACK -0.36986066 -0.371014127 -0.04736168 -0.2640476 -0.2595498
+UGDS_HISP  -0.32478937 -0.369909770 -0.03680174 -0.1881106 -0.1513953
+UGDS_ASIAN -0.00848595 -0.128932605  0.28350391  0.4780246  0.4952881
+UGDS_AIAN  -0.20062818 -0.176297336 -0.09306727 -0.2205256 -0.2616503
+UGDS_NHPI  -0.08806082 -0.099767705 -0.07324690 -0.1777654 -0.1701635
+UGDS_2MOR   0.10210101  0.020246610  0.12265683  0.2229108  0.2224119
+UGDS_NRA    0.11521393 -0.005336392  0.30119520  0.5632548  0.5502632
+UGDS_UNKN  -0.08558544 -0.063224032 -0.00942274 -0.1042601 -0.1106535
+COSTT4_A    0.55168946  0.417918361  0.27614897  0.4759411  0.4888081
+AVGFACSAL   0.28485459  0.118710709  0.54928480  0.7626439  0.7717573
+PCTPELL    -0.80868421 -0.743356969 -0.26790838 -0.6111364 -0.5947222
+C150_4      0.66505515  0.545121675  0.43116409  0.8389304  0.8493848
+AGE_ENTRY  -0.59313364 -0.575773997 -0.12698433 -0.4293499 -0.4201296
+FEMALE     -0.16567718 -0.174986896 -0.10526328 -0.3517504 -0.3337158
+MARRIED    -0.50159140 -0.467077746 -0.14331383 -0.3924437 -0.4016848
+FIRST_GEN  -0.86035196 -0.827877679 -0.21424110 -0.5809459 -0.5619151
+FAMINC      1.00000000  0.953776865  0.12627169  0.5166777  0.5293122
+MD_FAMINC   0.95377686  1.000000000  0.02248495  0.3655955  0.3797142
+ENDOWBEGIN  0.12627169  0.022484950  1.00000000  0.5068186  0.4727271
+SAT_AVG     0.51667773  0.365595535  0.50681864  1.0000000  0.9756007
+ACTCMMID    0.52931217  0.379714229  0.47272714  0.9756007  1.0000000
+```
+:::
+:::</code></pre>
+<p>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value &gt; 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data_for_corr <span class="ot">&lt;-</span> scaled_data <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(is.numeric)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>correlations <span class="ot">=</span> data_for_corr <span class="sc">|&gt;</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">"NPT4_PUB"</span>, <span class="st">"NPT4_PRIV"</span>, <span class="st">"COSTT4_P"</span>, <span class="st">"SATWRMID"</span>, <span class="st">"SATVRMID"</span>, <span class="st">"SATMTMID"</span>, <span class="st">"ACTENMID"</span>, <span class="st">"ACTMTMID"</span>, <span class="st">"ACTWRMID"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">na.omit</span>() <span class="sc">|&gt;</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cor</span>() </span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>correlations <span class="sc">|&gt;</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">corrplot</span>(<span class="at">method=</span><span class="st">"color"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>correlations[correlations <span class="sc">&lt;</span> <span class="fl">0.8</span> <span class="sc">|</span> correlations <span class="sc">==</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">""</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>correlations <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/correlation-matrix-1.png" class="img-fluid" width="672"></p>
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">rank</th>
+<th style="text-align: left;">ADM_RATE</th>
+<th style="text-align: left;">UGDS</th>
+<th style="text-align: left;">UGDS_WHITE</th>
+<th style="text-align: left;">UGDS_BLACK</th>
+<th style="text-align: left;">UGDS_HISP</th>
+<th style="text-align: left;">UGDS_ASIAN</th>
+<th style="text-align: left;">UGDS_AIAN</th>
+<th style="text-align: left;">UGDS_NHPI</th>
+<th style="text-align: left;">UGDS_2MOR</th>
+<th style="text-align: left;">UGDS_NRA</th>
+<th style="text-align: left;">UGDS_UNKN</th>
+<th style="text-align: left;">COSTT4_A</th>
+<th style="text-align: left;">AVGFACSAL</th>
+<th style="text-align: left;">PCTPELL</th>
+<th style="text-align: left;">C150_4</th>
+<th style="text-align: left;">AGE_ENTRY</th>
+<th style="text-align: left;">FEMALE</th>
+<th style="text-align: left;">MARRIED</th>
+<th style="text-align: left;">FIRST_GEN</th>
+<th style="text-align: left;">FAMINC</th>
+<th style="text-align: left;">MD_FAMINC</th>
+<th style="text-align: left;">ENDOWBEGIN</th>
+<th style="text-align: left;">SAT_AVG</th>
+<th style="text-align: left;">ACTCMMID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">rank</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_WHITE</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_BLACK</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_HISP</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_ASIAN</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_AIAN</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_NHPI</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_2MOR</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_NRA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_UNKN</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">COSTT4_A</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PCTPELL</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C150_4</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.83893042183357</td>
+<td style="text-align: left;">0.849384841586927</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.905880209781912</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FEMALE</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MARRIED</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.905880209781912</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FIRST_GEN</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FAMINC</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.953776864530003</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MD_FAMINC</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.953776864530003</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ENDOWBEGIN</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.83893042183357</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.975600694502382</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ACTCMMID</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.849384841586927</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.975600694502382</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>correlations[correlations <span class="sc">&lt;</span> <span class="fl">0.8</span> <span class="sc">|</span> correlations <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">""</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>correlations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>           rank ADM_RATE UGDS UGDS_WHITE UGDS_BLACK UGDS_HISP UGDS_ASIAN
-rank       ""   ""       ""   ""         ""         ""        ""        
-ADM_RATE   ""   ""       ""   ""         ""         ""        ""        
-UGDS       ""   ""       ""   ""         ""         ""        ""        
-UGDS_WHITE ""   ""       ""   ""         ""         ""        ""        
-UGDS_BLACK ""   ""       ""   ""         ""         ""        ""        
-UGDS_HISP  ""   ""       ""   ""         ""         ""        ""        
-UGDS_ASIAN ""   ""       ""   ""         ""         ""        ""        
-UGDS_AIAN  ""   ""       ""   ""         ""         ""        ""        
-UGDS_NHPI  ""   ""       ""   ""         ""         ""        ""        
-UGDS_2MOR  ""   ""       ""   ""         ""         ""        ""        
-UGDS_NRA   ""   ""       ""   ""         ""         ""        ""        
-UGDS_UNKN  ""   ""       ""   ""         ""         ""        ""        
-COSTT4_A   ""   ""       ""   ""         ""         ""        ""        
-AVGFACSAL  ""   ""       ""   ""         ""         ""        ""        
-PCTPELL    ""   ""       ""   ""         ""         ""        ""        
-C150_4     ""   ""       ""   ""         ""         ""        ""        
-AGE_ENTRY  ""   ""       ""   ""         ""         ""        ""        
-FEMALE     ""   ""       ""   ""         ""         ""        ""        
-MARRIED    ""   ""       ""   ""         ""         ""        ""        
-FIRST_GEN  ""   ""       ""   ""         ""         ""        ""        
-FAMINC     ""   ""       ""   ""         ""         ""        ""        
-MD_FAMINC  ""   ""       ""   ""         ""         ""        ""        
-ENDOWBEGIN ""   ""       ""   ""         ""         ""        ""        
-SAT_AVG    ""   ""       ""   ""         ""         ""        ""        
-ACTCMMID   ""   ""       ""   ""         ""         ""        ""        
-           UGDS_AIAN UGDS_NHPI UGDS_2MOR UGDS_NRA UGDS_UNKN COSTT4_A AVGFACSAL
-rank       ""        ""        ""        ""       ""        ""       ""       
-ADM_RATE   ""        ""        ""        ""       ""        ""       ""       
-UGDS       ""        ""        ""        ""       ""        ""       ""       
-UGDS_WHITE ""        ""        ""        ""       ""        ""       ""       
-UGDS_BLACK ""        ""        ""        ""       ""        ""       ""       
-UGDS_HISP  ""        ""        ""        ""       ""        ""       ""       
-UGDS_ASIAN ""        ""        ""        ""       ""        ""       ""       
-UGDS_AIAN  ""        ""        ""        ""       ""        ""       ""       
-UGDS_NHPI  ""        ""        ""        ""       ""        ""       ""       
-UGDS_2MOR  ""        ""        ""        ""       ""        ""       ""       
-UGDS_NRA   ""        ""        ""        ""       ""        ""       ""       
-UGDS_UNKN  ""        ""        ""        ""       ""        ""       ""       
-COSTT4_A   ""        ""        ""        ""       ""        ""       ""       
-AVGFACSAL  ""        ""        ""        ""       ""        ""       ""       
-PCTPELL    ""        ""        ""        ""       ""        ""       ""       
-C150_4     ""        ""        ""        ""       ""        ""       ""       
-AGE_ENTRY  ""        ""        ""        ""       ""        ""       ""       
-FEMALE     ""        ""        ""        ""       ""        ""       ""       
-MARRIED    ""        ""        ""        ""       ""        ""       ""       
-FIRST_GEN  ""        ""        ""        ""       ""        ""       ""       
-FAMINC     ""        ""        ""        ""       ""        ""       ""       
-MD_FAMINC  ""        ""        ""        ""       ""        ""       ""       
-ENDOWBEGIN ""        ""        ""        ""       ""        ""       ""       
-SAT_AVG    ""        ""        ""        ""       ""        ""       ""       
-ACTCMMID   ""        ""        ""        ""       ""        ""       ""       
-           PCTPELL C150_4              AGE_ENTRY           FEMALE
-rank       ""      ""                  ""                  ""    
-ADM_RATE   ""      ""                  ""                  ""    
-UGDS       ""      ""                  ""                  ""    
-UGDS_WHITE ""      ""                  ""                  ""    
-UGDS_BLACK ""      ""                  ""                  ""    
-UGDS_HISP  ""      ""                  ""                  ""    
-UGDS_ASIAN ""      ""                  ""                  ""    
-UGDS_AIAN  ""      ""                  ""                  ""    
-UGDS_NHPI  ""      ""                  ""                  ""    
-UGDS_2MOR  ""      ""                  ""                  ""    
-UGDS_NRA   ""      ""                  ""                  ""    
-UGDS_UNKN  ""      ""                  ""                  ""    
-COSTT4_A   ""      ""                  ""                  ""    
-AVGFACSAL  ""      ""                  ""                  ""    
-PCTPELL    ""      ""                  ""                  ""    
-C150_4     ""      ""                  ""                  ""    
-AGE_ENTRY  ""      ""                  ""                  ""    
-FEMALE     ""      ""                  ""                  ""    
-MARRIED    ""      ""                  "0.905880209781912" ""    
-FIRST_GEN  ""      ""                  ""                  ""    
-FAMINC     ""      ""                  ""                  ""    
-MD_FAMINC  ""      ""                  ""                  ""    
-ENDOWBEGIN ""      ""                  ""                  ""    
-SAT_AVG    ""      "0.83893042183357"  ""                  ""    
-ACTCMMID   ""      "0.849384841586927" ""                  ""    
-           MARRIED             FIRST_GEN FAMINC             
-rank       ""                  ""        ""                 
-ADM_RATE   ""                  ""        ""                 
-UGDS       ""                  ""        ""                 
-UGDS_WHITE ""                  ""        ""                 
-UGDS_BLACK ""                  ""        ""                 
-UGDS_HISP  ""                  ""        ""                 
-UGDS_ASIAN ""                  ""        ""                 
-UGDS_AIAN  ""                  ""        ""                 
-UGDS_NHPI  ""                  ""        ""                 
-UGDS_2MOR  ""                  ""        ""                 
-UGDS_NRA   ""                  ""        ""                 
-UGDS_UNKN  ""                  ""        ""                 
-COSTT4_A   ""                  ""        ""                 
-AVGFACSAL  ""                  ""        ""                 
-PCTPELL    ""                  ""        ""                 
-C150_4     ""                  ""        ""                 
-AGE_ENTRY  "0.905880209781912" ""        ""                 
-FEMALE     ""                  ""        ""                 
-MARRIED    ""                  ""        ""                 
-FIRST_GEN  ""                  ""        ""                 
-FAMINC     ""                  ""        ""                 
-MD_FAMINC  ""                  ""        "0.953776864530003"
-ENDOWBEGIN ""                  ""        ""                 
-SAT_AVG    ""                  ""        ""                 
-ACTCMMID   ""                  ""        ""                 
-           MD_FAMINC           ENDOWBEGIN SAT_AVG            
-rank       ""                  ""         ""                 
-ADM_RATE   ""                  ""         ""                 
-UGDS       ""                  ""         ""                 
-UGDS_WHITE ""                  ""         ""                 
-UGDS_BLACK ""                  ""         ""                 
-UGDS_HISP  ""                  ""         ""                 
-UGDS_ASIAN ""                  ""         ""                 
-UGDS_AIAN  ""                  ""         ""                 
-UGDS_NHPI  ""                  ""         ""                 
-UGDS_2MOR  ""                  ""         ""                 
-UGDS_NRA   ""                  ""         ""                 
-UGDS_UNKN  ""                  ""         ""                 
-COSTT4_A   ""                  ""         ""                 
-AVGFACSAL  ""                  ""         ""                 
-PCTPELL    ""                  ""         ""                 
-C150_4     ""                  ""         "0.83893042183357" 
-AGE_ENTRY  ""                  ""         ""                 
-FEMALE     ""                  ""         ""                 
-MARRIED    ""                  ""         ""                 
-FIRST_GEN  ""                  ""         ""                 
-FAMINC     "0.953776864530003" ""         ""                 
-MD_FAMINC  ""                  ""         ""                 
-ENDOWBEGIN ""                  ""         ""                 
-SAT_AVG    ""                  ""         ""                 
-ACTCMMID   ""                  ""         "0.975600694502382"
-           ACTCMMID           
-rank       ""                 
-ADM_RATE   ""                 
-UGDS       ""                 
-UGDS_WHITE ""                 
-UGDS_BLACK ""                 
-UGDS_HISP  ""                 
-UGDS_ASIAN ""                 
-UGDS_AIAN  ""                 
-UGDS_NHPI  ""                 
-UGDS_2MOR  ""                 
-UGDS_NRA   ""                 
-UGDS_UNKN  ""                 
-COSTT4_A   ""                 
-AVGFACSAL  ""                 
-PCTPELL    ""                 
-C150_4     "0.849384841586927"
-AGE_ENTRY  ""                 
-FEMALE     ""                 
-MARRIED    ""                 
-FIRST_GEN  ""                 
-FAMINC     ""                 
-MD_FAMINC  ""                 
-ENDOWBEGIN ""                 
-SAT_AVG    "0.975600694502382"
-ACTCMMID   ""                 </code></pre>
 </div>
-</div></li>
-</ol>
-<p>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value &gt; 0.8).</p>
-<p>The second output sections only shows the correlation entries with a value greater than 0.8. These variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.</p>
+<p>Accoridng to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.</p>
 </section>
-<section id="build-model-iterations" class="level3">
-<h3 class="anchored" data-anchor-id="build-model-iterations">Build model (Iterations)</h3>
-<ol type="1">
-<li>We began our modeling by putting all of our chosen variables into a model</li>
-</ol>
+<section id="build-model" class="level3">
+<h3 class="anchored" data-anchor-id="build-model">Build model</h3>
+<p>We began our modeling by putting all of our chosen variables into a model</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data_set <span class="ot">&lt;-</span> scaled_data <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"ADM_RATE"</span>, <span class="st">"UGDS"</span>, <span class="st">"UGDS_WHITE"</span>, <span class="st">"UGDS_BLACK"</span>, <span class="st">"UGDS_HISP"</span>, <span class="st">"UGDS_ASIAN"</span>, <span class="st">"UGDS_AIAN"</span>, <span class="st">"UGDS_NHPI"</span>, <span class="st">"UGDS_2MOR"</span>, <span class="st">"UGDS_NRA"</span>, <span class="st">"UGDS_UNKN"</span>, <span class="st">"COSTT4_A"</span>, <span class="st">"AVGFACSAL"</span>, <span class="st">"PCTPELL"</span>, <span class="st">"AGE_ENTRY"</span>, <span class="st">"FAMINC"</span>, <span class="st">"ENDOWBEGIN"</span>, <span class="st">"SAT_AVG"</span>, <span class="st">"rank"</span>, <span class="st">"REGION"</span>, <span class="st">"CONTROL"</span>, <span class="st">"CCBASIC"</span>, <span class="st">"college"</span>, <span class="st">"ACCREDAGENCY"</span>, <span class="st">"FEMALE"</span>, <span class="st">"MARRIED"</span>, <span class="st">"FIRST_GEN"</span>))</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>data_set <span class="ot">&lt;-</span> scaled_data <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"ADM_RATE"</span>, <span class="st">"UGDS"</span>, <span class="st">"UGDS_WHITE"</span>, <span class="st">"UGDS_BLACK"</span>, <span class="st">"UGDS_HISP"</span>, <span class="st">"UGDS_ASIAN"</span>, <span class="st">"UGDS_AIAN"</span>, <span class="st">"UGDS_NHPI"</span>, <span class="st">"UGDS_2MOR"</span>, <span class="st">"UGDS_NRA"</span>, <span class="st">"UGDS_UNKN"</span>, <span class="st">"COSTT4_A"</span>, <span class="st">"AVGFACSAL"</span>, <span class="st">"PCTPELL"</span>, <span class="st">"AGE_ENTRY"</span>, <span class="st">"FAMINC"</span>, <span class="st">"ENDOWBEGIN"</span>, <span class="st">"SAT_AVG"</span>, <span class="st">"rank"</span>, <span class="st">"REGION"</span>, <span class="st">"CONTROL"</span>, <span class="st">"CCBASIC"</span>, <span class="st">"college"</span>, <span class="st">"ACCREDAGENCY"</span>, <span class="st">"FEMALE"</span>, <span class="st">"MARRIED"</span>, <span class="st">"FIRST_GEN"</span>))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 498
 Columns: 27
@@ -1607,104 +2299,497 @@ $ MARRIED      &lt;dbl&gt; NA, NA, -0.1349421, NA, NA, NA, NA, -0.4499128, NA, -
 $ FIRST_GEN    &lt;dbl&gt; -0.003238281, 0.451202521, -0.017754405, -0.089464046, 0.…</code></pre>
 </div>
 </div>
+<p>Then we need to split dataset into two parts: a training and a test set. We will use 80% of the college data for trainning our model and the rest 20% for testing our model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data_set_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(rank <span class="sc">~</span> ADM_RATE <span class="sc">+</span> UGDS <span class="sc">+</span> UGDS_WHITE <span class="sc">+</span> UGDS_BLACK <span class="sc">+</span> UGDS_HISP <span class="sc">+</span> UGDS_ASIAN <span class="sc">+</span> UGDS_AIAN <span class="sc">+</span> UGDS_NHPI <span class="sc">+</span> UGDS_2MOR <span class="sc">+</span> UGDS_NRA <span class="sc">+</span> UGDS_UNKN <span class="sc">+</span> COSTT4_A <span class="sc">+</span> AVGFACSAL <span class="sc">+</span> PCTPELL <span class="sc">+</span> AGE_ENTRY <span class="sc">+</span> FAMINC <span class="sc">+</span> ENDOWBEGIN <span class="sc">+</span> SAT_AVG <span class="sc">+</span> rank, <span class="at">data =</span> data_set)</span>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">777</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Build training data set</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> data_set <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_frac</span>(.<span class="dv">80</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Build testing data set</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(data_set, train, <span class="at">by =</span> <span class="st">'rank'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="iteration-0" class="level4">
+<h4 class="anchored" data-anchor-id="iteration-0">Iteration #0</h4>
+<p>We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(rank <span class="sc">~</span> ADM_RATE <span class="sc">+</span> UGDS <span class="sc">+</span> UGDS_WHITE <span class="sc">+</span> UGDS_BLACK <span class="sc">+</span> UGDS_HISP <span class="sc">+</span> UGDS_ASIAN <span class="sc">+</span> UGDS_AIAN <span class="sc">+</span> UGDS_NHPI <span class="sc">+</span> UGDS_2MOR <span class="sc">+</span> UGDS_NRA <span class="sc">+</span> UGDS_UNKN <span class="sc">+</span> COSTT4_A <span class="sc">+</span> AVGFACSAL <span class="sc">+</span> PCTPELL <span class="sc">+</span> AGE_ENTRY <span class="sc">+</span> FAMINC <span class="sc">+</span> ENDOWBEGIN <span class="sc">+</span> SAT_AVG , <span class="at">data =</span> train)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(data_set_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 19 × 5
-   term        estimate std.error statistic   p.value
-   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
- 1 (Intercept)   241.        4.13    58.4   1.50e-195
- 2 ADM_RATE       37.3       6.68     5.58  4.49e-  8
- 3 UGDS          -37.3       5.76    -6.47  2.92e- 10
- 4 UGDS_WHITE   8186.     9025.       0.907 3.65e-  1
- 5 UGDS_BLACK   3456.     3809.       0.907 3.65e-  1
- 6 UGDS_HISP    4816.     5306.       0.907 3.65e-  1
- 7 UGDS_ASIAN   3466.     3812.       0.909 3.64e-  1
- 8 UGDS_AIAN    1439.     1682.       0.856 3.93e-  1
- 9 UGDS_NHPI     120.      143.       0.842 4.00e-  1
-10 UGDS_2MOR    1076.     1182.       0.910 3.63e-  1
-11 UGDS_NRA     2267.     2510.       0.903 3.67e-  1
-12 UGDS_UNKN    1325.     1453.       0.912 3.62e-  1
-13 COSTT4_A        4.61      8.54     0.540 5.89e-  1
-14 AVGFACSAL     -18.3       8.08    -2.26  2.41e-  2
-15 PCTPELL         4.50      9.36     0.481 6.31e-  1
-16 AGE_ENTRY      -7.70      6.65    -1.16  2.47e-  1
-17 FAMINC        -20.2      10.6     -1.91  5.75e-  2
-18 ENDOWBEGIN      2.58      4.92     0.523 6.01e-  1
-19 SAT_AVG       -70.6      10.7     -6.60  1.32e- 10</code></pre>
-</div>
-</div>
-<ol type="1">
-<li><p>We created a model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college. At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the `SAT_AVG`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.</p></li>
-<li><p>We then removed variables with the lowest slope coefficients until we get the best adjusted r-squared for the overall models.</p></li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>data_set_fit_true <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(rank <span class="sc">~</span> ADM_RATE <span class="sc">+</span> UGDS <span class="sc">+</span> UGDS_WHITE <span class="sc">+</span> UGDS_BLACK <span class="sc">+</span> UGDS_HISP <span class="sc">+</span> UGDS_ASIAN <span class="sc">+</span> UGDS_AIAN <span class="sc">+</span> UGDS_NHPI <span class="sc">+</span> UGDS_2MOR <span class="sc">+</span> UGDS_NRA <span class="sc">+</span> UGDS_UNKN <span class="sc">+</span> AVGFACSAL <span class="sc">+</span> PCTPELL <span class="sc">+</span> SAT_AVG <span class="sc">+</span> rank, <span class="at">data =</span> data_set)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(data_set_fit_true)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 15 × 5
-   term        estimate std.error statistic   p.value
-   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
- 1 (Intercept)    242.       4.10     59.0  9.64e-200
- 2 ADM_RATE        36.3      6.52      5.58 4.52e-  8
- 3 UGDS           -36.8      4.25     -8.67 1.08e- 16
- 4 UGDS_WHITE    9986.    8978.        1.11 2.67e-  1
- 5 UGDS_BLACK    4216.    3790.        1.11 2.67e-  1
- 6 UGDS_HISP     5873.    5279.        1.11 2.67e-  1
- 7 UGDS_ASIAN    4226.    3793.        1.11 2.66e-  1
- 8 UGDS_AIAN     1784.    1673.        1.07 2.87e-  1
- 9 UGDS_NHPI      149.     142.        1.05 2.96e-  1
-10 UGDS_2MOR     1313.    1176.        1.12 2.65e-  1
-11 UGDS_NRA      2769.    2497.        1.11 2.68e-  1
-12 UGDS_UNKN     1615.    1445.        1.12 2.64e-  1
-13 AVGFACSAL      -17.1      7.25     -2.36 1.87e-  2
-14 PCTPELL         18.2      6.97      2.62 9.23e-  3
-15 SAT_AVG        -67.7      9.89     -6.84 2.96e- 11</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(data_set_fit_true)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 12
-  r.squared adj.r.squ…¹ sigma stati…²   p.value    df logLik   AIC   BIC devia…³
-      &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-1     0.720       0.711  77.9    73.8 1.60e-101    14 -2395. 4821. 4886.  2.44e6
-# … with 2 more variables: df.residual &lt;int&gt;, nobs &lt;int&gt;, and abbreviated
-#   variable names ¹​adj.r.squared, ²​statistic, ³​deviance</code></pre>
-</div>
-</div>
-<p>These were variables that had a slope with an absolute value less than 10 because that would mean that they have less of an impact on ranking than other variables.</p>
-<ol type="1">
-<li>Then, by looking at the slope coefficients of the variables in the model, we determined that the one with the highest slope is the most significant.</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data_set <span class="sc">|&gt;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> UGDS_WHITE, <span class="at">y =</span> rank, <span class="at">color =</span> REGION)) <span class="sc">+</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Proportion of White-Identifying Undergraduate Students"</span> ,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"School Ranking"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit1) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<<<<<<< HEAD
-<p><img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
-=======
-<p><img src="report_files/figure-html/ggplot-example-variable-ugds-white-1.png" class="img-fluid" width="672"></p>
->>>>>>> f6069634704c77a67189fee8de5c2e942e0bcea3
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">246.2027925</td>
+<td style="text-align: right;">4.703871</td>
+<td style="text-align: right;">52.3404663</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">35.6018194</td>
+<td style="text-align: right;">7.629838</td>
+<td style="text-align: right;">4.6661307</td>
+<td style="text-align: right;">0.0000046</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">-41.1973274</td>
+<td style="text-align: right;">6.928463</td>
+<td style="text-align: right;">-5.9460994</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_WHITE</td>
+<td style="text-align: right;">10732.7749048</td>
+<td style="text-align: right;">10599.772816</td>
+<td style="text-align: right;">1.0125476</td>
+<td style="text-align: right;">0.3120710</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_BLACK</td>
+<td style="text-align: right;">4533.2629889</td>
+<td style="text-align: right;">4474.426742</td>
+<td style="text-align: right;">1.0131494</td>
+<td style="text-align: right;">0.3117840</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_HISP</td>
+<td style="text-align: right;">6313.6053442</td>
+<td style="text-align: right;">6232.516748</td>
+<td style="text-align: right;">1.0130106</td>
+<td style="text-align: right;">0.3118502</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_ASIAN</td>
+<td style="text-align: right;">4541.8380285</td>
+<td style="text-align: right;">4477.565288</td>
+<td style="text-align: right;">1.0143544</td>
+<td style="text-align: right;">0.3112098</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_AIAN</td>
+<td style="text-align: right;">1926.4404448</td>
+<td style="text-align: right;">1973.880100</td>
+<td style="text-align: right;">0.9759663</td>
+<td style="text-align: right;">0.3298471</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_NHPI</td>
+<td style="text-align: right;">163.9398183</td>
+<td style="text-align: right;">167.303350</td>
+<td style="text-align: right;">0.9798956</td>
+<td style="text-align: right;">0.3279067</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_2MOR</td>
+<td style="text-align: right;">1407.8496454</td>
+<td style="text-align: right;">1388.644877</td>
+<td style="text-align: right;">1.0138299</td>
+<td style="text-align: right;">0.3114597</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_NRA</td>
+<td style="text-align: right;">2973.0798562</td>
+<td style="text-align: right;">2948.226876</td>
+<td style="text-align: right;">1.0084298</td>
+<td style="text-align: right;">0.3140397</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_UNKN</td>
+<td style="text-align: right;">1735.7967205</td>
+<td style="text-align: right;">1705.950405</td>
+<td style="text-align: right;">1.0174954</td>
+<td style="text-align: right;">0.3097164</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">COSTT4_A</td>
+<td style="text-align: right;">0.8428333</td>
+<td style="text-align: right;">10.525477</td>
+<td style="text-align: right;">0.0800755</td>
+<td style="text-align: right;">0.9362292</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">-19.8005704</td>
+<td style="text-align: right;">8.998855</td>
+<td style="text-align: right;">-2.2003434</td>
+<td style="text-align: right;">0.0285247</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PCTPELL</td>
+<td style="text-align: right;">2.8162537</td>
+<td style="text-align: right;">10.541378</td>
+<td style="text-align: right;">0.2671618</td>
+<td style="text-align: right;">0.7895234</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: right;">-12.0862558</td>
+<td style="text-align: right;">7.334480</td>
+<td style="text-align: right;">-1.6478682</td>
+<td style="text-align: right;">0.1003994</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FAMINC</td>
+<td style="text-align: right;">-22.9537106</td>
+<td style="text-align: right;">11.800114</td>
+<td style="text-align: right;">-1.9452109</td>
+<td style="text-align: right;">0.0526593</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ENDOWBEGIN</td>
+<td style="text-align: right;">1.3023057</td>
+<td style="text-align: right;">6.035923</td>
+<td style="text-align: right;">0.2157592</td>
+<td style="text-align: right;">0.8293183</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">-67.4876184</td>
+<td style="text-align: right;">12.876049</td>
+<td style="text-align: right;">-5.2413296</td>
+<td style="text-align: right;">0.0000003</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
+<p>At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the `SAT_AVG`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.</p>
+<p>Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around 0.3, which is much greater than 0.05. Therefore, we need to drop these variables for the next model iteration.</p>
+<p>Then we can evaluation our first primitive model by Rsqure:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>test_results <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit1, <span class="at">new_data =</span> test) <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">bind_cols</span>(test)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># R2 on test set</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rsq</span>(test_results,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> test<span class="sc">$</span>rank,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">rsq</td>
+<td style="text-align: left;">standard</td>
+<td style="text-align: right;">0.6922144</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>As we can see the model R square is around 70%.</p>
+</section>
+<section id="iteration-1" class="level4">
+<h4 class="anchored" data-anchor-id="iteration-1">Iteration #1</h4>
+<p>First we need to avoid using the variables with high p-values as mentioned above to train a new model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(rank <span class="sc">~</span> ADM_RATE <span class="sc">+</span> UGDS <span class="sc">+</span> AVGFACSAL <span class="sc">+</span> SAT_AVG, <span class="at">data =</span> train)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit2) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">249.37044</td>
+<td style="text-align: right;">4.506181</td>
+<td style="text-align: right;">55.339648</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">27.21518</td>
+<td style="text-align: right;">6.659181</td>
+<td style="text-align: right;">4.086866</td>
+<td style="text-align: right;">0.0000551</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">-33.32915</td>
+<td style="text-align: right;">4.895297</td>
+<td style="text-align: right;">-6.808403</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">-10.80730</td>
+<td style="text-align: right;">7.134635</td>
+<td style="text-align: right;">-1.514766</td>
+<td style="text-align: right;">0.1308007</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">-86.86569</td>
+<td style="text-align: right;">7.796687</td>
+<td style="text-align: right;">-11.141359</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Then we can evaluation our second model by Rsqure:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>test_results <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit2, <span class="at">new_data =</span> test) <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">bind_cols</span>(test)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># R2 on test set</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rsq</span>(test_results,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> test<span class="sc">$</span>rank,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">rsq</td>
+<td style="text-align: left;">standard</td>
+<td style="text-align: right;">0.6801713</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Since the rsq value is 0.68 which is even smaller than 0.69 of our first model, we need to implement forward selection by adding variables back to our model.</p>
+</section>
+<section id="iteration-3" class="level4">
+<h4 class="anchored" data-anchor-id="iteration-3">Iteration #3</h4>
+<p>From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(rank <span class="sc">~</span> ADM_RATE <span class="sc">+</span> UGDS <span class="sc">+</span> AVGFACSAL <span class="sc">+</span> SAT_AVG <span class="sc">+</span> AGE_ENTRY, <span class="at">data =</span> train)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit3) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">249.7168722</td>
+<td style="text-align: right;">4.523580</td>
+<td style="text-align: right;">55.2033783</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">26.2874687</td>
+<td style="text-align: right;">6.797196</td>
+<td style="text-align: right;">3.8673990</td>
+<td style="text-align: right;">0.0001330</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">-33.2547774</td>
+<td style="text-align: right;">4.923043</td>
+<td style="text-align: right;">-6.7549237</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">-11.4385472</td>
+<td style="text-align: right;">7.165074</td>
+<td style="text-align: right;">-1.5964311</td>
+<td style="text-align: right;">0.1113674</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">-86.6323357</td>
+<td style="text-align: right;">8.515896</td>
+<td style="text-align: right;">-10.1730147</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: right;">0.4599436</td>
+<td style="text-align: right;">5.802186</td>
+<td style="text-align: right;">0.0792707</td>
+<td style="text-align: right;">0.9368662</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>test_results <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit3, <span class="at">new_data =</span> test) <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">bind_cols</span>(test)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># R2 on test set</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rsq</span>(test_results,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> test<span class="sc">$</span>rank,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">rsq</td>
+<td style="text-align: left;">standard</td>
+<td style="text-align: right;">0.6739053</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>However the model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.</p>
+</section>
+<section id="iteration-4" class="level4">
+<h4 class="anchored" data-anchor-id="iteration-4">Iteration #4</h4>
+<p>From our first and second iteration, UGDS_UNKN, among the variables removed, has the smallest p-value of 0.310. Therefore we are going to add UGDS_UNKN back to our model for the iteration.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit4 <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(rank <span class="sc">~</span> ADM_RATE <span class="sc">+</span> UGDS <span class="sc">+</span> AVGFACSAL <span class="sc">+</span> SAT_AVG <span class="sc">+</span> AGE_ENTRY <span class="sc">+</span> UGDS_UNKN, <span class="at">data =</span> train)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit4) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">249.7153091</td>
+<td style="text-align: right;">4.521131</td>
+<td style="text-align: right;">55.232924</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">27.2202655</td>
+<td style="text-align: right;">6.840754</td>
+<td style="text-align: right;">3.979132</td>
+<td style="text-align: right;">0.0000854</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">-32.7123939</td>
+<td style="text-align: right;">4.942456</td>
+<td style="text-align: right;">-6.618652</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">-11.1617082</td>
+<td style="text-align: right;">7.165156</td>
+<td style="text-align: right;">-1.557776</td>
+<td style="text-align: right;">0.1202656</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">-86.3294688</td>
+<td style="text-align: right;">8.515275</td>
+<td style="text-align: right;">-10.138190</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: right;">-0.8911943</td>
+<td style="text-align: right;">5.914406</td>
+<td style="text-align: right;">-0.150682</td>
+<td style="text-align: right;">0.8803207</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_UNKN</td>
+<td style="text-align: right;">5.4065047</td>
+<td style="text-align: right;">4.651444</td>
+<td style="text-align: right;">1.162328</td>
+<td style="text-align: right;">0.2459603</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>test_results <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit4, <span class="at">new_data =</span> test) <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">bind_cols</span>(test)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># R2 on test set</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rsq</span>(test_results,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> test<span class="sc">$</span>rank,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">rsq</td>
+<td style="text-align: left;">standard</td>
+<td style="text-align: right;">0.6719604</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
 </section>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
-<<<<<<< HEAD
-<p>Our preliminary result shows that the number of undergraduate students that identify as white has major impact on the ranking of a college. Because of the positive slope, the more white students a college has, the number of the ranking is bigger which means a “lower” ranking.</p>
-=======
 <p>Our preliminary result shows that the number of undergraduate students that identify as white has major impact on the ranking of a college. Because of the positive slope, the more white students a college has, the number of the ranking is bigger which corresponds to a “lower” ranking.</p>
->>>>>>> f6069634704c77a67189fee8de5c2e942e0bcea3
 
 
 </section>
