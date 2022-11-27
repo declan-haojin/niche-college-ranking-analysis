@@ -6,7 +6,7 @@ editor: visual
 
 This project was developed by 2cool4school For [STA 199: Introduction to Data Science](https://sta199-f22-1.github.io/) at Duke University. The team is comprised of the following team members.
 
--   Samantha Bernier: sophomore, math
--   Mikey Schwartz: sophomore, public policy
--   Maia Goel: first year, biology
--   Haojin Li: sophomore, computer science
+-   Samantha Bernier: Sophomore, Math
+-   Mikey Schwartz: Sophomore, Public Policy
+-   Maia Goel: Freshman, Biology
+-   Haojin Li: Sophomore, Computer Science
