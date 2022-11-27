@@ -4,11 +4,11 @@ subtitle: "Report"
 format: html
 editor: visual
 execute:
-  echo: true
+  echo: false
 message: false
 warning: false
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r}
@@ -36,7 +36,7 @@ In general, we want to examine how different variables affect a school's ranking
 
 ### Research Questions and Hypothesis
 
-**Question:** What variables (and what types of variables) have the greatest influence on a school's place in the Niche College Ranking List?
+**Question:** What variables (and what types of variables) have the greatest influence on a school's place in the Niche College Ranking list?
 
 **Hypothesis:** We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.
 
@@ -154,13 +154,9 @@ Here is a summary of the variables we will be using in our analysis.
 
 ## Methodology
 
-### Scrape Data
+### Data Preparation
 
-To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported.
-
-The steps were done in an R script titled `niche-scrape.R`
-
-### Import Dataset
+1.  To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported. The steps were done in an R script titled `niche-scrape.R`
 
 ```{r}
 #| label: import
@@ -168,7 +164,7 @@ niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
 
-### Change college names in Department of Education file to match Niche file
+2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` and `University of South Florida - St. Petersburg` have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations.
 
 ```{r}
 #| label: fix-college-names
@@ -598,22 +594,22 @@ us_dep_of_ed <- us_dep_of_ed |>
   )
 ```
 
-The Observations for `University of South Florida - Sarasota-Manatee` and `University of South Florida - St. Petersburg` have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations.
-
-### Join Datasets
+3.  We joined the US Department of Education dataset to the Niche dataset by the college names. The first 10 rows are displayed below.
 
 ```{r}
 #| label: join-datasets
 
 colleges <- niche_data_500 |>
-  left_join(us_dep_of_ed, by = c("college" ="INSTNM")) |>
+  left_join(us_dep_of_ed, by = c("college" = "INSTNM")) |>
   filter(rank != 141) |>
   filter(rank != 181)
 
-colleges
+colleges |>
+  slice(1:10) |>
+  knitr::kable()
 ```
 
-### Variable Selections
+4.  Then, we selected the variables that we thought could have an impact on college ranking as a starting point for our analysis. These are listed in our data summary.
 
 ```{r}
 #| label: select-variables
@@ -664,7 +660,7 @@ data <- colleges |>
   select(chosen_variables)
 ```
 
-### Clean Categorical Variables
+5.  Some of the categorical variables in the US Department of Education dataset (`REGION`, `CONTROL`, and `CCBASIC`) used numbers to represent the different levels, so we looked at the data dictionary and replaced each number with the words that it represents.
 
 ```{r}
 #| label: clean-categorical-variables
@@ -730,7 +726,7 @@ data <- data |>
   )
 ```
 
-### Standardize Variables
+6.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We used the `scale()` functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1. The first 10 rows of our standardized dataset are printed below.
 
 ```{r}
 #| label: scale-numerical-variables
@@ -744,10 +740,17 @@ scaled_continuous_numeric_variables <- data |>
 other_variables <- data |>
   select(rank | REGION | CONTROL | CCBASIC | !where(is.numeric))
 
-scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables)
+scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables) |>
+  relocate(college)
+
+scaled_data |>
+  slice(1:10) |>
+  knitr::kable()
 ```
 
 ### Preliminary Exploration and Visualization
+
+1.  We broke down the data into 5 different groups based on the college rank, and then took the mean of selected variables for each of the groups. This gave us an idea of how different variables change across different types of school.
 
 ```{r}
 #| label: exploration
@@ -765,17 +768,17 @@ colleges_levels <- colleges |>
 colleges_levels |> 
   group_by(level) |> 
   summarize(
-    mean_ADM_Rate = mean(ADM_RATE, na.rm = T),
-    mean_SAT_AVG = mean(SAT_AVG, na.rm = T),
-    mean_ACTCMMID = mean(ACTCMMID, na.rm = T),
-    mean_UGDS_WHITE = mean(UGDS_WHITE, na.rm = T),
-    mean_UGDS_ASIAN = mean(UGDS_ASIAN, na.rm = T),
-    mean_COSTT4_A = mean(COSTT4_A, na.rm = T)
+    mean_ADM_Rate = mean(ADM_RATE, na.rm = TRUE),
+    mean_SAT_AVG = mean(SAT_AVG, na.rm = TRUE),
+    mean_ACTCMMID = mean(ACTCMMID, na.rm = TRUE),
+    mean_UGDS_WHITE = mean(UGDS_WHITE, na.rm = TRUE),
+    mean_UGDS_ASIAN = mean(UGDS_ASIAN, na.rm = TRUE),
+    mean_COSTT4_A = mean(COSTT4_A, na.rm = TRUE)
   ) |>
   knitr::kable()
 ```
 
-We broke down the data into 5 different groups based on the college rank, and then took the mean of selected variables for each of the groups. This gave us an idea of how different variables change across different types of school.
+2.  We have plotted rank versus several of the numerical variables. This gives us an idea of how different metrics affect college rank. Just by looking at the graphs, Admission Rate, Mean SAT, Median ACT, Average Faculty Salary, and Graduation Rate seem to have the strongest correlation.
 
 ```{r}
 #| label: graphs
@@ -786,16 +789,17 @@ scaled_data|>
   labs(
     x = "Admission Rate",
     y = "Rank",
-    title = "Rank vs Admission Rate by Control"
+    color = "Public/Private", 
+    title = "Rank vs Admission Rate by Public/Private"
   )
 
 colleges |> 
   ggplot(aes(x = UGDS_WHITE, y = rank)) +
   geom_point() +
   labs(
-    x = "% of undergrads who are white",
+    x = "% of Undergrads Who are White",
     y = "Rank",
-    title = "Rank vs % of undergrads who are white"
+    title = "Rank vs % of Undergrads Who are White"
   )
   
 
@@ -803,9 +807,9 @@ colleges |>
   ggplot(aes(x = UGDS_BLACK, y = rank)) +
   geom_point() +
   labs(
-    x = "% of undergrads who are black",
+    x = "% of Undergrads Who are Black",
     y = "Rank",
-    title = "Rank vs % of undergrads who are black"
+    title = "Rank vs % of Undergrads Who are Black"
   )
 
 scaled_data |> 
@@ -814,7 +818,8 @@ scaled_data |>
   labs(
     x = "Cost of Attendance", 
     y = "Rank",
-    title = "Rank vs Cost of Attendance by Control"
+    color = "Public/Private",
+    title = "Rank vs Cost of Attendance by Public/Private"
   ) 
 
 scaled_data |> 
@@ -863,18 +868,13 @@ colleges |>
   ) 
 ```
 
-We have plotted rank vs. several of the numerical variables. This gives us an idea of how the metrics above affect college rank. Just by looking at the graphs, Admission Rate, Mean SAT, Median ACT, Average Faculty Salary, and Graduation Rate seem to have the strongest correlation.
-
-3.  Check correlation coefficients between all the all the exponential variables. For the ones that have a r \> 0.8, pick one to put in the model. We can create multiple models with different options.
-
-    We remove the columns that has more than 100 NA and leave the rest for calculating correlations.
+3.  We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
 
     ```{r}
     #| label: correlation-matrix
 
     data_for_corr <- scaled_data |>
       select(is.numeric)
-
 
     correlations = data_for_corr |>
       select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |>
@@ -884,12 +884,10 @@ We have plotted rank vs. several of the numerical variables. This gives us an id
     correlations |>
         corrplot(method="color")
 
-
     correlations[correlations < 0.8 | correlations == 1] <- ""
+
     correlations
     ```
-
-According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8).
 
 The second output sections only shows the correlation entries with a value greater than 0.8. These variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
 
