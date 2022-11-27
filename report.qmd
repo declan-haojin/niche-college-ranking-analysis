@@ -928,7 +928,7 @@ test <- anti_join(data_set, train, by = 'rank')
 ```
 
 
-#### Iteration #0
+#### Iteration #1
 
 We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college. 
 
@@ -962,7 +962,7 @@ rsq(test_results,
 ```
 As we can see the model R square is around 70%. 
 
-#### Iteration #1
+#### Iteration #2
 
 First we need to avoid using the variables with high p-values as mentioned above to train a new model.
 
