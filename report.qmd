@@ -18,6 +18,7 @@ editor_options:
 library(tidyverse)
 library(corrplot)
 library(tidymodels)
+library(scales)
 ```
 
 ## Introduction
@@ -884,16 +885,16 @@ colleges |>
     correlations |>
         corrplot(method="color")
     ```
-According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
 
-```{r} 
+    According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
+
+```{r}
 #| label: display-correlation-pair-to-be-removed
 
 correlations[correlations < 0.8 | correlations ==1] <- ""
 
 correlations |> knitr::kable() 
 ```
-
 
 Accoridng to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
 
@@ -925,10 +926,9 @@ train <- data_set |>
 test <- anti_join(data_set, train, by = 'rank')
 ```
 
-
 #### Iteration #1
 
-We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college. 
+We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.
 
 ```{r}
 #| label: linear-reg-data
@@ -939,30 +939,24 @@ fit1 <- linear_reg() |>
 tidy(fit1) |> knitr::kable() 
 ```
 
-
-At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the \`SAT_AVG\`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher. 
+At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the `SAT_AVG`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.
 
 Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around 0.3, which is much greater than 0.05. Therefore, we need to drop these variables for the next model iteration.
 
-Then we can evaluation our first primitive model by Rsqure:
+Then, we can evaluate our first primitive model by R-squared:
 
 ```{r}
 #| label: evaluation1
 
-test_results <- predict(fit1, new_data = test) |>
-                            bind_cols(test)
-
-
-# R2 on test set
-rsq(test_results,
-    truth = test$rank,
-    estimate = .pred) |> knitr::kable() 
+glance(fit1) |>
+  select(r.squared) |> knitr::kable()
 ```
-As we can see the model R square is around 70%. 
+
+As we can see the model's R-squared is around 73.5%.
 
 #### Iteration #2
 
-First we need to avoid using the variables with high p-values as mentioned above to train a new model.
+First, we will avoid using the variables with high p-values as mentioned above to train a new model.
 
 ```{r}
 #| label: fit2
@@ -971,25 +965,16 @@ fit2 <- linear_reg() |>
   fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG, data = train)
 
 tidy(fit2) |> knitr::kable() 
-```
-Then we can evaluation our second model by Rsqure:
 
-```{r}
-test_results <- predict(fit2, new_data = test) |>
-                            bind_cols(test)
-
-# R2 on test set
-rsq(test_results,
-    truth = test$rank,
-    estimate = .pred) |> knitr::kable() 
+glance(fit2) |>
+  select(r.squared) |> knitr::kable()
 ```
 
-Since the rsq value is 0.68 which is even smaller than 0.69 of our first model, we need to implement forward selection by adding variables back to our model.
+Since the R-squared value is 0.7067 which is even smaller than 0.7354 of our first model, we need to implement forward selection by adding variables back to our model.
 
 #### Iteration #3
 
 From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.
-
 
 ```{r}
 #| label: fit3
@@ -998,19 +983,13 @@ fit3 <- linear_reg() |>
   fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG + AGE_ENTRY, data = train)
 
 tidy(fit3) |> knitr::kable() 
+
+glance(fit3) |>
+  select(r.squared) |> knitr::kable()
+  
 ```
 
-```{r}
-test_results <- predict(fit3, new_data = test) |>
-                            bind_cols(test)
-
-# R2 on test set
-rsq(test_results,
-    truth = test$rank,
-    estimate = .pred) |> knitr::kable() 
-```
-
-However the model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.
+However, the model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.
 
 #### Iteration #4
 
@@ -1023,19 +1002,115 @@ fit4 <- linear_reg() |>
   fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG + AGE_ENTRY + UGDS_UNKN, data = train)
 
 tidy(fit4) |> knitr::kable() 
+
+glance(fit4) |>
+  select(r.squared) |> knitr::kable()
 ```
 
-```{r}
-test_results <- predict(fit4, new_data = test) |>
-                            bind_cols(test)
-
-# R2 on test set
-rsq(test_results,
-    truth = test$rank,
-    estimate = .pred) |> knitr::kable() 
-```
-
+While this model proved better than the previous one, it is still not as good as our initial model.
 
 ## Results
 
-Our preliminary result shows that the number of undergraduate students that identify as white has major impact on the ranking of a college. Because of the positive slope, the more white students a college has, the number of the ranking is bigger which corresponds to a "lower" ranking.
+Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: `ADM_RATE`, `UGDS`, `AVGFACSAL`, and `SAT_AVG`. Then, we can further single out the most significant variable with R-squared values.
+
+```{r}
+#| label: adm-rate-vs-rank
+
+colleges |>
+  ggplot(aes(x = ADM_RATE, y = rank)) +
+  geom_point() +
+  geom_smooth() + 
+  labs(x = "Admission Rate", y = "Rank", 
+       title = "Rank vs Admission Rate") +
+  scale_x_continuous(labels = percent)
+
+```
+
+```{r}
+#| label: r-squared-adm-rate-vs-rank
+
+adm_rate_rank_fit <- linear_reg() |>
+  fit(rank ~ ADM_RATE, data = train)
+
+glance(adm_rate_rank_fit) |>
+  select(r.squared) |> knitr::kable()
+```
+
+The relationship between admission rate and college ranking gives us an R-squared value of 0.415 which is not that good and shows that admission rate might not be as significant as we originally thought.
+
+```{r}
+#| label: ugds-vs-rank
+
+colleges |>
+  ggplot(aes(x = UGDS, y = rank)) +
+  geom_point() +
+  geom_smooth() +
+  labs(x = "Undergraduate Enrollment", y = "Rank", 
+       title = "Rank vs Undergraduate Enrollment")
+
+```
+
+```{r}
+#| label: r-squared-ugds-vs-rank
+
+ugds_rank_fit <- linear_reg() |>
+  fit(rank ~ UGDS, data = train)
+
+glance(ugds_rank_fit) |>
+  select(r.squared) |> knitr::kable()
+
+```
+
+As evident from the graph and the given R-squared value of 0.048, undergraduate enrollment has almost no impact on a college's ranking.
+
+```{r}
+#| label: avgfacsal-vs-rank
+
+colleges |>
+  ggplot(aes(x = AVGFACSAL, y = rank)) +
+  geom_point() +
+  geom_smooth() +
+  ylim(0,500) +
+  labs(x = "Average Faculty Salary", y = "Rank",
+       title = "Rank vs Average Faculty Salary")
+
+```
+
+```{r}
+#| label: r-squared-avgfacsal-vs-rank
+
+avgfacsal_rank_fit <- linear_reg() |>
+  fit(rank ~ AVGFACSAL, data = train)
+
+glance(avgfacsal_rank_fit) |>
+  select(r.squared) |> knitr::kable()
+```
+
+While still relatively low, the R-squared value of 0.477 for the relationship between average faculty salary and ranking is higher than that of admission rate vs rank. This signifies that average faculty salary is a slightly more significant variable in predicting college ranking than admission rate.
+
+```{r}
+#| label: sat-avg-vs-rank
+
+colleges |>
+  ggplot(aes(x = SAT_AVG, y = rank)) +
+  geom_point() +
+  geom_smooth() +
+  labs(x = "Average SAT Score", y = "Rank", 
+       title = "Rank vs Average SAT Score")
+
+```
+
+Based on the plot above, a college's average SAT score has an almost semi-linear impact on it's ranking. Typically, as average SAT score increases, a college's ranking improves. Furthermore, we can see how well correlated these two variables are by creating a linear model.
+
+```{r}
+#| label: r-squared-sat-vs-rank
+
+sat_rank_fit <- linear_reg() |>
+  fit(rank ~ SAT_AVG, data = train)
+
+glance(sat_rank_fit) |>
+  select(r.squared) |> knitr::kable()
+
+```
+
+While an R-squared value of 0.641 is not the best, it is still the highest out of these variables which means that we can conclude that average SAT score has the greatest impact on a college ranking.

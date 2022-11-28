@@ -1904,9 +1904,9 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/correlation-matrix-1.png" class="img-fluid" width="672"></p>
 </div>
-</div></li>
+</div>
+<p>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value &gt; 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.</p></li>
 </ol>
-<p>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value &gt; 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -2868,34 +2868,30 @@ $ FIRST_GEN    &lt;dbl&gt; -0.003238281, 0.451202521, -0.017754405, -0.089464046
 </table>
 </div>
 </div>
-<p>At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the `SAT_AVG`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.</p>
+<p>At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the <code>SAT_AVG</code>, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.</p>
 <p>Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around 0.3, which is much greater than 0.05. Therefore, we need to drop these variables for the next model iteration.</p>
-<p>Then we can evaluation our first primitive model by Rsqure:</p>
+<p>Then, we can evaluate our first primitive model by R-squared:</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th style="text-align: left;">.metric</th>
-<th style="text-align: left;">.estimator</th>
-<th style="text-align: right;">.estimate</th>
+<th style="text-align: right;">r.squared</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">rsq</td>
-<td style="text-align: left;">standard</td>
-<td style="text-align: right;">0.6922144</td>
+<td style="text-align: right;">0.73542</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>As we can see the model R square is around 70%.</p>
+<p>As we can see the model’s R-squared is around 73.5%.</p>
 </section>
 <section id="iteration-2" class="level4">
 <h4 class="anchored" data-anchor-id="iteration-2">Iteration #2</h4>
-<p>First we need to avoid using the variables with high p-values as mentioned above to train a new model.</p>
+<p>First, we will avoid using the variables with high p-values as mentioned above to train a new model.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -2947,29 +2943,22 @@ $ FIRST_GEN    &lt;dbl&gt; -0.003238281, 0.451202521, -0.017754405, -0.089464046
 </tbody>
 </table>
 </div>
-</div>
-<p>Then we can evaluation our second model by Rsqure:</p>
-<div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th style="text-align: left;">.metric</th>
-<th style="text-align: left;">.estimator</th>
-<th style="text-align: right;">.estimate</th>
+<th style="text-align: right;">r.squared</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">rsq</td>
-<td style="text-align: left;">standard</td>
-<td style="text-align: right;">0.6801713</td>
+<td style="text-align: right;">0.7067254</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>Since the rsq value is 0.68 which is even smaller than 0.69 of our first model, we need to implement forward selection by adding variables back to our model.</p>
+<p>Since the R-squared value is 0.7067 which is even smaller than 0.7354 of our first model, we need to implement forward selection by adding variables back to our model.</p>
 </section>
 <section id="iteration-3" class="level4">
 <h4 class="anchored" data-anchor-id="iteration-3">Iteration #3</h4>
@@ -3032,28 +3021,22 @@ $ FIRST_GEN    &lt;dbl&gt; -0.003238281, 0.451202521, -0.017754405, -0.089464046
 </tbody>
 </table>
 </div>
-</div>
-<div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th style="text-align: left;">.metric</th>
-<th style="text-align: left;">.estimator</th>
-<th style="text-align: right;">.estimate</th>
+<th style="text-align: right;">r.squared</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">rsq</td>
-<td style="text-align: left;">standard</td>
-<td style="text-align: right;">0.6739053</td>
+<td style="text-align: right;">0.7061536</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>However the model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.</p>
+<p>However, the model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.</p>
 </section>
 <section id="iteration-4" class="level4">
 <h4 class="anchored" data-anchor-id="iteration-4">Iteration #4</h4>
@@ -3123,33 +3106,117 @@ $ FIRST_GEN    &lt;dbl&gt; -0.003238281, 0.451202521, -0.017754405, -0.089464046
 </tbody>
 </table>
 </div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.7073776</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>While this model proved better than the previous one, it is still not as good as our initial model.</p>
+</section>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: <code>ADM_RATE</code>, <code>UGDS</code>, <code>AVGFACSAL</code>, and <code>SAT_AVG</code>. Then, we can further single out the most significant variable with R-squared values.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/adm-rate-vs-rank-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th style="text-align: left;">.metric</th>
-<th style="text-align: left;">.estimator</th>
-<th style="text-align: right;">.estimate</th>
+<th style="text-align: right;">r.squared</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">rsq</td>
-<td style="text-align: left;">standard</td>
-<td style="text-align: right;">0.6719604</td>
+<td style="text-align: right;">0.4153932</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-</section>
-</section>
-</section>
-<section id="results" class="level2">
-<h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>Our preliminary result shows that the number of undergraduate students that identify as white has major impact on the ranking of a college. Because of the positive slope, the more white students a college has, the number of the ranking is bigger which corresponds to a “lower” ranking.</p>
+<p>The relationship between admission rate and college ranking gives us an R-squared value of 0.415 which is not that good and shows that admission rate might not be as significant as we originally thought.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/ugds-vs-rank-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.0479294</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>As evident from the graph and the given R-squared value of 0.048, undergraduate enrollment has almost no impact on a college’s ranking.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/avgfacsal-vs-rank-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.4768954</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>While still relatively low, the R-squared value of 0.477 for the relationship between average faculty salary and ranking is higher than that of admission rate vs rank. This signifies that average faculty salary is a slightly more significant variable in predicting college ranking than admission rate.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/sat-avg-vs-rank-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Based on the plot above, a college’s average SAT score has an almost semi-linear impact on it’s ranking. Typically, as average SAT score increases, a college’s ranking improves. Furthermore, we can see how well correlated these two variables are by creating a linear model.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.6410464</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>While an R-squared value of 0.641 is not the best, it is still the highest out of these variables which means that we can conclude that average SAT score has the greatest impact on a college ranking.</p>
 
 
 </section>
