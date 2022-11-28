@@ -1455,7 +1455,7 @@ tidy(fit2) |> knitr::kable()
 
 Then we can evaluation our second model by Rsqure:
 
-
+```
 glance(fit2) |>
   select(adj.r.squared) |> knitr::kable()
 ```
