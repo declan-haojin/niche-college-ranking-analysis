@@ -1349,7 +1349,7 @@ For all type of standardized test scores, there appear to be a strong negative r
 
 3.  We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
 
-    ```{r}
+```{r}
     #| label: correlation-matrix
 
     data_for_corr <- scaled_data |>
@@ -1362,7 +1362,7 @@ For all type of standardized test scores, there appear to be a strong negative r
 
     correlations |>
         corrplot(method="color")
-    ```
+```
 
     According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
 

@@ -2185,14 +2185,14 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>For all type of standardized test scores, there appear to be a strong negative relationship between score and rank, indicating that as the test scores increases, the rank of a school is expected to to increase.</p>
 <ol start="3" type="1">
-<li><p>We checked the correlation coefficients between the variables so we don’t use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.</p>
+<li>We checked the correlation coefficients between the variables so we don’t use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.</li>
+</ol>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/correlation-matrix-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value &gt; 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.</p></li>
-</ol>
+<pre><code>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \&gt; 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.</code></pre>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
