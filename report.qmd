@@ -682,8 +682,8 @@ data <- data |>
     CONTROL = as.character(CONTROL),
     CONTROL = case_when(
       CONTROL == 1 ~ "Public",
-      CONTROL == 2 ~ "Private, Nonprofit",
-      CONTROL == 3 ~ "Proprietary"
+      CONTROL == 2 ~ "Private, Non-profit",
+      CONTROL == 3 ~ "Pivate, For-profit"
     ),
     CCBASIC = as.character(CCBASIC),
     CCBASIC = case_when(
@@ -750,10 +750,11 @@ scaled_data |>
 
 ### Preliminary Exploration and Visualization
 
-1.  We broke down the data into 5 different groups based on the college rank, and then took the mean of selected variables for each of the groups. This gave us an idea of how different variables change across different types of school.
+#### Means of Different Variables by Rank Group
 
 ```{r}
-#| label: exploration
+#| label: exploration-by-rank-group
+
 colleges_levels <- colleges |> 
   mutate(
     level = case_when(
@@ -761,8 +762,9 @@ colleges_levels <- colleges |>
       rank > 100 & rank <= 200 ~ "101 to 200",
       rank > 200 & rank <= 300 ~ "201 to 300",
       rank > 300 & rank <= 400 ~ "301 to 400",
-      rank > 400 & rank <= 498 ~ "401 to 498",
-    )
+      rank > 400 & rank <= 500 ~ "401 to 498",
+    ),
+    .after = rank
   )
 
 colleges_levels |> 
@@ -774,23 +776,96 @@ colleges_levels |>
     mean_UGDS_WHITE = mean(UGDS_WHITE, na.rm = TRUE),
     mean_UGDS_ASIAN = mean(UGDS_ASIAN, na.rm = TRUE),
     mean_COSTT4_A = mean(COSTT4_A, na.rm = TRUE)
-  ) |>
+  ) |> 
+  rename(
+    "Mean Admission Rate" = mean_ADM_Rate,
+    "Mean SAT Average" = mean_SAT_AVG,
+    "Mean ACT Median" =  mean_ACTCMMID,
+    "Mean % White Students" = mean_UGDS_WHITE,
+    "Mean % Asian Students" = mean_UGDS_ASIAN,
+    "Mean Cost of Attendance" = mean_COSTT4_A
+  ) |> 
   knitr::kable()
 ```
 
-2.  We have plotted rank versus several of the numerical variables. This gives us an idea of how different metrics affect college rank. Just by looking at the graphs, Admission Rate, Mean SAT, Median ACT, Average Faculty Salary, and Graduation Rate seem to have the strongest correlation.
+After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100.
+
+#### Means of Rank by Categorical Variables
+
+Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups.
 
 ```{r}
-#| label: graphs
+#| label: exploration-by-categorical variables
+
+
+data  |> 
+  group_by(CONTROL) |> 
+  summarize(
+    mean_rank = mean(rank)
+  ) |> 
+  arrange(mean_rank) |> 
+  knitr::kable()
+
+data |> 
+  group_by(REGION) |> 
+  summarize(
+    mean_rank = mean(rank)
+  ) |> 
+  arrange(mean_rank) |> 
+  knitr::kable()
+
+data |> 
+  group_by(CCBASIC) |> 
+  summarize(
+    mean_rank = mean(rank)
+  ) |> 
+  arrange(mean_rank) |> 
+  knitr::kable()
+
+
+colleges |> 
+  group_by(STABBR) |> 
+  summarize(
+    mean_rank = mean(rank)
+  ) |> 
+  arrange(mean_rank) |> 
+  slice_head(n = 10) |> 
+  knitr::kable()
+```
+
+We observe that private non-profit colleges have a higher mean rank than public colleges or private for-profit colleges.
+
+As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
+
+Looking at the Carnegie Classification, Special Focus Four-Year: Business & Management Schools have the highest mean rank, followed by Doctoral Universities: Very High Research Activity. Tribal Colleges have the lowest mean rank.
+
+When looking at states, Maine has the highest mean rank, followed by Massachusetts.
+
+#### Numerical Variables vs. Rank
+
+We have plotted rank versus several of the numerical variables. This gives us an idea of how different metrics affect college rank.
+
+```{r}
+
+#| numerical-data-graphs
+
 
 scaled_data|> 
-  ggplot(aes(x = ADM_RATE, y = rank, color = CONTROL)) +
+  ggplot(aes(x = ADM_RATE, y = rank)) +
   geom_point() +
   labs(
     x = "Admission Rate",
-    y = "Rank",
+    y = "",
     color = "Public/Private", 
-    title = "Rank vs Admission Rate by Public/Private"
+    #title = "Rank vs Admission Rate by Public/Private"
+  )
+
+scaled_data|> 
+  ggplot(aes(x = UGDS, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Undergraduate Enrollment",
+    y = "",
   )
 
 colleges |> 
@@ -798,28 +873,98 @@ colleges |>
   geom_point() +
   labs(
     x = "% of Undergrads Who are White",
-    y = "Rank",
-    title = "Rank vs % of Undergrads Who are White"
+    y = "",
+    #title = "Rank vs % of Undergrads Who are White"
   )
   
-
 colleges |> 
   ggplot(aes(x = UGDS_BLACK, y = rank)) +
   geom_point() +
   labs(
     x = "% of Undergrads Who are Black",
-    y = "Rank",
-    title = "Rank vs % of Undergrads Who are Black"
+    y = "",
+    #title = "Rank vs % of Undergrads Who are Black"
+  )
+
+colleges |> 
+  ggplot(aes(x = UGDS_HISP, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are Hispanic",
+    y = ""
+  )
+
+colleges |> 
+  ggplot(aes(x = UGDS_ASIAN, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are Asian",
+    y = ""
+  )
+
+colleges |> 
+  ggplot(aes(x = UGDS_AIAN, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are American Indian/Alaskan Native",
+    y = ""
+  )
+
+colleges |> 
+  ggplot(aes(x = UGDS_2MOR, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are 2 or More Races",
+    y = ""
+  )
+
+colleges |> 
+  ggplot(aes(x = UGDS_NRA, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are Non-resident Aliens",
+    y = ""
+  )
+
+colleges |> 
+  ggplot(aes(x = UGDS_UNKN, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Whose Race is Unknown",
+    y = ""
+  )
+
+colleges |> 
+  ggplot(aes(x = NPT4_PUB, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg Net Price (public)",
+    y = ""
+  )
+
+colleges |> 
+  ggplot(aes(x = NPT4_PRIV, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg Net Price (private)",
+    y = ""
   )
 
 scaled_data |> 
-  ggplot(aes(x = COSTT4_A, y = rank, color = CONTROL)) +
+  ggplot(aes(x = COSTT4_A, y = rank)) +
   geom_point() +
   labs(
-    x = "Cost of Attendance", 
-    y = "Rank",
-    color = "Public/Private",
-    title = "Rank vs Cost of Attendance by Public/Private"
+    x = "Cost of Attendance (academic-year)", 
+    y = "",
+    #title = "Rank vs Cost of Attendance by Public/Private"
+  ) 
+
+scaled_data |> 
+  ggplot(aes(x = COSTT4_P, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Cost of Attendance (program-year)", 
+    y = ""
   ) 
 
 scaled_data |> 
@@ -827,8 +972,16 @@ scaled_data |>
   geom_point() +
   labs(
     x = "Average Faculty Salary", 
-    y = "Rank",
-    title = "Rank vs Average Faculty Salary"
+    y = ""
+    #title = "Rank vs Average Faculty Salary"
+  ) 
+
+scaled_data |> 
+  ggplot(aes(x = PCTPELL, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% Ungergrads on Pell Grants",
+    y = ""
   ) 
 
 scaled_data |> 
@@ -836,8 +989,56 @@ scaled_data |>
   geom_point() +
   labs(
     x = "Graduation Rate", 
-    y = "Rank",
-    title = "Rank vs Graduation Rate"
+    y = "",
+    #title = "Rank vs Graduation Rate"
+  ) 
+
+scaled_data |> 
+  ggplot(aes(x = AGE_ENTRY, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg Age of Entry",
+    y = ""
+  ) 
+
+scaled_data |> 
+  ggplot(aes(x = FEMALE, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Female Students",
+    y = ""
+  ) 
+
+scaled_data |> 
+  ggplot(aes(x = MARRIED, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Married Students",
+    y = ""
+  ) 
+
+scaled_data |> 
+  ggplot(aes(x = FIRST_GEN, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of First Generation Students",
+    y = ""
+  ) 
+
+scaled_data |> 
+  ggplot(aes(x = FAMINC, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg Family Income",
+    y = ""
+  ) 
+
+scaled_data |> 
+  ggplot(aes(x = MD_FAMINC, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Med Family Income",
+    y = ""
   ) 
 
 scaled_data |> 
@@ -845,28 +1046,305 @@ scaled_data |>
   geom_point() +
   labs(
     x = "Endowment Size", 
-    y = "Rank",
-    title = "Rank vs Endowment Size"
+    y = "",
+    #title = "Rank vs Endowment Size"
+  )
+```
+
+```{r}
+#| label: graphs
+
+library(gridExtra)
+
+p1 <- scaled_data|> 
+  ggplot(aes(x = ADM_RATE, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Admission Rate",
+    y = "",
+    color = "Public/Private", 
+    #title = "Rank vs Admission Rate by Public/Private"
+  )
+
+p2 <- scaled_data|> 
+  ggplot(aes(x = UGDS, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Undergraduate Enrollment",
+    y = "",
+  )
+
+p3 <- colleges |> 
+  ggplot(aes(x = UGDS_WHITE, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are White",
+    y = "",
+    #title = "Rank vs % of Undergrads Who are White"
+  )
+  
+p4 <- colleges |> 
+  ggplot(aes(x = UGDS_BLACK, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are Black",
+    y = "",
+    #title = "Rank vs % of Undergrads Who are Black"
+  )
+
+p5 <- colleges |> 
+  ggplot(aes(x = UGDS_HISP, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are Hispanic",
+    y = ""
+  )
+
+p6 <- colleges |> 
+  ggplot(aes(x = UGDS_ASIAN, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are Asian",
+    y = ""
+  )
+
+p7 <- colleges |> 
+  ggplot(aes(x = UGDS_AIAN, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are American Indian/Alaskan Native",
+    y = ""
+  )
+
+p8 <- colleges |> 
+  ggplot(aes(x = UGDS_2MOR, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are 2 or More Races",
+    y = ""
+  )
+
+p9 <- colleges |> 
+  ggplot(aes(x = UGDS_NRA, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Who are Non-resident Aliens",
+    y = ""
+  )
+
+p9 <- colleges |> 
+  ggplot(aes(x = UGDS_UNKN, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Undergrads Whose Race is Unknown",
+    y = ""
+  )
+
+p10 <- colleges |> 
+  ggplot(aes(x = NPT4_PUB, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg Net Price (public)",
+    y = ""
+  )
+
+p11 <- colleges |> 
+  ggplot(aes(x = NPT4_PRIV, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg Net Price (private)",
+    y = ""
+  )
+
+p12 <- scaled_data |> 
+  ggplot(aes(x = COSTT4_A, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Cost of Attendance (academic-year)", 
+    y = "",
+    #title = "Rank vs Cost of Attendance by Public/Private"
   ) 
 
-colleges |> 
+p12 <- scaled_data |> 
+  ggplot(aes(x = COSTT4_P, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Cost of Attendance (program-year)", 
+    y = ""
+  ) 
+
+p13 <- scaled_data |> 
+  ggplot(aes(x = AVGFACSAL, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Average Faculty Salary", 
+    y = ""
+    #title = "Rank vs Average Faculty Salary"
+  ) 
+
+p14 <- scaled_data |> 
+  ggplot(aes(x = PCTPELL, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% Ungergrads on Pell Grants",
+    y = ""
+  ) 
+
+p15 <- scaled_data |> 
+  ggplot(aes(x = C150_4, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Graduation Rate", 
+    y = "",
+    #title = "Rank vs Graduation Rate"
+  ) 
+
+p16 <- scaled_data |> 
+  ggplot(aes(x = AGE_ENTRY, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg Age of Entry",
+    y = ""
+  ) 
+
+p17 <- scaled_data |> 
+  ggplot(aes(x = FEMALE, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Female Students",
+    y = ""
+  ) 
+
+p18 <- scaled_data |> 
+  ggplot(aes(x = MARRIED, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of Married Students",
+    y = ""
+  ) 
+
+p19 <- scaled_data |> 
+  ggplot(aes(x = FIRST_GEN, y = rank)) +
+  geom_point() +
+  labs(
+    x = "% of First Generation Students",
+    y = ""
+  ) 
+
+p20 <- scaled_data |> 
+  ggplot(aes(x = FAMINC, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg Family Income",
+    y = ""
+  ) 
+
+p21 <- scaled_data |> 
+  ggplot(aes(x = MD_FAMINC, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Med Family Income",
+    y = ""
+  ) 
+
+p22 <- scaled_data |> 
+  ggplot(aes(x = ENDOWBEGIN, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Endowment Size", 
+    y = "",
+    #title = "Rank vs Endowment Size"
+  )
+```
+
+```{r}
+
+#| label: arrange-in-grid
+
+grid.arrange(p1, p2, p3, p4, p5, p6, p7 , p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22)
+```
+
+From these graphs, there appears to be a very strong positive association between admission rate/ % of undergrads on Pell grants and college rank. There appears to be somewhat of a positive association between % of undergrads who are white/% of first generation students and college ranks. This means that as these metrics decrease, the rank of a school is expected to decrease
+
+There appears to be a strong negative association between % of undergrads who are Asian/% of undergrads who are non-resident aliens/average faculty salary/graduation rate and college rank. There appears to be somewhat of a negative relationship between average net price for private universities/cost of attendance/average family income/median family income and college rank. This means that as these metrics increase, the rank of a school is expected to increase.
+
+```{r}
+
+#| label: test-score-graphs
+
+g1 <- scaled_data |> 
   ggplot(aes(x = SAT_AVG, y = rank)) +
   geom_point() +
   labs(
-    x = "Mean SAT", 
-    y = "Rank",
-    title = "Rank vs Mean SAT"
+    x = "Avg SAT",
+    y = ""
   ) 
 
-colleges |> 
+g2 <- scaled_data |> 
+  ggplot(aes(x = SATVRMID, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg SAT Reading",
+    y = ""
+  ) 
+
+g3 <- scaled_data |> 
+  ggplot(aes(x = SATMTMID, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg SAT Math",
+    y = ""
+  ) 
+
+g4 <- scaled_data |> 
+  ggplot(aes(x = SATWRMID, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Avg SAT Writing",
+    y = ""
+  ) 
+
+g5 <- scaled_data |> 
   ggplot(aes(x = ACTCMMID, y = rank)) +
   geom_point() +
   labs(
-    x = "Median ACT", 
-    y = "Rank",
-    title = "Rank vs Median ACT"
+    x = "Med ACT",
+    y = ""
   ) 
+
+g6 <- scaled_data |> 
+  ggplot(aes(x = ACTENMID, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Med ACT English",
+    y = ""
+  ) 
+
+g7 <- scaled_data |> 
+  ggplot(aes(x = ACTMTMID, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Med ACT Math",
+    y = ""
+  ) 
+
+g8 <- scaled_data |> 
+  ggplot(aes(x = ACTWRMID, y = rank)) +
+  geom_point() +
+  labs(
+    x = "Med ACT Writing",
+    y = ""
+  ) 
+
 ```
+
+```{r}
+#| label: arrange-in-grid-test
+
+grid.arrange(g1, g2, g3, g4, g5, g6, g7 , g8)
+```
+
+For all type of standardized test scores, there appear to be a strong negative relationship between score and rank, indicating that as the test scores increases, the rank of a school is expected to to increase.
 
 3.  We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
 
@@ -884,16 +1362,16 @@ colleges |>
     correlations |>
         corrplot(method="color")
     ```
-According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
 
-```{r} 
+    According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
+
+```{r}
 #| label: display-correlation-pair-to-be-removed
 
-correlations[correlations < 0.8 | correlations ==1] <- ""
+correlations[correlations < 0.8 | correlations == 1] <- ""
 
 correlations |> knitr::kable() 
 ```
-
 
 Accoridng to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
 
@@ -925,10 +1403,9 @@ train <- data_set |>
 test <- anti_join(data_set, train, by = 'rank')
 ```
 
-
 #### Iteration #1
 
-We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college. 
+We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.
 
 ```{r}
 #| label: linear-reg-data
@@ -939,8 +1416,7 @@ fit1 <- linear_reg() |>
 tidy(fit1) |> knitr::kable() 
 ```
 
-
-At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the \`SAT_AVG\`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher. 
+At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the \`SAT_AVG\`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.
 
 Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around 0.3, which is much greater than 0.05. Therefore, we need to drop these variables for the next model iteration.
 
@@ -958,7 +1434,8 @@ rsq(test_results,
     truth = test$rank,
     estimate = .pred) |> knitr::kable() 
 ```
-As we can see the model R square is around 70%. 
+
+As we can see the model R square is around 70%.
 
 #### Iteration #2
 
@@ -972,6 +1449,7 @@ fit2 <- linear_reg() |>
 
 tidy(fit2) |> knitr::kable() 
 ```
+
 Then we can evaluation our second model by Rsqure:
 
 ```{r}
@@ -989,7 +1467,6 @@ Since the rsq value is 0.68 which is even smaller than 0.69 of our first model, 
 #### Iteration #3
 
 From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.
-
 
 ```{r}
 #| label: fit3
@@ -1034,7 +1511,6 @@ rsq(test_results,
     truth = test$rank,
     estimate = .pred) |> knitr::kable() 
 ```
-
 
 ## Results
 
