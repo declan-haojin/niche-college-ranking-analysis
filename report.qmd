@@ -900,7 +900,7 @@ Accoridng to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (
 
 ### Build model
 
-We began our modeling by putting all of our chosen variables into a model
+Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by using all of our chosen variables for our first linear regression model.
 
 ```{r}
 #| label: glimpsed-data
@@ -908,10 +908,11 @@ We began our modeling by putting all of our chosen variables into a model
 data_set <- scaled_data |>
   select(c("ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "rank", "REGION", "CONTROL", "CCBASIC", "college", "ACCREDAGENCY", "FEMALE", "MARRIED", "FIRST_GEN"))
 
-glimpse(data_set)
+glimpse(data_set) |>
+  knitr::kable()
 ```
 
-Then we need to split dataset into two parts: a training and a test set. We will use 80% of the college data for trainning our model and the rest 20% for testing our model.
+Then we need to split dataset into two parts: a training and a test set. We will use 80% of the college data for training our model and the other 20% for testing our model.
 
 ```{r}
 #| label: split-data
@@ -926,7 +927,9 @@ train <- data_set |>
 test <- anti_join(data_set, train, by = 'rank')
 ```
 
-#### Iteration #1
+## Results
+
+###  Iteration #1
 
 We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.
 
@@ -941,7 +944,7 @@ tidy(fit1) |> knitr::kable()
 
 At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the `SAT_AVG`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.
 
-Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around 0.3, which is much greater than 0.05. Therefore, we need to drop these variables for the next model iteration.
+Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around or above 0.3, which is much greater than 0.05. Therefore, we will drop these variables for the next model iteration.
 
 Then, we can evaluate our first primitive model by R-squared:
 
@@ -949,12 +952,12 @@ Then, we can evaluate our first primitive model by R-squared:
 #| label: evaluation1
 
 glance(fit1) |>
-  select(r.squared) |> knitr::kable()
+  select(adj.r.squared) |> knitr::kable()
 ```
 
-As we can see the model's R-squared is around 73.5%.
+As we can see the model's adjusted R-squared is around 72.0%.
 
-#### Iteration #2
+### Iteration #2
 
 First, we will avoid using the variables with high p-values as mentioned above to train a new model.
 
@@ -967,12 +970,12 @@ fit2 <- linear_reg() |>
 tidy(fit2) |> knitr::kable() 
 
 glance(fit2) |>
-  select(r.squared) |> knitr::kable()
+  select(adj.r.squared) |> knitr::kable()
 ```
 
-Since the R-squared value is 0.7067 which is even smaller than 0.7354 of our first model, we need to implement forward selection by adding variables back to our model.
+Since the R-squared value is 0.703 which is even smaller than 0.7200 of our first model, we need to implement forward selection by adding variables back to our model.
 
-#### Iteration #3
+### Iteration #3
 
 From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.
 
@@ -985,13 +988,13 @@ fit3 <- linear_reg() |>
 tidy(fit3) |> knitr::kable() 
 
 glance(fit3) |>
-  select(r.squared) |> knitr::kable()
+  select(adj.r.squared) |> knitr::kable()
   
 ```
 
-However, the model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.
+The model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.
 
-#### Iteration #4
+### Iteration #4
 
 From our first and second iteration, UGDS_UNKN, among the variables removed, has the smallest p-value of 0.310. Therefore we are going to add UGDS_UNKN back to our model for the iteration.
 
@@ -1004,12 +1007,12 @@ fit4 <- linear_reg() |>
 tidy(fit4) |> knitr::kable() 
 
 glance(fit4) |>
-  select(r.squared) |> knitr::kable()
+  select(adj.r.squared) |> knitr::kable()
 ```
 
 While this model proved better than the previous one, it is still not as good as our initial model.
 
-## Results
+### Final results
 
 Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: `ADM_RATE`, `UGDS`, `AVGFACSAL`, and `SAT_AVG`. Then, we can further single out the most significant variable with R-squared values.
 
