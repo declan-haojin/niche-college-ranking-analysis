@@ -8,7 +8,7 @@ execute:
 message: false
 warning: false
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r}
@@ -25,9 +25,9 @@ library(scales)
 
 ### Research Background
 
-Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as *US News and World Report*, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on "exclusivity and resources, rather than accessibility and economic mobility" (1).The system can also be easily manipulated by a university if that university prioritize certain metrics to raise their rankings, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list in only 17 years. The president of Northeastern University even explicitly stated that it was a top priority of the university to raise its ranking (2).
+Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as *US News and World Report*, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on "exclusivity and resources, rather than accessibility and economic mobility"(1).The system can also be easily manipulated by a university if that university prioritize certain metrics to raise their rankings, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list in only 17 years. The president of Northeastern University even explicitly stated that it was a top priority of the university to raise its ranking (2).
 
-\(1\) https://thehill.com/changing-america/enrichment/education/3641004-the-scandal-facing-college-ranking-lists-explained/
+(1) https://thehill.com/changing-america/enrichment/education/3641004-the-scandal-facing-college-ranking-lists-explained/
 
 \(2\) https://www.bostonmagazine.com/news/2014/08/26/how-northeastern-gamed-the-college-rankings/
 
@@ -779,6 +779,7 @@ colleges_levels |>
     mean_COSTT4_A = mean(COSTT4_A, na.rm = TRUE)
   ) |> 
   rename(
+    "Interval" = level,
     "Mean Admission Rate" = mean_ADM_Rate,
     "Mean SAT Average" = mean_SAT_AVG,
     "Mean ACT Median" =  mean_ACTCMMID,
@@ -796,16 +797,25 @@ After grouping the schools into five groups of 100 by their rank, we see that di
 Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups.
 
 ```{r}
-#| label: exploration-by-categorical variables
+#| label: exploration-control
 
-
-data  |> 
+data |> 
   group_by(CONTROL) |> 
   summarize(
     mean_rank = mean(rank)
   ) |> 
   arrange(mean_rank) |> 
+  rename(
+    "Control" = CONTROL, 
+    "Mean Rank" = mean_rank
+  ) |>
   knitr::kable()
+```
+
+We observe that private non-profit colleges have a higher mean rank than public colleges or private for-profit colleges.
+
+```{r}
+#| label: exploration-region
 
 data |> 
   group_by(REGION) |> 
@@ -813,16 +823,35 @@ data |>
     mean_rank = mean(rank)
   ) |> 
   arrange(mean_rank) |> 
+  rename(
+    "Region" = REGION, 
+    "Mean Rank" = mean_rank
+  ) |>
   knitr::kable()
+```
+
+As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
+
+```{r}
+#| label: exploration-CCBASIC
 
 data |> 
   group_by(CCBASIC) |> 
   summarize(
     mean_rank = mean(rank)
   ) |> 
-  arrange(mean_rank) |> 
+  arrange(mean_rank) |>
+  rename(
+    "Carnegie Classification (Basic)" = CCBASIC, 
+    "Mean Rank" = mean_rank
+  ) |>
   knitr::kable()
+```
 
+Looking at the Carnegie Classification, Special Focus Four-Year: Business & Management Schools have the highest mean rank, followed by Doctoral Universities: Very High Research Activity. Tribal Colleges have the lowest mean rank.
+
+```{r}
+#| label: exploration-state
 
 colleges |> 
   group_by(STABBR) |> 
@@ -830,15 +859,13 @@ colleges |>
     mean_rank = mean(rank)
   ) |> 
   arrange(mean_rank) |> 
+  rename(
+    "State" = STABBR, 
+    "Mean Rank" = mean_rank
+  ) |>
   slice_head(n = 10) |> 
   knitr::kable()
 ```
-
-We observe that private non-profit colleges have a higher mean rank than public colleges or private for-profit colleges.
-
-As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
-
-Looking at the Carnegie Classification, Special Focus Four-Year: Business & Management Schools have the highest mean rank, followed by Doctoral Universities: Very High Research Activity. Tribal Colleges have the lowest mean rank.
 
 When looking at states, Maine has the highest mean rank, followed by Massachusetts.
 
@@ -1259,7 +1286,6 @@ p22 <- scaled_data |>
 ```
 
 ```{r}
-
 #| label: arrange-in-grid
 
 grid.arrange(p1, p2, p3, p4, p5, p6, p7 , p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22)
@@ -1347,7 +1373,9 @@ grid.arrange(g1, g2, g3, g4, g5, g6, g7 , g8)
 
 For all type of standardized test scores, there appear to be a strong negative relationship between score and rank, indicating that as the test scores increases, the rank of a school is expected to to increase.
 
-3.  We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
+### Check Correlation Coefficients
+
+We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
 
 ```{r}
     #| label: correlation-matrix
@@ -1364,30 +1392,39 @@ For all type of standardized test scores, there appear to be a strong negative r
         corrplot(method="color")
 ```
 
-    According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
+According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
 
 ```{r}
 #| label: display-correlation-pair-to-be-removed
 
 correlations[correlations < 0.8 | correlations == 1] <- ""
 
-correlations |> knitr::kable() 
+#correlations |> knitr::kable() 
 ```
 
-Accoridng to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
+| Variable Pairs with r \> 0.8 | Correlation Coefficients |
+|------------------------------|--------------------------|
+| C150_4, SAT_AVG              | 0.8389                   |
+| C150_4, ACTCMMID             | 0.8494                   |
+| AGE_ENTRY, MARRIED           | 0.9059                   |
+| FAMINC, MD_FAMINC            | 0.9538                   |
+| SAT_AVG, ACTCMMID            | 0.9756                   |
+
+According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
 
 ### Build model
 
-Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by using all of our chosen variables for our first linear regression model.
+Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by removing the variables with a correlation coefficient above 0.8.
 
 ```{r}
 #| label: glimpsed-data
 
 data_set <- scaled_data |>
-  select(c("ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "rank", "REGION", "CONTROL", "CCBASIC", "college", "ACCREDAGENCY", "FEMALE", "MARRIED", "FIRST_GEN"))
+  select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "MARRIED", "FIRST_GEN"))
 
-glimpse(data_set) |>
-  knitr::kable()
+data_set |>
+  names() |>
+  knitr::kable(col.names = "Selected Variables")
 ```
 
 Then we need to split dataset into two parts: a training and a test set. We will use 80% of the college data for training our model and the other 20% for testing our model.
@@ -1405,11 +1442,9 @@ train <- data_set |>
 test <- anti_join(data_set, train, by = 'rank')
 ```
 
-
 ## Results
 
-###  Iteration #1
-
+### Iteration #1
 
 We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.
 
@@ -1422,11 +1457,9 @@ fit1 <- linear_reg() |>
 tidy(fit1) |> knitr::kable() 
 ```
 
-
 At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the `SAT_AVG`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.
 
 Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around or above 0.3, which is much greater than 0.05. Therefore, we will drop these variables for the next model iteration.
-
 
 Then, we can evaluate our first primitive model by R-squared:
 
@@ -1436,7 +1469,6 @@ Then, we can evaluate our first primitive model by R-squared:
 glance(fit1) |>
   select(adj.r.squared) |> knitr::kable()
 ```
-
 
 As we can see the model's adjusted R-squared is around 72.0%.
 
@@ -1455,10 +1487,8 @@ tidy(fit2) |> knitr::kable()
 
 Then we can evaluation our second model by Rsqure:
 
-```
-glance(fit2) |>
-  select(adj.r.squared) |> knitr::kable()
-```
+    glance(fit2) |>
+      select(adj.r.squared) |> knitr::kable()
 
 Since the R-squared value is 0.703 which is even smaller than 0.7200 of our first model, we need to implement forward selection by adding variables back to our model.
 
@@ -1499,9 +1529,11 @@ glance(fit4) |>
 
 While this model proved better than the previous one, it is still not as good as our initial model.
 
-### Final results
+### Model results
 
 Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: `ADM_RATE`, `UGDS`, `AVGFACSAL`, and `SAT_AVG`. Then, we can further single out the most significant variable with R-squared values.
+
+### R-Squared Values
 
 ```{r}
 #| label: adm-rate-vs-rank
@@ -1509,11 +1541,10 @@ Because our initial model had the highest r-squared value of 0.7354, we can cons
 colleges |>
   ggplot(aes(x = ADM_RATE, y = rank)) +
   geom_point() +
-  geom_smooth() + 
+  geom_smooth(method = "lm") + 
   labs(x = "Admission Rate", y = "Rank", 
        title = "Rank vs Admission Rate") +
   scale_x_continuous(labels = percent)
-
 ```
 
 ```{r}
@@ -1526,9 +1557,6 @@ glance(adm_rate_rank_fit) |>
   select(r.squared) |> knitr::kable()
 ```
 
-
-## Results
-
 The relationship between admission rate and college ranking gives us an R-squared value of 0.415 which is not that good and shows that admission rate might not be as significant as we originally thought.
 
 ```{r}
@@ -1538,7 +1566,7 @@ The relationship between admission rate and college ranking gives us an R-square
 colleges |>
   ggplot(aes(x = UGDS, y = rank)) +
   geom_point() +
-  geom_smooth() +
+  geom_smooth(method = "lm") +
   labs(x = "Undergraduate Enrollment", y = "Rank", 
        title = "Rank vs Undergraduate Enrollment")
 
@@ -1563,7 +1591,7 @@ As evident from the graph and the given R-squared value of 0.048, undergraduate 
 colleges |>
   ggplot(aes(x = AVGFACSAL, y = rank)) +
   geom_point() +
-  geom_smooth() +
+  geom_smooth(method = "lm") +
   ylim(0,500) +
   labs(x = "Average Faculty Salary", y = "Rank",
        title = "Rank vs Average Faculty Salary")
@@ -1588,7 +1616,7 @@ While still relatively low, the R-squared value of 0.477 for the relationship be
 colleges |>
   ggplot(aes(x = SAT_AVG, y = rank)) +
   geom_point() +
-  geom_smooth() +
+  geom_smooth(method = "lm") +
   labs(x = "Average SAT Score", y = "Rank", 
        title = "Rank vs Average SAT Score")
 
@@ -1608,3 +1636,7 @@ glance(sat_rank_fit) |>
 ```
 
 While an R-squared value of 0.641 is not the best, it is still the highest out of these variables which means that we can conclude that average SAT score has the greatest impact on a college ranking.
+
+### Final Conclusion
+
+## Works Cited
