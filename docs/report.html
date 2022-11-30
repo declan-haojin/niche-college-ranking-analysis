@@ -106,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
   <li><a href="#research-background" id="toc-research-background" class="nav-link" data-scroll-target="#research-background">Research Background</a></li>
-  <li><a href="#research-questions-and-hypothesis" id="toc-research-questions-and-hypothesis" class="nav-link" data-scroll-target="#research-questions-and-hypothesis">Research Questions and Hypothesis</a></li>
+  <li><a href="#research-question-and-hypothesis" id="toc-research-question-and-hypothesis" class="nav-link" data-scroll-target="#research-question-and-hypothesis">Research Question and Hypothesis</a></li>
   </ul></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
   <ul class="collapse">
@@ -166,12 +166,13 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <p>(2) https://www.bostonmagazine.com/news/2014/08/26/how-northeastern-gamed-the-college-rankings/</p>
 <p>These lists are important because students applying to college trust these rankings and weigh them into their college decisions. Due to the large impact that a college has on a student’s life, it is important to know where these rankings come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college’s ranking.</p>
-<p>In general, we want to examine how different variables affect a school’s ranking on the <strong>Niche College Ranking List</strong>. We plan to look at variables that are typically thought to influence school rank such as average SAT score and admission rate, but we also want to look at variables that aren’t typically thought of such as geographic region or endowment size.</p>
+<p>In general, we want to examine how different variables affect a school’s ranking on the <strong>Niche College Ranking List</strong> and determine which are most important to a high ranking. We plan to look at variables that are typically thought to influence school rank such as average SAT score and admission rate, but we also want to look at variables that aren’t typically thought of such as geographic region or endowment size.</p>
+<p>For the sake of clarity, when we say a “low rank,” we are referring to schools with a lower numerical rank, such as #1 and #2. When we say a “high rank,” we a referring to schools with a high numerical rank, such as #497 and #498.</p>
 </section>
-<section id="research-questions-and-hypothesis" class="level3">
-<h3 class="anchored" data-anchor-id="research-questions-and-hypothesis">Research Questions and Hypothesis</h3>
-<p><strong>Question:</strong> What variables (and what types of variables) have the greatest influence on a school’s place in the Niche College Ranking list?</p>
-<p><strong>Hypothesis:</strong> We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.</p>
+<section id="research-question-and-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="research-question-and-hypothesis">Research Question and Hypothesis</h3>
+<p><strong>Question:</strong> Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?</p>
+<p><strong>Hypothesis:</strong> We hypothesize that SAT/ACT scores, acceptance rate, and family income will have the strongest association with rank because since Niche’s audience is in large part students applying to college, we believe that they prioritize variables important in the college admissions process. Of these variables, we predict that SAT/ACT score will have strong negative relationship, acceptance rate will have a strong positive relationship, and family income will have a strong negative relationship with rank.</p>
 <p>In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard</p>
 </section>
 </section>
@@ -192,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
 <li><p>The second data set comes from the US Department of Education’s College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.</p>
 <p>(https://collegescorecard.ed.gov/data/)</p></li>
 <li><p>The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.</p></li>
-<li><p>There were 2,989 variables in the original data set, many of which we don’t need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 63 variables. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.</p></li>
+<li><p>There were 2,989 variables in the original data set, many of which we don’t need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.</p></li>
 </ul>
 </section>
 <section id="data-summary" class="level3">
@@ -408,45 +409,9 @@ ul.task-list li input[type="checkbox"] {
 <td></td>
 </tr>
 <tr class="odd">
-<td>SATVRMID</td>
-<td>Q</td>
-<td>Midpoint of SAT scores at the institution (critical reading)</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>SATMTMID</td>
-<td>Q</td>
-<td>Midpoint of SAT scores at the institution (math)</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>SATWRMID</td>
-<td>Q</td>
-<td>Midpoint of SAT scores at the institution (writing)</td>
-<td></td>
-</tr>
-<tr class="even">
 <td>ACTCMMID</td>
 <td>Q</td>
 <td>Midpoint of the ACT cumulative score</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>ACTENMID</td>
-<td>Q</td>
-<td>Midpoint of the ACT english score</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>ACTMTMID</td>
-<td>Q</td>
-<td>Midpoint of the ACT math score</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>ACTWRMID</td>
-<td>Q</td>
-<td>Midpoint of the ACT writing score</td>
 <td></td>
 </tr>
 </tbody>
@@ -1293,30 +1258,16 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <colgroup>
-<col style="width: 6%">
-<col style="width: 0%">
-<col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 9%">
-<col style="width: 15%">
+<col style="width: 7%">
 <col style="width: 1%">
 <col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 10%">
+<col style="width: 17%">
 <col style="width: 2%">
 <col style="width: 2%">
 <col style="width: 2%">
 <col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 1%">
 <col style="width: 2%">
 <col style="width: 2%">
 <col style="width: 2%">
@@ -1325,11 +1276,19 @@ ul.task-list li input[type="checkbox"] {
 <col style="width: 2%">
 <col style="width: 2%">
 <col style="width: 1%">
+<col style="width: 2%">
 <col style="width: 1%">
 <col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
 <col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
 <col style="width: 1%">
 <col style="width: 1%">
 </colgroup>
@@ -1367,13 +1326,7 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: right;">MD_FAMINC</th>
 <th style="text-align: right;">ENDOWBEGIN</th>
 <th style="text-align: right;">SAT_AVG</th>
-<th style="text-align: right;">SATVRMID</th>
-<th style="text-align: right;">SATMTMID</th>
-<th style="text-align: right;">SATWRMID</th>
 <th style="text-align: right;">ACTCMMID</th>
-<th style="text-align: right;">ACTENMID</th>
-<th style="text-align: right;">ACTMTMID</th>
-<th style="text-align: right;">ACTWRMID</th>
 </tr>
 </thead>
 <tbody>
@@ -1410,13 +1363,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">-0.3635658</td>
 <td style="text-align: right;">4.8230767</td>
 <td style="text-align: right;">2.435243</td>
-<td style="text-align: right;">2.437355</td>
-<td style="text-align: right;">2.409834</td>
-<td style="text-align: right;">1.906164</td>
 <td style="text-align: right;">2.157264</td>
-<td style="text-align: right;">2.090363</td>
-<td style="text-align: right;">2.605611</td>
-<td style="text-align: right;">0.8917158</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Stanford University</td>
@@ -1451,13 +1398,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">-0.7457627</td>
 <td style="text-align: right;">7.8526584</td>
 <td style="text-align: right;">1.959465</td>
-<td style="text-align: right;">2.091365</td>
-<td style="text-align: right;">1.990986</td>
-<td style="text-align: right;">1.906164</td>
 <td style="text-align: right;">1.625002</td>
-<td style="text-align: right;">1.858101</td>
-<td style="text-align: right;">2.053884</td>
-<td style="text-align: right;">NA</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Harvard University</td>
@@ -1492,13 +1433,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">-1.2442952</td>
 <td style="text-align: right;">11.7606764</td>
 <td style="text-align: right;">2.193322</td>
-<td style="text-align: right;">2.350857</td>
-<td style="text-align: right;">2.130602</td>
-<td style="text-align: right;">2.092902</td>
 <td style="text-align: right;">1.891133</td>
-<td style="text-align: right;">2.090363</td>
-<td style="text-align: right;">2.053884</td>
-<td style="text-align: right;">0.8917158</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Yale University</td>
@@ -1533,13 +1468,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">-0.7812391</td>
 <td style="text-align: right;">8.6251074</td>
 <td style="text-align: right;">2.193322</td>
-<td style="text-align: right;">2.350857</td>
-<td style="text-align: right;">2.130602</td>
-<td style="text-align: right;">2.092902</td>
 <td style="text-align: right;">1.891133</td>
-<td style="text-align: right;">1.858101</td>
-<td style="text-align: right;">2.053884</td>
-<td style="text-align: right;">NA</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Princeton University</td>
@@ -1574,13 +1503,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">-1.0762267</td>
 <td style="text-align: right;">7.2393605</td>
 <td style="text-align: right;">2.080425</td>
-<td style="text-align: right;">2.177863</td>
-<td style="text-align: right;">2.130602</td>
-<td style="text-align: right;">2.092902</td>
 <td style="text-align: right;">1.891133</td>
-<td style="text-align: right;">1.858101</td>
-<td style="text-align: right;">2.053884</td>
-<td style="text-align: right;">0.8917158</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Rice University</td>
@@ -1615,13 +1538,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.1093542</td>
 <td style="text-align: right;">1.5921875</td>
 <td style="text-align: right;">2.298154</td>
-<td style="text-align: right;">2.177863</td>
-<td style="text-align: right;">2.200410</td>
-<td style="text-align: right;">1.781672</td>
 <td style="text-align: right;">2.157264</td>
-<td style="text-align: right;">1.858101</td>
-<td style="text-align: right;">2.329747</td>
-<td style="text-align: right;">0.8917158</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">California Institute of Technology</td>
@@ -1656,13 +1573,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">-0.7455087</td>
 <td style="text-align: right;">0.5526454</td>
 <td style="text-align: right;">2.564268</td>
-<td style="text-align: right;">2.523852</td>
-<td style="text-align: right;">2.479642</td>
-<td style="text-align: right;">2.279641</td>
 <td style="text-align: right;">2.423395</td>
-<td style="text-align: right;">2.090363</td>
-<td style="text-align: right;">2.881474</td>
-<td style="text-align: right;">0.8917158</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Duke University</td>
@@ -1697,13 +1608,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">-0.0380126</td>
 <td style="text-align: right;">2.2133492</td>
 <td style="text-align: right;">2.273962</td>
-<td style="text-align: right;">2.264360</td>
-<td style="text-align: right;">2.200410</td>
-<td style="text-align: right;">1.906164</td>
 <td style="text-align: right;">2.157264</td>
-<td style="text-align: right;">2.090363</td>
-<td style="text-align: right;">2.329747</td>
-<td style="text-align: right;">0.8917158</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Brown University</td>
@@ -1738,13 +1643,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.8556924</td>
 <td style="text-align: right;">0.8449944</td>
 <td style="text-align: right;">2.096553</td>
-<td style="text-align: right;">2.177863</td>
-<td style="text-align: right;">1.990986</td>
-<td style="text-align: right;">1.906164</td>
 <td style="text-align: right;">1.891133</td>
-<td style="text-align: right;">1.858101</td>
-<td style="text-align: right;">2.053884</td>
-<td style="text-align: right;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Dartmouth College</td>
@@ -1779,13 +1678,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.2539058</td>
 <td style="text-align: right;">1.3633003</td>
 <td style="text-align: right;">2.032041</td>
-<td style="text-align: right;">2.177863</td>
-<td style="text-align: right;">1.990986</td>
-<td style="text-align: right;">1.781672</td>
 <td style="text-align: right;">1.891133</td>
-<td style="text-align: right;">1.858101</td>
-<td style="text-align: right;">2.053884</td>
-<td style="text-align: right;">NA</td>
 </tr>
 </tbody>
 </table>

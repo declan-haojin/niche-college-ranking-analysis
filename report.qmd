@@ -33,13 +33,15 @@ Every year, millions of students apply to colleges across the United States, and
 
 These lists are important because students applying to college trust these rankings and weigh them into their college decisions. Due to the large impact that a college has on a student's life, it is important to know where these rankings come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college's ranking.
 
-In general, we want to examine how different variables affect a school's ranking on the **Niche College Ranking List**. We plan to look at variables that are typically thought to influence school rank such as average SAT score and admission rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
+In general, we want to examine how different variables affect a school's ranking on the **Niche College Ranking List** and determine which are most important to a high ranking. We plan to look at variables that are typically thought to influence school rank such as average SAT score and admission rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
 
-### Research Questions and Hypothesis
+For the sake of clarity, when we say a "low rank," we are referring to schools with a lower numerical rank, such as #1 and #2. When we say a "high rank," we a referring to schools with a high numerical rank, such as #497 and #498.
 
-**Question:** What variables (and what types of variables) have the greatest influence on a school's place in the Niche College Ranking list?
+### Research Question and Hypothesis
 
-**Hypothesis:** We hypothesize that: ACT/SAT test score, acceptance rate, and median earnings 10 years after graduation will have the biggest impact on college rank.
+**Question:** Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?
+
+**Hypothesis:** We hypothesize that SAT/ACT scores, acceptance rate, and family income will have the strongest association with rank because since Niche's audience is in large part students applying to college, we believe that they prioritize variables important in the college admissions process. Of these variables, we predict that SAT/ACT score will have strong negative relationship, acceptance rate will have a strong positive relationship, and family income will have a strong negative relationship with rank.
 
 In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard
 
@@ -63,7 +65,7 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 -   The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.
 
--   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 63 variables. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.
+-   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.
 
 ### Data summary
 
@@ -138,19 +140,7 @@ Here is a summary of the variables we will be using in our analysis.
 +---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
 | SAT_AVG       | Q                | Average SAT equivalent score of students admitted                                                                  |                                                                                                             |
 +---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| SATVRMID      | Q                | Midpoint of SAT scores at the institution (critical reading)                                                       |                                                                                                             |
-+---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| SATMTMID      | Q                | Midpoint of SAT scores at the institution (math)                                                                   |                                                                                                             |
-+---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| SATWRMID      | Q                | Midpoint of SAT scores at the institution (writing)                                                                |                                                                                                             |
-+---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
 | ACTCMMID      | Q                | Midpoint of the ACT cumulative score                                                                               |                                                                                                             |
-+---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| ACTENMID      | Q                | Midpoint of the ACT english score                                                                                  |                                                                                                             |
-+---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| ACTMTMID      | Q                | Midpoint of the ACT math score                                                                                     |                                                                                                             |
-+---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| ACTWRMID      | Q                | Midpoint of the ACT writing score                                                                                  |                                                                                                             |
 +---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
 
 ## Methodology
@@ -648,13 +638,7 @@ chosen_variables <- c(
   "MD_FAMINC",
   "ENDOWBEGIN",
   "SAT_AVG",
-  "SATVRMID",
-  "SATMTMID",
-  "SATWRMID",
-  "ACTCMMID",
-  "ACTENMID",
-  "ACTMTMID",
-  "ACTWRMID"
+  "ACTCMMID"
 )
 
 data <- colleges |>
@@ -1307,29 +1291,6 @@ g1 <- scaled_data |>
     y = ""
   ) 
 
-g2 <- scaled_data |> 
-  ggplot(aes(x = SATVRMID, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Avg SAT Reading",
-    y = ""
-  ) 
-
-g3 <- scaled_data |> 
-  ggplot(aes(x = SATMTMID, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Avg SAT Math",
-    y = ""
-  ) 
-
-g4 <- scaled_data |> 
-  ggplot(aes(x = SATWRMID, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Avg SAT Writing",
-    y = ""
-  ) 
 
 g5 <- scaled_data |> 
   ggplot(aes(x = ACTCMMID, y = rank)) +
@@ -1339,36 +1300,13 @@ g5 <- scaled_data |>
     y = ""
   ) 
 
-g6 <- scaled_data |> 
-  ggplot(aes(x = ACTENMID, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Med ACT English",
-    y = ""
-  ) 
-
-g7 <- scaled_data |> 
-  ggplot(aes(x = ACTMTMID, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Med ACT Math",
-    y = ""
-  ) 
-
-g8 <- scaled_data |> 
-  ggplot(aes(x = ACTWRMID, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Med ACT Writing",
-    y = ""
-  ) 
 
 ```
 
 ```{r}
 #| label: arrange-in-grid-test
 
-grid.arrange(g1, g2, g3, g4, g5, g6, g7 , g8)
+grid.arrange(g1, g5)
 ```
 
 For all type of standardized test scores, there appear to be a strong negative relationship between score and rank, indicating that as the test scores increases, the rank of a school is expected to to increase.
@@ -1384,7 +1322,7 @@ We checked the correlation coefficients between the variables so we don't use va
       select(is.numeric)
 
     correlations = data_for_corr |>
-      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P", "SATWRMID", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "ACTWRMID")) |>
+      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
         na.omit() |>
         cor() 
 
