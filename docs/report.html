@@ -17744,7 +17744,8 @@ $ FIRST_GEN    &lt;dbl&gt; -0.003238281, 0.451202521, -0.017754405, -0.089464046
 </div>
 </div>
 <p>Then we can evaluation our second model by Rsqure:</p>
-<p>glance(fit2) |&gt; select(adj.r.squared) |&gt; knitr::kable() ```</p>
+<pre><code>glance(fit2) |&gt;
+  select(adj.r.squared) |&gt; knitr::kable()</code></pre>
 <p>Since the R-squared value is 0.703 which is even smaller than 0.7200 of our first model, we need to implement forward selection by adding variables back to our model.</p>
 </section>
 <section id="iteration-3" class="level3">
