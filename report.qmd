@@ -8,7 +8,7 @@ execute:
 message: false
 warning: false
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r}
@@ -855,6 +855,440 @@ When looking at states, Maine has the highest mean rank, followed by Massachuset
 
 #### Numerical Variables vs. Rank
 
+```{r}
+
+#| label: admission_graphs
+
+library(gridExtra)
+
+a1 <- colleges|> 
+  ggplot(aes(x = ADM_RATE, y = rank)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(
+    x = "Admission Rate",
+    y = "Rank",
+    color = "Public/Private",
+  )
+
+a2 <- colleges |> 
+  ggplot(aes(x = SAT_AVG, y = rank)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(
+    x = "Avg SAT",
+    y = "Rank"
+  ) 
+
+a3 <- colleges |> 
+  ggplot(aes(x = ACTCMMID, y = rank)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(
+    x = "Med ACT",
+    y = "Rank"
+  ) 
+
+
+grid.arrange(a1, a2, a3, ncol = 1)
+```
+
+```{r}
+
+#| label: admission_slope_r2
+
+#START
+
+#ADM_RATE
+s_adm_rate_rank_reg <- linear_reg() |>
+  fit(rank ~ ADM_RATE, data = scaled_data)
+s_adm_rate_rank_reg
+
+adm_rate_rank_reg <- linear_reg() |>
+  fit(rank ~ ADM_RATE, data = colleges)
+adm_rate_rank_reg
+
+glance(adm_rate_rank_reg) |>
+  select(r.squared)
+
+#SAT_AVG
+s_SAT_AVG_rank_reg <- linear_reg() |>
+  fit(rank ~ SAT_AVG, data = scaled_data)
+s_SAT_AVG_rank_reg
+
+SAT_AVG_rank_reg <- linear_reg() |>
+  fit(rank ~ SAT_AVG, data = colleges)
+SAT_AVG_rank_reg
+
+glance(SAT_AVG_rank_reg) |>
+  select(r.squared)
+
+#ACTCMMID
+s_ACTCMMID_rank_reg <- linear_reg() |>
+  fit(rank ~ ACTCMMID, data = scaled_data)
+s_ACTCMMID_rank_reg
+
+
+ACTCMMID_rank_reg <- linear_reg() |>
+  fit(rank ~ ACTCMMID, data = colleges)
+ACTCMMID_rank_reg
+
+glance(ACTCMMID_rank_reg) |>
+  select(r.squared)
+
+#create tibble
+admission_slope_r2 <- tibble(
+  "Explanatory Variable" = c(
+    "Admission Rate",
+    "SAT Average",
+    "ACT Median"
+  ),
+  "Standarized Slope" = c("91.74", "-115.0", "-112.9"),
+  "Slope" = c("387.02", "-0.9277", "-30.04"),
+  "R-Squared" = c("0.405", "0.629", "0.606")
+)
+
+admission_slope_r2 |> knitr::kable() 
+```
+
+```{r}
+
+#| label: create_tibble_admissions
+
+admission_slope_r2 <- tibble(
+  "Explanatory Variable" = c(
+    "Admission Rate",
+    "SAT Average",
+    "ACT Median"
+  ),
+  "Standarized Slope" = c("91.74", "-115.0", "-112.9"),
+  "Slope" = c("387.02", "-0.9277", "-30.04"),
+  "R-Squared" = c("0.405", "0.629", "0.606")
+)
+
+admission_slope_r2 |> knitr::kable() 
+
+```
+
+```{r}
+
+#| label: demographics_graphs
+
+race_scaled_colleges <- colleges |> 
+  mutate(
+    scaled_UGDS_WHITE = scaled_data$UGDS_WHITE,
+    scaled_UGDS_BLACK = scaled_data$UGDS_BLACK,
+    scaled_UGDS_HISP = scaled_data$UGDS_HISP,
+    scaled_UGDS_ASIAN = scaled_data$UGDS_ASIAN,
+    scaled_UGDS_NRA = scaled_data$UGDS_NRA
+  )
+
+b1 <- race_scaled_colleges |>
+  filter(scaled_UGDS_WHITE >= -3 & scaled_UGDS_WHITE <= 3) |> 
+  ggplot(aes(x = UGDS_WHITE, y = log(rank))) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm", se = F) +
+  labs(
+    x = "% White",
+    y = "log(Rank)"
+  )
+  
+b2 <- race_scaled_colleges  |>
+  filter(scaled_UGDS_BLACK >= -3 & scaled_UGDS_BLACK <= 3) |> 
+  ggplot(aes(x = UGDS_BLACK, y = log(rank))) +
+  geom_smooth(method = "lm", se = F) +
+  geom_point(alpha = 0.25) +
+  labs(
+    x = "% Black",
+    y = "log(Rank)"
+  )
+
+b3 <- race_scaled_colleges |>
+  filter(scaled_UGDS_HISP >= -3 & scaled_UGDS_HISP <= 3) |> 
+  ggplot(aes(x = UGDS_HISP, y = log(rank))) +
+  geom_smooth(method = "lm", se = F) +
+  geom_point(alpha = 0.25) +
+  labs(
+    x = "% Hispanic",
+    y = "log(Rank)"
+  )
+
+b4 <- race_scaled_colleges |> 
+  filter(scaled_UGDS_ASIAN >= -3 & scaled_UGDS_ASIAN <= 3) |> 
+  ggplot(aes(x = UGDS_ASIAN, y = log(rank))) +
+  geom_smooth(method = "lm", se = F) +
+  geom_point(alpha = 0.25) +
+  labs(
+    x = "% Asian",
+    y = "log(Rank)"
+  )
+
+b5 <- race_scaled_colleges |> 
+  filter(scaled_UGDS_NRA >= -3 & scaled_UGDS_NRA <= 3) |> 
+  ggplot(aes(x = UGDS_NRA, y = log(rank))) +
+  geom_smooth(method = "lm", se = F) +
+  geom_point(alpha = 0.25) +
+  labs(
+    x = "% Non-resident Aliens",
+    y = "log(Rank)"
+  )
+
+
+grid.arrange(b1, b2, b3, b4, b5, ncol = 2)
+```
+
+```{r}
+
+#| label: demographics_slope_r2
+
+#START
+
+#UGDS_WHITE
+s_UGDS_WHITE_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_WHITE, data = scaled_data)
+s_UGDS_WHITE_rank_reg
+
+UGDS_WHITE_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_WHITE, data = colleges)
+UGDS_WHITE_rank_reg
+
+glance(UGDS_WHITE_rank_reg) |>
+  select(r.squared)
+
+#UGDS_BLACK
+s_UGDS_BLACK_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_BLACK, data = scaled_data)
+s_UGDS_BLACK_rank_reg
+
+UGDS_BLACK_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_BLACK, data = colleges)
+UGDS_BLACK_rank_reg
+
+glance(UGDS_BLACK_rank_reg) |>
+  select(r.squared)
+
+#UGDS_HISP
+s_UGDS_HISP_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_HISP, data = scaled_data)
+s_UGDS_HISP_rank_reg
+
+UGDS_HISP_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_HISP, data = colleges)
+UGDS_HISP_rank_reg
+
+glance(UGDS_HISP_rank_reg) |>
+  select(r.squared)
+
+#UGDS_ASIAN
+s_UGDS_ASIAN_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_ASIAN, data = scaled_data)
+s_UGDS_ASIAN_rank_reg
+
+UGDS_ASIAN_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_ASIAN, data = colleges)
+UGDS_ASIAN_rank_reg
+
+glance(UGDS_ASIAN_rank_reg) |>
+  select(r.squared)
+
+#UGDS_NRA
+s_UGDS_NRA_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_NRA, data = scaled_data)
+s_UGDS_NRA_rank_reg
+
+UGDS_NRA_rank_reg <- linear_reg() |>
+  fit(log(rank) ~ UGDS_NRA, data = colleges)
+UGDS_NRA_rank_reg
+
+glance(UGDS_NRA_rank_reg) |>
+  select(r.squared)
+```
+
+```{r}
+
+#| label: create_tibble_demographics
+
+admission_slope_r2 <- tibble(
+  "Explanatory Variable" = c(
+    "% White",
+    "% Black",
+    "% Hispanic",
+    "% Asian",
+    "% Non-resident Aliens"
+  ),
+  "Standardized Slope" = c("0.264", "0.1511", "0.03403", "-0.521", "-0.4448"),
+  "Slope" = c("1.406 ", "1.906", "0.3083", "-6.569", "-8.517"),
+  "R-Squared" = c("0.07280404", "0.02382938", "0.001209544", "0.2834427", "0.2066353")
+)
+```
+
+```{r}
+
+#| label: finanicals_graphs
+
+finanicals_scaled_colleges <- colleges |> 
+  mutate(
+    scaled_NPT4_PUB = scaled_data$NPT4_PUB,
+    scaled_NPT4_PRIV = scaled_data$NPT4_PRIV,
+    scaled_COSTT4_A = scaled_data$COSTT4_A,
+    scaled_AVGFACSAL = scaled_data$AVGFACSAL,
+    scaled_ENDOWBEGIN = scaled_data$ENDOWBEGIN
+  )
+
+c1 <- colleges |> 
+  ggplot(aes(x = NPT4_PUB, y = rank)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm", se = F) +
+  labs(
+    x = "Avg Net Price (public)",
+    y = "Rank"
+  )
+
+c2 <- colleges |> 
+  ggplot(aes(x = NPT4_PRIV, y = rank)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm", se = F) +
+  labs(
+    x = "Avg Net Price (private)",
+    y = "Rank"
+  )
+
+c3 <- colleges |> 
+  filter(CONTROL == 1) |> 
+  ggplot(aes(x = COSTT4_A, y = rank)) +
+  geom_point(alpha = 0.25, show.legend = F) +
+  geom_smooth(method = "lm", se = F, show.legend = F) +
+  labs(
+    x = "Cost of Attendance (public)", 
+    y = "Rank"
+  ) 
+
+c4 <- colleges |> 
+  filter(CONTROL == 2) |> 
+  ggplot(aes(x = COSTT4_A, y = rank)) +
+  geom_point(alpha = 0.25, show.legend = F) +
+  geom_smooth(method = "lm", se = F, show.legend = F) +
+  labs(
+    x = "Cost of Attendance (private)", 
+    y = "Rank"
+  ) 
+
+c5 <- colleges |> 
+  ggplot(aes(x = AVGFACSAL, y = rank)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm", se = F) +
+  labs(
+    x = "Average Faculty Salary", 
+    y = "Rank"
+  ) 
+
+c6 <- colleges |> 
+  ggplot(aes(x = log(ENDOWBEGIN), y = rank)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm", se = F) +
+  labs(
+    x = "Endowment Size", 
+    y = "log(Rank)"
+  )
+
+grid.arrange(c1, c2, c3, c4, c5, c6, ncol = 2)
+
+```
+
+```{r}
+
+#| label: financials_slope_r2
+
+#START
+
+#NPT4_PUB
+linear_reg() |>
+  fit(rank ~ NPT4_PUB, data = scaled_data)
+
+reg <- linear_reg() |>
+  fit(rank ~ NPT4_PUB, data = colleges)
+reg
+
+glance(reg) |>
+  select(r.squared)
+
+#NPT4_PRIV
+linear_reg() |>
+  fit(rank ~ NPT4_PRIV, data = scaled_data)
+
+reg <- linear_reg() |>
+  fit(rank ~ NPT4_PRIV, data = colleges)
+reg
+
+glance(reg) |>
+  select(r.squared)
+
+#COSTT4_A-Pub
+linear_reg() |>
+  fit(rank ~ COSTT4_A, data = scaled_data |> filter(CONTROL == 1))
+
+reg <- linear_reg() |>
+  fit(rank ~ COSTT4_A, data = colleges |> filter(CONTROL == 1))
+reg
+
+glance(reg) |>
+  select(r.squared)
+
+#COSTT4_A-Priv
+linear_reg() |>
+  fit(rank ~ COSTT4_A, data = scaled_data |> filter(CONTROL == 2))
+
+reg <- linear_reg() |>
+  fit(rank ~ COSTT4_A, data = colleges |> filter(CONTROL == 2))
+reg
+
+glance(reg) |>
+  select(r.squared)
+
+#AVGFACSAL
+linear_reg() |>
+  fit(rank ~ AVGFACSAL, data = scaled_data)
+
+reg <- linear_reg() |>
+  fit(rank ~ AVGFACSAL, data = colleges)
+reg
+
+glance(reg) |>
+  select(r.squared)
+
+#ENDOWBEGIN
+linear_reg() |>
+  fit(log(rank) ~ ENDOWBEGIN, data = scaled_data)
+
+reg <- linear_reg() |>
+  fit(log(rank) ~ ENDOWBEGIN, data = colleges)
+reg
+
+glance(reg) |>
+  select(r.squared)
+
+
+
+```
+
+```{r}
+
+#| label: create_tibble_financials
+
+admission_slope_r2 <- tibble(
+  "Explanatory Variable" = c(
+    "% White",
+    "% Black",
+    "% Hispanic",
+    "% Asian",
+    "% Non-resident Aliens"
+  ),
+  "Standardized Slope" = c("0.264", "0.1511", "0.03403", "-0.521", "-0.4448"),
+  "Slope" = c("1.406 ", "1.906", "0.3083", "-6.569", "-8.517"),
+  "R-Squared" = c("0.07280404", "0.02382938", "0.001209544", "0.2834427", "0.2066353")
+)
+```
+
 We have plotted rank versus several of the numerical variables. This gives us an idea of how different metrics affect college rank.
 
 ```{r}
@@ -1337,7 +1771,7 @@ According to the correlation matrix, we need to remove variable pairs that have 
 
 correlations[correlations < 0.8 | correlations == 1] <- ""
 
-#correlations |> knitr::kable() 
+correlations |> knitr::kable() 
 ```
 
 | Variable Pairs with r \> 0.8 | Correlation Coefficients |
