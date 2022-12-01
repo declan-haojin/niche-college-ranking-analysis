@@ -738,7 +738,66 @@ scaled_data |>
   knitr::kable()
 ```
 
-### Preliminary Exploration and Visualization
+### Preliminary Exploration and Visualization 
+
+```{r}
+#| label: find-r2
+
+numerical_variables  <- c(
+  "ADM_RATE",
+  "UGDS",
+  "UGDS_WHITE",
+  "UGDS_BLACK",
+  "UGDS_HISP",
+  "UGDS_ASIAN",
+  "UGDS_AIAN",
+  "UGDS_NHPI",
+  "UGDS_2MOR",
+  "UGDS_NRA",
+  "UGDS_UNKN",
+  "NPT4_PUB",
+  "NPT4_PRIV",
+  "COSTT4_A",
+  "COSTT4_P",
+  "AVGFACSAL",
+  "PCTPELL",
+  "C150_4",
+  "AGE_ENTRY",
+  "FEMALE",
+  "MARRIED",
+  "FIRST_GEN",
+  "FAMINC",
+  "MD_FAMINC",
+  "ENDOWBEGIN",
+  "SAT_AVG",
+  "ACTCMMID"
+)
+
+r2s <- numeric()
+
+for(var in numerical_variables) {
+  temp_df <- data |>
+  select(c(rank, var))
+  
+  model <- linear_reg() |>
+    set_engine("lm") |>
+    fit(rank ~ ., data = temp_df)
+  
+  r2 <- glance(model)$r.squared
+  
+  r2s <- c(r2s, r2)
+}
+
+r_squared_values <- tibble(
+  variable = numerical_variables, 
+  r_squared = r2s
+)
+
+r_squared_values |>
+  arrange(desc(r_squared))
+```
+
+`COSTT4_P` has an R-squared value of 1 because there are only two observations with entries for it. Therefore, we will not be using it in the stepwise regression model.
 
 #### Means of Different Variables by Rank Group
 
@@ -864,7 +923,7 @@ We have plotted rank versus several of the numerical variables. This gives us an
 
 ```{r}
 
-#| numerical-data-graphs
+#| label: numerical-data-graphs
 
 
 scaled_data|> 
