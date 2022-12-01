@@ -110,12 +110,19 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
   <ul class="collapse">
+  <li><a href="#data-set-1-niche" id="toc-data-set-1-niche" class="nav-link" data-scroll-target="#data-set-1-niche">Data Set #1: Niche</a></li>
+  <li><a href="#data-set-2-us-department-of-education" id="toc-data-set-2-us-department-of-education" class="nav-link" data-scroll-target="#data-set-2-us-department-of-education">Data Set #2: US Department of Education</a></li>
   <li><a href="#data-summary" id="toc-data-summary" class="nav-link" data-scroll-target="#data-summary">Data summary</a></li>
   </ul></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
   <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
-  <li><a href="#preliminary-exploration-and-visualization" id="toc-preliminary-exploration-and-visualization" class="nav-link" data-scroll-target="#preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</a></li>
+  <li><a href="#preliminary-exploration-and-visualization" id="toc-preliminary-exploration-and-visualization" class="nav-link" data-scroll-target="#preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</a>
+  <ul class="collapse">
+  <li><a href="#means-of-different-variables-by-rank-group" id="toc-means-of-different-variables-by-rank-group" class="nav-link" data-scroll-target="#means-of-different-variables-by-rank-group">Means of Different Variables by Rank Group</a></li>
+  <li><a href="#means-of-rank-by-categorical-variables" id="toc-means-of-rank-by-categorical-variables" class="nav-link" data-scroll-target="#means-of-rank-by-categorical-variables">Means of Rank by Categorical Variables</a></li>
+  <li><a href="#numerical-variables-vs.-rank" id="toc-numerical-variables-vs.-rank" class="nav-link" data-scroll-target="#numerical-variables-vs.-rank">Numerical Variables vs.&nbsp;Rank</a></li>
+  </ul></li>
   <li><a href="#check-correlation-coefficients" id="toc-check-correlation-coefficients" class="nav-link" data-scroll-target="#check-correlation-coefficients">Check Correlation Coefficients</a></li>
   <li><a href="#build-model" id="toc-build-model" class="nav-link" data-scroll-target="#build-model">Build model</a></li>
   </ul></li>
@@ -128,9 +135,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#iteration-4" id="toc-iteration-4" class="nav-link" data-scroll-target="#iteration-4">Iteration #4</a></li>
   <li><a href="#model-results" id="toc-model-results" class="nav-link" data-scroll-target="#model-results">Model results</a></li>
   <li><a href="#r-squared-values" id="toc-r-squared-values" class="nav-link" data-scroll-target="#r-squared-values">R-Squared Values</a></li>
-  <li><a href="#final-conclusion" id="toc-final-conclusion" class="nav-link" data-scroll-target="#final-conclusion">Final Conclusion</a></li>
   </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a>
+  <ul class="collapse">
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -157,33 +166,31 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 
 </div>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<section id="research-background" class="level3">
-<h3 class="anchored" data-anchor-id="research-background">Research Background</h3>
-<p>Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as <em>US News and World Report</em>, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on “exclusivity and resources, rather than accessibility and economic mobility”(1).The system can also be easily manipulated by a university if that university prioritize certain metrics to raise their rankings, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list in only 17 years. The president of Northeastern University even explicitly stated that it was a top priority of the university to raise its ranking (2).</p>
-<ol type="1">
-<li>https://thehill.com/changing-america/enrichment/education/3641004-the-scandal-facing-college-ranking-lists-explained/</li>
-</ol>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<section id="research-background" class="level2">
+<h2 class="anchored" data-anchor-id="research-background">Research Background</h2>
+<p>Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as <em>US News and World Report</em>, Forbes.com, and Niche.com to to help them decide where to apply and where to go. In recent years, these lists have been heavily criticized for focusing on “exclusivity and resources, rather than accessibility and economic mobility” (1).The system can also be easily manipulated by a university if that university prioritize certain metrics to raise their rankings, as seen in Northeastern University meteoric rise from #163 to #49 on the US News and World Report list in only 17 years. The president of Northeastern University even explicitly stated that it was a top priority of the university to raise its ranking (2).</p>
+<p>(1) https://thehill.com/changing-america/enrichment/education/3641004-the-scandal-facing-college-ranking-lists-explained/</p>
 <p>(2) https://www.bostonmagazine.com/news/2014/08/26/how-northeastern-gamed-the-college-rankings/</p>
 <p>These lists are important because students applying to college trust these rankings and weigh them into their college decisions. Due to the large impact that a college has on a student’s life, it is important to know where these rankings come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college’s ranking.</p>
 <p>In general, we want to examine how different variables affect a school’s ranking on the <strong>Niche College Ranking List</strong> and determine which are most important to a high ranking. We plan to look at variables that are typically thought to influence school rank such as average SAT score and admission rate, but we also want to look at variables that aren’t typically thought of such as geographic region or endowment size.</p>
 <p>For the sake of clarity, when we say a “low rank,” we are referring to schools with a lower numerical rank, such as #1 and #2. When we say a “high rank,” we a referring to schools with a high numerical rank, such as #499 and #500.</p>
 </section>
-<section id="research-question-and-hypothesis" class="level3">
-<h3 class="anchored" data-anchor-id="research-question-and-hypothesis">Research Question and Hypothesis</h3>
+<section id="research-question-and-hypothesis" class="level2">
+<h2 class="anchored" data-anchor-id="research-question-and-hypothesis">Research Question and Hypothesis</h2>
 <p><strong>Question:</strong> Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?</p>
 <p><strong>Hypothesis:</strong> We hypothesize that SAT/ACT scores, acceptance rate, and family income will have the strongest association with rank because since Niche’s audience is in large part students applying to college, we believe that they prioritize variables important in the college admissions process. Of these variables, we predict that SAT/ACT score will have strong negative relationship, acceptance rate will have a strong positive relationship, and family income will have a strong negative relationship with rank.</p>
 <p>In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard</p>
 </section>
 </section>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
+<section id="data" class="level1">
+<h1>Data</h1>
 <div class="cell">
 
 </div>
-<section id="data-set-1-niche" class="level4">
-<h4 class="anchored" data-anchor-id="data-set-1-niche">Data Set #1: Niche</h4>
+<section id="data-set-1-niche" class="level2">
+<h2 class="anchored" data-anchor-id="data-set-1-niche">Data Set #1: Niche</h2>
 <ul>
 <li><p>The first data set comes from Niche’s “2023 Best Colleges in America” list</p>
 <p>(https://www.niche.com/colleges/search/best-colleges/)</p></li>
@@ -191,8 +198,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p>There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: <code>college</code> and <code>rank</code>.</p></li>
 </ul>
 </section>
-<section id="data-set-2-us-department-of-education" class="level4">
-<h4 class="anchored" data-anchor-id="data-set-2-us-department-of-education">Data Set #2: US Department of Education</h4>
+<section id="data-set-2-us-department-of-education" class="level2">
+<h2 class="anchored" data-anchor-id="data-set-2-us-department-of-education">Data Set #2: US Department of Education</h2>
 <ul>
 <li><p>The second data set comes from the US Department of Education’s College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.</p>
 <p>(https://collegescorecard.ed.gov/data/)</p></li>
@@ -200,15 +207,14 @@ ul.task-list li input[type="checkbox"] {
 <li><p>There were 2,989 variables in the original data set, many of which we don’t need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.</p></li>
 </ul>
 </section>
-<section id="data-summary" class="level3">
-<h3 class="anchored" data-anchor-id="data-summary">Data summary</h3>
+<section id="data-summary" class="level2">
+<h2 class="anchored" data-anchor-id="data-summary">Data summary</h2>
 <p>Here is a summary of the variables we will be using in our analysis.</p>
 <table class="table">
 <colgroup>
-<col style="width: 6%">
-<col style="width: 7%">
-<col style="width: 44%">
-<col style="width: 41%">
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 78%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -216,7 +222,6 @@ ul.task-list li input[type="checkbox"] {
 <th><p>Categorical (C)</p>
 <p>Quantitative (Q)</p></th>
 <th>Description</th>
-<th>Levels of Cat. Variable</th>
 </tr>
 </thead>
 <tbody>
@@ -224,208 +229,175 @@ ul.task-list li input[type="checkbox"] {
 <td>college</td>
 <td>C</td>
 <td>Institution name</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>rank</td>
 <td>Q</td>
 <td>Niche rank</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>REGION</td>
 <td>C</td>
-<td></td>
-<td>New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas</td>
+<td>US geographic region (New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas)</td>
 </tr>
 <tr class="even">
 <td>ACCREDAGENCY</td>
 <td>C</td>
 <td>Accreditor for Institution</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>CONTROL</td>
 <td>C</td>
-<td></td>
-<td>Public, Private nonprofit, private for-profit</td>
+<td>Public, Private nonprofit, or Private for-profit</td>
 </tr>
 <tr class="even">
 <td>CCBASIC</td>
 <td>C</td>
 <td>Carnegie Classification (basic)</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>ADM_RATE</td>
 <td>Q</td>
 <td>Admission rate</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>UGDS</td>
 <td>Q</td>
 <td>Enrollment of undergraduate certificate/degree-seeking students</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>UGDS_WHITE</td>
 <td>Q</td>
 <td>Total share of enrollment of undergraduate degree-seeking students who are white</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>UGDS_BLACK</td>
 <td>Q</td>
 <td>Total share of enrollment of undergraduate degree-seeking students who are black</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>UGDS_HISP</td>
 <td>Q</td>
 <td>Total share of enrollment of undergraduate degree-seeking students who are Hispanic</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>UGDS_ASIAN</td>
 <td>Q</td>
 <td>Total share of enrollment of undergraduate degree-seeking students who are Asian</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>UGDS_AIAN</td>
 <td>Q</td>
 <td>Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>UGDS_NHPI</td>
 <td>Q</td>
 <td>Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>UGDS_2MOR</td>
 <td>Q</td>
 <td>Total share of enrollment of undergraduate degree-seeking students who are two or more races</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>UGDS_NRA</td>
 <td>Q</td>
 <td>Total share of enrollment of undergraduate degree-seeking students who are non-resident aliens</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>UGDS_UNKN</td>
 <td>Q</td>
 <td>Total share of enrollment of undergraduate degree-seeking students whose race is unknown</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>NPT4_PUB</td>
 <td>Q</td>
 <td>Average net price for Title IV institutions (public institutions)</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>NPT4_PRIV</td>
 <td>Q</td>
 <td>Average net price for Title IV institutions (private for-profit and nonprofit institutions)</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>COSTT4_A</td>
 <td>Q</td>
 <td>Average cost of attendance (academic year institutions)</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>COSTT4_P</td>
 <td>Q</td>
 <td>Average cost of attendance (program-year institutions)</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>AVGFACSAL</td>
 <td>Q</td>
 <td>Average faculty salary</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>PCTPELL</td>
 <td>Q</td>
 <td>Percentage of undergraduates who receive a Pell Grant</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>C150_4</td>
 <td>Q</td>
 <td>Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion)</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>AGE_ENTRY</td>
 <td>Q</td>
 <td>Average age of entry</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>FEMALE</td>
 <td>Q</td>
 <td>Share of female students</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>MARRIED</td>
 <td>Q</td>
 <td>Share of married students</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>FIRST_GEN</td>
 <td>Q</td>
 <td>Share of first-generation students</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>FAMINC</td>
 <td>Q</td>
 <td>Average family income</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>MD_FAMINC</td>
 <td>Q</td>
 <td>Median family income</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>ENDOWBEGIN</td>
 <td>Q</td>
 <td>Value of school’s endowment at the beginning of the fiscal year</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>SAT_AVG</td>
 <td>Q</td>
 <td>Average SAT equivalent score of students admitted</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>ACTCMMID</td>
 <td>Q</td>
 <td>Midpoint of the ACT cumulative score</td>
-<td></td>
 </tr>
 </tbody>
 </table>
 </section>
 </section>
-<section id="methodology" class="level2">
-<h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
-<section id="data-preparation" class="level3">
-<h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
+<section id="methodology" class="level1">
+<h1>Methodology</h1>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data Preparation</h2>
 <ol type="1">
 <li>To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported. The steps were done in an R script titled <code>niche-scrape.R</code></li>
 </ol>
@@ -1182,29 +1154,133 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="preliminary-exploration-and-visualization" class="level3">
-<h3 class="anchored" data-anchor-id="preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</h3>
+<section id="preliminary-exploration-and-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</h2>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 27 × 2
-   variable   r_squared
-   &lt;chr&gt;          &lt;dbl&gt;
- 1 COSTT4_P       1    
- 2 SAT_AVG        0.629
- 3 ACTCMMID       0.606
- 4 C150_4         0.514
- 5 AVGFACSAL      0.469
- 6 ADM_RATE       0.405
- 7 PCTPELL        0.248
- 8 UGDS_NRA       0.204
- 9 FIRST_GEN      0.196
-10 UGDS_ASIAN     0.195
-# … with 17 more rows</code></pre>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">r_squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">COSTT4_P</td>
+<td style="text-align: right;">1.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">0.6291468</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ACTCMMID</td>
+<td style="text-align: right;">0.6062324</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C150_4</td>
+<td style="text-align: right;">0.5137627</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">0.4692148</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">0.4048157</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PCTPELL</td>
+<td style="text-align: right;">0.2476545</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_NRA</td>
+<td style="text-align: right;">0.2040361</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FIRST_GEN</td>
+<td style="text-align: right;">0.1963961</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_ASIAN</td>
+<td style="text-align: right;">0.1946322</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ENDOWBEGIN</td>
+<td style="text-align: right;">0.1643675</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">COSTT4_A</td>
+<td style="text-align: right;">0.1577993</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FAMINC</td>
+<td style="text-align: right;">0.1525416</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: right;">0.1462016</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MARRIED</td>
+<td style="text-align: right;">0.1072270</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FEMALE</td>
+<td style="text-align: right;">0.0752810</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MD_FAMINC</td>
+<td style="text-align: right;">0.0661957</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NPT4_PUB</td>
+<td style="text-align: right;">0.0568142</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">0.0548673</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_2MOR</td>
+<td style="text-align: right;">0.0476589</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_BLACK</td>
+<td style="text-align: right;">0.0463458</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NPT4_PRIV</td>
+<td style="text-align: right;">0.0419051</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_WHITE</td>
+<td style="text-align: right;">0.0304200</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_NHPI</td>
+<td style="text-align: right;">0.0222752</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_UNKN</td>
+<td style="text-align: right;">0.0126394</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_AIAN</td>
+<td style="text-align: right;">0.0089268</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_HISP</td>
+<td style="text-align: right;">0.0040103</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<p><code>COSTT4_P</code> has an R-squared value of 1 because there are only two observations with entries for it. Therefore, we will not be using it in the stepwise regression model.</p>
-<section id="means-of-different-variables-by-rank-group" class="level4">
-<h4 class="anchored" data-anchor-id="means-of-different-variables-by-rank-group">Means of Different Variables by Rank Group</h4>
+<p><code>COSTT4_P</code> Average cost of attendance for program-year institutions) has an R-squared value of 1 because there are only two observations with entries for it. Therefore, we will not be using it in the stepwise regression model. Based on the r-squared values of the remaining variables, we expect SAT_AVG (average SAT score), ACTCMMID (median ACT score), and C150_4 (rate of completion) to appear in the final model because they all have an R-squared value above 0.5, meaning that they explain more than 50% of the variation seen in rank.</p>
+<section id="means-of-different-variables-by-rank-group" class="level3">
+<h3 class="anchored" data-anchor-id="means-of-different-variables-by-rank-group">Means of Different Variables by Rank Group</h3>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1280,8 +1356,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100.</p>
 </section>
-<section id="means-of-rank-by-categorical-variables" class="level4">
-<h4 class="anchored" data-anchor-id="means-of-rank-by-categorical-variables">Means of Rank by Categorical Variables</h4>
+<section id="means-of-rank-by-categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="means-of-rank-by-categorical-variables">Means of Rank by Categorical Variables</h3>
 <p>Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1508,8 +1584,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>When looking at states, Maine has the highest mean rank, followed by Massachusetts.</p>
 </section>
-<section id="numerical-variables-vs.-rank" class="level4">
-<h4 class="anchored" data-anchor-id="numerical-variables-vs.-rank">Numerical Variables vs.&nbsp;Rank</h4>
+<section id="numerical-variables-vs.-rank" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-variables-vs.-rank">Numerical Variables vs.&nbsp;Rank</h3>
 <p>We have plotted rank versus several of the numerical variables. This gives us an idea of how different metrics affect college rank.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1606,12 +1682,12 @@ ul.task-list li input[type="checkbox"] {
 <p>For all type of standardized test scores, there appear to be a strong negative relationship between score and rank, indicating that as the test scores increases, the rank of a school is expected to to increase.</p>
 </section>
 </section>
-<section id="check-correlation-coefficients" class="level3">
-<h3 class="anchored" data-anchor-id="check-correlation-coefficients">Check Correlation Coefficients</h3>
+<section id="check-correlation-coefficients" class="level2">
+<h2 class="anchored" data-anchor-id="check-correlation-coefficients">Check Correlation Coefficients</h2>
 <p>We checked the correlation coefficients between the variables so we don’t use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/correlation-matrix-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value &gt; 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.</p>
@@ -1650,8 +1726,8 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.</p>
 </section>
-<section id="build-model" class="level3">
-<h3 class="anchored" data-anchor-id="build-model">Build model</h3>
+<section id="build-model" class="level2">
+<h2 class="anchored" data-anchor-id="build-model">Build model</h2>
 <p>Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by removing the variables with a correlation coefficient above 0.8.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1753,16 +1829,26 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </section>
 </section>
-<section id="results" class="level2">
-<h2 class="anchored" data-anchor-id="results">Results</h2>
-<section id="categorical-variable-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h3>
-<div class="cell">
-<div class="cell-output-display">
+<section id="results" class="level1">
+<h1>Results</h1>
+<section id="categorical-variable-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h2>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img src="report_files/figure-html/rank-vs-region-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="cell-output-display">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img src="report_files/figure-html/rank-vs-region-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-4.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -1777,22 +1863,16 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/rank-vs-control-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/rank-vs-control-2.png" class="img-fluid" width="672"></p>
-</div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/rank-vs-CCBASIC-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/rank-vs-CCBASIC-2.png" class="img-fluid" width="672"></p>
-</div>
 </div>
 <p>There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank.</p>
 </section>
-<section id="iteration-1" class="level3">
-<h3 class="anchored" data-anchor-id="iteration-1">Iteration #1</h3>
+<section id="iteration-1" class="level2">
+<h2 class="anchored" data-anchor-id="iteration-1">Iteration #1</h2>
 <p>We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1965,8 +2045,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>As we can see the model’s adjusted R-squared is around 72.0%.</p>
 </section>
-<section id="iteration-2" class="level3">
-<h3 class="anchored" data-anchor-id="iteration-2">Iteration #2</h3>
+<section id="iteration-2" class="level2">
+<h2 class="anchored" data-anchor-id="iteration-2">Iteration #2</h2>
 <p>First, we will avoid using the variables with high p-values as mentioned above to train a new model.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -2019,14 +2099,26 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">adj.r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.703127</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <p>Then we can evaluation our second model by Rsqure:</p>
-<pre><code>glance(fit2) |&gt;
-  select(adj.r.squared) |&gt; knitr::kable()</code></pre>
 <p>Since the R-squared value is 0.703 which is even smaller than 0.7200 of our first model, we need to implement forward selection by adding variables back to our model.</p>
 </section>
-<section id="iteration-3" class="level3">
-<h3 class="anchored" data-anchor-id="iteration-3">Iteration #3</h3>
+<section id="iteration-3" class="level2">
+<h2 class="anchored" data-anchor-id="iteration-3">Iteration #3</h2>
 <p>From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -2103,8 +2195,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>The model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.</p>
 </section>
-<section id="iteration-4" class="level3">
-<h3 class="anchored" data-anchor-id="iteration-4">Iteration #4</h3>
+<section id="iteration-4" class="level2">
+<h2 class="anchored" data-anchor-id="iteration-4">Iteration #4</h2>
 <p>From our first and second iteration, UGDS_UNKN, among the variables removed, has the smallest p-value of 0.310. Therefore we are going to add UGDS_UNKN back to our model for the iteration.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -2188,12 +2280,12 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>While this model proved better than the previous one, it is still not as good as our initial model.</p>
 </section>
-<section id="model-results" class="level3">
-<h3 class="anchored" data-anchor-id="model-results">Model results</h3>
+<section id="model-results" class="level2">
+<h2 class="anchored" data-anchor-id="model-results">Model results</h2>
 <p>Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: <code>ADM_RATE</code>, <code>UGDS</code>, <code>AVGFACSAL</code>, and <code>SAT_AVG</code>. Then, we can further single out the most significant variable with R-squared values.</p>
 </section>
-<section id="r-squared-values" class="level3">
-<h3 class="anchored" data-anchor-id="r-squared-values">R-Squared Values</h3>
+<section id="r-squared-values" class="level2">
+<h2 class="anchored" data-anchor-id="r-squared-values">R-Squared Values</h2>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/adm-rate-vs-rank-1.png" class="img-fluid" width="672"></p>
@@ -2284,14 +2376,14 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>While an R-squared value of 0.641 is not the best, it is still the highest out of these variables which means that we can conclude that average SAT score has the greatest impact on a college ranking.</p>
 </section>
-<section id="final-conclusion" class="level3">
-<h3 class="anchored" data-anchor-id="final-conclusion">Final Conclusion</h3>
 </section>
-</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
