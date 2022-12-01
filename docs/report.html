@@ -1155,129 +1155,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <section id="preliminary-exploration-and-visualization" class="level3">
 <h3 class="anchored" data-anchor-id="preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</h3>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: left;">variable</th>
-<th style="text-align: right;">r_squared</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">COSTT4_P</td>
-<td style="text-align: right;">1.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">SAT_AVG</td>
-<td style="text-align: right;">0.6291468</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ACTCMMID</td>
-<td style="text-align: right;">0.6062324</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">C150_4</td>
-<td style="text-align: right;">0.5137627</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">AVGFACSAL</td>
-<td style="text-align: right;">0.4692148</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ADM_RATE</td>
-<td style="text-align: right;">0.4048157</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">PCTPELL</td>
-<td style="text-align: right;">0.2476545</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_NRA</td>
-<td style="text-align: right;">0.2040361</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">FIRST_GEN</td>
-<td style="text-align: right;">0.1963961</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_ASIAN</td>
-<td style="text-align: right;">0.1946322</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ENDOWBEGIN</td>
-<td style="text-align: right;">0.1643675</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">COSTT4_A</td>
-<td style="text-align: right;">0.1577993</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">FAMINC</td>
-<td style="text-align: right;">0.1525416</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AGE_ENTRY</td>
-<td style="text-align: right;">0.1462016</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MARRIED</td>
-<td style="text-align: right;">0.1072270</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">FEMALE</td>
-<td style="text-align: right;">0.0752810</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MD_FAMINC</td>
-<td style="text-align: right;">0.0661957</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">NPT4_PUB</td>
-<td style="text-align: right;">0.0568142</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS</td>
-<td style="text-align: right;">0.0548673</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_2MOR</td>
-<td style="text-align: right;">0.0476589</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_BLACK</td>
-<td style="text-align: right;">0.0463458</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">NPT4_PRIV</td>
-<td style="text-align: right;">0.0419051</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_WHITE</td>
-<td style="text-align: right;">0.0304200</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_NHPI</td>
-<td style="text-align: right;">0.0222752</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_UNKN</td>
-<td style="text-align: right;">0.0126394</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_AIAN</td>
-<td style="text-align: right;">0.0089268</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_HISP</td>
-<td style="text-align: right;">0.0040103</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><code>COSTT4_P</code> Average cost of attendance for program-year institutions) has an R-squared value of 1 because there are only two observations with entries for it. Therefore, we will not be using it in the stepwise regression model. Based on the r-squared values of the remaining variables, we expect SAT_AVG (average SAT score), ACTCMMID (median ACT score), and C150_4 (rate of completion) to appear in the final model because they all have an R-squared value above 0.5, meaning that they explain more than 50% of the variation seen in rank.</p>
 </section>
 <section id="means-of-different-variables-by-rank-group" class="level3">
 <h3 class="anchored" data-anchor-id="means-of-different-variables-by-rank-group">Means of Different Variables by Rank Group</h3>
@@ -1586,9 +1463,510 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="numerical-variables-vs.-rank" class="level3">
 <h3 class="anchored" data-anchor-id="numerical-variables-vs.-rank">Numerical Variables vs.&nbsp;Rank</h3>
+<p>log was taken of ENDOWBEGIN</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">r_squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">0.6291468</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ACTCMMID</td>
+<td style="text-align: right;">0.6062324</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C150_4</td>
+<td style="text-align: right;">0.5137627</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">0.4692148</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">0.4048157</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PCTPELL</td>
+<td style="text-align: right;">0.2476545</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_NRA</td>
+<td style="text-align: right;">0.2040361</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FIRST_GEN</td>
+<td style="text-align: right;">0.1963961</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_ASIAN</td>
+<td style="text-align: right;">0.1946322</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">COSTT4_A</td>
+<td style="text-align: right;">0.1577993</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FAMINC</td>
+<td style="text-align: right;">0.1525416</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: right;">0.1462016</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MARRIED</td>
+<td style="text-align: right;">0.1072270</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FEMALE</td>
+<td style="text-align: right;">0.0752810</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MD_FAMINC</td>
+<td style="text-align: right;">0.0661957</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NPT4_PUB</td>
+<td style="text-align: right;">0.0568142</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">0.0548673</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_2MOR</td>
+<td style="text-align: right;">0.0476589</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_BLACK</td>
+<td style="text-align: right;">0.0463458</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NPT4_PRIV</td>
+<td style="text-align: right;">0.0419051</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_WHITE</td>
+<td style="text-align: right;">0.0304200</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_NHPI</td>
+<td style="text-align: right;">0.0222752</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_UNKN</td>
+<td style="text-align: right;">0.0126394</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_AIAN</td>
+<td style="text-align: right;">0.0089268</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_HISP</td>
+<td style="text-align: right;">0.0040103</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><code>COSTT4_P</code> (Average cost of attendance for program-year institutions) has been removed because there are only two observations.</p>
+<p><code>ENDOWBEGIN</code> (Endowment size) has been removed because the relationship is very skewed and not linear.</p>
+<p>Based on the r-squared values of the remaining variables, we expect SAT_AVG (average SAT score), ACTCMMID (median ACT score), and C150_4 (rate of completion) to appear in the final model because they all have an R-squared value above 0.5, meaning that they explain more than 50% of the variation seen in rank.</p>
+<p>We will look further at the relationship between these variables and rank by creating scatter plots and analyzing their respective slope. To simplify our analysis, we will only look at graphs with an r-squared greater than .1</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ SAT_AVG, data = data)
+
+Coefficients:
+(Intercept)      SAT_AVG  
+      242.3       -115.0  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ SAT_AVG, data = data)
+
+Coefficients:
+(Intercept)      SAT_AVG  
+  1400.1535      -0.9277  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ ACTCMMID, data = data)
+
+Coefficients:
+(Intercept)     ACTCMMID  
+      241.6       -112.9  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ ACTCMMID, data = data)
+
+Coefficients:
+(Intercept)     ACTCMMID  
+    1049.58       -30.04  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ C150_4, data = data)
+
+Coefficients:
+(Intercept)       C150_4  
+      249.8       -103.5  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ C150_4, data = data)
+
+Coefficients:
+(Intercept)       C150_4  
+      780.3       -735.2  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ AVGFACSAL, data = data)
+
+Coefficients:
+(Intercept)    AVGFACSAL  
+     249.77       -98.89  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ AVGFACSAL, data = data)
+
+Coefficients:
+(Intercept)    AVGFACSAL  
+   600.1381      -0.0347  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ ADM_RATE, data = data)
+
+Coefficients:
+(Intercept)     ADM_RATE  
+     248.86        91.74  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ ADM_RATE, data = data)
+
+Coefficients:
+(Intercept)     ADM_RATE  
+      14.48       387.02  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ PCTPELL, data = data)
+
+Coefficients:
+(Intercept)      PCTPELL  
+     250.20        71.75  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ PCTPELL, data = data)
+
+Coefficients:
+(Intercept)      PCTPELL  
+      83.96       644.76  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ UGDS_NRA, data = data)
+
+Coefficients:
+(Intercept)     UGDS_NRA  
+     249.77       -65.21  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ UGDS_NRA, data = data)
+
+Coefficients:
+(Intercept)     UGDS_NRA  
+      318.8      -1248.5  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ FIRST_GEN, data = data)
+
+Coefficients:
+(Intercept)    FIRST_GEN  
+     252.89        63.57  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ FIRST_GEN, data = data)
+
+Coefficients:
+(Intercept)    FIRST_GEN  
+      86.24       643.83  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ UGDS_ASIAN, data = data)
+
+Coefficients:
+(Intercept)   UGDS_ASIAN  
+     249.77       -63.69  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ UGDS_ASIAN, data = data)
+
+Coefficients:
+(Intercept)   UGDS_ASIAN  
+      312.8       -803.0  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ COSTT4_A, data = data)
+
+Coefficients:
+(Intercept)     COSTT4_A  
+     250.09       -57.38  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ COSTT4_A, data = data)
+
+Coefficients:
+(Intercept)     COSTT4_A  
+ 378.705858    -0.002815  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ FAMINC, data = data)
+
+Coefficients:
+(Intercept)       FAMINC  
+     250.58       -56.27  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ FAMINC, data = data)
+
+Coefficients:
+(Intercept)       FAMINC  
+ 425.935302    -0.002152  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ AGE_ENTRY, data = data)
+
+Coefficients:
+(Intercept)    AGE_ENTRY  
+     250.58        55.09  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ AGE_ENTRY, data = data)
+
+Coefficients:
+(Intercept)    AGE_ENTRY  
+    -247.21        23.05  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ MARRIED, data = data)
+
+Coefficients:
+(Intercept)      MARRIED  
+     272.62        45.71  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = rank ~ MARRIED, data = data)
+
+Coefficients:
+(Intercept)      MARRIED  
+      227.3        615.2  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">r_squared</th>
+<th style="text-align: right;">scaled_slope</th>
+<th style="text-align: right;">slope</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">0.6291468</td>
+<td style="text-align: right;">-115.00</td>
+<td style="text-align: right;">-9.2770e-01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ACTCMMID</td>
+<td style="text-align: right;">0.6062324</td>
+<td style="text-align: right;">-112.90</td>
+<td style="text-align: right;">-3.0040e+01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C150_4</td>
+<td style="text-align: right;">0.5137627</td>
+<td style="text-align: right;">-103.50</td>
+<td style="text-align: right;">-7.3520e+02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">0.4692148</td>
+<td style="text-align: right;">-98.89</td>
+<td style="text-align: right;">-3.4700e-02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">0.4048157</td>
+<td style="text-align: right;">91.74</td>
+<td style="text-align: right;">3.8702e+02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PCTPELL</td>
+<td style="text-align: right;">0.2476545</td>
+<td style="text-align: right;">71.75</td>
+<td style="text-align: right;">6.4476e+02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_NRA</td>
+<td style="text-align: right;">0.2040361</td>
+<td style="text-align: right;">-65.21</td>
+<td style="text-align: right;">-1.2485e+03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FIRST_GEN</td>
+<td style="text-align: right;">0.1963961</td>
+<td style="text-align: right;">63.57</td>
+<td style="text-align: right;">6.4383e+02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_ASIAN</td>
+<td style="text-align: right;">0.1946322</td>
+<td style="text-align: right;">-63.69</td>
+<td style="text-align: right;">-8.0300e+02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">COSTT4_A</td>
+<td style="text-align: right;">0.1577993</td>
+<td style="text-align: right;">-57.38</td>
+<td style="text-align: right;">-2.8150e-03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FAMINC</td>
+<td style="text-align: right;">0.1525416</td>
+<td style="text-align: right;">-56.27</td>
+<td style="text-align: right;">-2.1520e-03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: right;">0.1462016</td>
+<td style="text-align: right;">55.09</td>
+<td style="text-align: right;">2.3050e+01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MARRIED</td>
+<td style="text-align: right;">0.1072270</td>
+<td style="text-align: right;">45.71</td>
+<td style="text-align: right;">6.1520e+02</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="cell">
@@ -1745,7 +2123,7 @@ Coefficients:
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
@@ -1895,7 +2273,37 @@ Coefficients:
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = log(rank) ~ ENDOWBEGIN, data = data)
+
+Coefficients:
+(Intercept)   ENDOWBEGIN  
+     5.2087      -0.6677  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = log(rank) ~ ENDOWBEGIN, data = data)
+
+Coefficients:
+(Intercept)   ENDOWBEGIN  
+  5.429e+00   -1.972e-10  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  r.squared
+      &lt;dbl&gt;
+1     0.459</code></pre>
 </div>
 </div>
 <p>#| label: financials_slope_r2</p>
@@ -1921,81 +2329,7 @@ Coefficients:
 <div class="cell">
 
 </div>
-<p>We have plotted rank versus several of the numerical variables. This gives us an idea of how different metrics affect college rank.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-4.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-5.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-6.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-7.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-8.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-9.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-10.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-11.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-12.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-13.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-14.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-15.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-16.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-17.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-18.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-19.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-20.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-21.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-22.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-23.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-22-24.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<p>We have plotted rank versus several of the numerical variables. This gives us an idea of how different metrics affect college ra</p>
 <div class="cell">
 
 </div>
