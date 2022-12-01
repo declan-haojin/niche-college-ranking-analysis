@@ -585,7 +585,7 @@ us_dep_of_ed <- us_dep_of_ed |>
   )
 ```
 
-3.  We joined the US Department of Education dataset to the Niche dataset by the college names. The first 10 rows are displayed below.
+3.  We joined the US Department of Education dataset to the Niche dataset by the college names. The first 5 rows are displayed below.
 
 ```{r}
 #| label: join-datasets
@@ -596,7 +596,7 @@ colleges <- niche_data_500 |>
   filter(rank != 181)
 
 colleges |>
-  slice(1:10) |>
+  slice(1:5) |>
   knitr::kable()
 ```
 
@@ -711,7 +711,7 @@ data <- data |>
   )
 ```
 
-6.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We used the `scale()` functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1. The first 10 rows of our standardized dataset are printed below.
+6.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We used the `scale()` functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1. The first 5 rows of our standardized dataset are printed below.
 
 ```{r}
 #| label: scale-numerical-variables
@@ -729,7 +729,7 @@ scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables) |>
   relocate(college)
 
 scaled_data |>
-  slice(1:10) |>
+  slice(1:5) |>
   knitr::kable()
 ```
 
