@@ -36,7 +36,7 @@ These lists are important because students applying to college trust these ranki
 
 In general, we want to examine how different variables affect a school's ranking on the **Niche College Ranking List** and determine which are most important to a high ranking. We plan to look at variables that are typically thought to influence school rank such as average SAT score and admission rate, but we also want to look at variables that aren't typically thought of such as geographic region or endowment size.
 
-For the sake of clarity, when we say a "low rank," we are referring to schools with a lower numerical rank, such as #1 and #2. When we say a "high rank," we a referring to schools with a high numerical rank, such as #497 and #498.
+For the sake of clarity, when we say a "low rank," we are referring to schools with a lower numerical rank, such as #1 and #2. When we say a "high rank," we a referring to schools with a high numerical rank, such as #499 and #500.
 
 ### Research Question and Hypothesis
 
@@ -48,6 +48,13 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 ## Data
 
+```{r}
+#| label: import
+
+niche_data_500 <- read_csv("data/niche_data_500.csv")
+us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
+```
+
 #### Data Set #1: Niche
 
 -   The first data set comes from Niche's "2023 Best Colleges in America" list
@@ -56,7 +63,7 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 -   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
 
--   There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: `college` and `rank`.
+-   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` and `rank`.
 
 #### Data Set #2: US Department of Education
 
@@ -66,7 +73,7 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 -   The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.
 
--   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.
+-   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the United States.
 
 ### Data summary
 
@@ -150,12 +157,9 @@ Here is a summary of the variables we will be using in our analysis.
 
 1.  To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported. The steps were done in an R script titled `niche-scrape.R`
 
-```{r}
-#| label: import
-niche_data_500 <- read_csv("data/niche_data_500.csv")
-us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
+```{=html}
+<!-- -->
 ```
-
 2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` (ranked 141) and `University of South Florida - St. Petersburg` (ranked 181) have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations.
 
 ```{r}
@@ -1657,4 +1661,4 @@ While an R-squared value of 0.641 is not the best, it is still the highest out o
 
 ### Final Conclusion
 
-## Works Cited
+## References
