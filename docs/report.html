@@ -121,6 +121,7 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
+  <li><a href="#categorical-variable-analysis" id="toc-categorical-variable-analysis" class="nav-link" data-scroll-target="#categorical-variable-analysis">Categorical Variable Analysis</a></li>
   <li><a href="#iteration-1" id="toc-iteration-1" class="nav-link" data-scroll-target="#iteration-1">Iteration #1</a></li>
   <li><a href="#iteration-2" id="toc-iteration-2" class="nav-link" data-scroll-target="#iteration-2">Iteration #2</a></li>
   <li><a href="#iteration-3" id="toc-iteration-3" class="nav-link" data-scroll-target="#iteration-3">Iteration #3</a></li>
@@ -249,7 +250,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td>CCBASIC</td>
 <td>C</td>
-<td>Carnegie Classification --basic</td>
+<td>Carnegie Classification (basic)</td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -429,7 +430,7 @@ ul.task-list li input[type="checkbox"] {
 
 </div>
 <ol start="2" type="1">
-<li>Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for <code>University of South Florida - Sarasota-Manatee</code> and <code>University of South Florida - St. Petersburg</code> have been dropped from the <code>colleges</code> data set due to their non-existence in the <code>us_dep_of_ed</code> data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the <code>colleges</code> data set only has 498 observations.</li>
+<li>Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for <code>University of South Florida - Sarasota-Manatee</code> (ranked 141) and <code>University of South Florida - St. Petersburg</code> (ranked 181) have been dropped from the <code>colleges</code> data set due to their non-existence in the <code>us_dep_of_ed</code> data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the <code>colleges</code> data set only has 498 observations.</li>
 </ol>
 <div class="cell">
 
@@ -1245,7 +1246,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">40799.30</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">401 to 498</td>
+<td style="text-align: left;">401 to 500</td>
 <td style="text-align: right;">0.7430135</td>
 <td style="text-align: right;">1145.662</td>
 <td style="text-align: right;">23.86076</td>
@@ -1281,7 +1282,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">269.670</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Pivate, For-profit</td>
+<td style="text-align: left;">Private, For-profit</td>
 <td style="text-align: right;">360.750</td>
 </tr>
 </tbody>
@@ -1734,6 +1735,42 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="categorical-variable-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h3>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/rank-vs-region-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/rank-vs-region-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/rank-vs-accredation-agency-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/rank-vs-accredation-agency-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/rank-vs-control-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/rank-vs-control-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/rank-vs-CCBASIC-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/rank-vs-CCBASIC-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank.</p>
+</section>
 <section id="iteration-1" class="level3">
 <h3 class="anchored" data-anchor-id="iteration-1">Iteration #1</h3>
 <p>We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.</p>

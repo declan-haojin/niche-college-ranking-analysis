@@ -19,6 +19,7 @@ library(tidyverse)
 library(corrplot)
 library(tidymodels)
 library(scales)
+library(ggthemes)
 ```
 
 ## Introduction
@@ -86,7 +87,7 @@ Here is a summary of the variables we will be using in our analysis.
 +---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
 | CONTROL       | C                |                                                                                                                    | Public, Private nonprofit, private for-profit                                                               |
 +---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| CCBASIC       | C                | Carnegie Classification \--basic                                                                                   |                                                                                                             |
+| CCBASIC       | C                | Carnegie Classification (basic)                                                                                    |                                                                                                             |
 +---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
 | ADM_RATE      | Q                | Admission rate                                                                                                     |                                                                                                             |
 +---------------+------------------+--------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
@@ -155,7 +156,7 @@ niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
 
-2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` and `University of South Florida - St. Petersburg` have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations.
+2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` (ranked 141) and `University of South Florida - St. Petersburg` (ranked 181) have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations.
 
 ```{r}
 #| label: fix-college-names
@@ -668,7 +669,7 @@ data <- data |>
     CONTROL = case_when(
       CONTROL == 1 ~ "Public",
       CONTROL == 2 ~ "Private, Non-profit",
-      CONTROL == 3 ~ "Pivate, For-profit"
+      CONTROL == 3 ~ "Private, For-profit"
     ),
     CCBASIC = as.character(CCBASIC),
     CCBASIC = case_when(
@@ -740,14 +741,14 @@ scaled_data |>
 ```{r}
 #| label: exploration-by-rank-group
 
-colleges_levels <- colleges |> 
+colleges_levels <- data |> 
   mutate(
     level = case_when(
       rank <= 100 ~ "1 to 100",
       rank > 100 & rank <= 200 ~ "101 to 200",
       rank > 200 & rank <= 300 ~ "201 to 300",
       rank > 300 & rank <= 400 ~ "301 to 400",
-      rank > 400 & rank <= 500 ~ "401 to 498",
+      rank > 400 & rank <= 500 ~ "401 to 500",
     ),
     .after = rank
   )
@@ -1381,6 +1382,85 @@ test <- anti_join(data_set, train, by = 'rank')
 ```
 
 ## Results
+
+### Categorical Variable Analysis
+
+```{r}
+#| label: rank-vs-region
+
+colleges_levels |>
+  ggplot(aes(y = REGION, fill = fct_rev(level))) +
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
+  labs(
+    title = "Rank vs Geographic Region of the United States",
+    x = "Proportion",
+    y = "Region",
+    fill = "Rank"
+  )
+
+colleges_levels |>
+  ggplot(aes(y = level, fill = REGION)) +
+  geom_bar(position = "fill")
+```
+
+```{r}
+#| label: rank-vs-accredation-agency
+
+colleges_levels |>
+  ggplot(aes(y = str_wrap(ACCREDAGENCY, 30), fill = fct_rev(level))) +
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
+  labs(
+    title = "Rank vs Accredation Agency",
+    x = "Proportion",
+    y = "Accredation Agency",
+    fill = "Rank"
+  )
+
+colleges_levels |>
+  ggplot(aes(y = level, fill = str_wrap(ACCREDAGENCY, 30))) +
+  geom_bar(position = "fill")
+```
+
+```{r}
+#| label: rank-vs-control
+
+colleges_levels |>
+  ggplot(aes(y = CONTROL, fill = fct_rev(level))) +
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
+  labs(
+    title = "Rank vs Control",
+    x = "Proportion",
+    y = "Control",
+    fill = "Rank"
+  )
+
+colleges_levels |>
+  ggplot(aes(y = level, fill = CONTROL)) +
+  geom_bar(position = "fill")
+```
+
+```{r}
+#| label: rank-vs-CCBASIC
+colleges_levels |>
+  ggplot(aes(y = str_wrap(CCBASIC, 30), fill = fct_rev(level))) +
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
+  labs(
+    title = "Rank vs Carnegie Classification",
+    x = "Proportion",
+    y = "Carnegie Classification (Basic)",
+    fill = "Rank"
+  )
+
+colleges_levels |>
+  ggplot(aes(y = level, fill = str_wrap(CCBASIC, 30))) +
+  geom_bar(position = "fill")
+```
+
+There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank.
 
 ### Iteration #1
 
