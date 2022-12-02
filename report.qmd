@@ -1057,7 +1057,6 @@ a13 <- colleges |>
 grid.arrange(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, ncol = 3)
 ```
 
-
 ```{r}
 
 #| label: r2-slopes-kable
@@ -1077,7 +1076,6 @@ r2_slopes |> knitr::kable()
 ```
 
 ### Categorical Variable Analysis
-
 
 ```{r}
 #| label: rank-vs-region
@@ -1135,13 +1133,9 @@ There appear to be the greatest differences between bars of proportions of rank 
 
 Another method we use to answer our research question that which characteristic of a university are most associated with rankings is through stepwise regression model. We choose stepwise regression model because of its ability to manage large amounts of potential predictor variables and fine-tuning the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
 
-In our research, we will use both forward and backward selections in the stepwise regression model by utilizing `MASS` package. We will evaluate the performance of each iteration of the model based on AIC since AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice. 
+In our research, we will use both forward and backward selections in the stepwise regression model by utilizing `MASS` package. We will evaluate the performance of each iteration of the model based on AIC since AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
 
-There are three main steps in this approach. 
-- First, we need to find out all the highly corrected variable pairs and remove one of it from each pair since we need to rule out the negative impacts of the singularities of variables.
-- Second, we will compute the stepwise regression model using `MASS` package and mainly `stepAIC()` functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the `rank` variable.
-- Lastly, we will get the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
-
+There are three main steps in this approach. - First, we need to find out all the highly corrected variable pairs and remove one of it from each pair since we need to rule out the negative impacts of the singularities of variables. - Second, we will compute the stepwise regression model using `MASS` package and mainly `stepAIC()` functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the `rank` variable. - Lastly, we will get the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
 ### 1. Remove variables with high correlations
 
@@ -1213,7 +1207,6 @@ full_model <- lm(rank ~. -college, data = stepwise_data)
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 ```
 
-
 ### 3. Final Model Results (TODO for Sam)
 
 ```{r}
@@ -1223,8 +1216,6 @@ stepwise_model$anova
 ```
 
 Add interpretations for the final model results
-
-
 
 ## Slopes
 
@@ -1275,6 +1266,20 @@ linear_reg() |> fit(rank ~ MARRIED, data = colleges)
 ```
 
 # Discussion
+
+In this section you\'ll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions. In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved. Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here. Lastly, this section will include ideas for future work.
+
+-   Reiterate results from method 1 and compare to method 2
+
+-   Talk about why results might have been similar/different
+
+-   Talk about what the slopes indicate
+
+-   Explain what our results mean and why that's importnat
+
+-   Limitataions: we assumed that the relationship was linear so we could do stepwise regression. This is bc we're working within the limitations of the class
+
+-   Ideas for future work
 
 ## References
 
