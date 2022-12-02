@@ -1155,9 +1155,19 @@ colleges_levels |>
 
 There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. NOT DONE
 
-## Method 2: Stepwise Regression Model
+## Approach 2: Stepwise Regression Model
 
-### Check Correlation Between Variables
+Another method we use to answer our research question that which characteristic of a university are most associated with rankings is through stepwise regression model. We choose stepwise regression model because of its ability to manage large amounts of potential predictor variables and fine-tuning the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
+
+In our research, we will use both forward and backward selections in the stepwise regression model by utilizing `MASS` package. We will evaluate the performance of each iteration of the model based on AIC since AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice. 
+
+There are three main steps in this approach. 
+- First, we need to find out all the highly corrected variable pairs and remove one of it from each pair since we need to rule out the negative impacts of the singularities of variables.
+- Second, we will compute the stepwise regression model using `MASS` package and mainly `stepAIC()` functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the `rank` variable.
+- Lastly, we will get the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
+
+
+### 1. Remove variables with high correlations
 
 We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
 
@@ -1194,124 +1204,42 @@ correlations[correlations < 0.8 | correlations == 1] <- ""
 
 According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
 
-### Build model
+### 2. Computing Stepwise Regression
 
-Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by removing the variables with a correlation coefficient above 0.8.
+As mentioned above, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
 
 ```{r}
 #| label: glimpsed-data
-
-data_set <- scaled_data |>
-  select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "MARRIED", "FIRST_GEN"))
-
-data_set |>
+stepwise_data <- scaled_data |>
+  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
+stepwise_data |>
   names() |>
   knitr::kable(col.names = "Selected Variables")
+# Factorize variable
+stepwise_data <- stepwise_data |>
+  mutate(
+    REGION = as.factor(REGION),
+    CONTROL = as.factor(CONTROL),
+    CCBASIC = as.factor(CCBASIC),
+    ACCREDAGENCY = as.factor(ACCREDAGENCY)
+    )
+library(MASS)
+stepwise_data = na.omit(stepwise_data)
+# Fit the full model
+full_model <- lm(rank ~. -college, data = stepwise_data)
+# Stepwise regression model
+stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 ```
 
-Then we need to split dataset into two parts: a training and a test set. We will use 80% of the college data for training our model and the other 20% for testing our model.
+
+### 3. Final Model Results (TODO for Sam)
 
 ```{r}
-#| label: split-data
-
-set.seed(777)
-
-# Build training data set
-train <- data_set |>
-  sample_frac(.80)
-
-# Build testing data set
-test <- anti_join(data_set, train, by = 'rank')
+#| label: model-computing
+stepwise_model$anova
 ```
 
-### Iteration #1
-
-We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.
-
-```{r}
-#| label: linear-reg-data
-
-fit1 <- linear_reg() |>
-  fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG , data = train)
-
-tidy(fit1) |> knitr::kable() 
-```
-
-At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the `SAT_AVG`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.
-
-Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around or above 0.3, which is much greater than 0.05. Therefore, we will drop these variables for the next model iteration.
-
-Then, we can evaluate our first primitive model by R-squared:
-
-```{r}
-#| label: evaluation1
-
-glance(fit1) |>
-  select(adj.r.squared) |> knitr::kable()
-```
-
-As we can see the model's adjusted R-squared is around 72.0%.
-
-### Iteration #2
-
-First, we will avoid using the variables with high p-values as mentioned above to train a new model.
-
-```{r}
-#| label: fit2
-
-fit2 <- linear_reg() |>
-  fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG, data = train)
-
-tidy(fit2) |> knitr::kable() 
-
-glance(fit2) |>
-  select(adj.r.squared) |> knitr::kable()
-```
-
-Then we can evaluation our second model by Rsqure:
-
-Since the R-squared value is 0.703 which is even smaller than 0.7200 of our first model, we need to implement forward selection by adding variables back to our model.
-
-### Iteration #3
-
-From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.
-
-```{r}
-#| label: fit3
-
-fit3 <- linear_reg() |>
-  fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG + AGE_ENTRY, data = train)
-
-tidy(fit3) |> knitr::kable() 
-
-glance(fit3) |>
-  select(adj.r.squared) |> knitr::kable()
-  
-```
-
-The model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.
-
-### Iteration #4
-
-From our first and second iteration, UGDS_UNKN, among the variables removed, has the smallest p-value of 0.310. Therefore we are going to add UGDS_UNKN back to our model for the iteration.
-
-```{r}
-#| label: fit4
-
-fit4 <- linear_reg() |>
-  fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG + AGE_ENTRY + UGDS_UNKN, data = train)
-
-tidy(fit4) |> knitr::kable() 
-
-glance(fit4) |>
-  select(adj.r.squared) |> knitr::kable()
-```
-
-While this model proved better than the previous one, it is still not as good as our initial model.
-
-### Model results
-
-Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: `ADM_RATE`, `UGDS`, `AVGFACSAL`, and `SAT_AVG`. Then, we can further single out the most significant variable with R-squared values.
+Add interpretations for the final model results
 
 ## Slopes
 

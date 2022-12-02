@@ -136,15 +136,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#numerical-variable-analysis-1" id="toc-numerical-variable-analysis-1" class="nav-link" data-scroll-target="#numerical-variable-analysis-1">Numerical Variable Analysis</a></li>
   <li><a href="#categorical-variable-analysis-1" id="toc-categorical-variable-analysis-1" class="nav-link" data-scroll-target="#categorical-variable-analysis-1">Categorical Variable Analysis</a></li>
   </ul></li>
-  <li><a href="#method-2-stepwise-regression-model" id="toc-method-2-stepwise-regression-model" class="nav-link" data-scroll-target="#method-2-stepwise-regression-model">Method 2: Stepwise Regression Model</a>
+  <li><a href="#approach-2-stepwise-regression-model" id="toc-approach-2-stepwise-regression-model" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-model">Approach 2: Stepwise Regression Model</a>
   <ul class="collapse">
-  <li><a href="#check-correlation-between-variables" id="toc-check-correlation-between-variables" class="nav-link" data-scroll-target="#check-correlation-between-variables">Check Correlation Between Variables</a></li>
-  <li><a href="#build-model" id="toc-build-model" class="nav-link" data-scroll-target="#build-model">Build model</a></li>
-  <li><a href="#iteration-1" id="toc-iteration-1" class="nav-link" data-scroll-target="#iteration-1">Iteration #1</a></li>
-  <li><a href="#iteration-2" id="toc-iteration-2" class="nav-link" data-scroll-target="#iteration-2">Iteration #2</a></li>
-  <li><a href="#iteration-3" id="toc-iteration-3" class="nav-link" data-scroll-target="#iteration-3">Iteration #3</a></li>
-  <li><a href="#iteration-4" id="toc-iteration-4" class="nav-link" data-scroll-target="#iteration-4">Iteration #4</a></li>
-  <li><a href="#model-results" id="toc-model-results" class="nav-link" data-scroll-target="#model-results">Model results</a></li>
+  <li><a href="#remove-variables-with-high-correlations" id="toc-remove-variables-with-high-correlations" class="nav-link" data-scroll-target="#remove-variables-with-high-correlations">1. Remove variables with high correlations</a></li>
+  <li><a href="#computing-stepwise-regression" id="toc-computing-stepwise-regression" class="nav-link" data-scroll-target="#computing-stepwise-regression">2. Computing Stepwise Regression</a></li>
+  <li><a href="#final-model-results-todo-for-sam" id="toc-final-model-results-todo-for-sam" class="nav-link" data-scroll-target="#final-model-results-todo-for-sam">3. Final Model Results (TODO for Sam)</a></li>
   </ul></li>
   <li><a href="#slopes" id="toc-slopes" class="nav-link" data-scroll-target="#slopes">Slopes</a></li>
   </ul></li>
@@ -1741,10 +1737,13 @@ ul.task-list li input[type="checkbox"] {
 <p>There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. NOT DONE</p>
 </section>
 </section>
-<section id="method-2-stepwise-regression-model" class="level2">
-<h2 class="anchored" data-anchor-id="method-2-stepwise-regression-model">Method 2: Stepwise Regression Model</h2>
-<section id="check-correlation-between-variables" class="level3">
-<h3 class="anchored" data-anchor-id="check-correlation-between-variables">Check Correlation Between Variables</h3>
+<section id="approach-2-stepwise-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-model">Approach 2: Stepwise Regression Model</h2>
+<p>Another method we use to answer our research question that which characteristic of a university are most associated with rankings is through stepwise regression model. We choose stepwise regression model because of its ability to manage large amounts of potential predictor variables and fine-tuning the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.</p>
+<p>In our research, we will use both forward and backward selections in the stepwise regression model by utilizing <code>MASS</code> package. We will evaluate the performance of each iteration of the model based on AIC since AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.</p>
+<p>There are three main steps in this approach. - First, we need to find out all the highly corrected variable pairs and remove one of it from each pair since we need to rule out the negative impacts of the singularities of variables. - Second, we will compute the stepwise regression model using <code>MASS</code> package and mainly <code>stepAIC()</code> functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the <code>rank</code> variable. - Lastly, we will get the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.</p>
+<section id="remove-variables-with-high-correlations" class="level3">
+<h3 class="anchored" data-anchor-id="remove-variables-with-high-correlations">1. Remove variables with high correlations</h3>
 <p>We checked the correlation coefficients between the variables so we don’t use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1787,9 +1786,9 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.</p>
 </section>
-<section id="build-model" class="level3">
-<h3 class="anchored" data-anchor-id="build-model">Build model</h3>
-<p>Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by removing the variables with a correlation coefficient above 0.8.</p>
+<section id="computing-stepwise-regression" class="level3">
+<h3 class="anchored" data-anchor-id="computing-stepwise-regression">2. Computing Stepwise Regression</h3>
+<p>As mentioned above, we will use <code>MASS</code> package and <code>StepAIC()</code> function to perform the stepwise regression process for model selections.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1875,432 +1874,48 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">FEMALE</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">MARRIED</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">FIRST_GEN</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>Then we need to split dataset into two parts: a training and a test set. We will use 80% of the college data for training our model and the other 20% for testing our model.</p>
+</section>
+<section id="final-model-results-todo-for-sam" class="level3">
+<h3 class="anchored" data-anchor-id="final-model-results-todo-for-sam">3. Final Model Results (TODO for Sam)</h3>
 <div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Stepwise Model Path 
+Analysis of Deviance Table
 
-</div>
-</section>
-<section id="iteration-1" class="level3">
-<h3 class="anchored" data-anchor-id="iteration-1">Iteration #1</h3>
-<p>We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">246.2027925</td>
-<td style="text-align: right;">4.703871</td>
-<td style="text-align: right;">52.3404663</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ADM_RATE</td>
-<td style="text-align: right;">35.6018194</td>
-<td style="text-align: right;">7.629838</td>
-<td style="text-align: right;">4.6661307</td>
-<td style="text-align: right;">0.0000046</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS</td>
-<td style="text-align: right;">-41.1973274</td>
-<td style="text-align: right;">6.928463</td>
-<td style="text-align: right;">-5.9460994</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_WHITE</td>
-<td style="text-align: right;">10732.7749048</td>
-<td style="text-align: right;">10599.772816</td>
-<td style="text-align: right;">1.0125476</td>
-<td style="text-align: right;">0.3120710</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_BLACK</td>
-<td style="text-align: right;">4533.2629889</td>
-<td style="text-align: right;">4474.426742</td>
-<td style="text-align: right;">1.0131494</td>
-<td style="text-align: right;">0.3117840</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_HISP</td>
-<td style="text-align: right;">6313.6053442</td>
-<td style="text-align: right;">6232.516748</td>
-<td style="text-align: right;">1.0130106</td>
-<td style="text-align: right;">0.3118502</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_ASIAN</td>
-<td style="text-align: right;">4541.8380285</td>
-<td style="text-align: right;">4477.565288</td>
-<td style="text-align: right;">1.0143544</td>
-<td style="text-align: right;">0.3112098</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_AIAN</td>
-<td style="text-align: right;">1926.4404448</td>
-<td style="text-align: right;">1973.880100</td>
-<td style="text-align: right;">0.9759663</td>
-<td style="text-align: right;">0.3298471</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_NHPI</td>
-<td style="text-align: right;">163.9398183</td>
-<td style="text-align: right;">167.303350</td>
-<td style="text-align: right;">0.9798956</td>
-<td style="text-align: right;">0.3279067</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_2MOR</td>
-<td style="text-align: right;">1407.8496454</td>
-<td style="text-align: right;">1388.644877</td>
-<td style="text-align: right;">1.0138299</td>
-<td style="text-align: right;">0.3114597</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_NRA</td>
-<td style="text-align: right;">2973.0798562</td>
-<td style="text-align: right;">2948.226876</td>
-<td style="text-align: right;">1.0084298</td>
-<td style="text-align: right;">0.3140397</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_UNKN</td>
-<td style="text-align: right;">1735.7967205</td>
-<td style="text-align: right;">1705.950405</td>
-<td style="text-align: right;">1.0174954</td>
-<td style="text-align: right;">0.3097164</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">COSTT4_A</td>
-<td style="text-align: right;">0.8428333</td>
-<td style="text-align: right;">10.525477</td>
-<td style="text-align: right;">0.0800755</td>
-<td style="text-align: right;">0.9362292</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AVGFACSAL</td>
-<td style="text-align: right;">-19.8005704</td>
-<td style="text-align: right;">8.998855</td>
-<td style="text-align: right;">-2.2003434</td>
-<td style="text-align: right;">0.0285247</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">PCTPELL</td>
-<td style="text-align: right;">2.8162537</td>
-<td style="text-align: right;">10.541378</td>
-<td style="text-align: right;">0.2671618</td>
-<td style="text-align: right;">0.7895234</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AGE_ENTRY</td>
-<td style="text-align: right;">-12.0862558</td>
-<td style="text-align: right;">7.334480</td>
-<td style="text-align: right;">-1.6478682</td>
-<td style="text-align: right;">0.1003994</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">FAMINC</td>
-<td style="text-align: right;">-22.9537106</td>
-<td style="text-align: right;">11.800114</td>
-<td style="text-align: right;">-1.9452109</td>
-<td style="text-align: right;">0.0526593</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ENDOWBEGIN</td>
-<td style="text-align: right;">1.3023057</td>
-<td style="text-align: right;">6.035923</td>
-<td style="text-align: right;">0.2157592</td>
-<td style="text-align: right;">0.8293183</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">SAT_AVG</td>
-<td style="text-align: right;">-67.4876184</td>
-<td style="text-align: right;">12.876049</td>
-<td style="text-align: right;">-5.2413296</td>
-<td style="text-align: right;">0.0000003</td>
-</tr>
-</tbody>
-</table>
+Initial Model:
+rank ~ (college + REGION + CONTROL + CCBASIC + ACCREDAGENCY + 
+    ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + 
+    UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + 
+    COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + 
+    SAT_AVG + FEMALE + FIRST_GEN) - college
+
+Final Model:
+rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE + 
+    UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL + 
+    AGE_ENTRY + SAT_AVG + FIRST_GEN + UGDS_HISP
+
+           Step Df  Deviance Resid. Df Resid. Dev      AIC
+1                                  352    1836043 3430.917
+2      - FAMINC  1  329.6394       353    1836373 3428.988
+3     - PCTPELL  1 1031.5010       354    1837404 3427.210
+4  - ENDOWBEGIN  1 3870.0110       355    1841274 3426.044
+5   - UGDS_NHPI  1 6035.0074       356    1847309 3425.339
+6   - UGDS_AIAN  1  228.8917       357    1847538 3423.388
+7    - UGDS_NRA  1 1693.4018       358    1849232 3421.751
+8   - UGDS_HISP  1  695.6174       359    1849927 3419.900
+9  - UGDS_BLACK  1 5857.6692       360    1855785 3419.152
+10 - UGDS_WHITE  1 8155.9248       361    1863941 3418.889
+11     - FEMALE  1 8159.1208       362    1872100 3418.618
+12  + UGDS_HISP  1 9672.6276       361    1862427 3418.567</code></pre>
 </div>
 </div>
-<p>At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the <code>SAT_AVG</code>, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.</p>
-<p>Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around or above 0.3, which is much greater than 0.05. Therefore, we will drop these variables for the next model iteration.</p>
-<p>Then, we can evaluate our first primitive model by R-squared:</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: right;">adj.r.squared</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">0.7199576</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>As we can see the model’s adjusted R-squared is around 72.0%.</p>
-</section>
-<section id="iteration-2" class="level3">
-<h3 class="anchored" data-anchor-id="iteration-2">Iteration #2</h3>
-<p>First, we will avoid using the variables with high p-values as mentioned above to train a new model.</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">249.37044</td>
-<td style="text-align: right;">4.506181</td>
-<td style="text-align: right;">55.339648</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ADM_RATE</td>
-<td style="text-align: right;">27.21518</td>
-<td style="text-align: right;">6.659181</td>
-<td style="text-align: right;">4.086866</td>
-<td style="text-align: right;">0.0000551</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS</td>
-<td style="text-align: right;">-33.32915</td>
-<td style="text-align: right;">4.895297</td>
-<td style="text-align: right;">-6.808403</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AVGFACSAL</td>
-<td style="text-align: right;">-10.80730</td>
-<td style="text-align: right;">7.134635</td>
-<td style="text-align: right;">-1.514766</td>
-<td style="text-align: right;">0.1308007</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">SAT_AVG</td>
-<td style="text-align: right;">-86.86569</td>
-<td style="text-align: right;">7.796687</td>
-<td style="text-align: right;">-11.141359</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: right;">adj.r.squared</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">0.703127</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Then we can evaluation our second model by Rsqure:</p>
-<p>Since the R-squared value is 0.703 which is even smaller than 0.7200 of our first model, we need to implement forward selection by adding variables back to our model.</p>
-</section>
-<section id="iteration-3" class="level3">
-<h3 class="anchored" data-anchor-id="iteration-3">Iteration #3</h3>
-<p>From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">249.7168722</td>
-<td style="text-align: right;">4.523580</td>
-<td style="text-align: right;">55.2033783</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ADM_RATE</td>
-<td style="text-align: right;">26.2874687</td>
-<td style="text-align: right;">6.797196</td>
-<td style="text-align: right;">3.8673990</td>
-<td style="text-align: right;">0.0001330</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS</td>
-<td style="text-align: right;">-33.2547774</td>
-<td style="text-align: right;">4.923043</td>
-<td style="text-align: right;">-6.7549237</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AVGFACSAL</td>
-<td style="text-align: right;">-11.4385472</td>
-<td style="text-align: right;">7.165074</td>
-<td style="text-align: right;">-1.5964311</td>
-<td style="text-align: right;">0.1113674</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">SAT_AVG</td>
-<td style="text-align: right;">-86.6323357</td>
-<td style="text-align: right;">8.515896</td>
-<td style="text-align: right;">-10.1730147</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AGE_ENTRY</td>
-<td style="text-align: right;">0.4599436</td>
-<td style="text-align: right;">5.802186</td>
-<td style="text-align: right;">0.0792707</td>
-<td style="text-align: right;">0.9368662</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: right;">adj.r.squared</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">0.701619</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>The model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.</p>
-</section>
-<section id="iteration-4" class="level3">
-<h3 class="anchored" data-anchor-id="iteration-4">Iteration #4</h3>
-<p>From our first and second iteration, UGDS_UNKN, among the variables removed, has the smallest p-value of 0.310. Therefore we are going to add UGDS_UNKN back to our model for the iteration.</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">249.7153091</td>
-<td style="text-align: right;">4.521131</td>
-<td style="text-align: right;">55.232924</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ADM_RATE</td>
-<td style="text-align: right;">27.2202655</td>
-<td style="text-align: right;">6.840754</td>
-<td style="text-align: right;">3.979132</td>
-<td style="text-align: right;">0.0000854</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS</td>
-<td style="text-align: right;">-32.7123939</td>
-<td style="text-align: right;">4.942456</td>
-<td style="text-align: right;">-6.618652</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AVGFACSAL</td>
-<td style="text-align: right;">-11.1617082</td>
-<td style="text-align: right;">7.165156</td>
-<td style="text-align: right;">-1.557776</td>
-<td style="text-align: right;">0.1202656</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">SAT_AVG</td>
-<td style="text-align: right;">-86.3294688</td>
-<td style="text-align: right;">8.515275</td>
-<td style="text-align: right;">-10.138190</td>
-<td style="text-align: right;">0.0000000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AGE_ENTRY</td>
-<td style="text-align: right;">-0.8911943</td>
-<td style="text-align: right;">5.914406</td>
-<td style="text-align: right;">-0.150682</td>
-<td style="text-align: right;">0.8803207</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_UNKN</td>
-<td style="text-align: right;">5.4065047</td>
-<td style="text-align: right;">4.651444</td>
-<td style="text-align: right;">1.162328</td>
-<td style="text-align: right;">0.2459603</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: right;">adj.r.squared</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">0.7019419</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>While this model proved better than the previous one, it is still not as good as our initial model.</p>
-</section>
-<section id="model-results" class="level3">
-<h3 class="anchored" data-anchor-id="model-results">Model results</h3>
-<p>Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: <code>ADM_RATE</code>, <code>UGDS</code>, <code>AVGFACSAL</code>, and <code>SAT_AVG</code>. Then, we can further single out the most significant variable with R-squared values.</p>
+<p>Add interpretations for the final model results</p>
 </section>
 </section>
 <section id="slopes" class="level2">
