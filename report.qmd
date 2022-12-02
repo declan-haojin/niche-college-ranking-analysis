@@ -1374,7 +1374,11 @@ correlations |> knitr::kable()
 
 According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
 
-## Build model
+## Stepwise Regression Model
+
+Another approach to address our research question
+
+### 1. Remove variables with high correlations
 
 Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by removing the variables with a correlation coefficient above 0.8.
 
@@ -1382,7 +1386,7 @@ Because we want to predict college rank, a number from various variables, we dec
 #| label: glimpsed-data
 
 stepwise_data <- scaled_data |>
-  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "MARRIED", "FIRST_GEN"))
+  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
 
 stepwise_data |>
   names() |>
@@ -1398,7 +1402,29 @@ stepwise_data <- stepwise_data |>
     )
 ```
 
-Then we
+### 2. Computing Stepwise Regression
+
+```{r}
+#| label: model-computing
+
+library(MASS)
+stepwise_data = na.omit(stepwise_data)
+
+# Fit the full model 
+full_model <- lm(rank ~. -college, data = stepwise_data)
+
+# Stepwise regression model
+stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
+
+stepwise_model$anova
+
+```
+
+```{r}
+
+```
+
+Then we Computing stepwise regression
 
 # Results
 
@@ -1455,9 +1481,6 @@ colleges_levels |>
 
 ```{r}
 #| label: rank-vs-accredation-agency
-
-
-
 colleges_levels |>
   ggplot(aes(y = level, fill = REGION)) +
   geom_bar(position = "fill")
@@ -1469,9 +1492,6 @@ colleges_levels |>
 
 ```{r}
 #| label: rank-vs-control
-
-
-
 colleges_levels |>
   ggplot(aes(y = level, fill = CONTROL)) +
   geom_bar(position = "fill")
@@ -1487,6 +1507,8 @@ colleges_levels |>
 ```
 
 There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank.
+
+## Stepwise Regression Model
 
 # Discussion
 
