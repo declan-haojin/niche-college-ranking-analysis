@@ -1234,55 +1234,21 @@ stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 stepwise_model$anova
 ```
 
-Add interpretations for the final model results
-
-## Slopes
+In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
 
 ```{r}
-#| label: numerical_slope_r2
-#| output: false
+#| label: r-squared-final-model
 
-linear_reg() |> fit(rank ~ SAT_AVG, data = scaled_data)
-linear_reg() |> fit(rank ~ SAT_AVG, data = colleges)
+final_model_fit <- linear_reg() |>
+  fit(rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE + 
+    UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL + 
+    AGE_ENTRY + SAT_AVG + FIRST_GEN + UGDS_HISP, data = scaled_data)
 
-linear_reg() |> fit(rank ~ ACTCMMID, data = scaled_data)
-linear_reg() |> fit(rank ~ ACTCMMID, data = colleges)
-
-linear_reg() |> fit(rank ~ C150_4, data = scaled_data)
-linear_reg() |> fit(rank ~ C150_4, data = colleges)
-
-linear_reg() |> fit(rank ~ AVGFACSAL, data = scaled_data)
-linear_reg() |> fit(rank ~ AVGFACSAL, data = colleges)
-
-linear_reg() |> fit(rank ~ ADM_RATE, data = scaled_data)
-linear_reg() |> fit(rank ~ ADM_RATE, data = colleges)
-
-linear_reg() |> fit(rank ~ PCTPELL, data = scaled_data)
-linear_reg() |> fit(rank ~ PCTPELL, data = colleges)
-
-linear_reg() |> fit(rank ~ UGDS_NRA, data = scaled_data)
-linear_reg() |> fit(rank ~ UGDS_NRA, data = colleges)
-
-linear_reg() |> fit(rank ~ FIRST_GEN, data = scaled_data)
-linear_reg() |> fit(rank ~ FIRST_GEN, data = colleges)
-
-linear_reg() |> fit(rank ~ UGDS_ASIAN, data = scaled_data)
-linear_reg() |> fit(rank ~ UGDS_ASIAN, data = colleges)
-
-linear_reg() |> fit(rank ~ COSTT4_A, data = scaled_data)
-linear_reg() |> fit(rank ~ COSTT4_A, data = colleges)
-
-linear_reg() |> fit(rank ~ FAMINC, data = scaled_data)
-linear_reg() |> fit(rank ~ FAMINC, data = colleges)
-
-linear_reg() |> fit(rank ~ AGE_ENTRY, data = scaled_data)
-linear_reg() |> fit(rank ~ AGE_ENTRY, data = colleges)
-
-linear_reg() |> fit(rank ~ MARRIED, data = scaled_data)
-linear_reg() |> fit(rank ~ MARRIED, data = colleges)
-
-
+glance(final_model_fit) |>
+  knitr::kable()
 ```
+
+We can further tell that this is our best model because it has an r-squared coefficient of 0.774. The variables here can then be considered to be the variables that affect a college's ranking the most. Region (`REGION`) and type of school (`CONTROL`, `CCBASIC`) influence its ranking. There are certain qualities of its undergraduate population that are more statistically significant than others and were thus included in this model: overall undergraduate population, number of Asians, Hispanics, mixed students, and first-generation students, and average age when the undergraduated enrolled. Average SAT score was also significant enough to be include into the model, and `ACCREDAGENCY` and cost of attendance were also the final two variables considered significant enough for our best model.
 
 # Discussion
 
