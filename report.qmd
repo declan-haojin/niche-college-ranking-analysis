@@ -7,7 +7,7 @@ execute:
   echo: false
 message: false
 warning: false
-editor_options: 
+editor_options:
   chunk_output_type: inline
 ---
 
@@ -38,15 +38,7 @@ In general, we want to examine how different variables affect a school's ranking
 
 For the sake of clarity, when we say a "low rank," we are referring to schools with a lower numerical rank, such as #1 and #2. When we say a "high rank," we a referring to schools with a high numerical rank, such as #499 and #500.
 
-## Research Question and Hypothesis
-
-**Question:** Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?
-
-**Hypothesis:** We hypothesize that SAT/ACT scores, acceptance rate, and family income will have the strongest association with rank because since Niche's audience is in large part students applying to college, we believe that they prioritize variables important in the college admissions process. Of these variables, we predict that SAT/ACT score will have strong negative relationship, acceptance rate will have a strong positive relationship, and family income will have a strong negative relationship with rank.
-
-In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard
-
-# Data
+## Data
 
 ```{r}
 #| label: import
@@ -55,7 +47,7 @@ niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
 
-## Data Set #1: Niche
+### Data Set #1: Niche
 
 -   The first data set comes from Niche's "2023 Best Colleges in America" list
 
@@ -65,7 +57,7 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` and `rank`.
 
-## Data Set #2: US Department of Education
+### Data Set #2: US Department of Education
 
 -   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.
 
@@ -75,9 +67,13 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the United States.
 
-## Data summary
+### Variable Summary
 
 Here is a summary of the variables we will be using in our analysis.
+
+Categorical:
+
+-   `college`: Institution name
 
 +---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
 | Variable Name | Categorical (C)  | Description                                                                                                                        |
@@ -151,9 +147,7 @@ Here is a summary of the variables we will be using in our analysis.
 | ACTCMMID      | Q                | Midpoint of the ACT cumulative score                                                                                               |
 +---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
 
-# Methodology
-
-## Data Preparation
+### Data Preparation
 
 1.  To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported. The steps were done in an R script titled `niche-scrape.R`
 2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` (ranked 141) and `University of South Florida - St. Petersburg` (ranked 181) have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations.
@@ -586,7 +580,7 @@ us_dep_of_ed <- us_dep_of_ed |>
   )
 ```
 
-3.  We joined the US Department of Education dataset to the Niche dataset by the college names. The first 5 rows are displayed below.
+3.  We joined the US Department of Education dataset to the Niche dataset by the college names.
 
 ```{r}
 #| label: join-datasets
@@ -734,14 +728,14 @@ scaled_data |>
   knitr::kable()
 ```
 
-### Preliminary Exploration and Visualization
+## Exploratory Data Analysis
 
 ### Means of Different Variables by Rank Group
 
 ```{r}
 #| label: exploration-by-rank-group
 
-colleges_levels <- data |> 
+colleges_levels <- data |>
   mutate(
     level = case_when(
       rank <= 100 ~ "1 to 100",
@@ -753,8 +747,8 @@ colleges_levels <- data |>
     .after = rank
   )
 
-colleges_levels |> 
-  group_by(level) |> 
+colleges_levels |>
+  group_by(level) |>
   summarize(
     mean_ADM_Rate = mean(ADM_RATE, na.rm = TRUE),
     mean_SAT_AVG = mean(SAT_AVG, na.rm = TRUE),
@@ -762,7 +756,7 @@ colleges_levels |>
     mean_UGDS_WHITE = mean(UGDS_WHITE, na.rm = TRUE),
     mean_UGDS_ASIAN = mean(UGDS_ASIAN, na.rm = TRUE),
     mean_COSTT4_A = mean(COSTT4_A, na.rm = TRUE)
-  ) |> 
+  ) |>
   rename(
     "Interval" = level,
     "Mean Admission Rate" = mean_ADM_Rate,
@@ -771,7 +765,7 @@ colleges_levels |>
     "Mean % White Students" = mean_UGDS_WHITE,
     "Mean % Asian Students" = mean_UGDS_ASIAN,
     "Mean Cost of Attendance" = mean_COSTT4_A
-  ) |> 
+  ) |>
   knitr::kable()
 ```
 
@@ -784,14 +778,14 @@ Below, we group the schools by the different categorical variables in our analys
 ```{r}
 #| label: exploration-control
 
-data |> 
-  group_by(CONTROL) |> 
+data |>
+  group_by(CONTROL) |>
   summarize(
     mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank) |> 
+  ) |>
+  arrange(mean_rank) |>
   rename(
-    "Control" = CONTROL, 
+    "Control" = CONTROL,
     "Mean Rank" = mean_rank
   ) |>
   knitr::kable()
@@ -802,14 +796,14 @@ We observe that private non-profit colleges have a higher mean rank than public 
 ```{r}
 #| label: exploration-region
 
-data |> 
-  group_by(REGION) |> 
+data |>
+  group_by(REGION) |>
   summarize(
     mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank) |> 
+  ) |>
+  arrange(mean_rank) |>
   rename(
-    "Region" = REGION, 
+    "Region" = REGION,
     "Mean Rank" = mean_rank
   ) |>
   knitr::kable()
@@ -820,14 +814,14 @@ As far as region, schools from New England have the highest mean rank, while sch
 ```{r}
 #| label: exploration-CCBASIC
 
-data |> 
-  group_by(CCBASIC) |> 
+data |>
+  group_by(CCBASIC) |>
   summarize(
     mean_rank = mean(rank)
-  ) |> 
+  ) |>
   arrange(mean_rank) |>
   rename(
-    "Carnegie Classification (Basic)" = CCBASIC, 
+    "Carnegie Classification (Basic)" = CCBASIC,
     "Mean Rank" = mean_rank
   ) |>
   knitr::kable()
@@ -838,27 +832,40 @@ Looking at the Carnegie Classification, Special Focus Four-Year: Business & Mana
 ```{r}
 #| label: exploration-state
 
-colleges |> 
-  group_by(STABBR) |> 
+colleges |>
+  group_by(STABBR) |>
   summarize(
     mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank) |> 
+  ) |>
+  arrange(mean_rank) |>
   rename(
-    "State" = STABBR, 
+    "State" = STABBR,
     "Mean Rank" = mean_rank
   ) |>
-  slice_head(n = 10) |> 
+  slice_head(n = 10) |>
   knitr::kable()
 ```
 
 When looking at states, Maine has the highest mean rank, followed by Massachusetts.
 
-### Numerical Variables vs. Rank
+## Research Question and Hypothesis
+
+**Question:** Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?
+
+**Hypothesis:** We hypothesize that SAT/ACT scores, acceptance rate, and family income will have the strongest association with rank because since Niche's audience is in large part students applying to college, we believe that they prioritize variables important in the college admissions process. Of these variables, we predict that SAT/ACT score will have strong negative relationship, acceptance rate will have a strong positive relationship, and family income will have a strong negative relationship with rank.
+
+In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard
+
+# Methodology
+
+# Results
+
+## Method 1: Individual Variable Analysis
+
+### Individual R-Squared Analysis
 
 ```{r}
 #| label: find-r2
-
 
 numerical_variables  <- c(
   "ADM_RATE",
@@ -895,20 +902,20 @@ r2s <- numeric()
 for(var in numerical_variables) {
   temp_df <- data |>
   select(c(rank, var))
-  
+
   model <- linear_reg() |>
     set_engine("lm") |>
     fit(rank ~ ., data = temp_df)
-  
+
   r2 <- glance(model)$r.squared
-  
+
   r2s <- c(r2s, r2)
 }
 
 r_squared_values <- tibble(
-  variable = numerical_variables, 
+  variable = numerical_variables,
   r_squared = r2s
-  ) |> 
+  ) |>
   filter(variable != "COSTT4_P" & variable != "ENDOWBEGIN")
 
 r_squared_values |>
@@ -920,27 +927,25 @@ r_squared_values |>
 
 `ENDOWBEGIN` (Endowment size) has been removed because the relationship is very skewed and not linear.
 
-Based on the r-squared values of the remaining variables, we expect SAT_AVG (average SAT score), ACTCMMID (median ACT score), and C150_4 (rate of completion) to appear in the final model because they all have an R-squared value above 0.5, meaning that they explain more than 50% of the variation seen in rank.
-
-We will look further at the relationship between these variables and rank by creating scatter plots and analyzing their respective slope. To simplify our analysis, we will only look at graphs with an r-squared greater than .1
+Based on the R-squared values of the remaining variables, we expect SAT_AVG (average SAT score), ACTCMMID (median ACT score), and C150_4 (rate of completion) to appear in the final model because they all have an R-squared value above 0.5, meaning that they explain more than 50% of the variation seen in rank.
 
 ```{r}
 
-#| label: numerical_graphs
+#| label: numerical-graphs
 
 library(gridExtra)
 
 
-a1 <- colleges |> 
+a1 <- colleges |>
   ggplot(aes(x = SAT_AVG, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
   labs(
     x = "Avg. SAT",
     y = "Rank"
-  ) 
+  )
 
-a2 <- colleges |> 
+a2 <- colleges |>
   ggplot(aes(x = ACTCMMID, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -949,7 +954,7 @@ a2 <- colleges |>
     y = "Rank"
   )
 
-a3 <- colleges |> 
+a3 <- colleges |>
   ggplot(aes(x = C150_4, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -958,7 +963,7 @@ a3 <- colleges |>
     y = "Rank"
   )
 
-a4 <- colleges |> 
+a4 <- colleges |>
   ggplot(aes(x = AVGFACSAL, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -967,7 +972,7 @@ a4 <- colleges |>
     y = "Rank"
   )
 
-a5 <- colleges |> 
+a5 <- colleges |>
   ggplot(aes(x = ADM_RATE, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -976,7 +981,7 @@ a5 <- colleges |>
     y = "Rank"
   )
 
-a6 <- colleges |> 
+a6 <- colleges |>
   ggplot(aes(x = PCTPELL, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -985,7 +990,7 @@ a6 <- colleges |>
     y = "Rank"
   )
 
-a7 <- colleges |> 
+a7 <- colleges |>
   ggplot(aes(x = UGDS_NRA, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -994,7 +999,7 @@ a7 <- colleges |>
     y = "Rank"
   )
 
-a8 <- colleges |> 
+a8 <- colleges |>
   ggplot(aes(x = FIRST_GEN, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1003,7 +1008,7 @@ a8 <- colleges |>
     y = "Rank"
   )
 
-a9 <- colleges |> 
+a9 <- colleges |>
   ggplot(aes(x = UGDS_ASIAN, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1013,7 +1018,7 @@ a9 <- colleges |>
   )
 
 
-a10 <- colleges |> 
+a10 <- colleges |>
   ggplot(aes(x = COSTT4_A, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1022,7 +1027,7 @@ a10 <- colleges |>
     y = "Rank"
   )
 
-a11 <- colleges |> 
+a11 <- colleges |>
   ggplot(aes(x = FAMINC, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1031,7 +1036,7 @@ a11 <- colleges |>
     y = "Rank"
   )
 
-a12 <- colleges |> 
+a12 <- colleges |>
   ggplot(aes(x = AGE_ENTRY, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1040,7 +1045,7 @@ a12 <- colleges |>
     y = "Rank"
   )
 
-a13 <- colleges |> 
+a13 <- colleges |>
   ggplot(aes(x = MARRIED, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1052,388 +1057,33 @@ a13 <- colleges |>
 grid.arrange(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, ncol = 3)
 ```
 
-```{r}
-
-#| label: numerical_slope_r2
-
-
-linear_reg() |> fit(rank ~ SAT_AVG, data = scaled_data)
-linear_reg() |> fit(rank ~ SAT_AVG, data = colleges)
-
-linear_reg() |> fit(rank ~ ACTCMMID, data = scaled_data)
-linear_reg() |> fit(rank ~ ACTCMMID, data = colleges)
-
-linear_reg() |> fit(rank ~ C150_4, data = scaled_data)
-linear_reg() |> fit(rank ~ C150_4, data = colleges)
-
-linear_reg() |> fit(rank ~ AVGFACSAL, data = scaled_data)
-linear_reg() |> fit(rank ~ AVGFACSAL, data = colleges)
-
-linear_reg() |> fit(rank ~ ADM_RATE, data = scaled_data)
-linear_reg() |> fit(rank ~ ADM_RATE, data = colleges)
-
-linear_reg() |> fit(rank ~ PCTPELL, data = scaled_data)
-linear_reg() |> fit(rank ~ PCTPELL, data = colleges)
-
-linear_reg() |> fit(rank ~ UGDS_NRA, data = scaled_data)
-linear_reg() |> fit(rank ~ UGDS_NRA, data = colleges)
-
-linear_reg() |> fit(rank ~ FIRST_GEN, data = scaled_data)
-linear_reg() |> fit(rank ~ FIRST_GEN, data = colleges)
-
-linear_reg() |> fit(rank ~ UGDS_ASIAN, data = scaled_data)
-linear_reg() |> fit(rank ~ UGDS_ASIAN, data = colleges)
-
-linear_reg() |> fit(rank ~ COSTT4_A, data = scaled_data)
-linear_reg() |> fit(rank ~ COSTT4_A, data = colleges)
-
-linear_reg() |> fit(rank ~ FAMINC, data = scaled_data)
-linear_reg() |> fit(rank ~ FAMINC, data = colleges)
-
-linear_reg() |> fit(rank ~ AGE_ENTRY, data = scaled_data)
-linear_reg() |> fit(rank ~ AGE_ENTRY, data = colleges)
-
-linear_reg() |> fit(rank ~ MARRIED, data = scaled_data)
-linear_reg() |> fit(rank ~ MARRIED, data = colleges)
-
-
-```
 
 ```{r}
 
-#| label: r2_slopes_kable
+#| label: r2-slopes-kable
+
 
 
 r2_slopes <- r_squared_values |>
-  filter(r_squared != 1.000000000) |> 
-  arrange(desc(r_squared)) |> 
-  slice_head(n = 13) |> 
+  filter(r_squared != 1.000000000) |>
+  arrange(desc(r_squared)) |>
+  slice_head(n = 13) |>
   mutate(
     scaled_slope = c(-115.0, -112.9, -103.5, -98.89, 91.74, 71.75, -65.21, 63.57, -63.69, -57.38, -56.27, 55.09, 45.71),
-    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02, 644.76, -1248.5, 643.83, -803.0, -0.002815, -0.002152, 23.05, 615.2)                 
+    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02, 644.76, -1248.5, 643.83, -803.0, -0.002815, -0.002152, 23.05, 615.2)
   )
 
 r2_slopes |> knitr::kable()
-
 ```
 
-```{r}
-#| label: graphs
+### Categorical Variable Analysis
 
-library(gridExtra)
-
-p1 <- scaled_data|> 
-  ggplot(aes(x = ADM_RATE, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Admission Rate",
-    y = "",
-    color = "Public/Private", 
-    #title = "Rank vs Admission Rate by Public/Private"
-  )
-
-p2 <- scaled_data|> 
-  ggplot(aes(x = UGDS, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Undergraduate Enrollment",
-    y = "",
-  )
-
-p3 <- colleges |> 
-  ggplot(aes(x = UGDS_WHITE, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Undergrads Who are White",
-    y = "",
-    #title = "Rank vs % of Undergrads Who are White"
-  )
-  
-p4 <- colleges |> 
-  ggplot(aes(x = UGDS_BLACK, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Undergrads Who are Black",
-    y = "",
-    #title = "Rank vs % of Undergrads Who are Black"
-  )
-
-p5 <- colleges |> 
-  ggplot(aes(x = UGDS_HISP, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Undergrads Who are Hispanic",
-    y = ""
-  )
-
-p6 <- colleges |> 
-  ggplot(aes(x = UGDS_ASIAN, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Undergrads Who are Asian",
-    y = ""
-  )
-
-p7 <- colleges |> 
-  ggplot(aes(x = UGDS_AIAN, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Undergrads Who are American Indian/Alaskan Native",
-    y = ""
-  )
-
-p8 <- colleges |> 
-  ggplot(aes(x = UGDS_2MOR, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Undergrads Who are 2 or More Races",
-    y = ""
-  )
-
-p9 <- colleges |> 
-  ggplot(aes(x = UGDS_NRA, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Undergrads Who are Non-resident Aliens",
-    y = ""
-  )
-
-p9 <- colleges |> 
-  ggplot(aes(x = UGDS_UNKN, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Undergrads Whose Race is Unknown",
-    y = ""
-  )
-
-p10 <- colleges |> 
-  ggplot(aes(x = NPT4_PUB, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Avg Net Price (public)",
-    y = ""
-  )
-
-p11 <- colleges |> 
-  ggplot(aes(x = NPT4_PRIV, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Avg Net Price (private)",
-    y = ""
-  )
-
-p12 <- scaled_data |> 
-  ggplot(aes(x = COSTT4_A, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Cost of Attendance (academic-year)", 
-    y = "",
-    #title = "Rank vs Cost of Attendance by Public/Private"
-  ) 
-
-p12 <- scaled_data |> 
-  ggplot(aes(x = COSTT4_P, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Cost of Attendance (program-year)", 
-    y = ""
-  ) 
-
-p13 <- scaled_data |> 
-  ggplot(aes(x = AVGFACSAL, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Average Faculty Salary", 
-    y = ""
-    #title = "Rank vs Average Faculty Salary"
-  ) 
-
-p14 <- scaled_data |> 
-  ggplot(aes(x = PCTPELL, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% Ungergrads on Pell Grants",
-    y = ""
-  ) 
-
-p15 <- scaled_data |> 
-  ggplot(aes(x = C150_4, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Graduation Rate", 
-    y = "",
-    #title = "Rank vs Graduation Rate"
-  ) 
-
-p16 <- scaled_data |> 
-  ggplot(aes(x = AGE_ENTRY, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Avg Age of Entry",
-    y = ""
-  ) 
-
-p17 <- scaled_data |> 
-  ggplot(aes(x = FEMALE, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Female Students",
-    y = ""
-  ) 
-
-p18 <- scaled_data |> 
-  ggplot(aes(x = MARRIED, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of Married Students",
-    y = ""
-  ) 
-
-p19 <- scaled_data |> 
-  ggplot(aes(x = FIRST_GEN, y = rank)) +
-  geom_point() +
-  labs(
-    x = "% of First Generation Students",
-    y = ""
-  ) 
-
-p20 <- scaled_data |> 
-  ggplot(aes(x = FAMINC, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Avg Family Income",
-    y = ""
-  ) 
-
-p21 <- scaled_data |> 
-  ggplot(aes(x = MD_FAMINC, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Med Family Income",
-    y = ""
-  ) 
-
-p22 <- scaled_data |> 
-  ggplot(aes(x = ENDOWBEGIN, y = rank)) +
-  geom_point() +
-  labs(
-    x = "Endowment Size", 
-    y = "",
-    #title = "Rank vs Endowment Size"
-  )
-```
-
-```{r}
-#| label: arrange-in-grid
-
-grid.arrange(p1, p2, p3, p4, p5, p6, p7 , p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22)
-```
-
-From these graphs, there appears to be a very strong positive association between admission rate/ % of undergrads on Pell grants and college rank. There appears to be somewhat of a positive association between % of undergrads who are white/% of first generation students and college ranks. This means that as these metrics decrease, the rank of a school is expected to decrease
-
-There appears to be a strong negative association between % of undergrads who are Asian/% of undergrads who are non-resident aliens/average faculty salary/graduation rate and college rank. There appears to be somewhat of a negative relationship between average net price for private universities/cost of attendance/average family income/median family income and college rank. This means that as these metrics increase, the rank of a school is expected to increase.
-
-For all type of standardized test scores, there appear to be a strong negative relationship between score and rank, indicating that as the test scores increases, the rank of a school is expected to to increase.
-
-## Check Correlation Coefficients
-
-We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
-
-```{r}
-#| label: correlation-matrix
-
-    data_for_corr <- scaled_data |>
-      select(is.numeric)
-
-    correlations = data_for_corr |>
-      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
-        na.omit() |>
-        cor() 
-
-    correlations |>
-        corrplot(method="color")
-```
-
-According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
-
-```{r}
-#| label: display-correlation-pair-to-be-removed
-
-correlations[correlations < 0.8 | correlations == 1] <- ""
-
-correlations |> knitr::kable() 
-```
-
-| Variable Pairs with r \> 0.8 | Correlation Coefficients |
-|------------------------------|--------------------------|
-| C150_4, SAT_AVG              | 0.8389                   |
-| C150_4, ACTCMMID             | 0.8494                   |
-| AGE_ENTRY, MARRIED           | 0.9059                   |
-| FAMINC, MD_FAMINC            | 0.9538                   |
-| SAT_AVG, ACTCMMID            | 0.9756                   |
-
-According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
-
-## Stepwise Regression Model
-
-Another approach to address our research question
-
-### 1. Remove variables with high correlations
-
-Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by removing the variables with a correlation coefficient above 0.8.
-
-```{r}
-#| label: glimpsed-data
-
-stepwise_data <- scaled_data |>
-  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
-
-stepwise_data |>
-  names() |>
-  knitr::kable(col.names = "Selected Variables")
-
-# Factorize variable
-stepwise_data <- stepwise_data |>
-  mutate(
-    REGION = as.factor(REGION),
-    CONTROL = as.factor(CONTROL),
-    CCBASIC = as.factor(CCBASIC),
-    ACCREDAGENCY = as.factor(ACCREDAGENCY)
-    )
-```
-
-### 2. Computing Stepwise Regression
-
-```{r}
-#| label: model-computing
-
-library(MASS)
-stepwise_data = na.omit(stepwise_data)
-
-# Fit the full model 
-full_model <- lm(rank ~. -college, data = stepwise_data)
-
-# Stepwise regression model
-stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
-
-stepwise_model$anova
-
-```
-
-```{r}
-
-```
-
-Then we Computing stepwise regression
-
-# Results
-
-## Categorical Variable Analysis
 
 ```{r}
 #| label: rank-vs-region
 #| layout-ncol: 2
 #| #| layout-ncol: 2
+
 colleges_levels |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
@@ -1479,34 +1129,213 @@ colleges_levels |>
   )
 ```
 
-```{r}
-#| label: rank-vs-accredation-agency
-colleges_levels |>
-  ggplot(aes(y = level, fill = REGION)) +
-  geom_bar(position = "fill")
+There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. NOT DONE
 
-colleges_levels |>
-  ggplot(aes(y = level, fill = str_wrap(ACCREDAGENCY, 30))) +
-  geom_bar(position = "fill")
-```
+## Method 2: Stepwise Regression Model
+
+### Check Correlation Between Variables
+
+We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
 
 ```{r}
-#| label: rank-vs-control
-colleges_levels |>
-  ggplot(aes(y = level, fill = CONTROL)) +
-  geom_bar(position = "fill")
+#| label: correlation-matrix
+
+    data_for_corr <- scaled_data |>
+      select(is.numeric)
+
+    correlations = data_for_corr |>
+      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
+        na.omit() |>
+        cor()
+
+    correlations |>
+        corrplot(method="color")
 ```
+
+According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
 
 ```{r}
-#| label: rank-vs-CCBASIC
+#| label: display-correlation-pair-to-be-removed
 
-
-colleges_levels |>
-  ggplot(aes(y = level, fill = str_wrap(CCBASIC, 30))) +
-  geom_bar(position = "fill")
+correlations[correlations < 0.8 | correlations == 1] <- ""
 ```
 
-There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank.
+| Variable Pairs with r \> 0.8 | Correlation Coefficients |
+|------------------------------|--------------------------|
+| C150_4, SAT_AVG              | 0.8389                   |
+| C150_4, ACTCMMID             | 0.8494                   |
+| AGE_ENTRY, MARRIED           | 0.9059                   |
+| FAMINC, MD_FAMINC            | 0.9538                   |
+| SAT_AVG, ACTCMMID            | 0.9756                   |
+
+According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
+
+### Build model
+
+Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by removing the variables with a correlation coefficient above 0.8.
+
+```{r}
+#| label: glimpsed-data
+
+data_set <- scaled_data |>
+  select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "MARRIED", "FIRST_GEN"))
+
+data_set |>
+  names() |>
+  knitr::kable(col.names = "Selected Variables")
+```
+
+Then we need to split dataset into two parts: a training and a test set. We will use 80% of the college data for training our model and the other 20% for testing our model.
+
+```{r}
+#| label: split-data
+
+set.seed(777)
+
+# Build training data set
+train <- data_set |>
+  sample_frac(.80)
+
+# Build testing data set
+test <- anti_join(data_set, train, by = 'rank')
+```
+
+### Iteration #1
+
+We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.
+
+```{r}
+#| label: linear-reg-data
+
+fit1 <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + UGDS_WHITE + UGDS_BLACK + UGDS_HISP + UGDS_ASIAN + UGDS_AIAN + UGDS_NHPI + UGDS_2MOR + UGDS_NRA + UGDS_UNKN + COSTT4_A + AVGFACSAL + PCTPELL + AGE_ENTRY + FAMINC + ENDOWBEGIN + SAT_AVG , data = train)
+
+tidy(fit1) |> knitr::kable()
+```
+
+At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the `SAT_AVG`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.
+
+Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around or above 0.3, which is much greater than 0.05. Therefore, we will drop these variables for the next model iteration.
+
+Then, we can evaluate our first primitive model by R-squared:
+
+```{r}
+#| label: evaluation1
+
+glance(fit1) |>
+  select(adj.r.squared) |> knitr::kable()
+```
+
+As we can see the model's adjusted R-squared is around 72.0%.
+
+### Iteration #2
+
+First, we will avoid using the variables with high p-values as mentioned above to train a new model.
+
+```{r}
+#| label: fit2
+
+fit2 <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG, data = train)
+
+tidy(fit2) |> knitr::kable()
+
+glance(fit2) |>
+  select(adj.r.squared) |> knitr::kable()
+```
+
+Then we can evaluation our second model by Rsqure:
+
+Since the R-squared value is 0.703 which is even smaller than 0.7200 of our first model, we need to implement forward selection by adding variables back to our model.
+
+### Iteration #3
+
+From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.
+
+```{r}
+#| label: fit3
+
+fit3 <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG + AGE_ENTRY, data = train)
+
+tidy(fit3) |> knitr::kable()
+
+glance(fit3) |>
+  select(adj.r.squared) |> knitr::kable()
+
+```
+
+The model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.
+
+### Iteration #4
+
+From our first and second iteration, UGDS_UNKN, among the variables removed, has the smallest p-value of 0.310. Therefore we are going to add UGDS_UNKN back to our model for the iteration.
+
+```{r}
+#| label: fit4
+
+fit4 <- linear_reg() |>
+  fit(rank ~ ADM_RATE + UGDS + AVGFACSAL + SAT_AVG + AGE_ENTRY + UGDS_UNKN, data = train)
+
+tidy(fit4) |> knitr::kable()
+
+glance(fit4) |>
+  select(adj.r.squared) |> knitr::kable()
+```
+
+While this model proved better than the previous one, it is still not as good as our initial model.
+
+### Model results
+
+Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: `ADM_RATE`, `UGDS`, `AVGFACSAL`, and `SAT_AVG`. Then, we can further single out the most significant variable with R-squared values.
+
+## Slopes
+
+```{r}
+#| label: numerical_slope_r2
+#| output: false
+
+linear_reg() |> fit(rank ~ SAT_AVG, data = scaled_data)
+linear_reg() |> fit(rank ~ SAT_AVG, data = colleges)
+
+linear_reg() |> fit(rank ~ ACTCMMID, data = scaled_data)
+linear_reg() |> fit(rank ~ ACTCMMID, data = colleges)
+
+linear_reg() |> fit(rank ~ C150_4, data = scaled_data)
+linear_reg() |> fit(rank ~ C150_4, data = colleges)
+
+linear_reg() |> fit(rank ~ AVGFACSAL, data = scaled_data)
+linear_reg() |> fit(rank ~ AVGFACSAL, data = colleges)
+
+linear_reg() |> fit(rank ~ ADM_RATE, data = scaled_data)
+linear_reg() |> fit(rank ~ ADM_RATE, data = colleges)
+
+linear_reg() |> fit(rank ~ PCTPELL, data = scaled_data)
+linear_reg() |> fit(rank ~ PCTPELL, data = colleges)
+
+linear_reg() |> fit(rank ~ UGDS_NRA, data = scaled_data)
+linear_reg() |> fit(rank ~ UGDS_NRA, data = colleges)
+
+linear_reg() |> fit(rank ~ FIRST_GEN, data = scaled_data)
+linear_reg() |> fit(rank ~ FIRST_GEN, data = colleges)
+
+linear_reg() |> fit(rank ~ UGDS_ASIAN, data = scaled_data)
+linear_reg() |> fit(rank ~ UGDS_ASIAN, data = colleges)
+
+linear_reg() |> fit(rank ~ COSTT4_A, data = scaled_data)
+linear_reg() |> fit(rank ~ COSTT4_A, data = colleges)
+
+linear_reg() |> fit(rank ~ FAMINC, data = scaled_data)
+linear_reg() |> fit(rank ~ FAMINC, data = colleges)
+
+linear_reg() |> fit(rank ~ AGE_ENTRY, data = scaled_data)
+linear_reg() |> fit(rank ~ AGE_ENTRY, data = colleges)
+
+linear_reg() |> fit(rank ~ MARRIED, data = scaled_data)
+linear_reg() |> fit(rank ~ MARRIED, data = colleges)
+
+
+```
 
 ## Stepwise Regression Model
 

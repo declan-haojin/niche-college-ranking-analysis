@@ -106,29 +106,39 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
   <li><a href="#research-background" id="toc-research-background" class="nav-link" data-scroll-target="#research-background">Research Background</a></li>
-  <li><a href="#research-question-and-hypothesis" id="toc-research-question-and-hypothesis" class="nav-link" data-scroll-target="#research-question-and-hypothesis">Research Question and Hypothesis</a></li>
-  </ul></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
   <ul class="collapse">
   <li><a href="#data-set-1-niche" id="toc-data-set-1-niche" class="nav-link" data-scroll-target="#data-set-1-niche">Data Set #1: Niche</a></li>
   <li><a href="#data-set-2-us-department-of-education" id="toc-data-set-2-us-department-of-education" class="nav-link" data-scroll-target="#data-set-2-us-department-of-education">Data Set #2: US Department of Education</a></li>
-  <li><a href="#data-summary" id="toc-data-summary" class="nav-link" data-scroll-target="#data-summary">Data summary</a></li>
+  <li><a href="#variable-summary" id="toc-variable-summary" class="nav-link" data-scroll-target="#variable-summary">Variable Summary</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
   </ul></li>
-  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a>
   <ul class="collapse">
-  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a>
-  <ul class="collapse">
-  <li><a href="#preliminary-exploration-and-visualization" id="toc-preliminary-exploration-and-visualization" class="nav-link" data-scroll-target="#preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</a></li>
   <li><a href="#means-of-different-variables-by-rank-group" id="toc-means-of-different-variables-by-rank-group" class="nav-link" data-scroll-target="#means-of-different-variables-by-rank-group">Means of Different Variables by Rank Group</a></li>
   <li><a href="#means-of-rank-by-categorical-variables" id="toc-means-of-rank-by-categorical-variables" class="nav-link" data-scroll-target="#means-of-rank-by-categorical-variables">Means of Rank by Categorical Variables</a></li>
-  <li><a href="#numerical-variables-vs.-rank" id="toc-numerical-variables-vs.-rank" class="nav-link" data-scroll-target="#numerical-variables-vs.-rank">Numerical Variables vs.&nbsp;Rank</a></li>
   </ul></li>
-  <li><a href="#check-correlation-coefficients" id="toc-check-correlation-coefficients" class="nav-link" data-scroll-target="#check-correlation-coefficients">Check Correlation Coefficients</a></li>
-  <li><a href="#build-model" id="toc-build-model" class="nav-link" data-scroll-target="#build-model">Build model</a></li>
+  <li><a href="#research-question-and-hypothesis" id="toc-research-question-and-hypothesis" class="nav-link" data-scroll-target="#research-question-and-hypothesis">Research Question and Hypothesis</a></li>
   </ul></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
+  <li><a href="#method-1-individual-variable-analysis" id="toc-method-1-individual-variable-analysis" class="nav-link" data-scroll-target="#method-1-individual-variable-analysis">Method 1: Individual Variable Analysis</a>
+  <ul class="collapse">
+  <li><a href="#individual-r-squared-analysis" id="toc-individual-r-squared-analysis" class="nav-link" data-scroll-target="#individual-r-squared-analysis">Individual R-Squared Analysis</a></li>
   <li><a href="#categorical-variable-analysis" id="toc-categorical-variable-analysis" class="nav-link" data-scroll-target="#categorical-variable-analysis">Categorical Variable Analysis</a></li>
+  </ul></li>
+  <li><a href="#method-2-stepwise-regression-model" id="toc-method-2-stepwise-regression-model" class="nav-link" data-scroll-target="#method-2-stepwise-regression-model">Method 2: Stepwise Regression Model</a>
+  <ul class="collapse">
+  <li><a href="#check-correlation-between-variables" id="toc-check-correlation-between-variables" class="nav-link" data-scroll-target="#check-correlation-between-variables">Check Correlation Between Variables</a></li>
+  <li><a href="#build-model" id="toc-build-model" class="nav-link" data-scroll-target="#build-model">Build model</a></li>
+  <li><a href="#iteration-1" id="toc-iteration-1" class="nav-link" data-scroll-target="#iteration-1">Iteration #1</a></li>
+  <li><a href="#iteration-2" id="toc-iteration-2" class="nav-link" data-scroll-target="#iteration-2">Iteration #2</a></li>
+  <li><a href="#iteration-3" id="toc-iteration-3" class="nav-link" data-scroll-target="#iteration-3">Iteration #3</a></li>
+  <li><a href="#iteration-4" id="toc-iteration-4" class="nav-link" data-scroll-target="#iteration-4">Iteration #4</a></li>
+  <li><a href="#model-results" id="toc-model-results" class="nav-link" data-scroll-target="#model-results">Model results</a></li>
+  </ul></li>
+  <li><a href="#slopes" id="toc-slopes" class="nav-link" data-scroll-target="#slopes">Slopes</a></li>
   </ul></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a>
   <ul class="collapse">
@@ -171,20 +181,13 @@ ul.task-list li input[type="checkbox"] {
 <p>In general, we want to examine how different variables affect a school’s ranking on the <strong>Niche College Ranking List</strong> and determine which are most important to a high ranking. We plan to look at variables that are typically thought to influence school rank such as average SAT score and admission rate, but we also want to look at variables that aren’t typically thought of such as geographic region or endowment size.</p>
 <p>For the sake of clarity, when we say a “low rank,” we are referring to schools with a lower numerical rank, such as #1 and #2. When we say a “high rank,” we a referring to schools with a high numerical rank, such as #499 and #500.</p>
 </section>
-<section id="research-question-and-hypothesis" class="level2">
-<h2 class="anchored" data-anchor-id="research-question-and-hypothesis">Research Question and Hypothesis</h2>
-<p><strong>Question:</strong> Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?</p>
-<p><strong>Hypothesis:</strong> We hypothesize that SAT/ACT scores, acceptance rate, and family income will have the strongest association with rank because since Niche’s audience is in large part students applying to college, we believe that they prioritize variables important in the college admissions process. Of these variables, we predict that SAT/ACT score will have strong negative relationship, acceptance rate will have a strong positive relationship, and family income will have a strong negative relationship with rank.</p>
-<p>In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard</p>
-</section>
-</section>
-<section id="data" class="level1">
-<h1>Data</h1>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
 <div class="cell">
 
 </div>
-<section id="data-set-1-niche" class="level2">
-<h2 class="anchored" data-anchor-id="data-set-1-niche">Data Set #1: Niche</h2>
+<section id="data-set-1-niche" class="level3">
+<h3 class="anchored" data-anchor-id="data-set-1-niche">Data Set #1: Niche</h3>
 <ul>
 <li><p>The first data set comes from Niche’s “2023 Best Colleges in America” list</p>
 <p>(https://www.niche.com/colleges/search/best-colleges/)</p></li>
@@ -192,8 +195,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p>There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: <code>college</code> and <code>rank</code>.</p></li>
 </ul>
 </section>
-<section id="data-set-2-us-department-of-education" class="level2">
-<h2 class="anchored" data-anchor-id="data-set-2-us-department-of-education">Data Set #2: US Department of Education</h2>
+<section id="data-set-2-us-department-of-education" class="level3">
+<h3 class="anchored" data-anchor-id="data-set-2-us-department-of-education">Data Set #2: US Department of Education</h3>
 <ul>
 <li><p>The second data set comes from the US Department of Education’s College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.</p>
 <p>(https://collegescorecard.ed.gov/data/)</p></li>
@@ -201,9 +204,13 @@ ul.task-list li input[type="checkbox"] {
 <li><p>There were 2,989 variables in the original data set, many of which we don’t need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.</p></li>
 </ul>
 </section>
-<section id="data-summary" class="level2">
-<h2 class="anchored" data-anchor-id="data-summary">Data summary</h2>
+<section id="variable-summary" class="level3">
+<h3 class="anchored" data-anchor-id="variable-summary">Variable Summary</h3>
 <p>Here is a summary of the variables we will be using in our analysis.</p>
+<p>Categorical:</p>
+<ul>
+<li><code>college</code>: Institution name</li>
+</ul>
 <table class="table">
 <colgroup>
 <col style="width: 9%">
@@ -387,23 +394,17 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-</section>
-<section id="methodology" class="level1">
-<h1>Methodology</h1>
-<section id="data-preparation" class="level2">
-<h2 class="anchored" data-anchor-id="data-preparation">Data Preparation</h2>
+<section id="data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
 <ol type="1">
 <li>To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported. The steps were done in an R script titled <code>niche-scrape.R</code></li>
-</ol>
-<!-- -->
-<ol start="2" type="1">
 <li>Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for <code>University of South Florida - Sarasota-Manatee</code> (ranked 141) and <code>University of South Florida - St. Petersburg</code> (ranked 181) have been dropped from the <code>colleges</code> data set due to their non-existence in the <code>us_dep_of_ed</code> data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the <code>colleges</code> data set only has 498 observations.</li>
 </ol>
 <div class="cell">
 
 </div>
 <ol start="3" type="1">
-<li>We joined the US Department of Education dataset to the Niche dataset by the college names. The first 5 rows are displayed below.</li>
+<li>We joined the US Department of Education dataset to the Niche dataset by the college names.</li>
 </ol>
 <div class="cell">
 <div class="cell-output-display">
@@ -1147,9 +1148,10 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
-<section id="preliminary-exploration-and-visualization" class="level3">
-<h3 class="anchored" data-anchor-id="preliminary-exploration-and-visualization">Preliminary Exploration and Visualization</h3>
 </section>
+</section>
+<section id="exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
 <section id="means-of-different-variables-by-rank-group" class="level3">
 <h3 class="anchored" data-anchor-id="means-of-different-variables-by-rank-group">Means of Different Variables by Rank Group</h3>
 <div class="cell">
@@ -1455,8 +1457,23 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>When looking at states, Maine has the highest mean rank, followed by Massachusetts.</p>
 </section>
-<section id="numerical-variables-vs.-rank" class="level3">
-<h3 class="anchored" data-anchor-id="numerical-variables-vs.-rank">Numerical Variables vs.&nbsp;Rank</h3>
+</section>
+<section id="research-question-and-hypothesis" class="level2">
+<h2 class="anchored" data-anchor-id="research-question-and-hypothesis">Research Question and Hypothesis</h2>
+<p><strong>Question:</strong> Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?</p>
+<p><strong>Hypothesis:</strong> We hypothesize that SAT/ACT scores, acceptance rate, and family income will have the strongest association with rank because since Niche’s audience is in large part students applying to college, we believe that they prioritize variables important in the college admissions process. Of these variables, we predict that SAT/ACT score will have strong negative relationship, acceptance rate will have a strong positive relationship, and family income will have a strong negative relationship with rank.</p>
+<p>In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard</p>
+</section>
+</section>
+<section id="methodology" class="level1">
+<h1>Methodology</h1>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<section id="method-1-individual-variable-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="method-1-individual-variable-analysis">Method 1: Individual Variable Analysis</h2>
+<section id="individual-r-squared-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="individual-r-squared-analysis">Individual R-Squared Analysis</h3>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1573,299 +1590,10 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p><code>COSTT4_P</code> (Average cost of attendance for program-year institutions) has been removed because there are only two observations.</p>
 <p><code>ENDOWBEGIN</code> (Endowment size) has been removed because the relationship is very skewed and not linear.</p>
-<p>Based on the r-squared values of the remaining variables, we expect SAT_AVG (average SAT score), ACTCMMID (median ACT score), and C150_4 (rate of completion) to appear in the final model because they all have an R-squared value above 0.5, meaning that they explain more than 50% of the variation seen in rank.</p>
-<p>We will look further at the relationship between these variables and rank by creating scatter plots and analyzing their respective slope. To simplify our analysis, we will only look at graphs with an r-squared greater than .1</p>
+<p>Based on the R-squared values of the remaining variables, we expect SAT_AVG (average SAT score), ACTCMMID (median ACT score), and C150_4 (rate of completion) to appear in the final model because they all have an R-squared value above 0.5, meaning that they explain more than 50% of the variation seen in rank.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ SAT_AVG, data = data)
-
-Coefficients:
-(Intercept)      SAT_AVG  
-      242.3       -115.0  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ SAT_AVG, data = data)
-
-Coefficients:
-(Intercept)      SAT_AVG  
-  1400.1535      -0.9277  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ ACTCMMID, data = data)
-
-Coefficients:
-(Intercept)     ACTCMMID  
-      241.6       -112.9  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ ACTCMMID, data = data)
-
-Coefficients:
-(Intercept)     ACTCMMID  
-    1049.58       -30.04  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ C150_4, data = data)
-
-Coefficients:
-(Intercept)       C150_4  
-      249.8       -103.5  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ C150_4, data = data)
-
-Coefficients:
-(Intercept)       C150_4  
-      780.3       -735.2  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ AVGFACSAL, data = data)
-
-Coefficients:
-(Intercept)    AVGFACSAL  
-     249.77       -98.89  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ AVGFACSAL, data = data)
-
-Coefficients:
-(Intercept)    AVGFACSAL  
-   600.1381      -0.0347  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ ADM_RATE, data = data)
-
-Coefficients:
-(Intercept)     ADM_RATE  
-     248.86        91.74  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ ADM_RATE, data = data)
-
-Coefficients:
-(Intercept)     ADM_RATE  
-      14.48       387.02  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ PCTPELL, data = data)
-
-Coefficients:
-(Intercept)      PCTPELL  
-     250.20        71.75  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ PCTPELL, data = data)
-
-Coefficients:
-(Intercept)      PCTPELL  
-      83.96       644.76  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ UGDS_NRA, data = data)
-
-Coefficients:
-(Intercept)     UGDS_NRA  
-     249.77       -65.21  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ UGDS_NRA, data = data)
-
-Coefficients:
-(Intercept)     UGDS_NRA  
-      318.8      -1248.5  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ FIRST_GEN, data = data)
-
-Coefficients:
-(Intercept)    FIRST_GEN  
-     252.89        63.57  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ FIRST_GEN, data = data)
-
-Coefficients:
-(Intercept)    FIRST_GEN  
-      86.24       643.83  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ UGDS_ASIAN, data = data)
-
-Coefficients:
-(Intercept)   UGDS_ASIAN  
-     249.77       -63.69  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ UGDS_ASIAN, data = data)
-
-Coefficients:
-(Intercept)   UGDS_ASIAN  
-      312.8       -803.0  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ COSTT4_A, data = data)
-
-Coefficients:
-(Intercept)     COSTT4_A  
-     250.09       -57.38  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ COSTT4_A, data = data)
-
-Coefficients:
-(Intercept)     COSTT4_A  
- 378.705858    -0.002815  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ FAMINC, data = data)
-
-Coefficients:
-(Intercept)       FAMINC  
-     250.58       -56.27  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ FAMINC, data = data)
-
-Coefficients:
-(Intercept)       FAMINC  
- 425.935302    -0.002152  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ AGE_ENTRY, data = data)
-
-Coefficients:
-(Intercept)    AGE_ENTRY  
-     250.58        55.09  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ AGE_ENTRY, data = data)
-
-Coefficients:
-(Intercept)    AGE_ENTRY  
-    -247.21        23.05  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ MARRIED, data = data)
-
-Coefficients:
-(Intercept)      MARRIED  
-     272.62        45.71  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = rank ~ MARRIED, data = data)
-
-Coefficients:
-(Intercept)      MARRIED  
-      227.3        615.2  </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1962,21 +1690,34 @@ Coefficients:
 </table>
 </div>
 </div>
-<div class="cell">
-
+</section>
+<section id="categorical-variable-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h3>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/arrange-in-grid-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>From these graphs, there appears to be a very strong positive association between admission rate/ % of undergrads on Pell grants and college rank. There appears to be somewhat of a positive association between % of undergrads who are white/% of first generation students and college ranks. This means that as these metrics decrease, the rank of a school is expected to decrease</p>
-<p>There appears to be a strong negative association between % of undergrads who are Asian/% of undergrads who are non-resident aliens/average faculty salary/graduation rate and college rank. There appears to be somewhat of a negative relationship between average net price for private universities/cost of attendance/average family income/median family income and college rank. This means that as these metrics increase, the rank of a school is expected to increase.</p>
-<p>For all type of standardized test scores, there appear to be a strong negative relationship between score and rank, indicating that as the test scores increases, the rank of a school is expected to to increase.</p>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<p>There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. NOT DONE</p>
 </section>
 </section>
-<section id="check-correlation-coefficients" class="level2">
-<h2 class="anchored" data-anchor-id="check-correlation-coefficients">Check Correlation Coefficients</h2>
+<section id="method-2-stepwise-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="method-2-stepwise-regression-model">Method 2: Stepwise Regression Model</h2>
+<section id="check-correlation-between-variables" class="level3">
+<h3 class="anchored" data-anchor-id="check-correlation-between-variables">Check Correlation Between Variables</h3>
 <p>We checked the correlation coefficients between the variables so we don’t use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1985,770 +1726,7 @@ Coefficients:
 </div>
 <p>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value &gt; 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.</p>
 <div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<colgroup>
-<col style="width: 3%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 2%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 2%">
-<col style="width: 5%">
-<col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 5%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: left;">rank</th>
-<th style="text-align: left;">ADM_RATE</th>
-<th style="text-align: left;">UGDS</th>
-<th style="text-align: left;">UGDS_WHITE</th>
-<th style="text-align: left;">UGDS_BLACK</th>
-<th style="text-align: left;">UGDS_HISP</th>
-<th style="text-align: left;">UGDS_ASIAN</th>
-<th style="text-align: left;">UGDS_AIAN</th>
-<th style="text-align: left;">UGDS_NHPI</th>
-<th style="text-align: left;">UGDS_2MOR</th>
-<th style="text-align: left;">UGDS_NRA</th>
-<th style="text-align: left;">UGDS_UNKN</th>
-<th style="text-align: left;">COSTT4_A</th>
-<th style="text-align: left;">AVGFACSAL</th>
-<th style="text-align: left;">PCTPELL</th>
-<th style="text-align: left;">C150_4</th>
-<th style="text-align: left;">AGE_ENTRY</th>
-<th style="text-align: left;">FEMALE</th>
-<th style="text-align: left;">MARRIED</th>
-<th style="text-align: left;">FIRST_GEN</th>
-<th style="text-align: left;">FAMINC</th>
-<th style="text-align: left;">MD_FAMINC</th>
-<th style="text-align: left;">ENDOWBEGIN</th>
-<th style="text-align: left;">SAT_AVG</th>
-<th style="text-align: left;">ACTCMMID</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">rank</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ADM_RATE</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_WHITE</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_BLACK</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_HISP</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_ASIAN</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_AIAN</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_NHPI</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_2MOR</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">UGDS_NRA</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UGDS_UNKN</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">COSTT4_A</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AVGFACSAL</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">PCTPELL</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">C150_4</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">0.83893042183357</td>
-<td style="text-align: left;">0.849384841586927</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">AGE_ENTRY</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">0.905880209781912</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">FEMALE</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">MARRIED</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">0.905880209781912</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">FIRST_GEN</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">FAMINC</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">0.953776864530003</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MD_FAMINC</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">0.953776864530003</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ENDOWBEGIN</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">SAT_AVG</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">0.83893042183357</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">0.975600694502382</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ACTCMMID</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">0.849384841586927</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">0.975600694502382</td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</div>
+
 </div>
 <table class="table">
 <thead>
@@ -2782,8 +1760,8 @@ Coefficients:
 </table>
 <p>According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.</p>
 </section>
-<section id="build-model" class="level2">
-<h2 class="anchored" data-anchor-id="build-model">Build model</h2>
+<section id="build-model" class="level3">
+<h3 class="anchored" data-anchor-id="build-model">Build model</h3>
 <p>Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by removing the variables with a correlation coefficient above 0.8.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -2884,48 +1862,425 @@ Coefficients:
 
 </div>
 </section>
+<section id="iteration-1" class="level3">
+<h3 class="anchored" data-anchor-id="iteration-1">Iteration #1</h3>
+<p>We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">246.2027925</td>
+<td style="text-align: right;">4.703871</td>
+<td style="text-align: right;">52.3404663</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">35.6018194</td>
+<td style="text-align: right;">7.629838</td>
+<td style="text-align: right;">4.6661307</td>
+<td style="text-align: right;">0.0000046</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">-41.1973274</td>
+<td style="text-align: right;">6.928463</td>
+<td style="text-align: right;">-5.9460994</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_WHITE</td>
+<td style="text-align: right;">10732.7749048</td>
+<td style="text-align: right;">10599.772816</td>
+<td style="text-align: right;">1.0125476</td>
+<td style="text-align: right;">0.3120710</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_BLACK</td>
+<td style="text-align: right;">4533.2629889</td>
+<td style="text-align: right;">4474.426742</td>
+<td style="text-align: right;">1.0131494</td>
+<td style="text-align: right;">0.3117840</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_HISP</td>
+<td style="text-align: right;">6313.6053442</td>
+<td style="text-align: right;">6232.516748</td>
+<td style="text-align: right;">1.0130106</td>
+<td style="text-align: right;">0.3118502</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_ASIAN</td>
+<td style="text-align: right;">4541.8380285</td>
+<td style="text-align: right;">4477.565288</td>
+<td style="text-align: right;">1.0143544</td>
+<td style="text-align: right;">0.3112098</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_AIAN</td>
+<td style="text-align: right;">1926.4404448</td>
+<td style="text-align: right;">1973.880100</td>
+<td style="text-align: right;">0.9759663</td>
+<td style="text-align: right;">0.3298471</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_NHPI</td>
+<td style="text-align: right;">163.9398183</td>
+<td style="text-align: right;">167.303350</td>
+<td style="text-align: right;">0.9798956</td>
+<td style="text-align: right;">0.3279067</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_2MOR</td>
+<td style="text-align: right;">1407.8496454</td>
+<td style="text-align: right;">1388.644877</td>
+<td style="text-align: right;">1.0138299</td>
+<td style="text-align: right;">0.3114597</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_NRA</td>
+<td style="text-align: right;">2973.0798562</td>
+<td style="text-align: right;">2948.226876</td>
+<td style="text-align: right;">1.0084298</td>
+<td style="text-align: right;">0.3140397</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UGDS_UNKN</td>
+<td style="text-align: right;">1735.7967205</td>
+<td style="text-align: right;">1705.950405</td>
+<td style="text-align: right;">1.0174954</td>
+<td style="text-align: right;">0.3097164</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">COSTT4_A</td>
+<td style="text-align: right;">0.8428333</td>
+<td style="text-align: right;">10.525477</td>
+<td style="text-align: right;">0.0800755</td>
+<td style="text-align: right;">0.9362292</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">-19.8005704</td>
+<td style="text-align: right;">8.998855</td>
+<td style="text-align: right;">-2.2003434</td>
+<td style="text-align: right;">0.0285247</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PCTPELL</td>
+<td style="text-align: right;">2.8162537</td>
+<td style="text-align: right;">10.541378</td>
+<td style="text-align: right;">0.2671618</td>
+<td style="text-align: right;">0.7895234</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: right;">-12.0862558</td>
+<td style="text-align: right;">7.334480</td>
+<td style="text-align: right;">-1.6478682</td>
+<td style="text-align: right;">0.1003994</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FAMINC</td>
+<td style="text-align: right;">-22.9537106</td>
+<td style="text-align: right;">11.800114</td>
+<td style="text-align: right;">-1.9452109</td>
+<td style="text-align: right;">0.0526593</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ENDOWBEGIN</td>
+<td style="text-align: right;">1.3023057</td>
+<td style="text-align: right;">6.035923</td>
+<td style="text-align: right;">0.2157592</td>
+<td style="text-align: right;">0.8293183</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">-67.4876184</td>
+<td style="text-align: right;">12.876049</td>
+<td style="text-align: right;">-5.2413296</td>
+<td style="text-align: right;">0.0000003</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the <code>SAT_AVG</code>, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.</p>
+<p>Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around or above 0.3, which is much greater than 0.05. Therefore, we will drop these variables for the next model iteration.</p>
+<p>Then, we can evaluate our first primitive model by R-squared:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">adj.r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.7199576</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>As we can see the model’s adjusted R-squared is around 72.0%.</p>
 </section>
-<section id="results" class="level1">
-<h1>Results</h1>
-<section id="categorical-variable-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h2>
-<div class="cell quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="report_files/figure-html/rank-vs-region-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="report_files/figure-html/rank-vs-region-2.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="report_files/figure-html/rank-vs-region-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="report_files/figure-html/rank-vs-region-4.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</div>
+<section id="iteration-2" class="level3">
+<h3 class="anchored" data-anchor-id="iteration-2">Iteration #2</h3>
+<p>First, we will avoid using the variables with high p-values as mentioned above to train a new model.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/rank-vs-accredation-agency-1.png" class="img-fluid" width="672"></p>
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">249.37044</td>
+<td style="text-align: right;">4.506181</td>
+<td style="text-align: right;">55.339648</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">27.21518</td>
+<td style="text-align: right;">6.659181</td>
+<td style="text-align: right;">4.086866</td>
+<td style="text-align: right;">0.0000551</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">-33.32915</td>
+<td style="text-align: right;">4.895297</td>
+<td style="text-align: right;">-6.808403</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">-10.80730</td>
+<td style="text-align: right;">7.134635</td>
+<td style="text-align: right;">-1.514766</td>
+<td style="text-align: right;">0.1308007</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">-86.86569</td>
+<td style="text-align: right;">7.796687</td>
+<td style="text-align: right;">-11.141359</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/rank-vs-accredation-agency-2.png" class="img-fluid" width="672"></p>
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">adj.r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.703127</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
+<p>Then we can evaluation our second model by Rsqure:</p>
+<p>Since the R-squared value is 0.703 which is even smaller than 0.7200 of our first model, we need to implement forward selection by adding variables back to our model.</p>
+</section>
+<section id="iteration-3" class="level3">
+<h3 class="anchored" data-anchor-id="iteration-3">Iteration #3</h3>
+<p>From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/rank-vs-control-1.png" class="img-fluid" width="672"></p>
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">249.7168722</td>
+<td style="text-align: right;">4.523580</td>
+<td style="text-align: right;">55.2033783</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">26.2874687</td>
+<td style="text-align: right;">6.797196</td>
+<td style="text-align: right;">3.8673990</td>
+<td style="text-align: right;">0.0001330</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">-33.2547774</td>
+<td style="text-align: right;">4.923043</td>
+<td style="text-align: right;">-6.7549237</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">-11.4385472</td>
+<td style="text-align: right;">7.165074</td>
+<td style="text-align: right;">-1.5964311</td>
+<td style="text-align: right;">0.1113674</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">-86.6323357</td>
+<td style="text-align: right;">8.515896</td>
+<td style="text-align: right;">-10.1730147</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: right;">0.4599436</td>
+<td style="text-align: right;">5.802186</td>
+<td style="text-align: right;">0.0792707</td>
+<td style="text-align: right;">0.9368662</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">adj.r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.701619</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
+<p>The model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.</p>
+</section>
+<section id="iteration-4" class="level3">
+<h3 class="anchored" data-anchor-id="iteration-4">Iteration #4</h3>
+<p>From our first and second iteration, UGDS_UNKN, among the variables removed, has the smallest p-value of 0.310. Therefore we are going to add UGDS_UNKN back to our model for the iteration.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/rank-vs-CCBASIC-1.png" class="img-fluid" width="672"></p>
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">249.7153091</td>
+<td style="text-align: right;">4.521131</td>
+<td style="text-align: right;">55.232924</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: right;">27.2202655</td>
+<td style="text-align: right;">6.840754</td>
+<td style="text-align: right;">3.979132</td>
+<td style="text-align: right;">0.0000854</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS</td>
+<td style="text-align: right;">-32.7123939</td>
+<td style="text-align: right;">4.942456</td>
+<td style="text-align: right;">-6.618652</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: right;">-11.1617082</td>
+<td style="text-align: right;">7.165156</td>
+<td style="text-align: right;">-1.557776</td>
+<td style="text-align: right;">0.1202656</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: right;">-86.3294688</td>
+<td style="text-align: right;">8.515275</td>
+<td style="text-align: right;">-10.138190</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_ENTRY</td>
+<td style="text-align: right;">-0.8911943</td>
+<td style="text-align: right;">5.914406</td>
+<td style="text-align: right;">-0.150682</td>
+<td style="text-align: right;">0.8803207</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UGDS_UNKN</td>
+<td style="text-align: right;">5.4065047</td>
+<td style="text-align: right;">4.651444</td>
+<td style="text-align: right;">1.162328</td>
+<td style="text-align: right;">0.2459603</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">adj.r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.7019419</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<p>There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank.</p>
+<p>While this model proved better than the previous one, it is still not as good as our initial model.</p>
+</section>
+<section id="model-results" class="level3">
+<h3 class="anchored" data-anchor-id="model-results">Model results</h3>
+<p>Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: <code>ADM_RATE</code>, <code>UGDS</code>, <code>AVGFACSAL</code>, and <code>SAT_AVG</code>. Then, we can further single out the most significant variable with R-squared values.</p>
+</section>
+</section>
+<section id="slopes" class="level2">
+<h2 class="anchored" data-anchor-id="slopes">Slopes</h2>
+<div class="cell">
+
+</div>
 </section>
 </section>
 <section id="discussion" class="level1">
