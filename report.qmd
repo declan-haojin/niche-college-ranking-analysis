@@ -637,7 +637,7 @@ chosen_variables <- c(
 )
 
 data <- colleges |>
-  select(chosen_variables)
+  dplyr::select(chosen_variables)
 ```
 
 5.  Some of the categorical variables in the US Department of Education dataset (`REGION`, `CONTROL`, and `CCBASIC`) used numbers to represent the different levels, so we looked at the data dictionary and replaced each number with the words that it represents.
@@ -713,12 +713,12 @@ data <- data |>
 
 scaled_continuous_numeric_variables <- data |>
   select_if(is.numeric) |>
-  select(-rank) |>
+  dplyr::select(-rank) |>
   scale() |>
   data.frame()
 
 other_variables <- data |>
-  select(rank | REGION | CONTROL | CCBASIC | !where(is.numeric))
+  dplyr::select(rank | REGION | CONTROL | CCBASIC | !where(is.numeric))
 
 scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables) |>
   relocate(college)
@@ -1074,6 +1074,7 @@ r2_slopes |> knitr::kable()
 ```
 
 ### Categorical Variable Analysis
+
 
 ```{r}
 #| label: rank-vs-region
