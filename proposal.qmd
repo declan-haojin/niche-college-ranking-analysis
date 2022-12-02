@@ -38,7 +38,7 @@ library(tidyverse)
 ```{r}
 #| label: load-lemur-data
 
-lemur <- read_csv("data/lemur_data.csv")
+lemur <- read_csv("data/Miscellaneous/lemur_data.csv")
 
 glimpse(lemur)
 ```
@@ -67,7 +67,7 @@ glimpse(lemur)
 ```{r}
 #| label: load-earthquake-data
 
-earthquakes <- read.csv("data/earthquakes.csv")
+earthquakes <- read.csv("data/Miscellaneous/earthquakes.csv")
 
 glimpse(earthquakes)
 ```

@@ -22,6 +22,7 @@ library(scales)
 library(ggthemes)
 ```
 
+
 # Introduction
 
 ## Research Background
@@ -48,12 +49,14 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 # Data
 
+
 ```{r}
 #| label: import
 
 niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
+
 
 ## Data Set #1: Niche
 
@@ -160,6 +163,7 @@ Here is a summary of the variables we will be using in our analysis.
 <!-- -->
 
 2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` (ranked 141) and `University of South Florida - St. Petersburg` (ranked 181) have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations.
+
 
 ```{r}
 #| label: fix-college-names
@@ -589,7 +593,9 @@ us_dep_of_ed <- us_dep_of_ed |>
   )
 ```
 
+
 3.  We joined the US Department of Education dataset to the Niche dataset by the college names. The first 5 rows are displayed below.
+
 
 ```{r}
 #| label: join-datasets
@@ -604,7 +610,9 @@ colleges |>
   knitr::kable()
 ```
 
+
 4.  Then, we selected the variables that we thought could have an impact on college ranking as a starting point for our analysis. These are listed in our data summary.
+
 
 ```{r}
 #| label: select-variables
@@ -649,7 +657,9 @@ data <- colleges |>
   select(chosen_variables)
 ```
 
+
 5.  Some of the categorical variables in the US Department of Education dataset (`REGION`, `CONTROL`, and `CCBASIC`) used numbers to represent the different levels, so we looked at the data dictionary and replaced each number with the words that it represents.
+
 
 ```{r}
 #| label: clean-categorical-variables
@@ -715,7 +725,9 @@ data <- data |>
   )
 ```
 
+
 6.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We used the `scale()` functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1. The first 5 rows of our standardized dataset are printed below.
+
 
 ```{r}
 #| label: scale-numerical-variables
@@ -737,9 +749,11 @@ scaled_data |>
   knitr::kable()
 ```
 
+
 ### Preliminary Exploration and Visualization
 
 ### Means of Different Variables by Rank Group
+
 
 ```{r}
 #| label: exploration-by-rank-group
@@ -778,11 +792,13 @@ colleges_levels |>
   knitr::kable()
 ```
 
+
 After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100.
 
 ### Means of Rank by Categorical Variables
 
 Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups.
+
 
 ```{r}
 #| label: exploration-control
@@ -800,7 +816,9 @@ data |>
   knitr::kable()
 ```
 
+
 We observe that private non-profit colleges have a higher mean rank than public colleges or private for-profit colleges.
+
 
 ```{r}
 #| label: exploration-region
@@ -818,7 +836,9 @@ data |>
   knitr::kable()
 ```
 
+
 As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
+
 
 ```{r}
 #| label: exploration-CCBASIC
@@ -836,7 +856,9 @@ data |>
   knitr::kable()
 ```
 
+
 Looking at the Carnegie Classification, Special Focus Four-Year: Business & Management Schools have the highest mean rank, followed by Doctoral Universities: Very High Research Activity. Tribal Colleges have the lowest mean rank.
+
 
 ```{r}
 #| label: exploration-state
@@ -855,9 +877,11 @@ colleges |>
   knitr::kable()
 ```
 
+
 When looking at states, Maine has the highest mean rank, followed by Massachusetts.
 
 ### Numerical Variables vs. Rank
+
 
 ```{r}
 #| label: find-r2
@@ -919,6 +943,7 @@ r_squared_values |>
   knitr::kable()
 ```
 
+
 `COSTT4_P` (Average cost of attendance for program-year institutions) has been removed because there are only two observations.
 
 `ENDOWBEGIN` (Endowment size) has been removed because the relationship is very skewed and not linear.
@@ -926,6 +951,7 @@ r_squared_values |>
 Based on the r-squared values of the remaining variables, we expect SAT_AVG (average SAT score), ACTCMMID (median ACT score), and C150_4 (rate of completion) to appear in the final model because they all have an R-squared value above 0.5, meaning that they explain more than 50% of the variation seen in rank.
 
 We will look further at the relationship between these variables and rank by creating scatter plots and analyzing their respective slope. To simplify our analysis, we will only look at graphs with an r-squared greater than .1
+
 
 ```{r}
 
@@ -1058,6 +1084,7 @@ grid.arrange(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, ncol = 3)
 ```{r}
 
 #| label: numerical_slope_r2
+#| output: false
 
 linear_reg() |> fit(rank ~ SAT_AVG, data = scaled_data)
 linear_reg() |> fit(rank ~ SAT_AVG, data = colleges)
@@ -1331,6 +1358,7 @@ p22 <- scaled_data |>
 grid.arrange(p1, p2, p3, p4, p5, p6, p7 , p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22)
 ```
 
+
 From these graphs, there appears to be a very strong positive association between admission rate/ % of undergrads on Pell grants and college rank. There appears to be somewhat of a positive association between % of undergrads who are white/% of first generation students and college ranks. This means that as these metrics decrease, the rank of a school is expected to decrease
 
 There appears to be a strong negative association between % of undergrads who are Asian/% of undergrads who are non-resident aliens/average faculty salary/graduation rate and college rank. There appears to be somewhat of a negative relationship between average net price for private universities/cost of attendance/average family income/median family income and college rank. This means that as these metrics increase, the rank of a school is expected to increase.
@@ -1340,6 +1368,7 @@ For all type of standardized test scores, there appear to be a strong negative r
 ## Check Correlation Coefficients
 
 We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
+
 
 ```{r}
 #| label: correlation-matrix
@@ -1356,7 +1385,9 @@ We checked the correlation coefficients between the variables so we don't use va
         corrplot(method="color")
 ```
 
+
 According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
+
 
 ```{r}
 #| label: display-correlation-pair-to-be-removed
@@ -1365,6 +1396,7 @@ correlations[correlations < 0.8 | correlations == 1] <- ""
 
 correlations |> knitr::kable() 
 ```
+
 
 | Variable Pairs with r \> 0.8 | Correlation Coefficients |
 |------------------------------|--------------------------|
@@ -1380,6 +1412,7 @@ According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (
 
 Because we want to predict college rank, a number from various variables, we decided that a linear regression model would be the best statistical method to answer our question. We began our modeling by removing the variables with a correlation coefficient above 0.8.
 
+
 ```{r}
 #| label: glimpsed-data
 
@@ -1391,7 +1424,9 @@ data_set |>
   knitr::kable(col.names = "Selected Variables")
 ```
 
+
 Then we need to split dataset into two parts: a training and a test set. We will use 80% of the college data for training our model and the other 20% for testing our model.
+
 
 ```{r}
 #| label: split-data
@@ -1406,9 +1441,11 @@ train <- data_set |>
 test <- anti_join(data_set, train, by = 'rank')
 ```
 
+
 # Results
 
 ## Categorical Variable Analysis
+
 
 ```{r}
 #| label: rank-vs-region
@@ -1492,11 +1529,13 @@ colleges_levels |>
   geom_bar(position = "fill")
 ```
 
+
 There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank.
 
 ## Iteration #1
 
 We begin with creating the first model based on the numerical variables that we chose for the data and created an additive model that considered how the variables influenced the rank of the college.
+
 
 ```{r}
 #| label: linear-reg-data
@@ -1507,11 +1546,13 @@ fit1 <- linear_reg() |>
 tidy(fit1) |> knitr::kable() 
 ```
 
+
 At a first glance, variables with negative slopes mean that they have a negative correlation to ranking. For example, the higher the `SAT_AVG`, the lower the college is ranked on a numerical scale. So the college is technically ranked higher.
 
 Variables UGDS_NRA, UGDS_UNKN, COSTT4_A, PCTPELL, AGE_ENTRY, UGDS_WHITE, UGDS_BLACK, UGDS_HISP, UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR and ENDOWBEGIN are have a relative high p-value around or above 0.3, which is much greater than 0.05. Therefore, we will drop these variables for the next model iteration.
 
 Then, we can evaluate our first primitive model by R-squared:
+
 
 ```{r}
 #| label: evaluation1
@@ -1520,11 +1561,13 @@ glance(fit1) |>
   select(adj.r.squared) |> knitr::kable()
 ```
 
+
 As we can see the model's adjusted R-squared is around 72.0%.
 
 ## Iteration #2
 
 First, we will avoid using the variables with high p-values as mentioned above to train a new model.
+
 
 ```{r}
 #| label: fit2
@@ -1538,6 +1581,7 @@ glance(fit2) |>
   select(adj.r.squared) |> knitr::kable()
 ```
 
+
 Then we can evaluation our second model by Rsqure:
 
 Since the R-squared value is 0.703 which is even smaller than 0.7200 of our first model, we need to implement forward selection by adding variables back to our model.
@@ -1545,6 +1589,7 @@ Since the R-squared value is 0.703 which is even smaller than 0.7200 of our firs
 ## Iteration #3
 
 From our first and second iteration, AGE_ENTRY, among the variables removed, has the smallest p-value of 0.1. Therefore we are going to add AGE_ENTRY back to our model for the iteration.
+
 
 ```{r}
 #| label: fit3
@@ -1559,11 +1604,13 @@ glance(fit3) |>
   
 ```
 
+
 The model accuracy is still not as good as the first model which means we need further forward selection by adding more variables back.
 
 ## Iteration #4
 
 From our first and second iteration, UGDS_UNKN, among the variables removed, has the smallest p-value of 0.310. Therefore we are going to add UGDS_UNKN back to our model for the iteration.
+
 
 ```{r}
 #| label: fit4
@@ -1577,6 +1624,7 @@ glance(fit4) |>
   select(adj.r.squared) |> knitr::kable()
 ```
 
+
 While this model proved better than the previous one, it is still not as good as our initial model.
 
 ## Model results
@@ -1584,6 +1632,7 @@ While this model proved better than the previous one, it is still not as good as
 Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: `ADM_RATE`, `UGDS`, `AVGFACSAL`, and `SAT_AVG`. Then, we can further single out the most significant variable with R-squared values.
 
 ## R-Squared Values
+
 
 ```{r}
 #| label: adm-rate-vs-rank
@@ -1607,7 +1656,9 @@ glance(adm_rate_rank_fit) |>
   select(r.squared) |> knitr::kable()
 ```
 
+
 The relationship between admission rate and college ranking gives us an R-squared value of 0.415 which is not that good and shows that admission rate might not be as significant as we originally thought.
+
 
 ```{r}
 #| label: ugds-vs-rank
@@ -1633,7 +1684,9 @@ glance(ugds_rank_fit) |>
 
 ```
 
+
 As evident from the graph and the given R-squared value of 0.048, undergraduate enrollment has almost no impact on a college's ranking.
+
 
 ```{r}
 #| label: avgfacsal-vs-rank
@@ -1658,7 +1711,9 @@ glance(avgfacsal_rank_fit) |>
   select(r.squared) |> knitr::kable()
 ```
 
+
 While still relatively low, the R-squared value of 0.477 for the relationship between average faculty salary and ranking is higher than that of admission rate vs rank. This signifies that average faculty salary is a slightly more significant variable in predicting college ranking than admission rate.
+
 
 ```{r}
 #| label: sat-avg-vs-rank
@@ -1672,7 +1727,9 @@ colleges |>
 
 ```
 
+
 Based on the plot above, a college's average SAT score has an almost semi-linear impact on it's ranking. Typically, as average SAT score increases, a college's ranking improves. Furthermore, we can see how well correlated these two variables are by creating a linear model.
+
 
 ```{r}
 #| label: r-squared-sat-vs-rank
@@ -1685,6 +1742,7 @@ glance(sat_rank_fit) |>
 
 ```
 
+
 While an R-squared value of 0.641 is not the best, it is still the highest out of these variables which means that we can conclude that average SAT score has the greatest impact on a college ranking.
 
 # Discussion
@@ -1692,3 +1750,4 @@ While an R-squared value of 0.641 is not the best, it is still the highest out o
 ## References
 
 Learned how to do for loops from TA Eli Gnesin
+
