@@ -55,7 +55,7 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
 
--   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` and `rank`.
+-   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
 ### Data Set #2: US Department of Education
 
@@ -67,9 +67,9 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the United States.
 
-### Variable Summary
+#### Variable Summary
 
-Here is a summary of the variables we will be using in our analysis.
+Here is a summary of the variables we will be using in our analysis. We selected every one we thought could impact rank, but left some out, such as test score breakdowns to avoid redundancy.
 
 Categorical:
 
@@ -78,6 +78,9 @@ Categorical:
 -   ACCREDAGENCY: Accreditor for Institution
 -   CONTROL: Public, Private nonprofit, or Private for-profit
 -   CCBASIC: Carnegie Classification (basic)
+
+Numerical
+
 -   ADM_RATE: Admission rate
 -   UGDS: Enrollment of undergraduate certificate/degree-seeking students
 -   UGDS_WHITE: Total share of enrollment of undergraduate degree-seeking students who are White
@@ -108,7 +111,7 @@ Categorical:
 ### Data Preparation
 
 1.  To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported. The steps were done in an R script titled `niche-scrape.R`
-2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` (ranked 141) and `University of South Florida - St. Petersburg` (ranked 181) have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations.
+2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` (ranked 141) and `University of South Florida - St. Petersburg` (ranked 181) have been dropped from the `colleges` data set because they do not exist in the `us_dep_of_ed` dataset. This is because these two universities were combined with the main University of South Florida campus. Therefore the joined `colleges` data set only has 498 observations.
 
 ```{r}
 #| label: fix-college-names
@@ -538,8 +541,6 @@ us_dep_of_ed <- us_dep_of_ed |>
   )
 ```
 
-3.  We joined the US Department of Education dataset to the Niche dataset by the college names.
-
 ```{r}
 #| label: join-datasets
 
@@ -547,10 +548,7 @@ colleges <- niche_data_500 |>
   left_join(us_dep_of_ed, by = c("college" = "INSTNM")) |>
   filter(rank != 141) |>
   filter(rank != 181)
-
 ```
-
-4.  Then, we selected the variables that we thought could have an impact on college ranking as a starting point for our analysis. These are listed in our data summary.
 
 ```{r}
 #| label: select-variables
@@ -595,7 +593,7 @@ data <- colleges |>
   dplyr::select(chosen_variables)
 ```
 
-5.  Some of the categorical variables in the US Department of Education dataset (`REGION`, `CONTROL`, and `CCBASIC`) used numbers to represent the different levels, so we looked at the data dictionary and replaced each number with the words that it represents.
+3.  Some of the categorical variables in the US Department of Education dataset (`REGION`, `CONTROL`, and `CCBASIC`) used numbers to represent the different levels, so we looked at the data dictionary and replaced each number with the words that it represents.
 
 ```{r}
 #| label: clean-categorical-variables
@@ -661,7 +659,7 @@ data <- data |>
   )
 ```
 
-6.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We used the `scale()` functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1.
+4.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admission rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We created a scaled version of the dataset where the mean value of each numeric variable is 0, and the standard deviation 1. The first three rows of the data are printed below.
 
 ```{r}
 #| label: scale-numerical-variables
@@ -677,6 +675,10 @@ other_variables <- data |>
 
 scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables) |>
   relocate(college)
+
+scaled_data |>
+  slice(1:3) |>
+  knitr::kable()
 
 ```
 
@@ -1213,3 +1215,5 @@ We can further tell that this is our best model because it has an r-squared coef
 ## References
 
 Learned how to do for loops from TA Eli Gnesin
+
+We used the `scale()` function found at https://www.statology.org/standardize-data-in-r/

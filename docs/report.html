@@ -110,7 +110,6 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#data-set-1-niche" id="toc-data-set-1-niche" class="nav-link" data-scroll-target="#data-set-1-niche">Data Set #1: Niche</a></li>
   <li><a href="#data-set-2-us-department-of-education" id="toc-data-set-2-us-department-of-education" class="nav-link" data-scroll-target="#data-set-2-us-department-of-education">Data Set #2: US Department of Education</a></li>
-  <li><a href="#variable-summary" id="toc-variable-summary" class="nav-link" data-scroll-target="#variable-summary">Variable Summary</a></li>
   <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
   </ul></li>
   <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a>
@@ -195,7 +194,7 @@ ul.task-list li input[type="checkbox"] {
 <li><p>The first data set comes from Niche’s “2023 Best Colleges in America” list</p>
 <p>(https://www.niche.com/colleges/search/best-colleges/)</p></li>
 <li><p>Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.</p></li>
-<li><p>There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: <code>college</code> and <code>rank</code>.</p></li>
+<li><p>There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: <code>college</code> (institution name) and <code>rank</code>.</p></li>
 </ul>
 </section>
 <section id="data-set-2-us-department-of-education" class="level3">
@@ -206,10 +205,9 @@ ul.task-list li input[type="checkbox"] {
 <li><p>The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.</p></li>
 <li><p>There were 2,989 variables in the original data set, many of which we don’t need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.</p></li>
 </ul>
-</section>
-<section id="variable-summary" class="level3">
-<h3 class="anchored" data-anchor-id="variable-summary">Variable Summary</h3>
-<p>Here is a summary of the variables we will be using in our analysis.</p>
+<section id="variable-summary" class="level4">
+<h4 class="anchored" data-anchor-id="variable-summary">Variable Summary</h4>
+<p>Here is a summary of the variables we will be using in our analysis. We selected every one we thought could impact rank, but left some out, such as test score breakdowns to avoid redundancy.</p>
 <p>Categorical:</p>
 <ul>
 <li><code>college</code>: Institution name</li>
@@ -217,6 +215,9 @@ ul.task-list li input[type="checkbox"] {
 <li>ACCREDAGENCY: Accreditor for Institution</li>
 <li>CONTROL: Public, Private nonprofit, or Private for-profit</li>
 <li>CCBASIC: Carnegie Classification (basic)</li>
+</ul>
+<p>Numerical</p>
+<ul>
 <li>ADM_RATE: Admission rate</li>
 <li>UGDS: Enrollment of undergraduate certificate/degree-seeking students</li>
 <li>UGDS_WHITE: Total share of enrollment of undergraduate degree-seeking students who are White</li>
@@ -245,38 +246,215 @@ ul.task-list li input[type="checkbox"] {
 <li>ACTCMMID: Midpoint of the ACT cumulative score</li>
 </ul>
 </section>
+</section>
 <section id="data-preparation" class="level3">
 <h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
 <ol type="1">
 <li>To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported. The steps were done in an R script titled <code>niche-scrape.R</code></li>
-<li>Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for <code>University of South Florida - Sarasota-Manatee</code> (ranked 141) and <code>University of South Florida - St. Petersburg</code> (ranked 181) have been dropped from the <code>colleges</code> data set due to their non-existence in the <code>us_dep_of_ed</code> data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the <code>colleges</code> data set only has 498 observations.</li>
+<li>Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for <code>University of South Florida - Sarasota-Manatee</code> (ranked 141) and <code>University of South Florida - St. Petersburg</code> (ranked 181) have been dropped from the <code>colleges</code> data set because they do not exist in the <code>us_dep_of_ed</code> dataset. This is because these two universities were combined with the main University of South Florida campus. Therefore the joined <code>colleges</code> data set only has 498 observations.</li>
 </ol>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
 <div class="cell">
 
 </div>
 <ol start="3" type="1">
-<li>We joined the US Department of Education dataset to the Niche dataset by the college names.</li>
-</ol>
-<div class="cell">
-
-</div>
-<ol start="4" type="1">
-<li>Then, we selected the variables that we thought could have an impact on college ranking as a starting point for our analysis. These are listed in our data summary.</li>
-</ol>
-<div class="cell">
-
-</div>
-<ol start="5" type="1">
 <li>Some of the categorical variables in the US Department of Education dataset (<code>REGION</code>, <code>CONTROL</code>, and <code>CCBASIC</code>) used numbers to represent the different levels, so we looked at the data dictionary and replaced each number with the words that it represents.</li>
 </ol>
 <div class="cell">
 
 </div>
-<ol start="6" type="1">
-<li>All of the numerical variables are on different scales—for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1—and so we standardized them for easier analysis and comparison. We used the <code>scale()</code> functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1.</li>
+<ol start="4" type="1">
+<li>All of the numerical variables are on different scales—for example, SAT scores can range from 400 to 1600, while admission rate can only range from 0 to 1—and so we standardized them for easier analysis and comparison. We created a scaled version of the dataset where the mean value of each numeric variable is 0, and the standard deviation 1. The first three rows of the data are printed below.</li>
 </ol>
 <div class="cell">
-
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 10%">
+<col style="width: 17%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">college</th>
+<th style="text-align: right;">rank</th>
+<th style="text-align: left;">REGION</th>
+<th style="text-align: left;">CONTROL</th>
+<th style="text-align: left;">CCBASIC</th>
+<th style="text-align: left;">ACCREDAGENCY</th>
+<th style="text-align: right;">ADM_RATE</th>
+<th style="text-align: right;">UGDS</th>
+<th style="text-align: right;">UGDS_WHITE</th>
+<th style="text-align: right;">UGDS_BLACK</th>
+<th style="text-align: right;">UGDS_HISP</th>
+<th style="text-align: right;">UGDS_ASIAN</th>
+<th style="text-align: right;">UGDS_AIAN</th>
+<th style="text-align: right;">UGDS_NHPI</th>
+<th style="text-align: right;">UGDS_2MOR</th>
+<th style="text-align: right;">UGDS_NRA</th>
+<th style="text-align: right;">UGDS_UNKN</th>
+<th style="text-align: right;">NPT4_PUB</th>
+<th style="text-align: right;">NPT4_PRIV</th>
+<th style="text-align: right;">COSTT4_A</th>
+<th style="text-align: right;">COSTT4_P</th>
+<th style="text-align: right;">AVGFACSAL</th>
+<th style="text-align: right;">PCTPELL</th>
+<th style="text-align: right;">C150_4</th>
+<th style="text-align: right;">AGE_ENTRY</th>
+<th style="text-align: right;">FEMALE</th>
+<th style="text-align: right;">MARRIED</th>
+<th style="text-align: right;">FIRST_GEN</th>
+<th style="text-align: right;">FAMINC</th>
+<th style="text-align: right;">MD_FAMINC</th>
+<th style="text-align: right;">ENDOWBEGIN</th>
+<th style="text-align: right;">SAT_AVG</th>
+<th style="text-align: right;">ACTCMMID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Massachusetts Institute of Technology</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">New England</td>
+<td style="text-align: left;">Private, Non-profit</td>
+<td style="text-align: left;">Doctoral Universities: Very High Research Activity</td>
+<td style="text-align: left;">New England Commission on Higher Education</td>
+<td style="text-align: right;">-2.248372</td>
+<td style="text-align: right;">-0.4488165</td>
+<td style="text-align: right;">-1.732837</td>
+<td style="text-align: right;">-0.1214557</td>
+<td style="text-align: right;">0.2428424</td>
+<td style="text-align: right;">3.090479</td>
+<td style="text-align: right;">-0.1022072</td>
+<td style="text-align: right;">-0.3336011</td>
+<td style="text-align: right;">1.2864474</td>
+<td style="text-align: right;">0.9088314</td>
+<td style="text-align: right;">-0.3792490</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-1.440486</td>
+<td style="text-align: right;">1.347387</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">3.348112</td>
+<td style="text-align: right;">-0.6132292</td>
+<td style="text-align: right;">1.664275</td>
+<td style="text-align: right;">-0.9403691</td>
+<td style="text-align: right;">-1.7820795</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-0.0032383</td>
+<td style="text-align: right;">0.2016238</td>
+<td style="text-align: right;">-0.3635658</td>
+<td style="text-align: right;">4.823077</td>
+<td style="text-align: right;">2.435243</td>
+<td style="text-align: right;">2.157264</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stanford University</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Far West</td>
+<td style="text-align: left;">Private, Non-profit</td>
+<td style="text-align: left;">Doctoral Universities: Very High Research Activity</td>
+<td style="text-align: left;">Western Association of Schools and Colleges Senior Colleges and University Commission</td>
+<td style="text-align: right;">-2.335695</td>
+<td style="text-align: right;">-0.2691747</td>
+<td style="text-align: right;">-1.552828</td>
+<td style="text-align: right;">-0.0293488</td>
+<td style="text-align: right;">0.3723680</td>
+<td style="text-align: right;">2.137251</td>
+<td style="text-align: right;">0.1234229</td>
+<td style="text-align: right;">0.6073252</td>
+<td style="text-align: right;">2.0710638</td>
+<td style="text-align: right;">0.9834995</td>
+<td style="text-align: right;">-0.8292621</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-1.900262</td>
+<td style="text-align: right;">1.416553</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">3.815132</td>
+<td style="text-align: right;">-0.7336406</td>
+<td style="text-align: right;">1.639406</td>
+<td style="text-align: right;">-0.7893840</td>
+<td style="text-align: right;">-0.6603776</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.4512025</td>
+<td style="text-align: right;">-0.0389967</td>
+<td style="text-align: right;">-0.7457627</td>
+<td style="text-align: right;">7.852658</td>
+<td style="text-align: right;">1.959465</td>
+<td style="text-align: right;">1.625002</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Harvard University</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">New England</td>
+<td style="text-align: left;">Private, Non-profit</td>
+<td style="text-align: left;">Doctoral Universities: Very High Research Activity</td>
+<td style="text-align: left;">New England Commission on Higher Education</td>
+<td style="text-align: right;">-2.343288</td>
+<td style="text-align: right;">-0.2930851</td>
+<td style="text-align: right;">-1.182157</td>
+<td style="text-align: right;">0.3680987</td>
+<td style="text-align: right;">-0.0533455</td>
+<td style="text-align: right;">1.615244</td>
+<td style="text-align: right;">-0.0822146</td>
+<td style="text-align: right;">-0.0311605</td>
+<td style="text-align: right;">0.9815446</td>
+<td style="text-align: right;">1.0907153</td>
+<td style="text-align: right;">-0.2468922</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-1.772263</td>
+<td style="text-align: right;">1.482482</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">3.875483</td>
+<td style="text-align: right;">-1.2988551</td>
+<td style="text-align: right;">1.809938</td>
+<td style="text-align: right;">0.3629841</td>
+<td style="text-align: right;">-0.5913166</td>
+<td style="text-align: right;">-0.1349421</td>
+<td style="text-align: right;">-0.0177544</td>
+<td style="text-align: right;">-0.7270840</td>
+<td style="text-align: right;">-1.2442952</td>
+<td style="text-align: right;">11.760676</td>
+<td style="text-align: right;">2.193322</td>
+<td style="text-align: right;">1.891133</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </section>
 </section>
@@ -1103,6 +1281,7 @@ rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <p>Learned how to do for loops from TA Eli Gnesin</p>
+<p>We used the <code>scale()</code> function found at https://www.statology.org/standardize-data-in-r/</p>
 
 
 </section>
