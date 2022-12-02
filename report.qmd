@@ -1182,6 +1182,7 @@ According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (
 
 ### 2. Computing Stepwise Regression
 
+As mentioned above, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
 
 ```{r}
 #| label: glimpsed-data
@@ -1201,13 +1202,29 @@ stepwise_data <- stepwise_data |>
     CCBASIC = as.factor(CCBASIC),
     ACCREDAGENCY = as.factor(ACCREDAGENCY)
     )
+
+library(MASS)
+stepwise_data = na.omit(stepwise_data)
+
+# Fit the full model
+full_model <- lm(rank ~. -college, data = stepwise_data)
+
+# Stepwise regression model
+stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 ```
 
 
+### 3. Final Model Results (TODO for Sam)
 
-### 3. Final Model Results
+```{r}
+#| label: model-computing
 
-Because our initial model had the highest r-squared value of 0.7354, we can consider that to be our best model for predicting college ranking. However, in an effort to determine which variables have the most significant impact on college ranking, we can look at those with the lowest p-values: `ADM_RATE`, `UGDS`, `AVGFACSAL`, and `SAT_AVG`. Then, we can further single out the most significant variable with R-squared values.
+stepwise_model$anova
+```
+
+Add interpretations for the final model results
+
+
 
 ## Slopes
 
@@ -1256,8 +1273,6 @@ linear_reg() |> fit(rank ~ MARRIED, data = colleges)
 
 
 ```
-
-## Stepwise Regression Model
 
 # Discussion
 
