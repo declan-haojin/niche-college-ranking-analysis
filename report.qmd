@@ -74,78 +74,36 @@ Here is a summary of the variables we will be using in our analysis.
 Categorical:
 
 -   `college`: Institution name
-
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| Variable Name | Categorical (C)  | Description                                                                                                                        |
-|               |                  |                                                                                                                                    |
-|               | Quantitative (Q) |                                                                                                                                    |
-+===============+==================+====================================================================================================================================+
-| college       | C                | Institution name                                                                                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| rank          | Q                | Niche rank                                                                                                                         |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| REGION        | C                | US geographic region (New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas) |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| ACCREDAGENCY  | C                | Accreditor for Institution                                                                                                         |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| CONTROL       | C                | Public, Private nonprofit, or Private for-profit                                                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| CCBASIC       | C                | Carnegie Classification (basic)                                                                                                    |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| ADM_RATE      | Q                | Admission rate                                                                                                                     |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS          | Q                | Enrollment of undergraduate certificate/degree-seeking students                                                                    |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_WHITE    | Q                | Total share of enrollment of undergraduate degree-seeking students who are white                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_BLACK    | Q                | Total share of enrollment of undergraduate degree-seeking students who are black                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_HISP     | Q                | Total share of enrollment of undergraduate degree-seeking students who are Hispanic                                                |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_ASIAN    | Q                | Total share of enrollment of undergraduate degree-seeking students who are Asian                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_AIAN     | Q                | Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native                           |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_NHPI     | Q                | Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander                        |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_2MOR     | Q                | Total share of enrollment of undergraduate degree-seeking students who are two or more races                                       |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_NRA      | Q                | Total share of enrollment of undergraduate degree-seeking students who are non-resident aliens                                     |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_UNKN     | Q                | Total share of enrollment of undergraduate degree-seeking students whose race is unknown                                           |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| NPT4_PUB      | Q                | Average net price for Title IV institutions (public institutions)                                                                  |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| NPT4_PRIV     | Q                | Average net price for Title IV institutions (private for-profit and nonprofit institutions)                                        |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| COSTT4_A      | Q                | Average cost of attendance (academic year institutions)                                                                            |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| COSTT4_P      | Q                | Average cost of attendance (program-year institutions)                                                                             |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| AVGFACSAL     | Q                | Average faculty salary                                                                                                             |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| PCTPELL       | Q                | Percentage of undergraduates who receive a Pell Grant                                                                              |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| C150_4        | Q                | Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion)                 |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| AGE_ENTRY     | Q                | Average age of entry                                                                                                               |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| FEMALE        | Q                | Share of female students                                                                                                           |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| MARRIED       | Q                | Share of married students                                                                                                          |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| FIRST_GEN     | Q                | Share of first-generation students                                                                                                 |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| FAMINC        | Q                | Average family income                                                                                                              |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| MD_FAMINC     | Q                | Median family income                                                                                                               |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| ENDOWBEGIN    | Q                | Value of school's endowment at the beginning of the fiscal year                                                                    |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| SAT_AVG       | Q                | Average SAT equivalent score of students admitted                                                                                  |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| ACTCMMID      | Q                | Midpoint of the ACT cumulative score                                                                                               |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
+-   `REGION:` US geographic region (New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas)
+-   ACCREDAGENCY: Accreditor for Institution
+-   CONTROL: Public, Private nonprofit, or Private for-profit
+-   CCBASIC: Carnegie Classification (basic)
+-   ADM_RATE: Admission rate
+-   UGDS: Enrollment of undergraduate certificate/degree-seeking students
+-   UGDS_WHITE: Total share of enrollment of undergraduate degree-seeking students who are White
+-   UGDS_BLACK: Total share of enrollment of undergraduate degree-seeking students who are Black
+-   UGDS_HISP: Total share of enrollment of undergraduate degree-seeking students who are Hispanic
+-   UGDS_ASIAN: Total share of enrollment of undergraduate degree-seeking students who are Asian
+-   UGDS_AIAN: Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native
+-   UGDS_NHPI: Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander
+-   UGDS_2MOR: Total share of enrollment of undergraduate degree-seeking students who are two or more races
+-   UGDS_UNKN: Total share of enrollment of undergraduate degree-seeking students whose race is unknown
+-   NPT4_PUB: Average net price for Title IV institutions (public institutions)
+-   NPT4_PRIV: Average net price for Title IV institutions (private for-profit and nonprofit institutions)
+-   COSTT4_A: Average cost of attendance (academic year institutions)
+-   COSTT4_P: Average cost of attendance (program-year institutions)
+-   AVGFACSAL: Average faculty salary
+-   PCTPELL: Percentage of undergraduates who receive a Pell Grant
+-   C150_4: Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion)
+-   AGE_ENTRY: Average age of entry
+-   FEMALE: Share of female students
+-   MARRIED: Share of married students
+-   FIRST_GEN: Share of first-generation students
+-   FAMINC: Average family income
+-   MD_FAMINC: Median family income
+-   ENDOWBEGIN: Value of school's endowment at the beginning of the fiscal year
+-   SAT_AVG: Average SAT equivalent score of students admitted
+-   ACTCMMID: Midpoint of the ACT cumulative score
 
 ### Data Preparation
 
@@ -590,9 +548,6 @@ colleges <- niche_data_500 |>
   filter(rank != 141) |>
   filter(rank != 181)
 
-colleges |>
-  slice(1:5) |>
-  knitr::kable()
 ```
 
 4.  Then, we selected the variables that we thought could have an impact on college ranking as a starting point for our analysis. These are listed in our data summary.
@@ -706,7 +661,7 @@ data <- data |>
   )
 ```
 
-6.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We used the `scale()` functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1. The first 5 rows of our standardized dataset are printed below.
+6.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We used the `scale()` functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1.
 
 ```{r}
 #| label: scale-numerical-variables
@@ -723,9 +678,6 @@ other_variables <- data |>
 scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables) |>
   relocate(college)
 
-scaled_data |>
-  slice(1:5) |>
-  knitr::kable()
 ```
 
 ## Exploratory Data Analysis
@@ -1159,13 +1111,9 @@ There appear to be the greatest differences between bars of proportions of rank 
 
 Another method we use to answer our research question that which characteristic of a university are most associated with rankings is through stepwise regression model. We choose stepwise regression model because of its ability to manage large amounts of potential predictor variables and fine-tuning the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
 
-In our research, we will use both forward and backward selections in the stepwise regression model by utilizing `MASS` package. We will evaluate the performance of each iteration of the model based on AIC since AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice. 
+In our research, we will use both forward and backward selections in the stepwise regression model by utilizing `MASS` package. We will evaluate the performance of each iteration of the model based on AIC since AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
 
-There are three main steps in this approach. 
-- First, we need to find out all the highly corrected variable pairs and remove one of it from each pair since we need to rule out the negative impacts of the singularities of variables.
-- Second, we will compute the stepwise regression model using `MASS` package and mainly `stepAIC()` functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the `rank` variable.
-- Lastly, we will get the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
-
+There are three main steps in this approach. - First, we need to find out all the highly corrected variable pairs and remove one of it from each pair since we need to rule out the negative impacts of the singularities of variables. - Second, we will compute the stepwise regression model using `MASS` package and mainly `stepAIC()` functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the `rank` variable. - Lastly, we will get the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
 ### 1. Remove variables with high correlations
 
@@ -1230,7 +1178,6 @@ full_model <- lm(rank ~. -college, data = stepwise_data)
 # Stepwise regression model
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 ```
-
 
 ### 3. Final Model Results (TODO for Sam)
 
