@@ -1728,3 +1728,5 @@ While an R-squared value of 0.641 is not the best, it is still the highest out o
 # Discussion
 
 ## References
+
+Learned how to do for loops from TA Eli Gnesin
