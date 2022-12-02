@@ -1157,19 +1157,15 @@ There appear to be the greatest differences between bars of proportions of rank 
 
 ## Approach 2: Stepwise Regression Model
 
-Another method we use to answer our research question that which characteristic of a university are most associated with rankings is through stepwise regression model. We choose stepwise regression model because of its ability to manage large amounts of potential predictor variables and fine-tuning the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
+Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
 
-In our research, we will use both forward and backward selections in the stepwise regression model by utilizing `MASS` package. We will evaluate the performance of each iteration of the model based on AIC since AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice. 
+In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
 
-There are three main steps in this approach. 
-- First, we need to find out all the highly corrected variable pairs and remove one of it from each pair since we need to rule out the negative impacts of the singularities of variables.
-- Second, we will compute the stepwise regression model using `MASS` package and mainly `stepAIC()` functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the `rank` variable.
-- Lastly, we will get the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
-
+There are three main steps in this approach. First, we need to find out all the highly correlated variable pairs and remove one of them from each pair since we need to rule out the negative impacts of the singularities of variables. Second, we will compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable. This will give us a best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
 ### 1. Remove variables with high correlations
 
-We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
+Our first step in creating a stepwise regression model was to check correlation coefficients between variables so we didn't use variables that were too similar in our model. Then, after removing all columns that had more than 100 NA, we determined which variables had an absolute value of r greater than 0.8. This showed that they were too similar in how they factored into rankings, so we only picked one of them to put in the model.
 
 ```{r}
 #| label: correlation-matrix
@@ -1186,7 +1182,7 @@ We checked the correlation coefficients between the variables so we don't use va
         corrplot(method="color")
 ```
 
-According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
+The correlation matrix above provides a visual representation of the correlation between all variable pairs. We want to remove the pairs with a high correlation (absolute value greater than 0.8) which visually are the darker blue squares. However, to use proper statistical analysis, we filtered our correlation matrix to only display entries with values greater or equal to 0.8.
 
 ```{r}
 #| label: display-correlation-pair-to-be-removed
@@ -1202,7 +1198,7 @@ correlations[correlations < 0.8 | correlations == 1] <- ""
 | FAMINC, MD_FAMINC            | 0.9538                   |
 | SAT_AVG, ACTCMMID            | 0.9756                   |
 
-According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
+According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`), (`C150_4`, `SAT_AVG`), (`C150_4`, `ACTCMMID`) and (`ACTCMMID`, `SAT_AVG`). Therefore, we will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
 
 ### 2. Computing Stepwise Regression
 
@@ -1230,7 +1226,6 @@ full_model <- lm(rank ~. -college, data = stepwise_data)
 # Stepwise regression model
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 ```
-
 
 ### 3. Final Model Results (TODO for Sam)
 
