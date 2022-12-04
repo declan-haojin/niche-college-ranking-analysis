@@ -834,7 +834,7 @@ We will examine the final variables selected by both approaches and analyze thei
 
 # Results
 
-## Approach 1: Individual Variable Analysis
+## Approach #1: Individual Variable Analysis
 
 ### Numerical Variable Analysis
 
@@ -1085,7 +1085,9 @@ There appear to be the greatest differences between bars of proportions of rank 
 
 Qualitatively, it appears that region and Carnegie Classification have the clearest relationship with rank; therefore, we expect `REGION` and `CCBASIC` to show up in the final model.
 
-## Approach 2: Stepwise Regression Model
+## Approach #2: Stepwise Regression Model
+
+### Remove Highly Correlated Variables
 
 ```{r}
 #| label: correlation-matrix

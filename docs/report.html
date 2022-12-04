@@ -127,13 +127,14 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
-  <li><a href="#approach-1-individual-variable-analysis-1" id="toc-approach-1-individual-variable-analysis-1" class="nav-link" data-scroll-target="#approach-1-individual-variable-analysis-1">Approach 1: Individual Variable Analysis</a>
+  <li><a href="#approach-1-individual-variable-analysis-1" id="toc-approach-1-individual-variable-analysis-1" class="nav-link" data-scroll-target="#approach-1-individual-variable-analysis-1">Approach #1: Individual Variable Analysis</a>
   <ul class="collapse">
   <li><a href="#numerical-variable-analysis" id="toc-numerical-variable-analysis" class="nav-link" data-scroll-target="#numerical-variable-analysis">Numerical Variable Analysis</a></li>
   <li><a href="#categorical-variable-analysis" id="toc-categorical-variable-analysis" class="nav-link" data-scroll-target="#categorical-variable-analysis">Categorical Variable Analysis</a></li>
   </ul></li>
-  <li><a href="#approach-2-stepwise-regression-model" id="toc-approach-2-stepwise-regression-model" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-model">Approach 2: Stepwise Regression Model</a>
+  <li><a href="#approach-2-stepwise-regression-model" id="toc-approach-2-stepwise-regression-model" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-model">Approach #2: Stepwise Regression Model</a>
   <ul class="collapse">
+  <li><a href="#remove-highly-correlated-variables" id="toc-remove-highly-correlated-variables" class="nav-link" data-scroll-target="#remove-highly-correlated-variables">Remove Highly Correlated Variables</a></li>
   <li><a href="#compute-stepwise-regression" id="toc-compute-stepwise-regression" class="nav-link" data-scroll-target="#compute-stepwise-regression">Compute Stepwise Regression</a></li>
   <li><a href="#final-model-results" id="toc-final-model-results" class="nav-link" data-scroll-target="#final-model-results">Final Model Results</a></li>
   </ul></li>
@@ -759,7 +760,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="results" class="level1">
 <h1>Results</h1>
 <section id="approach-1-individual-variable-analysis-1" class="level2">
-<h2 class="anchored" data-anchor-id="approach-1-individual-variable-analysis-1">Approach 1: Individual Variable Analysis</h2>
+<h2 class="anchored" data-anchor-id="approach-1-individual-variable-analysis-1">Approach #1: Individual Variable Analysis</h2>
 <section id="numerical-variable-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="numerical-variable-analysis">Numerical Variable Analysis</h3>
 <p><strong>Table of R-squared Values</strong></p>
@@ -978,7 +979,9 @@ ul.task-list li input[type="checkbox"] {
 </section>
 </section>
 <section id="approach-2-stepwise-regression-model" class="level2">
-<h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-model">Approach 2: Stepwise Regression Model</h2>
+<h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-model">Approach #2: Stepwise Regression Model</h2>
+<section id="remove-highly-correlated-variables" class="level3">
+<h3 class="anchored" data-anchor-id="remove-highly-correlated-variables">Remove Highly Correlated Variables</h3>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/correlation-matrix-1.png" class="img-fluid" width="672"></p>
@@ -1019,6 +1022,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>According to the filtered table, these variable pairs are (<code>MD_FAMINC</code>, <code>FAMINC</code>), (<code>C150_4</code>, <code>SAT_AVG</code>), (<code>C150_4</code>, <code>ACTCMMID</code>) and (<code>ACTCMMID</code>, <code>SAT_AVG</code>). Therefore, we will drop the variables <code>C150_4</code>, <code>MD_FAMINC</code>, <code>ACTCMMID</code> and preserve <code>SAT_AVG</code> and <code>FAMINC</code> to represent all other variables.</p>
+</section>
 <section id="compute-stepwise-regression" class="level3">
 <h3 class="anchored" data-anchor-id="compute-stepwise-regression">Compute Stepwise Regression</h3>
 <p>As mentioned in methodology, we will use <code>MASS</code> package and <code>StepAIC()</code> function to perform the stepwise regression process for model selections.</p>
