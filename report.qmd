@@ -849,67 +849,6 @@ There are two main steps in this approach.
 
 In the end, this will give us the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
-### Remove variables with high correlations
-
-```{r}
-#| label: correlation-matrix
-
-    data_for_corr <- scaled_data |>
-      select(is.numeric)
-
-    correlations = data_for_corr |>
-      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
-        na.omit() |>
-        cor() 
-
-    correlations |>
-        corrplot(method="color")
-```
-
-The correlation matrix above provides a visual representation of the correlation between all variable pairs. We want to remove the pairs with a high correlation (absolute value greater than 0.8) which visually are the darker blue squares. However, to use proper statistical analysis, we filtered our correlation matrix to only display entries with values greater or equal to 0.8.
-
-```{r}
-#| label: display-correlation-pair-to-be-removed
-
-correlations[correlations < 0.8 | correlations == 1] <- ""
-```
-
-| Variable Pairs with r \> 0.8 | Correlation Coefficients |
-|------------------------------|--------------------------|
-| C150_4, SAT_AVG              | 0.8389                   |
-| C150_4, ACTCMMID             | 0.8494                   |
-| AGE_ENTRY, MARRIED           | 0.9059                   |
-| FAMINC, MD_FAMINC            | 0.9538                   |
-| SAT_AVG, ACTCMMID            | 0.9756                   |
-
-According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`), (`C150_4`, `SAT_AVG`), (`C150_4`, `ACTCMMID`) and (`ACTCMMID`, `SAT_AVG`). Therefore, we will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
-
-### Compute Stepwise Regression
-
-As mentioned above, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
-
-```{r}
-#| label: glimpsed-data
-stepwise_data <- scaled_data |>
-  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
-stepwise_data |>
-  names() |>
-  knitr::kable(col.names = "Selected Variables")
-# Factorize variable
-stepwise_data <- stepwise_data |>
-  mutate(
-    REGION = as.factor(REGION),
-    CONTROL = as.factor(CONTROL),
-    CCBASIC = as.factor(CCBASIC),
-    ACCREDAGENCY = as.factor(ACCREDAGENCY)
-    )
-library(MASS)
-stepwise_data = na.omit(stepwise_data)
-# Fit the full model
-full_model <- lm(rank ~. -college, data = stepwise_data)
-# Stepwise regression model
-stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
-```
 
 -   Why did we choose this
 
@@ -1198,29 +1137,104 @@ Qualitatively, it appears that region and Carnegie Classification have the clear
 
 ## Approach 2: Stepwise Regression Model
 
+### Remove variables with high correlations
+
+```{r}
+#| label: correlation-matrix
+
+    data_for_corr <- scaled_data |>
+      select(is.numeric)
+
+    correlations = data_for_corr |>
+      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
+        na.omit() |>
+        cor() 
+
+    correlations |>
+        corrplot(method="color")
+```
+
+The correlation matrix above provides a visual representation of the correlation between all variable pairs. We want to remove the pairs with a high correlation (absolute value greater than 0.8) which visually are the darker blue squares. However, to use proper statistical analysis, we filtered our correlation matrix to only display entries with values greater or equal to 0.8.
+
+```{r}
+#| label: display-correlation-pair-to-be-removed
+
+correlations[correlations < 0.8 | correlations == 1] <- ""
+```
+
+| Variable Pairs with r \> 0.8 | Correlation Coefficients |
+|------------------------------|--------------------------|
+| C150_4, SAT_AVG              | 0.8389                   |
+| C150_4, ACTCMMID             | 0.8494                   |
+| AGE_ENTRY, MARRIED           | 0.9059                   |
+| FAMINC, MD_FAMINC            | 0.9538                   |
+| SAT_AVG, ACTCMMID            | 0.9756                   |
+
+According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`), (`C150_4`, `SAT_AVG`), (`C150_4`, `ACTCMMID`) and (`ACTCMMID`, `SAT_AVG`). Therefore, we will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
+
+### Compute Stepwise Regression
+
+As mentioned above, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
+
+```{r}
+#| label: glimpsed-data
+stepwise_data <- scaled_data |>
+  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
+stepwise_data |>
+  names() |>
+  knitr::kable(col.names = "Selected Variables")
+# Factorize variable
+stepwise_data <- stepwise_data |>
+  mutate(
+    REGION = as.factor(REGION),
+    CONTROL = as.factor(CONTROL),
+    CCBASIC = as.factor(CCBASIC),
+    ACCREDAGENCY = as.factor(ACCREDAGENCY)
+    )
+library(MASS)
+stepwise_data = na.omit(stepwise_data)
+# Fit the full model
+full_model <- lm(rank ~. -college, data = stepwise_data)
+# Stepwise regression model
+stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
+```
+
+
 ### Final Model Results
 
 ```{r}
 #| label: model-computing
 stepwise_model$anova
 
-stepwise_model$anova |>
-  ggplot(aes(x = stepwise_model$anova$Step, y = stepwise_model$anova$AIC, label = stepwise_model$anova$Step)) +
+aic_value = stepwise_model$anova$AIC
+
+variables = c("All", "-FAMINC", "-PCTPELL", "-ENDOWBEGIN", "-UGDS_NHPI", "-UGDS_AIAN", "-UGDS_NRA", "-UGDSHISP", "-UGDS_BLACK", "-UGDS_WHITE", "-FEMALE", "+UGDS_HISP")
+
+
+aic_df = data.frame(aic_value, variables)
+
+str(aic_df)
+
+aic_df<- aic_df |>
+  mutate(variables = as.factor(variables))
+
+aic_df <- aic_df |>
+  mutate(
+    variables = fct_relevel(variables, levels = c("All", "-FAMINC", "-PCTPELL", "-ENDOWBEGIN", "-UGDS_NHPI", "-UGDS_AIAN", "-UGDS_NRA", "-UGDSHISP", "-UGDS_BLACK", "-UGDS_WHITE", "-FEMALE", "+UGDS_HISP"))
+  )
+
+aic_df |>
+  ggplot(aes(x = variables, y = aic_value)) +
   geom_point() +
-  geom_text(hjust = 0.2, vjust = 0.5) +
-  geom_line() +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank()
-  ) +
+  geom_line(group = 1) + 
+  scale_y_continuous(breaks = seq(3415, 3431, by = 2)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
   labs(
     title = "Variable selection process",
     x = "Selection step",
     y = "AIC"
   )
-
-# aic_value = c(3430.917,3428.988,3427.210,3426.044,3425.339,3423.38,3421.751,3419.900,3419.152,3418.889,3418.618,3418.567)
-# variables = c("-FAMINC", "-PCTPELL", "-ENDOWBEGIN", UGDS NHPI UGDS AIAN UGDS NRA UGDSHISP UGDS BLACK UGDS_ WHITE 一 FEMALE + UGDS_ HISP)
+  
 ```
 
 In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
