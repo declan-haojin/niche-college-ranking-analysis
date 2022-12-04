@@ -844,17 +844,12 @@ In our research, we will use both forward and backward selections in the stepwis
 
 There are two main steps in this approach.
 
--   First, we need to find out all the highly correlated variable pairs and remove one of them from each pair since we need to rule out the negative impacts of the singularities of variables.
-
-Our first step in creating a stepwise regression model was to check correlation coefficients between variables so we didn't use variables that were too similar in our model. Then, after removing all columns that had more than 100 NA, we determined which variables had an absolute value of r greater than 0.8. This showed that they were too similar in how they factored into rankings, so we only picked one of them to put in the model.
-
--   Second, we will compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable.
+1.  Create a correlation matrix to check correlation coefficients between variables so as to not use similar variables in our model. If two variables had an absolute value of r greater than 0.8, meaning they were too similar in how they factored into rankings, we only picked one of them to put into the model.
+2.  Compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable.
 
 In the end, this will give us the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
 ### Remove variables with high correlations
-
-
 
 ```{r}
 #| label: correlation-matrix
