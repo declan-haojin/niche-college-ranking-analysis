@@ -53,7 +53,7 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
     (https://www.niche.com/colleges/search/best-colleges/)
 
--   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
+-   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
 
 -   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
