@@ -842,7 +842,7 @@ We will examine the final variables selected by both approaches and analyze thei
 
 # Results
 
-## Approach 1: Individual Variable Analysis
+## Approach #1: Individual Variable Analysis
 
 ### Numerical Variable Analysis
 
@@ -1031,7 +1031,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Pellentesque habitant morbi tristique senectus et netus et. Cursus risus at ultrices mi. Tempor orci eu lobortis elementum nibh tellus molestie nunc non. Mauris a diam maecenas sed enim ut sem viverra. Magna sit amet purus gravida quis blandit turpis cursus in. Facilisis magna etiam tempor orci eu lobortis. Semper auctor neque vitae tempus quam pellentesque nec nam. Tempus urna et pharetra pharetra massa massa ultricies. In nibh mauris cursus mattis molestie a. Non nisi est sit amet facilisis magna etiam tempor. Tristique risus nec feugiat in fermentum posuere urna nec. Pharetra diam sit amet nisl suscipit. Viverra adipiscing at in tellus.
 
+
 ## Approach 2: Stepwise Regression Model
+
+### Remove Highly Correlated Variables
+
 
 ```{r}
 #| label: correlation-matrix
