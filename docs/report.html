@@ -220,15 +220,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Numerical</p>
 <ul>
 <li><code>ADM_RATE</code>: Admission rate</li>
-<li><code>UGDS</code>: Enrollment of undergraduate certificate/degree-seeking students</li>
-<li><code>UGDS_WHITE</code>: Total share of enrollment of undergraduate degree-seeking students who are White</li>
-<li><code>UGDS_BLACK</code>: Total share of enrollment of undergraduate degree-seeking students who are Black</li>
-<li><code>UGDS_HISP</code>: Total share of enrollment of undergraduate degree-seeking students who are Hispanic</li>
-<li><code>UGDS_ASIAN</code>: Total share of enrollment of undergraduate degree-seeking students who are Asian</li>
-<li><code>UGDS_AIAN</code>: Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native</li>
-<li><code>UGDS_NHPI</code>: Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander</li>
-<li><code>UGDS_2MOR</code>: Total share of enrollment of undergraduate degree-seeking students who are two or more races</li>
-<li><code>UGDS_UNKN</code>: Total share of enrollment of undergraduate degree-seeking students whose race is unknown</li>
+<li><code>UGDS</code>, <code>UGDS_WHITE</code>, <code>UGDS_BLACK</code>, <code>UGDS_HISP</code>, <code>UGDS_ASIAN</code>, <code>UGDS_AIAN</code>, <code>UGDS_NHPI</code>, <code>UGDS_2MOR</code>, and <code>UGDS_UNKN</code> represent the enrollment of undergraduate certificate/degree-seeking students, enrollment of undergraduate certificate/degree-seeking students who are White, Black, Hispanic, Asian, American Indian/Alaska Native, Native Hawaiian/Pacific Islander, two or more races, and of unknown race, respectively.</li>
 <li><code>NPT4_PUB</code>: Average net price for Title IV institutions (public institutions)</li>
 <li><code>NPT4_PRIV</code>: Average net price for Title IV institutions (private for-profit and nonprofit institutions)</li>
 <li><code>COSTT4_A</code>: Average cost of attendance (academic year institutions)</li>
@@ -1129,11 +1121,6 @@ rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
 <section id="final-model-results" class="level3">
 <h3 class="anchored" data-anchor-id="final-model-results">Final Model Results</h3>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>'data.frame':   12 obs. of  2 variables:
- $ aic_value: num  3431 3429 3427 3426 3425 ...
- $ variables: chr  "All" "-FAMINC" "-PCTPELL" "-ENDOWBEGIN" ...</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/visualize-stepwise-model-1.png" class="img-fluid" width="672"></p>
 </div>
