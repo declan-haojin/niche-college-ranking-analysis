@@ -801,7 +801,7 @@ In the second part of our analysis, we will combine the results of the two appro
 
 5.  Calculate the respective slopes between each of the un-scaled explanatory variables and college rank.
 
-## Approach #2: Stepwise regression modeling
+## Approach #2: Stepwise Regression Modeling
 
 Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
 
@@ -1092,7 +1092,7 @@ stepwise_model$anova
 
 In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
 
-### Final Model Results
+### Model Results
 
 ```{r}
 #| label: visualize-stepwise-model
