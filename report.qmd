@@ -1210,13 +1210,19 @@ Qualitatively, it appears that region and Carnegie Classification have the clear
 stepwise_model$anova
 
 stepwise_model$anova |>
-  ggplot(aes(x = stepwise_model$anova$Step, y = stepwise_model$anova$AIC, group = 1, label = stepwise_model$anova$Step)) +
+  ggplot(aes(x = stepwise_model$anova$Step, y = stepwise_model$anova$AIC, label = stepwise_model$anova$Step)) +
   geom_point() +
-  geom_text(hjust=0, vjust=0) +
+  geom_text(hjust = 0.2, vjust = 0.5) +
   geom_line() +
-  theme(axis.text.x=element_blank(),
-        axis.ticks.x=element_blank() 
-        )
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  labs(
+    title = "Variable selection process",
+    x = "Selection step",
+    y = "AIC"
+  )
 
 # aic_value = c(3430.917,3428.988,3427.210,3426.044,3425.339,3423.38,3421.751,3419.900,3419.152,3418.889,3418.618,3418.567)
 # variables = c("-FAMINC", "-PCTPELL", "-ENDOWBEGIN", UGDS NHPI UGDS AIAN UGDS NRA UGDSHISP UGDS BLACK UGDS_ WHITE 一 FEMALE + UGDS_ HISP)
