@@ -838,6 +838,78 @@ As we cannot find an R-squared value or other numerical metric to measure a rela
 
 ## Approach #2: Stepwise regression modeling
 
+
+Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
+
+In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
+
+There are three main steps in this approach. First, we need to find out all the highly correlated variable pairs and remove one of them from each pair since we need to rule out the negative impacts of the singularities of variables. Second, we will compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable. This will give us a best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
+
+### Remove variables with high correlations
+
+Our first step in creating a stepwise regression model was to check correlation coefficients between variables so we didn't use variables that were too similar in our model. Then, after removing all columns that had more than 100 NA, we determined which variables had an absolute value of r greater than 0.8. This showed that they were too similar in how they factored into rankings, so we only picked one of them to put in the model.
+
+```{r}
+#| label: correlation-matrix
+
+    data_for_corr <- scaled_data |>
+      select(is.numeric)
+
+    correlations = data_for_corr |>
+      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
+        na.omit() |>
+        cor() 
+
+    correlations |>
+        corrplot(method="color")
+```
+
+The correlation matrix above provides a visual representation of the correlation between all variable pairs. We want to remove the pairs with a high correlation (absolute value greater than 0.8) which visually are the darker blue squares. However, to use proper statistical analysis, we filtered our correlation matrix to only display entries with values greater or equal to 0.8.
+
+```{r}
+#| label: display-correlation-pair-to-be-removed
+
+correlations[correlations < 0.8 | correlations == 1] <- ""
+```
+
+| Variable Pairs with r \> 0.8 | Correlation Coefficients |
+|------------------------------|--------------------------|
+| C150_4, SAT_AVG              | 0.8389                   |
+| C150_4, ACTCMMID             | 0.8494                   |
+| AGE_ENTRY, MARRIED           | 0.9059                   |
+| FAMINC, MD_FAMINC            | 0.9538                   |
+| SAT_AVG, ACTCMMID            | 0.9756                   |
+
+According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`), (`C150_4`, `SAT_AVG`), (`C150_4`, `ACTCMMID`) and (`ACTCMMID`, `SAT_AVG`). Therefore, we will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
+
+### Compute Stepwise Regression
+
+As mentioned above, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
+
+```{r}
+#| label: glimpsed-data
+stepwise_data <- scaled_data |>
+  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
+stepwise_data |>
+  names() |>
+  knitr::kable(col.names = "Selected Variables")
+# Factorize variable
+stepwise_data <- stepwise_data |>
+  mutate(
+    REGION = as.factor(REGION),
+    CONTROL = as.factor(CONTROL),
+    CCBASIC = as.factor(CCBASIC),
+    ACCREDAGENCY = as.factor(ACCREDAGENCY)
+    )
+library(MASS)
+stepwise_data = na.omit(stepwise_data)
+# Fit the full model
+full_model <- lm(rank ~. -college, data = stepwise_data)
+# Stepwise regression model
+stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
+```
+
+
 -   Why did we choose this
 
 -   Why did we choose the criterions
@@ -1125,77 +1197,8 @@ Qualitatively, it appears that region and Carnegie Classification have the clear
 
 ## Approach 2: Stepwise Regression Model
 
-Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
 
-In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
-
-There are three main steps in this approach. First, we need to find out all the highly correlated variable pairs and remove one of them from each pair since we need to rule out the negative impacts of the singularities of variables. Second, we will compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable. This will give us a best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
-
-### Remove variables with high correlations
-
-Our first step in creating a stepwise regression model was to check correlation coefficients between variables so we didn't use variables that were too similar in our model. Then, after removing all columns that had more than 100 NA, we determined which variables had an absolute value of r greater than 0.8. This showed that they were too similar in how they factored into rankings, so we only picked one of them to put in the model.
-
-```{r}
-#| label: correlation-matrix
-
-    data_for_corr <- scaled_data |>
-      select(is.numeric)
-
-    correlations = data_for_corr |>
-      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
-        na.omit() |>
-        cor() 
-
-    correlations |>
-        corrplot(method="color")
-```
-
-The correlation matrix above provides a visual representation of the correlation between all variable pairs. We want to remove the pairs with a high correlation (absolute value greater than 0.8) which visually are the darker blue squares. However, to use proper statistical analysis, we filtered our correlation matrix to only display entries with values greater or equal to 0.8.
-
-```{r}
-#| label: display-correlation-pair-to-be-removed
-
-correlations[correlations < 0.8 | correlations == 1] <- ""
-```
-
-| Variable Pairs with r \> 0.8 | Correlation Coefficients |
-|------------------------------|--------------------------|
-| C150_4, SAT_AVG              | 0.8389                   |
-| C150_4, ACTCMMID             | 0.8494                   |
-| AGE_ENTRY, MARRIED           | 0.9059                   |
-| FAMINC, MD_FAMINC            | 0.9538                   |
-| SAT_AVG, ACTCMMID            | 0.9756                   |
-
-According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`), (`C150_4`, `SAT_AVG`), (`C150_4`, `ACTCMMID`) and (`ACTCMMID`, `SAT_AVG`). Therefore, we will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
-
-### Compute Stepwise Regression
-
-As mentioned above, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
-
-```{r}
-#| label: glimpsed-data
-stepwise_data <- scaled_data |>
-  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
-stepwise_data |>
-  names() |>
-  knitr::kable(col.names = "Selected Variables")
-# Factorize variable
-stepwise_data <- stepwise_data |>
-  mutate(
-    REGION = as.factor(REGION),
-    CONTROL = as.factor(CONTROL),
-    CCBASIC = as.factor(CCBASIC),
-    ACCREDAGENCY = as.factor(ACCREDAGENCY)
-    )
-library(MASS)
-stepwise_data = na.omit(stepwise_data)
-# Fit the full model
-full_model <- lm(rank ~. -college, data = stepwise_data)
-# Stepwise regression model
-stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
-```
-
-### Final Model Results (TODO for Sam)
+### Final Model Results
 
 ```{r}
 #| label: model-computing
@@ -1205,7 +1208,7 @@ stepwise_model$anova |>
   ggplot(aes(x = stepwise_model$anova$Step, y = stepwise_model$anova$AIC, group = 1, label = stepwise_model$anova$Step)) +
   geom_point() +
   geom_text(hjust=0, vjust=0) +
-  geom_path() +
+  geom_line() +
   theme(axis.text.x=element_blank(),
         axis.ticks.x=element_blank() 
         )
