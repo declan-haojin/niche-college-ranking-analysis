@@ -82,15 +82,7 @@ Categorical:
 Numerical
 
 -   `ADM_RATE`: Admission rate
--   `UGDS`: Enrollment of undergraduate certificate/degree-seeking students
--   `UGDS_WHITE`: Total share of enrollment of undergraduate degree-seeking students who are White
--   `UGDS_BLACK`: Total share of enrollment of undergraduate degree-seeking students who are Black
--   `UGDS_HISP`: Total share of enrollment of undergraduate degree-seeking students who are Hispanic
--   `UGDS_ASIAN`: Total share of enrollment of undergraduate degree-seeking students who are Asian
--   `UGDS_AIAN`: Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native
--   `UGDS_NHPI`: Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander
--   `UGDS_2MOR`: Total share of enrollment of undergraduate degree-seeking students who are two or more races
--   `UGDS_UNKN`: Total share of enrollment of undergraduate degree-seeking students whose race is unknown
+-   `UGDS`, `UGDS_WHITE`, `UGDS_BLACK`, `UGDS_HISP`, `UGDS_ASIAN`, `UGDS_AIAN`, `UGDS_NHPI`, `UGDS_2MOR`, and `UGDS_UNKN` represent the enrollment of undergraduate certificate/degree-seeking students, enrollment of undergraduate certificate/degree-seeking students who are White, Black, Hispanic, Asian, American Indian/Alaska Native, Native Hawaiian/Pacific Islander, two or more races, and of unknown race, respectively.
 -   `NPT4_PUB`: Average net price for Title IV institutions (public institutions)
 -   `NPT4_PRIV`: Average net price for Title IV institutions (private for-profit and nonprofit institutions)
 -   `COSTT4_A`: Average cost of attendance (academic year institutions)
@@ -795,7 +787,7 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 We have split the first part of our analysis into two approaches. The first approach consists of looking at he linear relationship between the numerical explanatory variables and college rank using R-squared variables. The second approach consists of building a stepwise regression model between many explanatory variables and college rank. As the variables that appear in the final model will be most important for determining rank, we will use the model results to corroborate our results from the first approach. As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to simply use the stepwise regression model to determine if there is a strong association between those variables and rank.
 
-In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association with it. 
+In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association with it.
 
 ## Approach #1: Individual Variable Analysis
 
