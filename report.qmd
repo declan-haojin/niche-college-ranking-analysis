@@ -812,7 +812,7 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 # Methodology
 
-We have split our analysis into two approaches. The first approach consists of looking at the relationship between individual explanatory variables (both categorical and numeric) and college rank. The second approach consists of building an optimized model between many explanatory variables and college rank.\
+We have split our analysis into two approaches. The first approach consists of looking at the relationship between individual explanatory variables (both categorical and numeric) and college rank. The second approach consists of building an optimized model between many explanatory variables and college rank.
 
 ## Approach #1: Individual Variable Analysis
 
@@ -838,16 +838,23 @@ As we cannot find an R-squared value or other numerical metric to measure a rela
 
 ## Approach #2: Stepwise regression modeling
 
-
 Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
 
 In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
 
-There are three main steps in this approach. First, we need to find out all the highly correlated variable pairs and remove one of them from each pair since we need to rule out the negative impacts of the singularities of variables. Second, we will compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable. This will give us a best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
+There are two main steps in this approach.
+
+-   First, we need to find out all the highly correlated variable pairs and remove one of them from each pair since we need to rule out the negative impacts of the singularities of variables.
+
+Our first step in creating a stepwise regression model was to check correlation coefficients between variables so we didn't use variables that were too similar in our model. Then, after removing all columns that had more than 100 NA, we determined which variables had an absolute value of r greater than 0.8. This showed that they were too similar in how they factored into rankings, so we only picked one of them to put in the model.
+
+-   Second, we will compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable.
+
+In the end, this will give us the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
 ### Remove variables with high correlations
 
-Our first step in creating a stepwise regression model was to check correlation coefficients between variables so we didn't use variables that were too similar in our model. Then, after removing all columns that had more than 100 NA, we determined which variables had an absolute value of r greater than 0.8. This showed that they were too similar in how they factored into rankings, so we only picked one of them to put in the model.
+
 
 ```{r}
 #| label: correlation-matrix
@@ -908,7 +915,6 @@ full_model <- lm(rank ~. -college, data = stepwise_data)
 # Stepwise regression model
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 ```
-
 
 -   Why did we choose this
 
@@ -1196,7 +1202,6 @@ There appear to be the greatest differences between bars of proportions of rank 
 Qualitatively, it appears that region and Carnegie Classification have the clearest relationship with rank; therefore, we expect `REGION` and `CCBASIC` to show up in the final model.
 
 ## Approach 2: Stepwise Regression Model
-
 
 ### Final Model Results
 
