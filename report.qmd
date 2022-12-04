@@ -53,9 +53,9 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
     (https://www.niche.com/colleges/search/best-colleges/)
 
--   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
+-   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
 
--   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` and `rank`.
+-   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
 ### Data Set #2: US Department of Education
 
@@ -67,90 +67,51 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the United States.
 
-### Variable Summary
+#### Variable Summary
 
-Here is a summary of the variables we will be using in our analysis.
+Here is a summary of the variables we will be using in our analysis. We selected every one we thought could impact rank, but left some out, such as test score breakdowns to avoid redundancy.
 
 Categorical:
 
 -   `college`: Institution name
+-   `REGION:` US geographic region (New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas)
+-   `ACCREDAGENCY`: Accreditor for Institution
+-   `CONTROL`: Public, Private nonprofit, or Private for-profit
+-   `CCBASIC`: Carnegie Classification (basic)
 
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| Variable Name | Categorical (C)  | Description                                                                                                                        |
-|               |                  |                                                                                                                                    |
-|               | Quantitative (Q) |                                                                                                                                    |
-+===============+==================+====================================================================================================================================+
-| college       | C                | Institution name                                                                                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| rank          | Q                | Niche rank                                                                                                                         |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| REGION        | C                | US geographic region (New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas) |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| ACCREDAGENCY  | C                | Accreditor for Institution                                                                                                         |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| CONTROL       | C                | Public, Private nonprofit, or Private for-profit                                                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| CCBASIC       | C                | Carnegie Classification (basic)                                                                                                    |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| ADM_RATE      | Q                | Admission rate                                                                                                                     |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS          | Q                | Enrollment of undergraduate certificate/degree-seeking students                                                                    |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_WHITE    | Q                | Total share of enrollment of undergraduate degree-seeking students who are white                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_BLACK    | Q                | Total share of enrollment of undergraduate degree-seeking students who are black                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_HISP     | Q                | Total share of enrollment of undergraduate degree-seeking students who are Hispanic                                                |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_ASIAN    | Q                | Total share of enrollment of undergraduate degree-seeking students who are Asian                                                   |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_AIAN     | Q                | Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native                           |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_NHPI     | Q                | Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander                        |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_2MOR     | Q                | Total share of enrollment of undergraduate degree-seeking students who are two or more races                                       |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_NRA      | Q                | Total share of enrollment of undergraduate degree-seeking students who are non-resident aliens                                     |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| UGDS_UNKN     | Q                | Total share of enrollment of undergraduate degree-seeking students whose race is unknown                                           |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| NPT4_PUB      | Q                | Average net price for Title IV institutions (public institutions)                                                                  |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| NPT4_PRIV     | Q                | Average net price for Title IV institutions (private for-profit and nonprofit institutions)                                        |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| COSTT4_A      | Q                | Average cost of attendance (academic year institutions)                                                                            |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| COSTT4_P      | Q                | Average cost of attendance (program-year institutions)                                                                             |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| AVGFACSAL     | Q                | Average faculty salary                                                                                                             |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| PCTPELL       | Q                | Percentage of undergraduates who receive a Pell Grant                                                                              |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| C150_4        | Q                | Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion)                 |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| AGE_ENTRY     | Q                | Average age of entry                                                                                                               |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| FEMALE        | Q                | Share of female students                                                                                                           |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| MARRIED       | Q                | Share of married students                                                                                                          |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| FIRST_GEN     | Q                | Share of first-generation students                                                                                                 |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| FAMINC        | Q                | Average family income                                                                                                              |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| MD_FAMINC     | Q                | Median family income                                                                                                               |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| ENDOWBEGIN    | Q                | Value of school's endowment at the beginning of the fiscal year                                                                    |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| SAT_AVG       | Q                | Average SAT equivalent score of students admitted                                                                                  |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| ACTCMMID      | Q                | Midpoint of the ACT cumulative score                                                                                               |
-+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------------+
+Numerical
+
+-   `ADM_RATE`: Admission rate
+-   `UGDS`: Enrollment of undergraduate certificate/degree-seeking students
+-   `UGDS_WHITE`: Total share of enrollment of undergraduate degree-seeking students who are White
+-   `UGDS_BLACK`: Total share of enrollment of undergraduate degree-seeking students who are Black
+-   `UGDS_HISP`: Total share of enrollment of undergraduate degree-seeking students who are Hispanic
+-   `UGDS_ASIAN`: Total share of enrollment of undergraduate degree-seeking students who are Asian
+-   `UGDS_AIAN`: Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native
+-   `UGDS_NHPI`: Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander
+-   `UGDS_2MOR`: Total share of enrollment of undergraduate degree-seeking students who are two or more races
+-   `UGDS_UNKN`: Total share of enrollment of undergraduate degree-seeking students whose race is unknown
+-   `NPT4_PUB`: Average net price for Title IV institutions (public institutions)
+-   `NPT4_PRIV`: Average net price for Title IV institutions (private for-profit and nonprofit institutions)
+-   `COSTT4_A`: Average cost of attendance (academic year institutions)
+-   `COSTT4_P`: Average cost of attendance (program-year institutions)
+-   `AVGFACSAL`: Average faculty salary
+-   `PCTPELL`: Percentage of undergraduates who receive a Pell Grant
+-   `C150_4`: Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion)
+-   `AGE_ENTRY`: Average age of entry
+-   `FEMALE`: Share of female students
+-   `MARRIED`: Share of married students
+-   `FIRST_GEN`: Share of first-generation students
+-   `FAMINC`: Average family income
+-   `MD_FAMINC`: Median family income
+-   `ENDOWBEGIN`: Value of school's endowment at the beginning of the fiscal year
+-   `SAT_AVG`: Average SAT equivalent score of students admitted
+-   `ACTCMMID`: Midpoint of the ACT cumulative score
 
 ### Data Preparation
 
 1.  To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported. The steps were done in an R script titled `niche-scrape.R`
-2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` (ranked 141) and `University of South Florida - St. Petersburg` (ranked 181) have been dropped from the `colleges` data set due to their non-existence in the `us_dep_of_ed` data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the `colleges` data set only has 498 observations.
+2.  Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for `University of South Florida - Sarasota-Manatee` (ranked 141) and `University of South Florida - St. Petersburg` (ranked 181) have been dropped from the `colleges` data set because they do not exist in the `us_dep_of_ed` dataset. This is because these two universities were combined with the main University of South Florida campus. Therefore the joined `colleges` data set only has 498 observations.
 
 ```{r}
 #| label: fix-college-names
@@ -580,8 +541,6 @@ us_dep_of_ed <- us_dep_of_ed |>
   )
 ```
 
-3.  We joined the US Department of Education dataset to the Niche dataset by the college names.
-
 ```{r}
 #| label: join-datasets
 
@@ -589,13 +548,7 @@ colleges <- niche_data_500 |>
   left_join(us_dep_of_ed, by = c("college" = "INSTNM")) |>
   filter(rank != 141) |>
   filter(rank != 181)
-
-colleges |>
-  slice(1:5) |>
-  knitr::kable()
 ```
-
-4.  Then, we selected the variables that we thought could have an impact on college ranking as a starting point for our analysis. These are listed in our data summary.
 
 ```{r}
 #| label: select-variables
@@ -640,7 +593,7 @@ data <- colleges |>
   dplyr::select(chosen_variables)
 ```
 
-5.  Some of the categorical variables in the US Department of Education dataset (`REGION`, `CONTROL`, and `CCBASIC`) used numbers to represent the different levels, so we looked at the data dictionary and replaced each number with the words that it represents.
+3.  Some of the categorical variables in the US Department of Education dataset (`REGION`, `CONTROL`, and `CCBASIC`) used numbers to represent the different levels, so we looked at the data dictionary and replaced each number with the words that it represents.
 
 ```{r}
 #| label: clean-categorical-variables
@@ -706,7 +659,7 @@ data <- data |>
   )
 ```
 
-6.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We used the `scale()` functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1. The first 5 rows of our standardized dataset are printed below.
+4.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admission rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We created a scaled version of the dataset where the mean value of each numeric variable is 0, and the standard deviation 1. The first three rows of the data are printed below.
 
 ```{r}
 #| label: scale-numerical-variables
@@ -724,8 +677,9 @@ scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables) |>
   relocate(college)
 
 scaled_data |>
-  slice(1:5) |>
+  slice(1:3) |>
   knitr::kable()
+
 ```
 
 ## Exploratory Data Analysis
@@ -872,29 +826,15 @@ In this section, we will look at the linear relationship between the numerical e
 
 3.  Create 6 scatter plots (with lines of best fit) to visualize the relationships between the 6 variables (determined in section 2) and college rank.
 
-4.  Scale each of the 6 explanatory variables to a normal distribution (with mean at 0 and standard deviation of 1). This step is done because the explanatory variables are on varying scales. By scaling the variables to a normal distribution, it allows us to compare their respective slopes.
+4.  Scale each of the 6 explanatory variables to a normal distribution (with mean at 0 and standard deviation of 1). This step is done because the explanatory variables are on varying scales. By scaling the variables to a normal distribution, it allows us to compare their respective slopes. (THIS IS IN THE DATA PREP ALREADY --- CAN WE DELETE?)
 
 5.  Recreate the individual models with the scaled explanatory variables, and calculate the respective slopes between each of the scaled explanatory variables and college rank.
 
 6.  Calculate the respective slopes between each of the un-scaled explanatory variables and college rank.
 
-7.  Analyze the relationships between each explanatory variable and college rank by
-
-    1.  Interpreting the R-squared values to determine strength of linear association
-
-    2.  interpreting the graphs to visualize this relationship.
-
-    3.  Using the scaled slopes to determine which explanatory variable has the greatest influence on college on a school having a higher rank.
-
-    4.  Using the un-scaled slopes to interpret the relationships.
-
 ### Categorical Variable Analysis
 
-1.  
-
-2.  
-
-3.  
+As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to do a qualitative variable of our four categorical variables. We created a bar plot for each and filled by rank category (1-100, 101-200, etc.) so we could compare proportions across levels.
 
 ## Approach #2: Stepwise regression modeling
 
@@ -903,6 +843,18 @@ In this section, we will look at the linear relationship between the numerical e
 -   Why did we choose the criterions
 
 -   Methods 
+
+## Final Variable Analysis
+
+We will examine the final variables selected by both approaches and analyze their relationships with college rank by:
+
+1.  Interpreting the R-squared values to determine strength of linear association
+
+2.  interpreting the graphs to visualize this relationship.
+
+3.  Using the scaled slopes to determine which explanatory variable has the greatest influence on college on a school having a higher rank.
+
+4.  Using the un-scaled slopes to interpret the relationships.
 
 # Results
 
@@ -1002,6 +954,7 @@ a1 <- colleges |>
   ggplot(aes(x = SAT_AVG, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
   labs(
     x = "Avg. SAT",
     y = "Rank"
@@ -1011,6 +964,7 @@ a2 <- colleges |>
   ggplot(aes(x = ACTCMMID, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
   labs(
     x = "Med. ACT",
     y = "Rank"
@@ -1020,6 +974,7 @@ a3 <- colleges |>
   ggplot(aes(x = C150_4, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
   labs(
     x = "Graduation Rate",
     y = "Rank"
@@ -1029,6 +984,7 @@ a4 <- colleges |>
   ggplot(aes(x = AVGFACSAL, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
   labs(
     x = "Avg. Faculty Salary",
     y = "Rank"
@@ -1038,6 +994,7 @@ a5 <- colleges |>
   ggplot(aes(x = ADM_RATE, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
   labs(
     x = "Admission Rate",
     y = "Rank"
@@ -1047,6 +1004,7 @@ a6 <- colleges |>
   ggplot(aes(x = PCTPELL, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
   labs(
     x = "% Students with Pell Grants",
     y = "Rank"
@@ -1108,6 +1066,8 @@ Pellentesque habitant morbi tristique senectus et netus et. Cursus risus at ultr
 #| layout-ncol: 2
 #| #| layout-ncol: 2
 
+
+
 colleges_levels |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
@@ -1124,9 +1084,9 @@ colleges_levels |>
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
   labs(
-    title = "Rank vs Accredation Agency",
+    title = "Rank vs Accreditation Agency",
     x = "Proportion",
-    y = "Accredation Agency",
+    y = "Accreditation Agency",
     fill = "Rank"
   )
 
@@ -1153,23 +1113,27 @@ colleges_levels |>
   )
 ```
 
-There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. NOT DONE
+The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars.
+
+There does not appear to be a pattern in the accreditation agency graph, which could be because some of the agencies corresponded to very few schools in the top 500. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph.
+
+There are only 4 `Private, For-profit` schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between `Private, Non-profit` and `Public` are similar, although the first appears to have a larger proportion of `1-100` schools, and the latter a higher proportion of `401-500` schools.
+
+There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. It appears that the lower the rank, the higher proportion of schools in `Doctoral Universities: Very High Research Activity` and `Baccalaureate Colleges: Arts & Sciences Focus`. However, the opposite appeared to be true for all other classifications with 3 or more rank categories. Like accreditation agencies, some classifications corresponded to very few schools in the top 500.
+
+Qualitatively, it appears that region and Carnegie Classification have the clearest relationship with rank; therefore, we expect `REGION` and `CCBASIC` to show up in the final model.
 
 ## Approach 2: Stepwise Regression Model
 
-Another method we use to answer our research question that which characteristic of a university are most associated with rankings is through stepwise regression model. We choose stepwise regression model because of its ability to manage large amounts of potential predictor variables and fine-tuning the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
+Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
 
-In our research, we will use both forward and backward selections in the stepwise regression model by utilizing `MASS` package. We will evaluate the performance of each iteration of the model based on AIC since AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice. 
+In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
 
-There are three main steps in this approach. 
-- First, we need to find out all the highly corrected variable pairs and remove one of it from each pair since we need to rule out the negative impacts of the singularities of variables.
-- Second, we will compute the stepwise regression model using `MASS` package and mainly `stepAIC()` functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the `rank` variable.
-- Lastly, we will get the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
+There are three main steps in this approach. First, we need to find out all the highly correlated variable pairs and remove one of them from each pair since we need to rule out the negative impacts of the singularities of variables. Second, we will compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable. This will give us a best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
+### Remove variables with high correlations
 
-### 1. Remove variables with high correlations
-
-We checked the correlation coefficients between the variables so we don't use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.
+Our first step in creating a stepwise regression model was to check correlation coefficients between variables so we didn't use variables that were too similar in our model. Then, after removing all columns that had more than 100 NA, we determined which variables had an absolute value of r greater than 0.8. This showed that they were too similar in how they factored into rankings, so we only picked one of them to put in the model.
 
 ```{r}
 #| label: correlation-matrix
@@ -1186,7 +1150,7 @@ We checked the correlation coefficients between the variables so we don't use va
         corrplot(method="color")
 ```
 
-According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value \> 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.
+The correlation matrix above provides a visual representation of the correlation between all variable pairs. We want to remove the pairs with a high correlation (absolute value greater than 0.8) which visually are the darker blue squares. However, to use proper statistical analysis, we filtered our correlation matrix to only display entries with values greater or equal to 0.8.
 
 ```{r}
 #| label: display-correlation-pair-to-be-removed
@@ -1202,9 +1166,9 @@ correlations[correlations < 0.8 | correlations == 1] <- ""
 | FAMINC, MD_FAMINC            | 0.9538                   |
 | SAT_AVG, ACTCMMID            | 0.9756                   |
 
-According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.
+According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`), (`C150_4`, `SAT_AVG`), (`C150_4`, `ACTCMMID`) and (`ACTCMMID`, `SAT_AVG`). Therefore, we will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
 
-### 2. Computing Stepwise Regression
+### Compute Stepwise Regression
 
 As mentioned above, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
 
@@ -1231,8 +1195,7 @@ full_model <- lm(rank ~. -college, data = stepwise_data)
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 ```
 
-
-### 3. Final Model Results (TODO for Sam)
+### Final Model Results (TODO for Sam)
 
 ```{r}
 #| label: model-computing
@@ -1251,58 +1214,28 @@ stepwise_model$anova |>
 # variables = c("-FAMINC", "-PCTPELL", "-ENDOWBEGIN", UGDS NHPI UGDS AIAN UGDS NRA UGDSHISP UGDS BLACK UGDS_ WHITE 一 FEMALE + UGDS_ HISP)
 ```
 
-Add interpretations for the final model results
-
-## Slopes
+In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
 
 ```{r}
-#| label: numerical_slope_r2
-#| output: false
+#| label: r-squared-final-model
 
-linear_reg() |> fit(rank ~ SAT_AVG, data = scaled_data)
-linear_reg() |> fit(rank ~ SAT_AVG, data = colleges)
+final_model_fit <- linear_reg() |>
+  fit(rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE + 
+    UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL + 
+    AGE_ENTRY + SAT_AVG + FIRST_GEN + UGDS_HISP, data = scaled_data)
 
-linear_reg() |> fit(rank ~ ACTCMMID, data = scaled_data)
-linear_reg() |> fit(rank ~ ACTCMMID, data = colleges)
-
-linear_reg() |> fit(rank ~ C150_4, data = scaled_data)
-linear_reg() |> fit(rank ~ C150_4, data = colleges)
-
-linear_reg() |> fit(rank ~ AVGFACSAL, data = scaled_data)
-linear_reg() |> fit(rank ~ AVGFACSAL, data = colleges)
-
-linear_reg() |> fit(rank ~ ADM_RATE, data = scaled_data)
-linear_reg() |> fit(rank ~ ADM_RATE, data = colleges)
-
-linear_reg() |> fit(rank ~ PCTPELL, data = scaled_data)
-linear_reg() |> fit(rank ~ PCTPELL, data = colleges)
-
-linear_reg() |> fit(rank ~ UGDS_NRA, data = scaled_data)
-linear_reg() |> fit(rank ~ UGDS_NRA, data = colleges)
-
-linear_reg() |> fit(rank ~ FIRST_GEN, data = scaled_data)
-linear_reg() |> fit(rank ~ FIRST_GEN, data = colleges)
-
-linear_reg() |> fit(rank ~ UGDS_ASIAN, data = scaled_data)
-linear_reg() |> fit(rank ~ UGDS_ASIAN, data = colleges)
-
-linear_reg() |> fit(rank ~ COSTT4_A, data = scaled_data)
-linear_reg() |> fit(rank ~ COSTT4_A, data = colleges)
-
-linear_reg() |> fit(rank ~ FAMINC, data = scaled_data)
-linear_reg() |> fit(rank ~ FAMINC, data = colleges)
-
-linear_reg() |> fit(rank ~ AGE_ENTRY, data = scaled_data)
-linear_reg() |> fit(rank ~ AGE_ENTRY, data = colleges)
-
-linear_reg() |> fit(rank ~ MARRIED, data = scaled_data)
-linear_reg() |> fit(rank ~ MARRIED, data = colleges)
-
-
+glance(final_model_fit) |>
+  knitr::kable()
 ```
+
+We can further tell that this is our best model because it has an r-squared coefficient of 0.774. The variables here can then be considered to be the variables that affect a college's ranking the most. Region (`REGION`) and type of school (`CONTROL`, `CCBASIC`) influence its ranking. There are certain qualities of its undergraduate population that are more statistically significant than others and were thus included in this model: overall undergraduate population, number of Asians, Hispanics, mixed students, and first-generation students, and average age when the undergraduated enrolled. Average SAT score was also significant enough to be include into the model, and `ACCREDAGENCY` and cost of attendance were also the final two variables considered significant enough for our best model.
+
+## Final Variable Analysis
 
 # Discussion
 
 ## References
 
 Learned how to do for loops from TA Eli Gnesin
+
+We used the `scale()` function found at https://www.statology.org/standardize-data-in-r/

@@ -110,7 +110,6 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#data-set-1-niche" id="toc-data-set-1-niche" class="nav-link" data-scroll-target="#data-set-1-niche">Data Set #1: Niche</a></li>
   <li><a href="#data-set-2-us-department-of-education" id="toc-data-set-2-us-department-of-education" class="nav-link" data-scroll-target="#data-set-2-us-department-of-education">Data Set #2: US Department of Education</a></li>
-  <li><a href="#variable-summary" id="toc-variable-summary" class="nav-link" data-scroll-target="#variable-summary">Variable Summary</a></li>
   <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
   </ul></li>
   <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a>
@@ -128,6 +127,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#categorical-variable-analysis" id="toc-categorical-variable-analysis" class="nav-link" data-scroll-target="#categorical-variable-analysis">Categorical Variable Analysis</a></li>
   </ul></li>
   <li><a href="#approach-2-stepwise-regression-modeling" id="toc-approach-2-stepwise-regression-modeling" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-modeling">Approach #2: Stepwise regression modeling</a></li>
+  <li><a href="#final-variable-analysis" id="toc-final-variable-analysis" class="nav-link" data-scroll-target="#final-variable-analysis">Final Variable Analysis</a></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
@@ -138,11 +138,11 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#approach-2-stepwise-regression-model" id="toc-approach-2-stepwise-regression-model" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-model">Approach 2: Stepwise Regression Model</a>
   <ul class="collapse">
-  <li><a href="#remove-variables-with-high-correlations" id="toc-remove-variables-with-high-correlations" class="nav-link" data-scroll-target="#remove-variables-with-high-correlations">1. Remove variables with high correlations</a></li>
-  <li><a href="#computing-stepwise-regression" id="toc-computing-stepwise-regression" class="nav-link" data-scroll-target="#computing-stepwise-regression">2. Computing Stepwise Regression</a></li>
-  <li><a href="#final-model-results-todo-for-sam" id="toc-final-model-results-todo-for-sam" class="nav-link" data-scroll-target="#final-model-results-todo-for-sam">3. Final Model Results (TODO for Sam)</a></li>
+  <li><a href="#remove-variables-with-high-correlations" id="toc-remove-variables-with-high-correlations" class="nav-link" data-scroll-target="#remove-variables-with-high-correlations">Remove variables with high correlations</a></li>
+  <li><a href="#compute-stepwise-regression" id="toc-compute-stepwise-regression" class="nav-link" data-scroll-target="#compute-stepwise-regression">Compute Stepwise Regression</a></li>
+  <li><a href="#final-model-results-todo-for-sam" id="toc-final-model-results-todo-for-sam" class="nav-link" data-scroll-target="#final-model-results-todo-for-sam">Final Model Results (TODO for Sam)</a></li>
   </ul></li>
-  <li><a href="#slopes" id="toc-slopes" class="nav-link" data-scroll-target="#slopes">Slopes</a></li>
+  <li><a href="#final-variable-analysis-1" id="toc-final-variable-analysis-1" class="nav-link" data-scroll-target="#final-variable-analysis-1">Final Variable Analysis</a></li>
   </ul></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a>
   <ul class="collapse">
@@ -195,8 +195,8 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><p>The first data set comes from Niche’s “2023 Best Colleges in America” list</p>
 <p>(https://www.niche.com/colleges/search/best-colleges/)</p></li>
-<li><p>Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.</p></li>
-<li><p>There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: <code>college</code> and <code>rank</code>.</p></li>
+<li><p>Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.</p></li>
+<li><p>There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: <code>college</code> (institution name) and <code>rank</code>.</p></li>
 </ul>
 </section>
 <section id="data-set-2-us-department-of-education" class="level3">
@@ -207,695 +207,71 @@ ul.task-list li input[type="checkbox"] {
 <li><p>The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.</p></li>
 <li><p>There were 2,989 variables in the original data set, many of which we don’t need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.</p></li>
 </ul>
-</section>
-<section id="variable-summary" class="level3">
-<h3 class="anchored" data-anchor-id="variable-summary">Variable Summary</h3>
-<p>Here is a summary of the variables we will be using in our analysis.</p>
+<section id="variable-summary" class="level4">
+<h4 class="anchored" data-anchor-id="variable-summary">Variable Summary</h4>
+<p>Here is a summary of the variables we will be using in our analysis. We selected every one we thought could impact rank, but left some out, such as test score breakdowns to avoid redundancy.</p>
 <p>Categorical:</p>
 <ul>
 <li><code>college</code>: Institution name</li>
+<li><code>REGION:</code> US geographic region (New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas)</li>
+<li><code>ACCREDAGENCY</code>: Accreditor for Institution</li>
+<li><code>CONTROL</code>: Public, Private nonprofit, or Private for-profit</li>
+<li><code>CCBASIC</code>: Carnegie Classification (basic)</li>
 </ul>
-<table class="table">
-<colgroup>
-<col style="width: 9%">
-<col style="width: 11%">
-<col style="width: 78%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Variable Name</th>
-<th><p>Categorical (C)</p>
-<p>Quantitative (Q)</p></th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>college</td>
-<td>C</td>
-<td>Institution name</td>
-</tr>
-<tr class="even">
-<td>rank</td>
-<td>Q</td>
-<td>Niche rank</td>
-</tr>
-<tr class="odd">
-<td>REGION</td>
-<td>C</td>
-<td>US geographic region (New England, Mid East, Great Lakes, Plains, Southeast, Southwest, Rocky Mountains, Far West, Outlying Areas)</td>
-</tr>
-<tr class="even">
-<td>ACCREDAGENCY</td>
-<td>C</td>
-<td>Accreditor for Institution</td>
-</tr>
-<tr class="odd">
-<td>CONTROL</td>
-<td>C</td>
-<td>Public, Private nonprofit, or Private for-profit</td>
-</tr>
-<tr class="even">
-<td>CCBASIC</td>
-<td>C</td>
-<td>Carnegie Classification (basic)</td>
-</tr>
-<tr class="odd">
-<td>ADM_RATE</td>
-<td>Q</td>
-<td>Admission rate</td>
-</tr>
-<tr class="even">
-<td>UGDS</td>
-<td>Q</td>
-<td>Enrollment of undergraduate certificate/degree-seeking students</td>
-</tr>
-<tr class="odd">
-<td>UGDS_WHITE</td>
-<td>Q</td>
-<td>Total share of enrollment of undergraduate degree-seeking students who are white</td>
-</tr>
-<tr class="even">
-<td>UGDS_BLACK</td>
-<td>Q</td>
-<td>Total share of enrollment of undergraduate degree-seeking students who are black</td>
-</tr>
-<tr class="odd">
-<td>UGDS_HISP</td>
-<td>Q</td>
-<td>Total share of enrollment of undergraduate degree-seeking students who are Hispanic</td>
-</tr>
-<tr class="even">
-<td>UGDS_ASIAN</td>
-<td>Q</td>
-<td>Total share of enrollment of undergraduate degree-seeking students who are Asian</td>
-</tr>
-<tr class="odd">
-<td>UGDS_AIAN</td>
-<td>Q</td>
-<td>Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native</td>
-</tr>
-<tr class="even">
-<td>UGDS_NHPI</td>
-<td>Q</td>
-<td>Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander</td>
-</tr>
-<tr class="odd">
-<td>UGDS_2MOR</td>
-<td>Q</td>
-<td>Total share of enrollment of undergraduate degree-seeking students who are two or more races</td>
-</tr>
-<tr class="even">
-<td>UGDS_NRA</td>
-<td>Q</td>
-<td>Total share of enrollment of undergraduate degree-seeking students who are non-resident aliens</td>
-</tr>
-<tr class="odd">
-<td>UGDS_UNKN</td>
-<td>Q</td>
-<td>Total share of enrollment of undergraduate degree-seeking students whose race is unknown</td>
-</tr>
-<tr class="even">
-<td>NPT4_PUB</td>
-<td>Q</td>
-<td>Average net price for Title IV institutions (public institutions)</td>
-</tr>
-<tr class="odd">
-<td>NPT4_PRIV</td>
-<td>Q</td>
-<td>Average net price for Title IV institutions (private for-profit and nonprofit institutions)</td>
-</tr>
-<tr class="even">
-<td>COSTT4_A</td>
-<td>Q</td>
-<td>Average cost of attendance (academic year institutions)</td>
-</tr>
-<tr class="odd">
-<td>COSTT4_P</td>
-<td>Q</td>
-<td>Average cost of attendance (program-year institutions)</td>
-</tr>
-<tr class="even">
-<td>AVGFACSAL</td>
-<td>Q</td>
-<td>Average faculty salary</td>
-</tr>
-<tr class="odd">
-<td>PCTPELL</td>
-<td>Q</td>
-<td>Percentage of undergraduates who receive a Pell Grant</td>
-</tr>
-<tr class="even">
-<td>C150_4</td>
-<td>Q</td>
-<td>Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion)</td>
-</tr>
-<tr class="odd">
-<td>AGE_ENTRY</td>
-<td>Q</td>
-<td>Average age of entry</td>
-</tr>
-<tr class="even">
-<td>FEMALE</td>
-<td>Q</td>
-<td>Share of female students</td>
-</tr>
-<tr class="odd">
-<td>MARRIED</td>
-<td>Q</td>
-<td>Share of married students</td>
-</tr>
-<tr class="even">
-<td>FIRST_GEN</td>
-<td>Q</td>
-<td>Share of first-generation students</td>
-</tr>
-<tr class="odd">
-<td>FAMINC</td>
-<td>Q</td>
-<td>Average family income</td>
-</tr>
-<tr class="even">
-<td>MD_FAMINC</td>
-<td>Q</td>
-<td>Median family income</td>
-</tr>
-<tr class="odd">
-<td>ENDOWBEGIN</td>
-<td>Q</td>
-<td>Value of school’s endowment at the beginning of the fiscal year</td>
-</tr>
-<tr class="even">
-<td>SAT_AVG</td>
-<td>Q</td>
-<td>Average SAT equivalent score of students admitted</td>
-</tr>
-<tr class="odd">
-<td>ACTCMMID</td>
-<td>Q</td>
-<td>Midpoint of the ACT cumulative score</td>
-</tr>
-</tbody>
-</table>
+<p>Numerical</p>
+<ul>
+<li><code>ADM_RATE</code>: Admission rate</li>
+<li><code>UGDS</code>: Enrollment of undergraduate certificate/degree-seeking students</li>
+<li><code>UGDS_WHITE</code>: Total share of enrollment of undergraduate degree-seeking students who are White</li>
+<li><code>UGDS_BLACK</code>: Total share of enrollment of undergraduate degree-seeking students who are Black</li>
+<li><code>UGDS_HISP</code>: Total share of enrollment of undergraduate degree-seeking students who are Hispanic</li>
+<li><code>UGDS_ASIAN</code>: Total share of enrollment of undergraduate degree-seeking students who are Asian</li>
+<li><code>UGDS_AIAN</code>: Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native</li>
+<li><code>UGDS_NHPI</code>: Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander</li>
+<li><code>UGDS_2MOR</code>: Total share of enrollment of undergraduate degree-seeking students who are two or more races</li>
+<li><code>UGDS_UNKN</code>: Total share of enrollment of undergraduate degree-seeking students whose race is unknown</li>
+<li><code>NPT4_PUB</code>: Average net price for Title IV institutions (public institutions)</li>
+<li><code>NPT4_PRIV</code>: Average net price for Title IV institutions (private for-profit and nonprofit institutions)</li>
+<li><code>COSTT4_A</code>: Average cost of attendance (academic year institutions)</li>
+<li><code>COSTT4_P</code>: Average cost of attendance (program-year institutions)</li>
+<li><code>AVGFACSAL</code>: Average faculty salary</li>
+<li><code>PCTPELL</code>: Percentage of undergraduates who receive a Pell Grant</li>
+<li><code>C150_4</code>: Completion rate for first-time, full-time students at four-year institutions (150% of expected time to completion)</li>
+<li><code>AGE_ENTRY</code>: Average age of entry</li>
+<li><code>FEMALE</code>: Share of female students</li>
+<li><code>MARRIED</code>: Share of married students</li>
+<li><code>FIRST_GEN</code>: Share of first-generation students</li>
+<li><code>FAMINC</code>: Average family income</li>
+<li><code>MD_FAMINC</code>: Median family income</li>
+<li><code>ENDOWBEGIN</code>: Value of school’s endowment at the beginning of the fiscal year</li>
+<li><code>SAT_AVG</code>: Average SAT equivalent score of students admitted</li>
+<li><code>ACTCMMID</code>: Midpoint of the ACT cumulative score</li>
+</ul>
+</section>
 </section>
 <section id="data-preparation" class="level3">
 <h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
 <ol type="1">
 <li>To get the data, we scraped from Niche.com and downloaded data from the US Department of Education, and imported. The steps were done in an R script titled <code>niche-scrape.R</code></li>
-<li>Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for <code>University of South Florida - Sarasota-Manatee</code> (ranked 141) and <code>University of South Florida - St. Petersburg</code> (ranked 181) have been dropped from the <code>colleges</code> data set due to their non-existence in the <code>us_dep_of_ed</code> data set. They were not present in the data set because these two universities were combined with the main University of South Florida campus. This is why the <code>colleges</code> data set only has 498 observations.</li>
+<li>Some of the college names were slightly different between datasets, so we had to individually change names in the Department of Education dataset to match those in the Niche one before joining the two. The Observations for <code>University of South Florida - Sarasota-Manatee</code> (ranked 141) and <code>University of South Florida - St. Petersburg</code> (ranked 181) have been dropped from the <code>colleges</code> data set because they do not exist in the <code>us_dep_of_ed</code> dataset. This is because these two universities were combined with the main University of South Florida campus. Therefore the joined <code>colleges</code> data set only has 498 observations.</li>
 </ol>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
 <div class="cell">
 
 </div>
 <ol start="3" type="1">
-<li>We joined the US Department of Education dataset to the Niche dataset by the college names.</li>
-</ol>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<colgroup>
-<col style="width: 5%">
-<col style="width: 0%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 12%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 0%">
-<col style="width: 0%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 1%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">college</th>
-<th style="text-align: right;">rank</th>
-<th style="text-align: right;">UNITID</th>
-<th style="text-align: right;">OPEID</th>
-<th style="text-align: right;">OPEID6</th>
-<th style="text-align: left;">CITY</th>
-<th style="text-align: left;">STABBR</th>
-<th style="text-align: left;">ZIP</th>
-<th style="text-align: left;">ACCREDAGENCY</th>
-<th style="text-align: right;">LATITUDE</th>
-<th style="text-align: right;">LONGITUDE</th>
-<th style="text-align: right;">REGION</th>
-<th style="text-align: right;">CCBASIC</th>
-<th style="text-align: right;">CONTROL</th>
-<th style="text-align: right;">ADM_RATE</th>
-<th style="text-align: right;">SATVR25</th>
-<th style="text-align: right;">SATVR75</th>
-<th style="text-align: right;">SATMT25</th>
-<th style="text-align: right;">SATMT75</th>
-<th style="text-align: right;">SATWR25</th>
-<th style="text-align: right;">SATWR75</th>
-<th style="text-align: right;">SATVRMID</th>
-<th style="text-align: right;">SATMTMID</th>
-<th style="text-align: right;">SATWRMID</th>
-<th style="text-align: right;">ACTCM25</th>
-<th style="text-align: right;">ACTCM75</th>
-<th style="text-align: right;">ACTEN25</th>
-<th style="text-align: right;">ACTEN75</th>
-<th style="text-align: right;">ACTMT25</th>
-<th style="text-align: right;">ACTMT75</th>
-<th style="text-align: right;">ACTWR25</th>
-<th style="text-align: right;">ACTWR75</th>
-<th style="text-align: right;">ACTCMMID</th>
-<th style="text-align: right;">ACTENMID</th>
-<th style="text-align: right;">ACTMTMID</th>
-<th style="text-align: right;">ACTWRMID</th>
-<th style="text-align: right;">SAT_AVG</th>
-<th style="text-align: right;">UGDS</th>
-<th style="text-align: left;">UG</th>
-<th style="text-align: right;">UGDS_WHITE</th>
-<th style="text-align: right;">UGDS_BLACK</th>
-<th style="text-align: right;">UGDS_HISP</th>
-<th style="text-align: right;">UGDS_ASIAN</th>
-<th style="text-align: right;">UGDS_AIAN</th>
-<th style="text-align: right;">UGDS_NHPI</th>
-<th style="text-align: right;">UGDS_2MOR</th>
-<th style="text-align: right;">UGDS_NRA</th>
-<th style="text-align: right;">UGDS_UNKN</th>
-<th style="text-align: right;">NPT4_PUB</th>
-<th style="text-align: right;">NPT4_PRIV</th>
-<th style="text-align: right;">COSTT4_A</th>
-<th style="text-align: right;">COSTT4_P</th>
-<th style="text-align: right;">AVGFACSAL</th>
-<th style="text-align: right;">PCTPELL</th>
-<th style="text-align: right;">C150_4</th>
-<th style="text-align: right;">AGE_ENTRY</th>
-<th style="text-align: right;">FEMALE</th>
-<th style="text-align: right;">MARRIED</th>
-<th style="text-align: right;">FIRST_GEN</th>
-<th style="text-align: right;">FAMINC</th>
-<th style="text-align: right;">MD_FAMINC</th>
-<th style="text-align: right;">MN_EARN_WNE_P10</th>
-<th style="text-align: right;">MD_EARN_WNE_P10</th>
-<th style="text-align: right;">ENDOWBEGIN</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Massachusetts Institute of Technology</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">166683</td>
-<td style="text-align: right;">217800</td>
-<td style="text-align: right;">2178</td>
-<td style="text-align: left;">Cambridge</td>
-<td style="text-align: left;">MA</td>
-<td style="text-align: left;">02139-4307</td>
-<td style="text-align: left;">New England Commission on Higher Education</td>
-<td style="text-align: right;">42.35924</td>
-<td style="text-align: right;">-71.09323</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0.0726</td>
-<td style="text-align: right;">730</td>
-<td style="text-align: right;">780</td>
-<td style="text-align: right;">780</td>
-<td style="text-align: right;">800</td>
-<td style="text-align: right;">690</td>
-<td style="text-align: right;">780</td>
-<td style="text-align: right;">755</td>
-<td style="text-align: right;">790</td>
-<td style="text-align: right;">735</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">1550</td>
-<td style="text-align: right;">4360</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0.2562</td>
-<td style="text-align: right;">0.0670</td>
-<td style="text-align: right;">0.1557</td>
-<td style="text-align: right;">0.3236</td>
-<td style="text-align: right;">0.0018</td>
-<td style="text-align: right;">0.0007</td>
-<td style="text-align: right;">0.0764</td>
-<td style="text-align: right;">0.1028</td>
-<td style="text-align: right;">0.0158</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">16407</td>
-<td style="text-align: right;">73160</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">19640</td>
-<td style="text-align: right;">0.1896</td>
-<td style="text-align: right;">0.9558</td>
-<td style="text-align: right;">19.34846</td>
-<td style="text-align: right;">0.3718887</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">0.2585139</td>
-<td style="text-align: right;">86738.82</td>
-<td style="text-align: right;">53870</td>
-<td style="text-align: right;">153600</td>
-<td style="text-align: right;">111222</td>
-<td style="text-align: right;">17443750000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Stanford University</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">243744</td>
-<td style="text-align: right;">130500</td>
-<td style="text-align: right;">1305</td>
-<td style="text-align: left;">Stanford</td>
-<td style="text-align: left;">CA</td>
-<td style="text-align: left;">94305</td>
-<td style="text-align: left;">Western Association of Schools and Colleges Senior Colleges and University Commission</td>
-<td style="text-align: right;">37.42943</td>
-<td style="text-align: right;">-122.16736</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0.0519</td>
-<td style="text-align: right;">700</td>
-<td style="text-align: right;">770</td>
-<td style="text-align: right;">720</td>
-<td style="text-align: right;">800</td>
-<td style="text-align: right;">690</td>
-<td style="text-align: right;">780</td>
-<td style="text-align: right;">735</td>
-<td style="text-align: right;">760</td>
-<td style="text-align: right;">735</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">1491</td>
-<td style="text-align: right;">6366</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0.2900</td>
-<td style="text-align: right;">0.0743</td>
-<td style="text-align: right;">0.1700</td>
-<td style="text-align: right;">0.2480</td>
-<td style="text-align: right;">0.0097</td>
-<td style="text-align: right;">0.0035</td>
-<td style="text-align: right;">0.0957</td>
-<td style="text-align: right;">0.1067</td>
-<td style="text-align: right;">0.0022</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">12894</td>
-<td style="text-align: right;">74570</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">20971</td>
-<td style="text-align: right;">0.1762</td>
-<td style="text-align: right;">0.9523</td>
-<td style="text-align: right;">19.70933</td>
-<td style="text-align: right;">0.4940191</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">0.3033854</td>
-<td style="text-align: right;">80447.91</td>
-<td style="text-align: right;">44842</td>
-<td style="text-align: right;">141300</td>
-<td style="text-align: right;">97798</td>
-<td style="text-align: right;">27699834000</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Harvard University</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">166027</td>
-<td style="text-align: right;">215500</td>
-<td style="text-align: right;">2155</td>
-<td style="text-align: left;">Cambridge</td>
-<td style="text-align: left;">MA</td>
-<td style="text-align: left;">2138</td>
-<td style="text-align: left;">New England Commission on Higher Education</td>
-<td style="text-align: right;">42.37447</td>
-<td style="text-align: right;">-71.11831</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0.0501</td>
-<td style="text-align: right;">720</td>
-<td style="text-align: right;">780</td>
-<td style="text-align: right;">740</td>
-<td style="text-align: right;">800</td>
-<td style="text-align: right;">710</td>
-<td style="text-align: right;">790</td>
-<td style="text-align: right;">750</td>
-<td style="text-align: right;">770</td>
-<td style="text-align: right;">750</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">1520</td>
-<td style="text-align: right;">6099</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0.3596</td>
-<td style="text-align: right;">0.1058</td>
-<td style="text-align: right;">0.1230</td>
-<td style="text-align: right;">0.2066</td>
-<td style="text-align: right;">0.0025</td>
-<td style="text-align: right;">0.0016</td>
-<td style="text-align: right;">0.0689</td>
-<td style="text-align: right;">0.1123</td>
-<td style="text-align: right;">0.0198</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">13872</td>
-<td style="text-align: right;">75914</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">21143</td>
-<td style="text-align: right;">0.1133</td>
-<td style="text-align: right;">0.9763</td>
-<td style="text-align: right;">22.46359</td>
-<td style="text-align: right;">0.5015385</td>
-<td style="text-align: right;">0.0635897</td>
-<td style="text-align: right;">0.2570806</td>
-<td style="text-align: right;">62458.19</td>
-<td style="text-align: right;">33066</td>
-<td style="text-align: right;">139100</td>
-<td style="text-align: right;">84918</td>
-<td style="text-align: right;">40929700000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Yale University</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">130794</td>
-<td style="text-align: right;">142600</td>
-<td style="text-align: right;">1426</td>
-<td style="text-align: left;">New Haven</td>
-<td style="text-align: left;">CT</td>
-<td style="text-align: left;">6520</td>
-<td style="text-align: left;">New England Commission on Higher Education</td>
-<td style="text-align: right;">41.31116</td>
-<td style="text-align: right;">-72.92669</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0.0653</td>
-<td style="text-align: right;">720</td>
-<td style="text-align: right;">780</td>
-<td style="text-align: right;">740</td>
-<td style="text-align: right;">800</td>
-<td style="text-align: right;">710</td>
-<td style="text-align: right;">790</td>
-<td style="text-align: right;">750</td>
-<td style="text-align: right;">770</td>
-<td style="text-align: right;">750</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">1520</td>
-<td style="text-align: right;">4701</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0.3493</td>
-<td style="text-align: right;">0.0910</td>
-<td style="text-align: right;">0.1504</td>
-<td style="text-align: right;">0.2389</td>
-<td style="text-align: right;">0.0028</td>
-<td style="text-align: right;">0.0011</td>
-<td style="text-align: right;">0.0623</td>
-<td style="text-align: right;">0.1004</td>
-<td style="text-align: right;">0.0038</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">15296</td>
-<td style="text-align: right;">76645</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">19490</td>
-<td style="text-align: right;">0.1840</td>
-<td style="text-align: right;">0.9639</td>
-<td style="text-align: right;">19.53215</td>
-<td style="text-align: right;">0.5006840</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">0.2500000</td>
-<td style="text-align: right;">80258.13</td>
-<td style="text-align: right;">44004</td>
-<td style="text-align: right;">124400</td>
-<td style="text-align: right;">88655</td>
-<td style="text-align: right;">30314816000</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Princeton University</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">186131</td>
-<td style="text-align: right;">262700</td>
-<td style="text-align: right;">2627</td>
-<td style="text-align: left;">Princeton</td>
-<td style="text-align: left;">NJ</td>
-<td style="text-align: left;">08544-0070</td>
-<td style="text-align: left;">Middle States Commission on Higher Education</td>
-<td style="text-align: right;">40.34873</td>
-<td style="text-align: right;">-74.65936</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0.0563</td>
-<td style="text-align: right;">710</td>
-<td style="text-align: right;">770</td>
-<td style="text-align: right;">740</td>
-<td style="text-align: right;">800</td>
-<td style="text-align: right;">710</td>
-<td style="text-align: right;">790</td>
-<td style="text-align: right;">740</td>
-<td style="text-align: right;">770</td>
-<td style="text-align: right;">750</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">1506</td>
-<td style="text-align: right;">4688</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">0.3631</td>
-<td style="text-align: right;">0.0892</td>
-<td style="text-align: right;">0.1064</td>
-<td style="text-align: right;">0.2515</td>
-<td style="text-align: right;">0.0019</td>
-<td style="text-align: right;">0.0011</td>
-<td style="text-align: right;">0.0591</td>
-<td style="text-align: right;">0.1165</td>
-<td style="text-align: right;">0.0113</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">9836</td>
-<td style="text-align: right;">74150</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">20835</td>
-<td style="text-align: right;">0.2136</td>
-<td style="text-align: right;">0.9802</td>
-<td style="text-align: right;">19.25682</td>
-<td style="text-align: right;">0.5136437</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">0.2773973</td>
-<td style="text-align: right;">63667.64</td>
-<td style="text-align: right;">37036</td>
-<td style="text-align: right;">116300</td>
-<td style="text-align: right;">95689</td>
-<td style="text-align: right;">25623628250</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<ol start="4" type="1">
-<li>Then, we selected the variables that we thought could have an impact on college ranking as a starting point for our analysis. These are listed in our data summary.</li>
-</ol>
-<div class="cell">
-
-</div>
-<ol start="5" type="1">
 <li>Some of the categorical variables in the US Department of Education dataset (<code>REGION</code>, <code>CONTROL</code>, and <code>CCBASIC</code>) used numbers to represent the different levels, so we looked at the data dictionary and replaced each number with the words that it represents.</li>
 </ol>
 <div class="cell">
 
 </div>
-<ol start="6" type="1">
-<li>All of the numerical variables are on different scales—for example, SAT scores can range from 400 to 1600, while admittance rate can only range from 0 to 1—and so we standardized them for easier analysis and comparison. We used the <code>scale()</code> functions (found at https://www.statology.org/standardize-data-in-r/) to make the mean value of each numeric variable 0, and the standard deviation 1. The first 5 rows of our standardized dataset are printed below.</li>
+<ol start="4" type="1">
+<li>All of the numerical variables are on different scales—for example, SAT scores can range from 400 to 1600, while admission rate can only range from 0 to 1—and so we standardized them for easier analysis and comparison. We created a scaled version of the dataset where the mean value of each numeric variable is 0, and the standard deviation 1. The first three rows of the data are printed below.</li>
 </ol>
 <div class="cell">
 <div class="cell-output-display">
@@ -1076,76 +452,6 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">-1.2442952</td>
 <td style="text-align: right;">11.760676</td>
 <td style="text-align: right;">2.193322</td>
-<td style="text-align: right;">1.891133</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Yale University</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">New England</td>
-<td style="text-align: left;">Private, Non-profit</td>
-<td style="text-align: left;">Doctoral Universities: Very High Research Activity</td>
-<td style="text-align: left;">New England Commission on Higher Education</td>
-<td style="text-align: right;">-2.279167</td>
-<td style="text-align: right;">-0.4182792</td>
-<td style="text-align: right;">-1.237012</td>
-<td style="text-align: right;">0.1813614</td>
-<td style="text-align: right;">0.1948364</td>
-<td style="text-align: right;">2.022510</td>
-<td style="text-align: right;">-0.0736464</td>
-<td style="text-align: right;">-0.1991831</td>
-<td style="text-align: right;">0.7132302</td>
-<td style="text-align: right;">0.8628818</td>
-<td style="text-align: right;">-0.7763194</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">-1.585892</td>
-<td style="text-align: right;">1.518341</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">3.295480</td>
-<td style="text-align: right;">-0.6635504</td>
-<td style="text-align: right;">1.721830</td>
-<td style="text-align: right;">-0.8635162</td>
-<td style="text-align: right;">-0.5991644</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">-0.0894640</td>
-<td style="text-align: right;">-0.0462554</td>
-<td style="text-align: right;">-0.7812391</td>
-<td style="text-align: right;">8.625107</td>
-<td style="text-align: right;">2.193322</td>
-<td style="text-align: right;">1.891133</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Princeton University</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">Mid East</td>
-<td style="text-align: left;">Private, Non-profit</td>
-<td style="text-align: left;">Doctoral Universities: Very High Research Activity</td>
-<td style="text-align: left;">Middle States Commission on Higher Education</td>
-<td style="text-align: right;">-2.317134</td>
-<td style="text-align: right;">-0.4194434</td>
-<td style="text-align: right;">-1.163517</td>
-<td style="text-align: right;">0.1586502</td>
-<td style="text-align: right;">-0.2037038</td>
-<td style="text-align: right;">2.181382</td>
-<td style="text-align: right;">-0.0993511</td>
-<td style="text-align: right;">-0.1991831</td>
-<td style="text-align: right;">0.5831383</td>
-<td style="text-align: right;">1.1711271</td>
-<td style="text-align: right;">-0.5281504</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">-2.300489</td>
-<td style="text-align: right;">1.395951</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">3.767412</td>
-<td style="text-align: right;">-0.3975671</td>
-<td style="text-align: right;">1.837650</td>
-<td style="text-align: right;">-0.9787111</td>
-<td style="text-align: right;">-0.4801369</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">0.1880047</td>
-<td style="text-align: right;">-0.6808240</td>
-<td style="text-align: right;">-1.0762267</td>
-<td style="text-align: right;">7.239361</td>
-<td style="text-align: right;">2.080425</td>
 <td style="text-align: right;">1.891133</td>
 </tr>
 </tbody>
@@ -1482,25 +788,14 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Create a linear regression model between each individual explanatory variable and college rank.</p></li>
 <li><p>Calculate the R-squared value for each respective model, rank the values from highest to lowest, and select the variables with the top 6 R-squared values.</p></li>
 <li><p>Create 6 scatter plots (with lines of best fit) to visualize the relationships between the 6 variables (determined in section 2) and college rank.</p></li>
-<li><p>Scale each of the 6 explanatory variables to a normal distribution (with mean at 0 and standard deviation of 1). This step is done because the explanatory variables are on varying scales. By scaling the variables to a normal distribution, it allows us to compare their respective slopes.</p></li>
+<li><p>Scale each of the 6 explanatory variables to a normal distribution (with mean at 0 and standard deviation of 1). This step is done because the explanatory variables are on varying scales. By scaling the variables to a normal distribution, it allows us to compare their respective slopes. (THIS IS IN THE DATA PREP ALREADY — CAN WE DELETE?)</p></li>
 <li><p>Recreate the individual models with the scaled explanatory variables, and calculate the respective slopes between each of the scaled explanatory variables and college rank.</p></li>
 <li><p>Calculate the respective slopes between each of the un-scaled explanatory variables and college rank.</p></li>
-<li><p>Analyze the relationships between each explanatory variable and college rank by</p>
-<ol type="1">
-<li><p>Interpreting the R-squared values to determine strength of linear association</p></li>
-<li><p>interpreting the graphs to visualize this relationship.</p></li>
-<li><p>Using the scaled slopes to determine which explanatory variable has the greatest influence on college on a school having a higher rank.</p></li>
-<li><p>Using the un-scaled slopes to interpret the relationships.</p></li>
-</ol></li>
 </ol>
 </section>
 <section id="categorical-variable-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h3>
-<ol type="1">
-<li></li>
-<li></li>
-<li></li>
-</ol>
+<p>As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to do a qualitative variable of our four categorical variables. We created a bar plot for each and filled by rank category (1-100, 101-200, etc.) so we could compare proportions across levels.</p>
 </section>
 </section>
 <section id="approach-2-stepwise-regression-modeling" class="level2">
@@ -1510,6 +805,16 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Why did we choose the criterions</p></li>
 <li><p>Methods&nbsp;</p></li>
 </ul>
+</section>
+<section id="final-variable-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="final-variable-analysis">Final Variable Analysis</h2>
+<p>We will examine the final variables selected by both approaches and analyze their relationships with college rank by:</p>
+<ol type="1">
+<li><p>Interpreting the R-squared values to determine strength of linear association</p></li>
+<li><p>interpreting the graphs to visualize this relationship.</p></li>
+<li><p>Using the scaled slopes to determine which explanatory variable has the greatest influence on college on a school having a higher rank.</p></li>
+<li><p>Using the un-scaled slopes to interpret the relationships.</p></li>
+</ol>
 </section>
 </section>
 <section id="results" class="level1">
@@ -1734,23 +1039,27 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. NOT DONE</p>
+<p>The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the <code>New England</code> and <code>NA</code> bars, the differences in proportions of rank groups do not vary dramatically between bars.</p>
+<p>There does not appear to be a pattern in the accreditation agency graph, which could be because some of the agencies corresponded to very few schools in the top 500. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph.</p>
+<p>There are only 4 <code>Private, For-profit</code> schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between <code>Private, Non-profit</code> and <code>Public</code> are similar, although the first appears to have a larger proportion of <code>1-100</code> schools, and the latter a higher proportion of <code>401-500</code> schools.</p>
+<p>There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. It appears that the lower the rank, the higher proportion of schools in <code>Doctoral Universities: Very High Research Activity</code> and <code>Baccalaureate Colleges: Arts &amp; Sciences Focus</code>. However, the opposite appeared to be true for all other classifications with 3 or more rank categories. Like accreditation agencies, some classifications corresponded to very few schools in the top 500.</p>
+<p>Qualitatively, it appears that region and Carnegie Classification have the clearest relationship with rank; therefore, we expect <code>REGION</code> and <code>CCBASIC</code> to show up in the final model.</p>
 </section>
 </section>
 <section id="approach-2-stepwise-regression-model" class="level2">
 <h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-model">Approach 2: Stepwise Regression Model</h2>
-<p>Another method we use to answer our research question that which characteristic of a university are most associated with rankings is through stepwise regression model. We choose stepwise regression model because of its ability to manage large amounts of potential predictor variables and fine-tuning the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.</p>
-<p>In our research, we will use both forward and backward selections in the stepwise regression model by utilizing <code>MASS</code> package. We will evaluate the performance of each iteration of the model based on AIC since AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.</p>
-<p>There are three main steps in this approach. - First, we need to find out all the highly corrected variable pairs and remove one of it from each pair since we need to rule out the negative impacts of the singularities of variables. - Second, we will compute the stepwise regression model using <code>MASS</code> package and mainly <code>stepAIC()</code> functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the <code>rank</code> variable. - Lastly, we will get the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.</p>
+<p>Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.</p>
+<p>In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.</p>
+<p>There are three main steps in this approach. First, we need to find out all the highly correlated variable pairs and remove one of them from each pair since we need to rule out the negative impacts of the singularities of variables. Second, we will compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable. This will give us a best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.</p>
 <section id="remove-variables-with-high-correlations" class="level3">
-<h3 class="anchored" data-anchor-id="remove-variables-with-high-correlations">1. Remove variables with high correlations</h3>
-<p>We checked the correlation coefficients between the variables so we don’t use variables that are too similar in our model. For the ones that have a absolute value of r greater than 0.8, we picked only one to put in the model. We removed the columns that has more than 100 NA and used the rest for calculating correlations.</p>
+<h3 class="anchored" data-anchor-id="remove-variables-with-high-correlations">Remove variables with high correlations</h3>
+<p>Our first step in creating a stepwise regression model was to check correlation coefficients between variables so we didn’t use variables that were too similar in our model. Then, after removing all columns that had more than 100 NA, we determined which variables had an absolute value of r greater than 0.8. This showed that they were too similar in how they factored into rankings, so we only picked one of them to put in the model.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/correlation-matrix-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>According to the correlation matrix, we need to remove variable pairs that have a high correlation (the absolute value &gt; 0.8). In order to do so, we filter the following correlation table to only display entries with value greater or equal to 0.8.</p>
+<p>The correlation matrix above provides a visual representation of the correlation between all variable pairs. We want to remove the pairs with a high correlation (absolute value greater than 0.8) which visually are the darker blue squares. However, to use proper statistical analysis, we filtered our correlation matrix to only display entries with values greater or equal to 0.8.</p>
 <div class="cell">
 
 </div>
@@ -1784,10 +1093,10 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>According to the filtered table, these variable pairs are (MD_FAMINC, FAMINC), (C150_4, SAT_AVG), (C150_4, ACTCMMID) and (ACTCMMID, SAT_AVG). Therefore, we will drop the variables C150_4, MD_FAMINC, ACTCMMID and preserve SAT_AVG and FAMINC to represent all other variables.</p>
+<p>According to the filtered table, these variable pairs are (<code>MD_FAMINC</code>, <code>FAMINC</code>), (<code>C150_4</code>, <code>SAT_AVG</code>), (<code>C150_4</code>, <code>ACTCMMID</code>) and (<code>ACTCMMID</code>, <code>SAT_AVG</code>). Therefore, we will drop the variables <code>C150_4</code>, <code>MD_FAMINC</code>, <code>ACTCMMID</code> and preserve <code>SAT_AVG</code> and <code>FAMINC</code> to represent all other variables.</p>
 </section>
-<section id="computing-stepwise-regression" class="level3">
-<h3 class="anchored" data-anchor-id="computing-stepwise-regression">2. Computing Stepwise Regression</h3>
+<section id="compute-stepwise-regression" class="level3">
+<h3 class="anchored" data-anchor-id="compute-stepwise-regression">Compute Stepwise Regression</h3>
 <p>As mentioned above, we will use <code>MASS</code> package and <code>StepAIC()</code> function to perform the stepwise regression process for model selections.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1882,7 +1191,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </section>
 <section id="final-model-results-todo-for-sam" class="level3">
-<h3 class="anchored" data-anchor-id="final-model-results-todo-for-sam">3. Final Model Results (TODO for Sam)</h3>
+<h3 class="anchored" data-anchor-id="final-model-results-todo-for-sam">Final Model Results (TODO for Sam)</h3>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>Stepwise Model Path 
@@ -1915,14 +1224,64 @@ rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
 12  + UGDS_HISP  1 9672.6276       361    1862427 3418.567</code></pre>
 </div>
 </div>
-<p>Add interpretations for the final model results</p>
-</section>
-</section>
-<section id="slopes" class="level2">
-<h2 class="anchored" data-anchor-id="slopes">Slopes</h2>
+<p>In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable <code>FAMINC</code> was removed, leading to a decrease in AIC. Then, one-by-one, it removes <code>PCTPELL</code>, <code>ENDOWBEGIN</code>, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of <code>UGDS_HISP</code> led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.</p>
 <div class="cell">
-
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 2%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">r.squared</th>
+<th style="text-align: right;">adj.r.squared</th>
+<th style="text-align: right;">sigma</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">logLik</th>
+<th style="text-align: right;">AIC</th>
+<th style="text-align: right;">BIC</th>
+<th style="text-align: right;">deviance</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.7740974</td>
+<td style="text-align: right;">0.7524947</td>
+<td style="text-align: right;">71.92032</td>
+<td style="text-align: right;">35.83336</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">-2270.33</td>
+<td style="text-align: right;">4614.661</td>
+<td style="text-align: right;">4762.529</td>
+<td style="text-align: right;">1893147</td>
+<td style="text-align: right;">366</td>
+<td style="text-align: right;">402</td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+<p>We can further tell that this is our best model because it has an r-squared coefficient of 0.774. The variables here can then be considered to be the variables that affect a college’s ranking the most. Region (<code>REGION</code>) and type of school (<code>CONTROL</code>, <code>CCBASIC</code>) influence its ranking. There are certain qualities of its undergraduate population that are more statistically significant than others and were thus included in this model: overall undergraduate population, number of Asians, Hispanics, mixed students, and first-generation students, and average age when the undergraduated enrolled. Average SAT score was also significant enough to be include into the model, and <code>ACCREDAGENCY</code> and cost of attendance were also the final two variables considered significant enough for our best model.</p>
+</section>
+</section>
+<section id="final-variable-analysis-1" class="level2">
+<h2 class="anchored" data-anchor-id="final-variable-analysis-1">Final Variable Analysis</h2>
 </section>
 </section>
 <section id="discussion" class="level1">
@@ -1930,6 +1289,7 @@ rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <p>Learned how to do for loops from TA Eli Gnesin</p>
+<p>We used the <code>scale()</code> function found at https://www.statology.org/standardize-data-in-r/</p>
 
 
 </section>
