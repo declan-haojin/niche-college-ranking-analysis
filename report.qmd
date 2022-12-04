@@ -783,25 +783,6 @@ data |>
 
 Looking at the Carnegie Classification, Special Focus Four-Year: Business & Management Schools have the highest mean rank, followed by Doctoral Universities: Very High Research Activity. Tribal Colleges have the lowest mean rank.
 
-```{r}
-#| label: exploration-state
-
-colleges |> 
-  group_by(STABBR) |> 
-  summarize(
-    mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank) |> 
-  rename(
-    "State" = STABBR, 
-    "Mean Rank" = mean_rank
-  ) |>
-  slice_head(n = 10) |> 
-  knitr::kable()
-```
-
-When looking at states, Maine has the highest mean rank, followed by Massachusetts.
-
 ## Research Question and Hypothesis
 
 **Question:** Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?
@@ -812,13 +793,11 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 # Methodology
 
-We have split our analysis into two approaches. The first approach consists of looking at the relationship between individual explanatory variables (both categorical and numeric) and college rank. The second approach consists of building an optimized model between many explanatory variables and college rank.
+We have split the first part of our analysis into two approaches. The first approach consists of looking at he linear relationship between the numerical explanatory variables and college rank using R-squared variables. The second approach consists of building a stepwise regression model between many explanatory variables and college rank. As the variables that appear in the final model will be most important for determining rank, we will use the model results to corroborate our results from the first approach. As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to simply use the stepwise regression model to determine if there is a strong association between those variables and rank.
+
+In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association with it. 
 
 ## Approach #1: Individual Variable Analysis
-
-### Numerical Variable Analysis
-
-In this section, we will look at the linear relationship between the numerical explanatory variables and college rank.
 
 1.  Create a linear regression model between each individual explanatory variable and college rank.
 
@@ -826,15 +805,9 @@ In this section, we will look at the linear relationship between the numerical e
 
 3.  Create 6 scatter plots (with lines of best fit) to visualize the relationships between the 6 variables (determined in section 2) and college rank.
 
-4.  Scale each of the 6 explanatory variables to a normal distribution (with mean at 0 and standard deviation of 1). This step is done because the explanatory variables are on varying scales. By scaling the variables to a normal distribution, it allows us to compare their respective slopes. (THIS IS IN THE DATA PREP ALREADY --- CAN WE DELETE?)
+4.  Recreate the individual models with the scaled explanatory variables, and calculate the respective slopes between each of the scaled explanatory variables and college rank.
 
-5.  Recreate the individual models with the scaled explanatory variables, and calculate the respective slopes between each of the scaled explanatory variables and college rank.
-
-6.  Calculate the respective slopes between each of the un-scaled explanatory variables and college rank.
-
-### Categorical Variable Analysis
-
-As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to do a qualitative variable of our four categorical variables. We created a bar plot for each and filled by rank category (1-100, 101-200, etc.) so we could compare proportions across levels.
+5.  Calculate the respective slopes between each of the un-scaled explanatory variables and college rank.
 
 ## Approach #2: Stepwise regression modeling
 
@@ -938,19 +911,7 @@ r_squared_values |>
 
 `COSTT4_P` (Average cost of attendance for program-year institutions) has been removed because there are only two observations.
 
-We will use the variables with the 6 highest R-squared values (indicating the strongest linear relationship) in our further analysis:
-
--   Average SAT (`SAT_AVG`)
-
--   Median ACT(`ACTCMMID`),
-
--   Graduation Rate (`C150_4`)
-
--   Average Faculty Salary (`AVGFACSAL`),
-
--   Admission Rate (`ADM_RATE`)
-
--   \% Students with Pell Grants (`PCTPELL`)
+Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), average faculty salary (`AVGFACSAL`), and admission rate (`ADM_RATE`), have the strongest relationship with rank because their R-squared values are above 0.4. Additionally, the largest sequential gap between R-squared values occurs between admission rate and the following variable, percentage of students receiving Pell Grants (`PCTPELL`).
 
 **How do these 6 metrics influence Niche college rank?**
 
@@ -1077,8 +1038,6 @@ Pellentesque habitant morbi tristique senectus et netus et. Cursus risus at ultr
 #| layout-ncol: 2
 #| #| layout-ncol: 2
 
-
-
 colleges_levels |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
@@ -1176,7 +1135,7 @@ According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`
 As mentioned in methodology, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
 
 ```{r}
-#| label: calculate-stepwise-model
+#| label: stepwise-regression-model
 
 stepwise_data <- scaled_data |>
   dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))

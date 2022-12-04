@@ -121,11 +121,7 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
-  <li><a href="#approach-1-individual-variable-analysis" id="toc-approach-1-individual-variable-analysis" class="nav-link" data-scroll-target="#approach-1-individual-variable-analysis">Approach #1: Individual Variable Analysis</a>
-  <ul class="collapse">
-  <li><a href="#numerical-variable-analysis" id="toc-numerical-variable-analysis" class="nav-link" data-scroll-target="#numerical-variable-analysis">Numerical Variable Analysis</a></li>
-  <li><a href="#categorical-variable-analysis" id="toc-categorical-variable-analysis" class="nav-link" data-scroll-target="#categorical-variable-analysis">Categorical Variable Analysis</a></li>
-  </ul></li>
+  <li><a href="#approach-1-individual-variable-analysis" id="toc-approach-1-individual-variable-analysis" class="nav-link" data-scroll-target="#approach-1-individual-variable-analysis">Approach #1: Individual Variable Analysis</a></li>
   <li><a href="#approach-2-stepwise-regression-modeling" id="toc-approach-2-stepwise-regression-modeling" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-modeling">Approach #2: Stepwise regression modeling</a></li>
   <li><a href="#final-variable-analysis" id="toc-final-variable-analysis" class="nav-link" data-scroll-target="#final-variable-analysis">Final Variable Analysis</a></li>
   </ul></li>
@@ -133,12 +129,15 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#approach-1-individual-variable-analysis-1" id="toc-approach-1-individual-variable-analysis-1" class="nav-link" data-scroll-target="#approach-1-individual-variable-analysis-1">Approach #1: Individual Variable Analysis</a>
   <ul class="collapse">
-  <li><a href="#numerical-variable-analysis-1" id="toc-numerical-variable-analysis-1" class="nav-link" data-scroll-target="#numerical-variable-analysis-1">Numerical Variable Analysis</a></li>
-  <li><a href="#categorical-variable-analysis-1" id="toc-categorical-variable-analysis-1" class="nav-link" data-scroll-target="#categorical-variable-analysis-1">Categorical Variable Analysis</a></li>
+  <li><a href="#numerical-variable-analysis" id="toc-numerical-variable-analysis" class="nav-link" data-scroll-target="#numerical-variable-analysis">Numerical Variable Analysis</a></li>
+  <li><a href="#categorical-variable-analysis" id="toc-categorical-variable-analysis" class="nav-link" data-scroll-target="#categorical-variable-analysis">Categorical Variable Analysis</a></li>
   </ul></li>
   <li><a href="#approach-2-stepwise-regression-model" id="toc-approach-2-stepwise-regression-model" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-model">Approach #2: Stepwise Regression Model</a>
   <ul class="collapse">
+<<<<<<< HEAD
   <li><a href="#remove-highly-correlated-variables" id="toc-remove-highly-correlated-variables" class="nav-link" data-scroll-target="#remove-highly-correlated-variables">Remove Highly Correlated Variables</a></li>
+=======
+>>>>>>> c273bf03d1c06ef6fc6b774543df9fea49991f98
   <li><a href="#compute-stepwise-regression" id="toc-compute-stepwise-regression" class="nav-link" data-scroll-target="#compute-stepwise-regression">Compute Stepwise Regression</a></li>
   <li><a href="#final-model-results" id="toc-final-model-results" class="nav-link" data-scroll-target="#final-model-results">Final Model Results</a></li>
   </ul></li>
@@ -711,61 +710,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>Looking at the Carnegie Classification, Special Focus Four-Year: Business &amp; Management Schools have the highest mean rank, followed by Doctoral Universities: Very High Research Activity. Tribal Colleges have the lowest mean rank.</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: left;">State</th>
-<th style="text-align: right;">Mean Rank</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">ME</td>
-<td style="text-align: right;">107.0000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MA</td>
-<td style="text-align: right;">123.5238</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">DE</td>
-<td style="text-align: right;">143.0000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">CT</td>
-<td style="text-align: right;">166.4286</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">VT</td>
-<td style="text-align: right;">167.5000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">CA</td>
-<td style="text-align: right;">172.3333</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">DC</td>
-<td style="text-align: right;">174.2000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">GA</td>
-<td style="text-align: right;">191.6667</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">OK</td>
-<td style="text-align: right;">196.0000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">WY</td>
-<td style="text-align: right;">200.0000</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>When looking at states, Maine has the highest mean rank, followed by Massachusetts.</p>
 </section>
 </section>
 <section id="research-question-and-hypothesis" class="level2">
@@ -777,25 +721,21 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="methodology" class="level1">
 <h1>Methodology</h1>
+<<<<<<< HEAD
 <p>We have split our analysis into two approaches. The first approach consists of looking at the relationship between individual explanatory variables (both categorical and numeric) and college rank. The second approach consists of building an optimized model between many explanatory variables and college rank.</p>
+=======
+<p>We have split the first part of our analysis into two approaches. The first approach consists of looking at he linear relationship between the numerical explanatory variables and college rank using R-squared variables. The second approach consists of building a stepwise regression model between many explanatory variables and college rank. As the variables that appear in the final model will be most important for determining rank, we will use the model results to corroborate our results from the first approach. As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to simply use the stepwise regression model to determine if there is a strong association between those variables and rank.</p>
+<p>In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association with it.</p>
+>>>>>>> c273bf03d1c06ef6fc6b774543df9fea49991f98
 <section id="approach-1-individual-variable-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="approach-1-individual-variable-analysis">Approach #1: Individual Variable Analysis</h2>
-<section id="numerical-variable-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="numerical-variable-analysis">Numerical Variable Analysis</h3>
-<p>In this section, we will look at the linear relationship between the numerical explanatory variables and college rank.</p>
 <ol type="1">
 <li><p>Create a linear regression model between each individual explanatory variable and college rank.</p></li>
 <li><p>Calculate the R-squared value for each respective model, rank the values from highest to lowest, and select the variables with the top 6 R-squared values.</p></li>
 <li><p>Create 6 scatter plots (with lines of best fit) to visualize the relationships between the 6 variables (determined in section 2) and college rank.</p></li>
-<li><p>Scale each of the 6 explanatory variables to a normal distribution (with mean at 0 and standard deviation of 1). This step is done because the explanatory variables are on varying scales. By scaling the variables to a normal distribution, it allows us to compare their respective slopes. (THIS IS IN THE DATA PREP ALREADY — CAN WE DELETE?)</p></li>
 <li><p>Recreate the individual models with the scaled explanatory variables, and calculate the respective slopes between each of the scaled explanatory variables and college rank.</p></li>
 <li><p>Calculate the respective slopes between each of the un-scaled explanatory variables and college rank.</p></li>
 </ol>
-</section>
-<section id="categorical-variable-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h3>
-<p>As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to do a qualitative variable of our four categorical variables. We created a bar plot for each and filled by rank category (1-100, 101-200, etc.) so we could compare proportions across levels.</p>
-</section>
 </section>
 <section id="approach-2-stepwise-regression-modeling" class="level2">
 <h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-modeling">Approach #2: Stepwise regression modeling</h2>
@@ -827,9 +767,15 @@ ul.task-list li input[type="checkbox"] {
 <section id="results" class="level1">
 <h1>Results</h1>
 <section id="approach-1-individual-variable-analysis-1" class="level2">
+<<<<<<< HEAD
 <h2 class="anchored" data-anchor-id="approach-1-individual-variable-analysis-1">Approach #1: Individual Variable Analysis</h2>
 <section id="numerical-variable-analysis-1" class="level3">
 <h3 class="anchored" data-anchor-id="numerical-variable-analysis-1">Numerical Variable Analysis</h3>
+=======
+<h2 class="anchored" data-anchor-id="approach-1-individual-variable-analysis-1">Approach 1: Individual Variable Analysis</h2>
+<section id="numerical-variable-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-variable-analysis">Numerical Variable Analysis</h3>
+>>>>>>> c273bf03d1c06ef6fc6b774543df9fea49991f98
 <p><strong>Table of R-squared Values</strong></p>
 <p>The table below gives the R-squared values from the linear regression models between each individual explanatory variable and colleges rank, arranged in descending order.</p>
 <div class="cell">
@@ -951,19 +897,11 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p><code>COSTT4_P</code> (Average cost of attendance for program-year institutions) has been removed because there are only two observations.</p>
-<p>We will use the variables with the 6 highest R-squared values (indicating the strongest linear relationship) in our further analysis:</p>
-<ul>
-<li><p>Average SAT (<code>SAT_AVG</code>)</p></li>
-<li><p>Median ACT(<code>ACTCMMID</code>),</p></li>
-<li><p>Graduation Rate (<code>C150_4</code>)</p></li>
-<li><p>Average Faculty Salary (<code>AVGFACSAL</code>),</p></li>
-<li><p>Admission Rate (<code>ADM_RATE</code>)</p></li>
-<li><p>% Students with Pell Grants (<code>PCTPELL</code>)</p></li>
-</ul>
+<p>Average SAT (<code>SAT_AVG</code>), median ACT (<code>ACTCMMID</code>), graduation rate (<code>C150_4</code>), average faculty salary (<code>AVGFACSAL</code>), and admission rate (<code>ADM_RATE</code>), have the strongest relationship with rank because their R-squared values are above 0.4. Additionally, the largest sequential gap between R-squared values occurs between admission rate and the following variable, percentage of students receiving Pell Grants (<code>PCTPELL</code>).</p>
 <p><strong>How do these 6 metrics influence Niche college rank?</strong></p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
@@ -1026,8 +964,8 @@ ul.task-list li input[type="checkbox"] {
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim. Nisi vitae suscipit tellus mauris a diam. Egestas tellus rutrum tellus pellentesque eu tincidunt. Tristique senectus et netus et. Id neque aliquam vestibulum morbi blandit cursus. Praesent semper feugiat nibh sed pulvinar. Lobortis scelerisque fermentum dui faucibus in ornare quam viverra. Orci eu lobortis elementum nibh tellus molestie. At erat pellentesque adipiscing commodo elit at imperdiet. Risus sed vulputate odio ut enim. Pellentesque habitant morbi tristique senectus et. Vitae tempus quam pellentesque nec. Ut sem viverra aliquet eget sit.</p>
 <p>Pellentesque habitant morbi tristique senectus et netus et. Cursus risus at ultrices mi. Tempor orci eu lobortis elementum nibh tellus molestie nunc non. Mauris a diam maecenas sed enim ut sem viverra. Magna sit amet purus gravida quis blandit turpis cursus in. Facilisis magna etiam tempor orci eu lobortis. Semper auctor neque vitae tempus quam pellentesque nec nam. Tempus urna et pharetra pharetra massa massa ultricies. In nibh mauris cursus mattis molestie a. Non nisi est sit amet facilisis magna etiam tempor. Tristique risus nec feugiat in fermentum posuere urna nec. Pharetra diam sit amet nisl suscipit. Viverra adipiscing at in tellus.</p>
 </section>
-<section id="categorical-variable-analysis-1" class="level3">
-<h3 class="anchored" data-anchor-id="categorical-variable-analysis-1">Categorical Variable Analysis</h3>
+<section id="categorical-variable-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h3>
 <div class="cell quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
@@ -1054,9 +992,13 @@ ul.task-list li input[type="checkbox"] {
 </section>
 </section>
 <section id="approach-2-stepwise-regression-model" class="level2">
+<<<<<<< HEAD
 <h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-model">Approach #2: Stepwise Regression Model</h2>
 <section id="remove-highly-correlated-variables" class="level3">
 <h3 class="anchored" data-anchor-id="remove-highly-correlated-variables">Remove Highly Correlated Variables</h3>
+=======
+<h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-model">Approach 2: Stepwise Regression Model</h2>
+>>>>>>> c273bf03d1c06ef6fc6b774543df9fea49991f98
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/correlation-matrix-1.png" class="img-fluid" width="672"></p>
@@ -1097,7 +1039,6 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>According to the filtered table, these variable pairs are (<code>MD_FAMINC</code>, <code>FAMINC</code>), (<code>C150_4</code>, <code>SAT_AVG</code>), (<code>C150_4</code>, <code>ACTCMMID</code>) and (<code>ACTCMMID</code>, <code>SAT_AVG</code>). Therefore, we will drop the variables <code>C150_4</code>, <code>MD_FAMINC</code>, <code>ACTCMMID</code> and preserve <code>SAT_AVG</code> and <code>FAMINC</code> to represent all other variables.</p>
-</section>
 <section id="compute-stepwise-regression" class="level3">
 <h3 class="anchored" data-anchor-id="compute-stepwise-regression">Compute Stepwise Regression</h3>
 <p>As mentioned in methodology, we will use <code>MASS</code> package and <code>StepAIC()</code> function to perform the stepwise regression process for model selections.</p>
