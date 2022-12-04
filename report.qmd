@@ -53,7 +53,7 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
     (https://www.niche.com/colleges/search/best-colleges/)
 
--   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly to reflect new data that Niche receives. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
+-   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
 
 -   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
@@ -783,25 +783,6 @@ data |>
 
 Looking at the Carnegie Classification, Special Focus Four-Year: Business & Management Schools have the highest mean rank, followed by Doctoral Universities: Very High Research Activity. Tribal Colleges have the lowest mean rank.
 
-```{r}
-#| label: exploration-state
-
-colleges |> 
-  group_by(STABBR) |> 
-  summarize(
-    mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank) |> 
-  rename(
-    "State" = STABBR, 
-    "Mean Rank" = mean_rank
-  ) |>
-  slice_head(n = 10) |> 
-  knitr::kable()
-```
-
-When looking at states, Maine has the highest mean rank, followed by Massachusetts.
-
 ## Research Question and Hypothesis
 
 **Question:** Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?
@@ -812,13 +793,11 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 # Methodology
 
-We have split our analysis into two approaches. The first approach consists of looking at the relationship between individual explanatory variables (both categorical and numeric) and college rank. The second approach consists of building an optimized model between many explanatory variables and college rank.\
+We have split the first part of our analysis into two approaches. The first approach consists of looking at he linear relationship between the numerical explanatory variables and college rank using R-squared variables. The second approach consists of building a stepwise regression model between many explanatory variables and college rank. As the variables that appear in the final model will be most important for determining rank, we will use the model results to corroborate our results from the first approach. As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to simply use the stepwise regression model to determine if there is a strong association between those variables and rank.
+
+In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association with it. 
 
 ## Approach #1: Individual Variable Analysis
-
-### Numerical Variable Analysis
-
-In this section, we will look at the linear relationship between the numerical explanatory variables and college rank.
 
 1.  Create a linear regression model between each individual explanatory variable and college rank.
 
@@ -826,17 +805,22 @@ In this section, we will look at the linear relationship between the numerical e
 
 3.  Create 6 scatter plots (with lines of best fit) to visualize the relationships between the 6 variables (determined in section 2) and college rank.
 
-4.  Scale each of the 6 explanatory variables to a normal distribution (with mean at 0 and standard deviation of 1). This step is done because the explanatory variables are on varying scales. By scaling the variables to a normal distribution, it allows us to compare their respective slopes. (THIS IS IN THE DATA PREP ALREADY --- CAN WE DELETE?)
+4.  Recreate the individual models with the scaled explanatory variables, and calculate the respective slopes between each of the scaled explanatory variables and college rank.
 
-5.  Recreate the individual models with the scaled explanatory variables, and calculate the respective slopes between each of the scaled explanatory variables and college rank.
-
-6.  Calculate the respective slopes between each of the un-scaled explanatory variables and college rank.
-
-### Categorical Variable Analysis
-
-As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to do a qualitative variable of our four categorical variables. We created a bar plot for each and filled by rank category (1-100, 101-200, etc.) so we could compare proportions across levels.
+5.  Calculate the respective slopes between each of the un-scaled explanatory variables and college rank.
 
 ## Approach #2: Stepwise regression modeling
+
+Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
+
+In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
+
+There are two main steps in this approach.
+
+1.  Create a correlation matrix to check correlation coefficients between variables so as to not use similar variables in our model. If two variables had an absolute value of r greater than 0.8, meaning they were too similar in how they factored into rankings, we only picked one of them to put into the model.
+2.  Compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable.
+
+In the end, this will give us the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
 -   Why did we choose this
 
@@ -903,7 +887,7 @@ r2s <- numeric()
 
 for(var in numerical_variables) {
   temp_df <- data |>
-  select(c(rank, var))
+  dplyr::select(c(rank, var))
   
   model <- linear_reg() |>
     set_engine("lm") |>
@@ -927,19 +911,7 @@ r_squared_values |>
 
 `COSTT4_P` (Average cost of attendance for program-year institutions) has been removed because there are only two observations.
 
-We will use the variables with the 6 highest R-squared values (indicating the strongest linear relationship) in our further analysis:
-
--   Average SAT (`SAT_AVG`)
-
--   Median ACT(`ACTCMMID`),
-
--   Graduation Rate (`C150_4`)
-
--   Average Faculty Salary (`AVGFACSAL`),
-
--   Admission Rate (`ADM_RATE`)
-
--   \% Students with Pell Grants (`PCTPELL`)
+Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), average faculty salary (`AVGFACSAL`), and admission rate (`ADM_RATE`), have the strongest relationship with rank because their R-squared values are above 0.4. Additionally, the largest sequential gap between R-squared values occurs between admission rate and the following variable, percentage of students receiving Pell Grants (`PCTPELL`).
 
 **How do these 6 metrics influence Niche college rank?**
 
@@ -1083,8 +1055,6 @@ Pellentesque habitant morbi tristique senectus et netus et. Cursus risus at ultr
 #| layout-ncol: 2
 #| #| layout-ncol: 2
 
-
-
 colleges_levels |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
@@ -1142,24 +1112,14 @@ Qualitatively, it appears that region and Carnegie Classification have the clear
 
 ## Approach 2: Stepwise Regression Model
 
-Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
-
-In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
-
-There are three main steps in this approach. First, we need to find out all the highly correlated variable pairs and remove one of them from each pair since we need to rule out the negative impacts of the singularities of variables. Second, we will compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable. This will give us a best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
-
-### Remove variables with high correlations
-
-Our first step in creating a stepwise regression model was to check correlation coefficients between variables so we didn't use variables that were too similar in our model. Then, after removing all columns that had more than 100 NA, we determined which variables had an absolute value of r greater than 0.8. This showed that they were too similar in how they factored into rankings, so we only picked one of them to put in the model.
-
 ```{r}
 #| label: correlation-matrix
 
     data_for_corr <- scaled_data |>
-      select(is.numeric)
+      dplyr::select(is.numeric)
 
     correlations = data_for_corr |>
-      select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
+      dplyr::select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
         na.omit() |>
         cor() 
 
@@ -1167,7 +1127,7 @@ Our first step in creating a stepwise regression model was to check correlation 
         corrplot(method="color")
 ```
 
-The correlation matrix above provides a visual representation of the correlation between all variable pairs. We want to remove the pairs with a high correlation (absolute value greater than 0.8) which visually are the darker blue squares. However, to use proper statistical analysis, we filtered our correlation matrix to only display entries with values greater or equal to 0.8.
+The correlation matrix above provides a visual representation of the correlation between all variable pairs. Below, is the filtered correlation matrix that only displays entries with values greater than or equal to 0.8.
 
 ```{r}
 #| label: display-correlation-pair-to-be-removed
@@ -1187,10 +1147,11 @@ According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`
 
 ### Compute Stepwise Regression
 
-As mentioned above, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
+As mentioned in methodology, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
 
 ```{r}
-#| label: glimpsed-data
+#| label: stepwise-regression-model
+
 stepwise_data <- scaled_data |>
   dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
 stepwise_data |>
@@ -1210,16 +1171,48 @@ stepwise_data = na.omit(stepwise_data)
 full_model <- lm(rank ~. -college, data = stepwise_data)
 # Stepwise regression model
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
-```
 
-### Final Model Results (TODO for Sam)
-
-```{r}
-#| label: model-computing
 stepwise_model$anova
 ```
 
 In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
+
+### Final Model Results
+
+```{r}
+#| label: visualize-stepwise-model
+
+aic_value = stepwise_model$anova$AIC
+
+variables = c("All", "-FAMINC", "-PCTPELL", "-ENDOWBEGIN", "-UGDS_NHPI", "-UGDS_AIAN", "-UGDS_NRA", "-UGDSHISP", "-UGDS_BLACK", "-UGDS_WHITE", "-FEMALE", "+UGDS_HISP")
+
+aic_df = data.frame(aic_value, variables)
+
+str(aic_df)
+
+aic_df<- aic_df |>
+  mutate(variables = as.factor(variables))
+
+aic_df <- aic_df |>
+  mutate(
+    variables = fct_relevel(variables, levels = c("All", "-FAMINC", "-PCTPELL", "-ENDOWBEGIN", "-UGDS_NHPI", "-UGDS_AIAN", "-UGDS_NRA", "-UGDSHISP", "-UGDS_BLACK", "-UGDS_WHITE", "-FEMALE", "+UGDS_HISP"))
+  )
+
+aic_df |>
+  ggplot(aes(x = variables, y = aic_value)) +
+  geom_point() +
+  geom_line(group = 1) + 
+  scale_y_continuous(breaks = seq(3415, 3431, by = 2)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+  labs(
+    title = "Variable selection process",
+    x = "Selection step",
+    y = "AIC"
+  )
+  
+```
+
+The plot above visually displays the decreasing AIC value as variables get taken out and potentially re-added.
 
 ```{r}
 #| label: r-squared-final-model
