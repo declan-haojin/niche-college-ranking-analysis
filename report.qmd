@@ -20,6 +20,7 @@ library(corrplot)
 library(tidymodels)
 library(scales)
 library(ggthemes)
+library(gridExtra)
 ```
 
 # Introduction
@@ -651,9 +652,7 @@ data <- data |>
   )
 ```
 
-
 4.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admission rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We created a scaled version of the dataset where the mean value of each numeric variable is 0, and the standard deviation 1. An example row of data is printed below.
-
 
 ```{r}
 #| label: scale-numerical-variables
@@ -721,64 +720,93 @@ After grouping the schools into five groups of 100 by their rank, we see that di
 
 ### Means of Rank by Categorical Variables
 
-Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups.
+Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups. For Carnegie classification, any classification with only one school was removed from the analysis.
 
 ```{r}
-#| label: exploration-control
+
+#| label: exploration-control-region
 
 group_by_control <- data |> 
-  group_by(CONTROL) |> 
+  group_by(CONTROL) |>
   summarize(
     mean_rank = mean(rank)
   ) |> 
-  arrange(mean_rank) |> 
-  rename(
-    "Control" = CONTROL, 
-    "Mean Rank" = mean_rank
-  ) 
+  arrange(mean_rank)
 
-group_by_control
 
+p1 <- group_by_control |> 
+  ggplot(aes(x = reorder(CONTROL, + mean_rank), y = mean_rank, fill = CONTROL)) + 
+  geom_col() +
+  theme(legend.position = "none") + 
+  labs(
+    x = "Control of School", 
+    y = "Mean Rank",
+    title = "Mean Rank by Control"
+  )
+
+
+group_by_region <- data |> 
+  group_by(REGION) |> 
+  summarize(
+    mean_rank = mean(rank)
+  ) |> 
+  arrange(mean_rank)
+
+
+
+p2 <- group_by_region |>
+  drop_na(REGION) |> 
+  ggplot(aes(x = reorder(REGION, + mean_rank), y  = mean_rank, fill = REGION)) + 
+  geom_col() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 7)
+  ) + 
+  labs(
+    x = "REGION", 
+    y = "Mean Rank",
+    title = "Mean Rank by Region"
+  )
+
+grid.arrange(p1, p2)
+```
+
+```{r}
+
+#| label: exploration-CCBASIC
+
+group_by_CCBASIC <- data |> 
+  group_by(CCBASIC) |> 
+  summarize(
+    mean_rank = mean(rank)
+  ) |> 
+  arrange(mean_rank)
+
+group_by_CCBASIC |>
+  drop_na(CCBASIC) |>
+   filter(
+    CCBASIC != "Special Focus Four-Year: Business & Management Schools" &
+    CCBASIC != "Baccalaureate/Associate's Colleges: Mixed Baccalaureate/Associate's" &
+    CCBASIC != "Special Focus Four-Year: Other Special Focus Institutions" &
+    CCBASIC != "Special Focus Four-Year: Other Technology-Related Schools" &
+    CCBASIC != "Tribal Colleges"
+  ) |> 
+  ggplot(aes(y = reorder(CCBASIC, + mean_rank), x = mean_rank, fill = CCBASIC)) + 
+  geom_col() +
+  theme(legend.position = "none") + 
+  labs(
+    y = "Carnegie Classification", 
+    x = "Mean Rank",
+    title = "Mean Rank by Carnegie \nClassification"
+  )
 
 ```
 
 We observe that private non-profit colleges have a higher mean rank than public colleges or private for-profit colleges.
 
-```{r}
-#| label: exploration-region
-
-data |> 
-  group_by(REGION) |> 
-  summarize(
-    mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank) |> 
-  rename(
-    "Region" = REGION, 
-    "Mean Rank" = mean_rank
-  ) |>
-  knitr::kable()
-```
-
 As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
 
-```{r}
-#| label: exploration-CCBASIC
-
-data |> 
-  group_by(CCBASIC) |> 
-  summarize(
-    mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank) |>
-  rename(
-    "Carnegie Classification (Basic)" = CCBASIC, 
-    "Mean Rank" = mean_rank
-  ) |>
-  knitr::kable()
-```
-
-Looking at the Carnegie Classification, Special Focus Four-Year: Business & Management Schools have the highest mean rank, followed by Doctoral Universities: Very High Research Activity. Tribal Colleges have the lowest mean rank.
+Looking at the Carnegie Classification, Doctoral Universities: Very High Research Activity have the highest mean rank, followed by Special Focus Four-Year: Engineering Schools. Master's Colleges and Universities: Medium Programs have the lowest mean rank.
 
 ## Research Question and Hypothesis
 
@@ -819,9 +847,7 @@ There are two main steps in this approach.
 
 In the end, this will give us the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
-
 ## Final Variable Analysis
-
 
 We will examine the final variables selected by both approaches and analyze their relationships with college rank by:
 
@@ -1098,7 +1124,7 @@ All of the variables with the top 5 R-squared values appeared in the final stepw
 
 #| label: numerical-graphs
 
-library(gridExtra)
+
 
 
 a1 <- colleges |> 
