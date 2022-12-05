@@ -122,22 +122,26 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
   <li><a href="#approach-1-individual-variable-analysis" id="toc-approach-1-individual-variable-analysis" class="nav-link" data-scroll-target="#approach-1-individual-variable-analysis">Approach #1: Individual Variable Analysis</a></li>
-  <li><a href="#approach-2-stepwise-regression-modeling" id="toc-approach-2-stepwise-regression-modeling" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-modeling">Approach #2: Stepwise regression modeling</a></li>
+  <li><a href="#approach-2-stepwise-regression-modeling" id="toc-approach-2-stepwise-regression-modeling" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-modeling">Approach #2: Stepwise Regression Modeling</a></li>
   <li><a href="#final-variable-analysis" id="toc-final-variable-analysis" class="nav-link" data-scroll-target="#final-variable-analysis">Final Variable Analysis</a></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
-  <li><a href="#approach-1-individual-variable-analysis-1" id="toc-approach-1-individual-variable-analysis-1" class="nav-link" data-scroll-target="#approach-1-individual-variable-analysis-1">Approach 1: Individual Variable Analysis</a>
+  <li><a href="#approach-1-individual-variable-analysis-1" id="toc-approach-1-individual-variable-analysis-1" class="nav-link" data-scroll-target="#approach-1-individual-variable-analysis-1">Approach #1: Individual Variable Analysis</a>
   <ul class="collapse">
   <li><a href="#numerical-variable-analysis" id="toc-numerical-variable-analysis" class="nav-link" data-scroll-target="#numerical-variable-analysis">Numerical Variable Analysis</a></li>
-  <li><a href="#categorical-variable-analysis" id="toc-categorical-variable-analysis" class="nav-link" data-scroll-target="#categorical-variable-analysis">Categorical Variable Analysis</a></li>
   </ul></li>
   <li><a href="#approach-2-stepwise-regression-model" id="toc-approach-2-stepwise-regression-model" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-model">Approach 2: Stepwise Regression Model</a>
   <ul class="collapse">
+  <li><a href="#remove-highly-correlated-variables" id="toc-remove-highly-correlated-variables" class="nav-link" data-scroll-target="#remove-highly-correlated-variables">Remove Highly Correlated Variables</a></li>
   <li><a href="#compute-stepwise-regression" id="toc-compute-stepwise-regression" class="nav-link" data-scroll-target="#compute-stepwise-regression">Compute Stepwise Regression</a></li>
-  <li><a href="#final-model-results" id="toc-final-model-results" class="nav-link" data-scroll-target="#final-model-results">Final Model Results</a></li>
+  <li><a href="#model-results" id="toc-model-results" class="nav-link" data-scroll-target="#model-results">Model Results</a></li>
   </ul></li>
-  <li><a href="#final-variable-analysis-1" id="toc-final-variable-analysis-1" class="nav-link" data-scroll-target="#final-variable-analysis-1">Final Variable Analysis</a></li>
+  <li><a href="#final-variable-analysis-1" id="toc-final-variable-analysis-1" class="nav-link" data-scroll-target="#final-variable-analysis-1">Final Variable Analysis</a>
+  <ul class="collapse">
+  <li><a href="#categorical-variable-analysis" id="toc-categorical-variable-analysis" class="nav-link" data-scroll-target="#categorical-variable-analysis">Categorical Variable Analysis</a></li>
+  <li><a href="#numerical-variable-analysis-1" id="toc-numerical-variable-analysis-1" class="nav-link" data-scroll-target="#numerical-variable-analysis-1">Numerical Variable Analysis</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a>
   <ul class="collapse">
@@ -216,15 +220,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Numerical</p>
 <ul>
 <li><code>ADM_RATE</code>: Admission rate</li>
-<li><code>UGDS</code>: Enrollment of undergraduate certificate/degree-seeking students</li>
-<li><code>UGDS_WHITE</code>: Total share of enrollment of undergraduate degree-seeking students who are White</li>
-<li><code>UGDS_BLACK</code>: Total share of enrollment of undergraduate degree-seeking students who are Black</li>
-<li><code>UGDS_HISP</code>: Total share of enrollment of undergraduate degree-seeking students who are Hispanic</li>
-<li><code>UGDS_ASIAN</code>: Total share of enrollment of undergraduate degree-seeking students who are Asian</li>
-<li><code>UGDS_AIAN</code>: Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native</li>
-<li><code>UGDS_NHPI</code>: Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander</li>
-<li><code>UGDS_2MOR</code>: Total share of enrollment of undergraduate degree-seeking students who are two or more races</li>
-<li><code>UGDS_UNKN</code>: Total share of enrollment of undergraduate degree-seeking students whose race is unknown</li>
+<li><code>UGDS</code>, <code>UGDS_WHITE</code>, <code>UGDS_BLACK</code>, <code>UGDS_HISP</code>, <code>UGDS_ASIAN</code>, <code>UGDS_AIAN</code>, <code>UGDS_NHPI</code>, <code>UGDS_2MOR</code>, and <code>UGDS_UNKN</code> represent the enrollment of undergraduate certificate/degree-seeking students, enrollment of undergraduate certificate/degree-seeking students who are White, Black, Hispanic, Asian, American Indian/Alaska Native, Native Hawaiian/Pacific Islander, two or more races, and of unknown race, respectively.</li>
 <li><code>NPT4_PUB</code>: Average net price for Title IV institutions (public institutions)</li>
 <li><code>NPT4_PRIV</code>: Average net price for Title IV institutions (private for-profit and nonprofit institutions)</li>
 <li><code>COSTT4_A</code>: Average cost of attendance (academic year institutions)</li>
@@ -730,7 +726,7 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 </section>
 <section id="approach-2-stepwise-regression-modeling" class="level2">
-<h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-modeling">Approach #2: Stepwise regression modeling</h2>
+<h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-modeling">Approach #2: Stepwise Regression Modeling</h2>
 <p>Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.</p>
 <p>In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.</p>
 <p>There are two main steps in this approach.</p>
@@ -759,7 +755,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="results" class="level1">
 <h1>Results</h1>
 <section id="approach-1-individual-variable-analysis-1" class="level2">
-<h2 class="anchored" data-anchor-id="approach-1-individual-variable-analysis-1">Approach 1: Individual Variable Analysis</h2>
+<h2 class="anchored" data-anchor-id="approach-1-individual-variable-analysis-1">Approach #1: Individual Variable Analysis</h2>
 <section id="numerical-variable-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="numerical-variable-analysis">Numerical Variable Analysis</h3>
 <p><strong>Table of R-squared Values</strong></p>
@@ -950,35 +946,11 @@ ul.task-list li input[type="checkbox"] {
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim. Nisi vitae suscipit tellus mauris a diam. Egestas tellus rutrum tellus pellentesque eu tincidunt. Tristique senectus et netus et. Id neque aliquam vestibulum morbi blandit cursus. Praesent semper feugiat nibh sed pulvinar. Lobortis scelerisque fermentum dui faucibus in ornare quam viverra. Orci eu lobortis elementum nibh tellus molestie. At erat pellentesque adipiscing commodo elit at imperdiet. Risus sed vulputate odio ut enim. Pellentesque habitant morbi tristique senectus et. Vitae tempus quam pellentesque nec. Ut sem viverra aliquet eget sit.</p>
 <p>Pellentesque habitant morbi tristique senectus et netus et. Cursus risus at ultrices mi. Tempor orci eu lobortis elementum nibh tellus molestie nunc non. Mauris a diam maecenas sed enim ut sem viverra. Magna sit amet purus gravida quis blandit turpis cursus in. Facilisis magna etiam tempor orci eu lobortis. Semper auctor neque vitae tempus quam pellentesque nec nam. Tempus urna et pharetra pharetra massa massa ultricies. In nibh mauris cursus mattis molestie a. Non nisi est sit amet facilisis magna etiam tempor. Tristique risus nec feugiat in fermentum posuere urna nec. Pharetra diam sit amet nisl suscipit. Viverra adipiscing at in tellus.</p>
 </section>
-<section id="categorical-variable-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h3>
-<div class="cell quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="report_files/figure-html/rank-vs-region-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="report_files/figure-html/rank-vs-region-2.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="report_files/figure-html/rank-vs-region-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="report_files/figure-html/rank-vs-region-4.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</div>
-<p>The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the <code>New England</code> and <code>NA</code> bars, the differences in proportions of rank groups do not vary dramatically between bars.</p>
-<p>There does not appear to be a pattern in the accreditation agency graph, which could be because some of the agencies corresponded to very few schools in the top 500. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph.</p>
-<p>There are only 4 <code>Private, For-profit</code> schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between <code>Private, Non-profit</code> and <code>Public</code> are similar, although the first appears to have a larger proportion of <code>1-100</code> schools, and the latter a higher proportion of <code>401-500</code> schools.</p>
-<p>There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. It appears that the lower the rank, the higher proportion of schools in <code>Doctoral Universities: Very High Research Activity</code> and <code>Baccalaureate Colleges: Arts &amp; Sciences Focus</code>. However, the opposite appeared to be true for all other classifications with 3 or more rank categories. Like accreditation agencies, some classifications corresponded to very few schools in the top 500.</p>
-<p>Qualitatively, it appears that region and Carnegie Classification have the clearest relationship with rank; therefore, we expect <code>REGION</code> and <code>CCBASIC</code> to show up in the final model.</p>
-</section>
 </section>
 <section id="approach-2-stepwise-regression-model" class="level2">
 <h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-model">Approach 2: Stepwise Regression Model</h2>
+<section id="remove-highly-correlated-variables" class="level3">
+<h3 class="anchored" data-anchor-id="remove-highly-correlated-variables">Remove Highly Correlated Variables</h3>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/correlation-matrix-1.png" class="img-fluid" width="672"></p>
@@ -1019,6 +991,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>According to the filtered table, these variable pairs are (<code>MD_FAMINC</code>, <code>FAMINC</code>), (<code>C150_4</code>, <code>SAT_AVG</code>), (<code>C150_4</code>, <code>ACTCMMID</code>) and (<code>ACTCMMID</code>, <code>SAT_AVG</code>). Therefore, we will drop the variables <code>C150_4</code>, <code>MD_FAMINC</code>, <code>ACTCMMID</code> and preserve <code>SAT_AVG</code> and <code>FAMINC</code> to represent all other variables.</p>
+</section>
 <section id="compute-stepwise-regression" class="level3">
 <h3 class="anchored" data-anchor-id="compute-stepwise-regression">Compute Stepwise Regression</h3>
 <p>As mentioned in methodology, we will use <code>MASS</code> package and <code>StepAIC()</code> function to perform the stepwise regression process for model selections.</p>
@@ -1145,14 +1118,9 @@ rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
 </div>
 <p>In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable <code>FAMINC</code> was removed, leading to a decrease in AIC. Then, one-by-one, it removes <code>PCTPELL</code>, <code>ENDOWBEGIN</code>, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of <code>UGDS_HISP</code> led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.</p>
 </section>
-<section id="final-model-results" class="level3">
-<h3 class="anchored" data-anchor-id="final-model-results">Final Model Results</h3>
+<section id="model-results" class="level3">
+<h3 class="anchored" data-anchor-id="model-results">Model Results</h3>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>'data.frame':   12 obs. of  2 variables:
- $ aic_value: num  3431 3429 3427 3426 3425 ...
- $ variables: chr  "All" "-FAMINC" "-PCTPELL" "-ENDOWBEGIN" ...</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/visualize-stepwise-model-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1215,10 +1183,42 @@ rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
 </section>
 <section id="final-variable-analysis-1" class="level2">
 <h2 class="anchored" data-anchor-id="final-variable-analysis-1">Final Variable Analysis</h2>
+<section id="categorical-variable-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h3>
+<p>All four categorical variables appeared in the final model, and therefore we can assume that they have a significant association with rank.</p>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="report_files/figure-html/rank-vs-region-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<p>The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the <code>New England</code> and <code>NA</code> bars, the differences in proportions of rank groups do not vary dramatically between bars.</p>
+<p>There does not appear to be a obvious pattern in the accreditation agency graph, which could be because some of the agencies corresponded to very few schools in the top 500. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph. However…</p>
+<p>There are only 4 <code>Private, For-profit</code> schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between <code>Private, Non-profit</code> and <code>Public</code> are similar, although the first appears to have a larger proportion of <code>1-100</code> schools, and the latter a higher proportion of <code>401-500</code> schools.</p>
+<p>There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. It appears that the lower the rank, the higher proportion of schools in <code>Doctoral Universities: Very High Research Activity</code> and <code>Baccalaureate Colleges: Arts &amp; Sciences Focus</code>. However, the opposite appeared to be true for all other classifications with 3 or more rank categories. Like accreditation agencies, some classifications corresponded to very few schools in the top 500.</p>
+<p>Qualitatively, it appears that region and Carnegie Classification have the clearest relationship with rank; however, the final model indicates that they all have an association with rank.</p>
+</section>
+<section id="numerical-variable-analysis-1" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-variable-analysis-1">Numerical Variable Analysis</h3>
+<p>All of the variables with the top 5 R-squared values appeared in the final stepwise regression model except for ACTCMMID (median ACT score) and C150_4 (graduation rate). These were not used in the model because both of them had a high correlation with SAT_AVG (average SAT). Because SAT_AVG ended up in the final model, we can reasonably assume that they also have a strong association with rank based on the model’s selection process. Therefore, we conclude that SAT_AVG, ACTCMMID, C150_4, and ADM_RATE have the strongest association with rank and we will characterize the relationship below.</p>
+</section>
 </section>
 </section>
 <section id="discussion" class="level1">
 <h1>Discussion</h1>
+<p>There are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. This is because the model selected variables based on AIC rather than R-squared values. Additionally, it examines the collective predictive power of the variables rather than simply the predictive ability of variables individually. NOT DONE</p>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <p>Learned how to do for loops from TA Eli Gnesin</p>
