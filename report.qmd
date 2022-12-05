@@ -20,6 +20,7 @@ library(corrplot)
 library(tidymodels)
 library(scales)
 library(ggthemes)
+
 ```
 
 # Introduction
@@ -1161,6 +1162,7 @@ All four categorical variables appeared in the final model, and therefore we can
 ```{r}
 #| label: rank-vs-region
 #| layout-nrow: 2
+#| fig-height: 6
 
 colleges_levels |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
@@ -1205,6 +1207,7 @@ colleges_levels |>
     y = "Carnegie Classification (Basic)",
     fill = "Rank"
   )
+
 
 ```
 
