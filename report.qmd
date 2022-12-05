@@ -8,7 +8,7 @@ execute:
 message: false
 warning: false
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r}
@@ -651,7 +651,9 @@ data <- data |>
   )
 ```
 
-4.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admission rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We created a scaled version of the dataset where the mean value of each numeric variable is 0, and the standard deviation 1. The first row is presented below.
+
+4.  All of the numerical variables are on different scales---for example, SAT scores can range from 400 to 1600, while admission rate can only range from 0 to 1---and so we standardized them for easier analysis and comparison. We created a scaled version of the dataset where the mean value of each numeric variable is 0, and the standard deviation 1. An example row of data is printed below.
+
 
 ```{r}
 #| label: scale-numerical-variables
@@ -669,7 +671,7 @@ scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables) |>
   relocate(college)
 
 scaled_data |>
-  slice(1) |>
+  slice_head() |>
   knitr::kable()
 
 ```
@@ -817,13 +819,9 @@ There are two main steps in this approach.
 
 In the end, this will give us the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
--   Why did we choose this
 
--   Why did we choose the criterions
+## Final Variable Analysis
 
--   Methods 
-
-## Final Variable Categorical and Numerical Variable Analysis
 
 We will examine the final variables selected by both approaches and analyze their relationships with college rank by:
 
@@ -1032,8 +1030,7 @@ All four categorical variables appeared in the final model, and therefore we can
 
 ```{r}
 #| label: rank-vs-region
-#| layout-ncol: 2
-#| #| layout-ncol: 2
+#| layout-nrow: 2
 
 colleges_levels |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
@@ -1078,6 +1075,7 @@ colleges_levels |>
     y = "Carnegie Classification (Basic)",
     fill = "Rank"
   )
+
 ```
 
 The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars.
@@ -1229,6 +1227,10 @@ Looking at the un-scaled slope allows us to interpret how much changes in the ex
 Looking at the scaled slope allows us to tell which variables have the greatest "influence" on rank. In other words, which change in a numerical variable away from the mean has the greatest impact on decreasing a school's rank? An extremely interesting trend is that among the five most associated variables, schools that have a stronger R-squared also have a higher absolute value of scaled-slope, indicating that variables that have the strongest association to rank also have the greatest influence on decreasing rank. This is logical because Niche would likely tie their rankings to variables where there is the greatest differentiation between schools with higher and lower ranks. This is also concerning because if schools know which variables are most associated to rank and which ones have the greatest impact on decreasing it, it is fairly easy for them to know which variables to change if they wanted to manipulate the rankings.
 
 # Discussion
+
+In this section you'll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions. In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved. Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here. Lastly, this section will include ideas for future work.
+
+\
 
 There are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. This is because the model selected variables based on AIC rather than R-squared values. Additionally, it examines the collective predictive power of the variables rather than simply the predictive ability of variables individually. NOT DONE
 

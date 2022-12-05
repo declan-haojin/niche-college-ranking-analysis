@@ -123,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#approach-1-individual-numerical-variable-analysis" id="toc-approach-1-individual-numerical-variable-analysis" class="nav-link" data-scroll-target="#approach-1-individual-numerical-variable-analysis">Approach #1: Individual Numerical Variable Analysis</a></li>
   <li><a href="#approach-2-stepwise-regression-modeling" id="toc-approach-2-stepwise-regression-modeling" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-modeling">Approach #2: Stepwise Regression Modeling</a></li>
-  <li><a href="#final-variable-categorical-and-numerical-variable-analysis" id="toc-final-variable-categorical-and-numerical-variable-analysis" class="nav-link" data-scroll-target="#final-variable-categorical-and-numerical-variable-analysis">Final Variable Categorical and Numerical Variable Analysis</a></li>
+  <li><a href="#final-variable-analysis" id="toc-final-variable-analysis" class="nav-link" data-scroll-target="#final-variable-analysis">Final Variable Analysis</a></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
@@ -134,7 +134,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#compute-stepwise-regression" id="toc-compute-stepwise-regression" class="nav-link" data-scroll-target="#compute-stepwise-regression">Compute Stepwise Regression</a></li>
   <li><a href="#model-results" id="toc-model-results" class="nav-link" data-scroll-target="#model-results">Model Results</a></li>
   </ul></li>
-  <li><a href="#final-variable-analysis" id="toc-final-variable-analysis" class="nav-link" data-scroll-target="#final-variable-analysis">Final Variable Analysis</a>
+  <li><a href="#final-variable-analysis-1" id="toc-final-variable-analysis-1" class="nav-link" data-scroll-target="#final-variable-analysis-1">Final Variable Analysis</a>
   <ul class="collapse">
   <li><a href="#categorical-variable-analysis" id="toc-categorical-variable-analysis" class="nav-link" data-scroll-target="#categorical-variable-analysis">Categorical Variable Analysis</a></li>
   <li><a href="#numerical-variable-analysis" id="toc-numerical-variable-analysis" class="nav-link" data-scroll-target="#numerical-variable-analysis">Numerical Variable Analysis</a></li>
@@ -259,7 +259,7 @@ ul.task-list li input[type="checkbox"] {
 
 </div>
 <ol start="4" type="1">
-<li>All of the numerical variables are on different scales—for example, SAT scores can range from 400 to 1600, while admission rate can only range from 0 to 1—and so we standardized them for easier analysis and comparison. We created a scaled version of the dataset where the mean value of each numeric variable is 0, and the standard deviation 1. The first row is presented below.</li>
+<li>All of the numerical variables are on different scales—for example, SAT scores can range from 400 to 1600, while admission rate can only range from 0 to 1—and so we standardized them for easier analysis and comparison. We created a scaled version of the dataset where the mean value of each numeric variable is 0, and the standard deviation 1. An example row of data is printed below.</li>
 </ol>
 <div class="cell">
 <div class="cell-output-display">
@@ -646,14 +646,9 @@ ul.task-list li input[type="checkbox"] {
 <li>Compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable.</li>
 </ol>
 <p>In the end, this will give us the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.</p>
-<ul>
-<li><p>Why did we choose this</p></li>
-<li><p>Why did we choose the criterions</p></li>
-<li><p>Methods&nbsp;</p></li>
-</ul>
 </section>
-<section id="final-variable-categorical-and-numerical-variable-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="final-variable-categorical-and-numerical-variable-analysis">Final Variable Categorical and Numerical Variable Analysis</h2>
+<section id="final-variable-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="final-variable-analysis">Final Variable Analysis</h2>
 <p>We will examine the final variables selected by both approaches and analyze their relationships with college rank by:</p>
 <ol type="1">
 <li><p>Interpreting the R-squared values to determine strength of linear association</p></li>
@@ -1024,8 +1019,8 @@ rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
 <p>We can further tell that this is our best model because it has an r-squared coefficient of 0.774. The variables here can then be considered to be the variables that affect a college’s ranking the most. Region (<code>REGION</code>) and type of school (<code>CONTROL</code>, <code>CCBASIC</code>) influence its ranking. There are certain qualities of its undergraduate population that are more statistically significant than others and were thus included in this model: overall undergraduate population, number of Asians, Hispanics, mixed students, and first-generation students, and average age when the undergraduated enrolled. Average SAT score was also significant enough to be include into the model, and <code>ACCREDAGENCY</code> and cost of attendance were also the final two variables considered significant enough for our best model.</p>
 </section>
 </section>
-<section id="final-variable-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="final-variable-analysis">Final Variable Analysis</h2>
+<section id="final-variable-analysis-1" class="level2">
+<h2 class="anchored" data-anchor-id="final-variable-analysis-1">Final Variable Analysis</h2>
 <section id="categorical-variable-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="categorical-variable-analysis">Categorical Variable Analysis</h3>
 <p>All four categorical variables appeared in the final model, and therefore we can assume that they have a significant association with rank.</p>
@@ -1130,6 +1125,9 @@ rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
 </section>
 <section id="discussion" class="level1">
 <h1>Discussion</h1>
+<p>In this section you’ll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions. In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved. Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here. Lastly, this section will include ideas for future work.</p>
+<p><br>
+</p>
 <p>There are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. This is because the model selected variables based on AIC rather than R-squared values. Additionally, it examines the collective predictive power of the variables rather than simply the predictive ability of variables individually. NOT DONE</p>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
