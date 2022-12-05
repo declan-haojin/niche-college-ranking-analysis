@@ -20,6 +20,7 @@ library(corrplot)
 library(tidymodels)
 library(scales)
 library(ggthemes)
+library(gridExtra)
 
 ```
 
@@ -720,61 +721,93 @@ After grouping the schools into five groups of 100 by their rank, we see that di
 
 ### Means of Rank by Categorical Variables
 
-Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups.
+Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups. For Carnegie classification, any classification with only one school was removed from the analysis.
 
 ```{r}
-#| label: exploration-control
 
-data |> 
-  group_by(CONTROL) |> 
+#| label: exploration-control-region
+
+group_by_control <- data |> 
+  group_by(CONTROL) |>
   summarize(
     mean_rank = mean(rank)
   ) |> 
-  arrange(mean_rank) |> 
-  rename(
-    "Control" = CONTROL, 
-    "Mean Rank" = mean_rank
-  ) |>
-  knitr::kable()
-```
+  arrange(mean_rank)
 
-We observe that private non-profit colleges have a higher mean rank than public colleges or private for-profit colleges.
 
-```{r}
-#| label: exploration-region
+p1 <- group_by_control |> 
+  ggplot(aes(x = reorder(CONTROL, + mean_rank), y = mean_rank, fill = CONTROL)) + 
+  geom_col() +
+  theme(legend.position = "none") + 
+  labs(
+    x = "Control of School", 
+    y = "Mean Rank",
+    title = "Mean Rank by Control"
+  )
 
-data |> 
+
+group_by_region <- data |> 
   group_by(REGION) |> 
   summarize(
     mean_rank = mean(rank)
   ) |> 
-  arrange(mean_rank) |> 
-  rename(
-    "Region" = REGION, 
-    "Mean Rank" = mean_rank
-  ) |>
-  knitr::kable()
+  arrange(mean_rank)
+
+
+
+p2 <- group_by_region |>
+  drop_na(REGION) |> 
+  ggplot(aes(x = reorder(REGION, + mean_rank), y  = mean_rank, fill = REGION)) + 
+  geom_col() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 7)
+  ) + 
+  labs(
+    x = "REGION", 
+    y = "Mean Rank",
+    title = "Mean Rank by Region"
+  )
+
+grid.arrange(p1, p2)
 ```
 
-As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
-
 ```{r}
+
 #| label: exploration-CCBASIC
 
-data |> 
+group_by_CCBASIC <- data |> 
   group_by(CCBASIC) |> 
   summarize(
     mean_rank = mean(rank)
   ) |> 
-  arrange(mean_rank) |>
-  rename(
-    "Carnegie Classification (Basic)" = CCBASIC, 
-    "Mean Rank" = mean_rank
-  ) |>
-  knitr::kable()
+  arrange(mean_rank)
+
+group_by_CCBASIC |>
+  drop_na(CCBASIC) |>
+   filter(
+    CCBASIC != "Special Focus Four-Year: Business & Management Schools" &
+    CCBASIC != "Baccalaureate/Associate's Colleges: Mixed Baccalaureate/Associate's" &
+    CCBASIC != "Special Focus Four-Year: Other Special Focus Institutions" &
+    CCBASIC != "Special Focus Four-Year: Other Technology-Related Schools" &
+    CCBASIC != "Tribal Colleges"
+  ) |> 
+  ggplot(aes(y = reorder(CCBASIC, + mean_rank), x = mean_rank, fill = CCBASIC)) + 
+  geom_col() +
+  theme(legend.position = "none") + 
+  labs(
+    y = "Carnegie Classification", 
+    x = "Mean Rank",
+    title = "Mean Rank by Carnegie \nClassification"
+  )
+
 ```
 
-Looking at the Carnegie Classification, Special Focus Four-Year: Business & Management Schools have the highest mean rank, followed by Doctoral Universities: Very High Research Activity. Tribal Colleges have the lowest mean rank.
+We observe that private non-profit colleges have a higher mean rank than public colleges or private for-profit colleges.
+
+As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
+
+Looking at the Carnegie Classification, Doctoral Universities: Very High Research Activity have the highest mean rank, followed by Special Focus Four-Year: Engineering Schools. Master's Colleges and Universities: Medium Programs have the lowest mean rank.
 
 ## Research Question and Hypothesis
 
@@ -790,7 +823,7 @@ We have split the first part of our analysis into two approaches. The first appr
 
 In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association with it.
 
-## Approach #1: Individual Variable Analysis
+## Approach #1: Individual Numerical Variable Analysis
 
 1.  Create a linear regression model between each individual explanatory variable and college rank.
 
@@ -825,17 +858,15 @@ We will examine the final variables selected by both approaches and analyze thei
 
 3.  Using the scaled slopes to determine which explanatory variable has the greatest influence on college on a school having a higher rank.
 
-4.  Using the un-scaled slopes to interpret the relationships.
+4.  Using the un-scaled slopes to interpret the relationships.h
 
 # Results
 
-## Approach #1: Individual Variable Analysis
-
-### Numerical Variable Analysis
+## Approach #1: Individual Numerical Variable Analysis
 
 **Table of R-squared Values**
 
-The table below gives the R-squared values from the linear regression models between each individual explanatory variable and colleges rank, arranged in descending order.
+The table below gives the R-squared values from the linear regression models between each individual explanatory variable in our data set and colleges rank, arranged in descending order.
 
 ```{r}
 #| label: find-r2
@@ -898,142 +929,7 @@ r_squared_values |>
 
 `COSTT4_P` (Average cost of attendance for program-year institutions) has been removed because there are only two observations.
 
-Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), average faculty salary (`AVGFACSAL`), and admission rate (`ADM_RATE`), have the strongest relationship with rank because their R-squared values are above 0.4. Additionally, the largest sequential gap between R-squared values occurs between admission rate and the following variable, percentage of students receiving Pell Grants (`PCTPELL`).
-
-**How do these 6 metrics influence Niche college rank?**
-
-```{r}
-
-#| label: numerical-graphs
-
-library(gridExtra)
-
-
-a1 <- colleges |> 
-  ggplot(aes(x = SAT_AVG, y = rank)) +
-  geom_point(alpha = 0.25) +
-  geom_smooth(method = "lm") +
-  scale_y_continuous(limits = c(0,500)) +
-  labs(
-    x = "Avg. SAT",
-    y = "Rank"
-  ) 
-
-a2 <- colleges |> 
-  ggplot(aes(x = ACTCMMID, y = rank)) +
-  geom_point(alpha = 0.25) +
-  geom_smooth(method = "lm") +
-  scale_y_continuous(limits = c(0,500)) +
-  labs(
-    x = "Med. ACT",
-    y = "Rank"
-  )
-
-a3 <- colleges |> 
-  ggplot(aes(x = C150_4, y = rank)) +
-  geom_point(alpha = 0.25) +
-  geom_smooth(method = "lm") +
-  scale_y_continuous(limits = c(0,500)) +
-  labs(
-    x = "Graduation Rate",
-    y = "Rank"
-  )
-
-a4 <- colleges |> 
-  ggplot(aes(x = AVGFACSAL, y = rank)) +
-  geom_point(alpha = 0.25) +
-  geom_smooth(method = "lm") +
-  scale_y_continuous(limits = c(0,500)) +
-  labs(
-    x = "Avg. Faculty Salary",
-    y = "Rank"
-  )
-
-a5 <- colleges |> 
-  ggplot(aes(x = ADM_RATE, y = rank)) +
-  geom_point(alpha = 0.25) +
-  geom_smooth(method = "lm") +
-  scale_y_continuous(limits = c(0,500)) +
-  labs(
-    x = "Admission Rate",
-    y = "Rank"
-  )
-
-a6 <- colleges |> 
-  ggplot(aes(x = PCTPELL, y = rank)) +
-  geom_point(alpha = 0.25) +
-  geom_smooth(method = "lm") +
-  scale_y_continuous(limits = c(0,500)) +
-  labs(
-    x = "% Students with Pell Grants",
-    y = "Rank"
-  )
-
-grid.arrange(a1, a2, a3, a4, a5, a6, ncol = 2)
-```
-
-```{r}
-#| output: false
-
-#| label: numerical-slope-r2
-
-linear_reg() |> fit(rank ~ SAT_AVG, data = scaled_data)
-linear_reg() |> fit(rank ~ SAT_AVG, data = colleges)
-
-linear_reg() |> fit(rank ~ ACTCMMID, data = scaled_data)
-linear_reg() |> fit(rank ~ ACTCMMID, data = colleges)
-
-linear_reg() |> fit(rank ~ C150_4, data = scaled_data)
-linear_reg() |> fit(rank ~ C150_4, data = colleges)
-
-linear_reg() |> fit(rank ~ AVGFACSAL, data = scaled_data)
-linear_reg() |> fit(rank ~ AVGFACSAL, data = colleges)
-
-linear_reg() |> fit(rank ~ ADM_RATE, data = scaled_data)
-linear_reg() |> fit(rank ~ ADM_RATE, data = colleges)
-
-linear_reg() |> fit(rank ~ PCTPELL, data = scaled_data)
-linear_reg() |> fit(rank ~ PCTPELL, data = colleges)
-```
-
-**R-squared, scaled slope, and un-scaled slope for linear regression models between 6 metrics and Niche College Rank**
-
-```{r}
-
-#| label: r2-slopes-kable
-
-r2_slopes <- r_squared_values |>
-  arrange(desc(r_squared)) |> 
-  slice_head(n = 6) |> 
-  mutate(
-    scaled_slope = c(-115.0, -112.9, -103.5, -98.89, 91.74, 71.75),
-    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02, 644.76)       
-  ) |> 
-  rename(
-    "R-Squared" = r_squared,
-    "Scaled Slope" = scaled_slope,
-    "Un-scaled Slope" = slope
-  ) |> 
-  mutate(
-    variable = case_when (
-      variable == "SAT_AVG" ~ "Avg. SAT",
-      variable == "ACTCMMID" ~ "Med. ACT",
-      variable == "C150_4" ~ "Graduation Rate",
-      variable == "AVGFACSAL" ~ "Avg. Faculty Salary",
-      variable == "ADM_RATE" ~ "Admission Rate",
-      variable == "PCTPELL" ~ "% Students with Pell Grants",
-      TRUE ~ variable
-    )
-  )
-
-r2_slopes |> knitr::kable()
-```
-
-**Analysis**
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim. Nisi vitae suscipit tellus mauris a diam. Egestas tellus rutrum tellus pellentesque eu tincidunt. Tristique senectus et netus et. Id neque aliquam vestibulum morbi blandit cursus. Praesent semper feugiat nibh sed pulvinar. Lobortis scelerisque fermentum dui faucibus in ornare quam viverra. Orci eu lobortis elementum nibh tellus molestie. At erat pellentesque adipiscing commodo elit at imperdiet. Risus sed vulputate odio ut enim. Pellentesque habitant morbi tristique senectus et. Vitae tempus quam pellentesque nec. Ut sem viverra aliquet eget sit.
-
-Pellentesque habitant morbi tristique senectus et netus et. Cursus risus at ultrices mi. Tempor orci eu lobortis elementum nibh tellus molestie nunc non. Mauris a diam maecenas sed enim ut sem viverra. Magna sit amet purus gravida quis blandit turpis cursus in. Facilisis magna etiam tempor orci eu lobortis. Semper auctor neque vitae tempus quam pellentesque nec nam. Tempus urna et pharetra pharetra massa massa ultricies. In nibh mauris cursus mattis molestie a. Non nisi est sit amet facilisis magna etiam tempor. Tristique risus nec feugiat in fermentum posuere urna nec. Pharetra diam sit amet nisl suscipit. Viverra adipiscing at in tellus.
+Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), average faculty salary (`AVGFACSAL`), and admission rate (`ADM_RATE`), are the five variables with the strongest correlation to rank, based on their R-Squared values. We chose five as a cutoff because there is a substantial between these five and the next variable (`PCTPELL)` .
 
 ## Approach 2: Stepwise Regression Model
 
@@ -1224,6 +1120,140 @@ Qualitatively, it appears that region and Carnegie Classification have the clear
 ### Numerical Variable Analysis
 
 All of the variables with the top 5 R-squared values appeared in the final stepwise regression model except for ACTCMMID (median ACT score) and C150_4 (graduation rate). These were not used in the model because both of them had a high correlation with SAT_AVG (average SAT). Because SAT_AVG ended up in the final model, we can reasonably assume that they also have a strong association with rank based on the model's selection process. Therefore, we conclude that SAT_AVG, ACTCMMID, C150_4, and ADM_RATE have the strongest association with rank and we will characterize the relationship below.
+
+**How do these 5 metrics influence Niche college rank?**
+
+```{r}
+
+#| label: numerical-graphs
+
+
+
+
+a1 <- colleges |> 
+  ggplot(aes(x = SAT_AVG, y = rank)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
+  labs(
+    x = "Avg. SAT",
+    y = "Rank"
+  ) 
+
+a2 <- colleges |> 
+  ggplot(aes(x = ACTCMMID, y = rank)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
+  labs(
+    x = "Med. ACT",
+    y = "Rank"
+  )
+
+a3 <- colleges |> 
+  ggplot(aes(x = C150_4, y = rank)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
+  labs(
+    x = "Graduation Rate",
+    y = "Rank"
+  )
+
+a4 <- colleges |> 
+  ggplot(aes(x = AVGFACSAL, y = rank)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
+  labs(
+    x = "Avg. Faculty Salary",
+    y = "Rank"
+  )
+
+a5 <- colleges |> 
+  ggplot(aes(x = ADM_RATE, y = rank)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm") +
+  scale_y_continuous(limits = c(0,500)) +
+  labs(
+    x = "Admission Rate",
+    y = "Rank"
+  )
+
+
+grid.arrange(a1, a2, a3, a4, a5, ncol = 2)
+```
+
+```{r}
+#| output: false
+
+#| label: numerical-slope-r2
+
+linear_reg() |> fit(rank ~ SAT_AVG, data = scaled_data)
+linear_reg() |> fit(rank ~ SAT_AVG, data = colleges)
+
+linear_reg() |> fit(rank ~ ACTCMMID, data = scaled_data)
+linear_reg() |> fit(rank ~ ACTCMMID, data = colleges)
+
+linear_reg() |> fit(rank ~ C150_4, data = scaled_data)
+linear_reg() |> fit(rank ~ C150_4, data = colleges)
+
+linear_reg() |> fit(rank ~ AVGFACSAL, data = scaled_data)
+linear_reg() |> fit(rank ~ AVGFACSAL, data = colleges)
+
+linear_reg() |> fit(rank ~ ADM_RATE, data = scaled_data)
+linear_reg() |> fit(rank ~ ADM_RATE, data = colleges)
+
+linear_reg() |> fit(rank ~ PCTPELL, data = scaled_data)
+linear_reg() |> fit(rank ~ PCTPELL, data = colleges)
+```
+
+**R-squared, scaled slope, and un-scaled slope for linear regression models between 6 metrics and Niche College Rank**
+
+```{r}
+
+#| label: r2-slopes-kable
+
+r2_slopes <- r_squared_values |>
+  arrange(desc(r_squared)) |> 
+  slice_head(n = 6) |> 
+  mutate(
+    scaled_slope = c(-115.0, -112.9, -103.5, -98.89, 91.74, 71.75),
+    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02, 644.76)       
+  ) |> 
+  rename(
+    "R-Squared" = r_squared,
+    "Scaled Slope" = scaled_slope,
+    "Un-scaled Slope" = slope
+  ) |> 
+  mutate(
+    variable = case_when (
+      variable == "SAT_AVG" ~ "Avg. SAT",
+      variable == "ACTCMMID" ~ "Med. ACT",
+      variable == "C150_4" ~ "Graduation Rate",
+      variable == "AVGFACSAL" ~ "Avg. Faculty Salary",
+      variable == "ADM_RATE" ~ "Admission Rate",
+      variable == "PCTPELL" ~ "% Students with Pell Grants",
+      TRUE ~ variable
+    )
+  )
+
+r2_slopes |> knitr::kable()
+```
+
+**Analysis**
+
+Based on our analysis, these five variables are the numerical explanatory variables most associated with college ranking (as determined in our individual variable analysis and confirmed in our step-wise regression model. We hypothesized that SAT/ACT scores, acceptance rate, and family income would have the strongest association with rank, and our results mostly confirm this hypothesis. SAT/ACT/Acceptance Rate were among the most correlated variables, but family income was not in the top five.
+
+The clearest way to interpret these R-Squared values is the following: 63% of the variation in college rank can be explained by average SAT score. This same interpretation can be used for all of the variables.
+
+These relationships indicate certain priorities in college rankings. As SAT and ACT scores are the most correlated variables and acceptance rate is in the top five, it is clear that the rankings highly prioritize selectivity in college admissions. This is logical since the audience of the rankings is mostly prospective students who are applying to college. There are obvious concerns with this approach: does it cause colleges to prioritize improving admissions selectivity over their quality of education and student outcomes? The inclusion of graduation rate and faculty salary do tell slightly different stories. Graduation rate indicates a focus on the ability of a university to meet the needs of its students and give them the resources and support. Faculty salary, in a way, may indicate the quality of the faculty both in teaching and research.
+
+Looking further at the relationships, there is a negative relationship between SAT/ACT/Graduation Rate/Faculty Salary and rank. This indicates that as the variables increase, the rank of the school decreases. There is a positive relationship between admission rate and rank, indicating that as this variable increases, the rank of a school increases.
+
+Looking at the un-scaled slope allows us to interpret how much changes in the explanatory variable change rank. For example for ACT, we can say that on average, we can expect a 1-point increase in ACT score to drop the rank of a school by 30 places. For admission rate, since it is scaled from 0-1, we need to divide the slope by 100 to get an interpretable number. It indicates that a 1-point drop in admission rate will drop the rank of the school by 3.87 places.
+
+Looking at the scaled slope allows us to tell which variables have the greatest "influence" on rank. In other words, which change in a numerical variable away from the mean has the greatest impact on decreasing a school's rank? An extremely interesting trend is that among the five most associated variables, schools that have a stronger R-squared also have a higher absolute value of scaled-slope, indicating that variables that have the strongest association to rank also have the greatest influence on decreasing rank. This is logical because Niche would likely tie their rankings to variables where there is the greatest differentiation between schools with higher and lower ranks. This is also concerning because if schools know which variables are most associated to rank and which ones have the greatest impact on decreasing it, it is fairly easy for them to know which variables to change if they wanted to manipulate the rankings.
 
 # Discussion
 
