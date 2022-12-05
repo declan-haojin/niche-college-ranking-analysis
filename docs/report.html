@@ -122,7 +122,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
   <li><a href="#approach-1-individual-variable-analysis" id="toc-approach-1-individual-variable-analysis" class="nav-link" data-scroll-target="#approach-1-individual-variable-analysis">Approach #1: Individual Variable Analysis</a></li>
-  <li><a href="#approach-2-stepwise-regression-modeling" id="toc-approach-2-stepwise-regression-modeling" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-modeling">Approach #2: Stepwise regression modeling</a></li>
+  <li><a href="#approach-2-stepwise-regression-modeling" id="toc-approach-2-stepwise-regression-modeling" class="nav-link" data-scroll-target="#approach-2-stepwise-regression-modeling">Approach #2: Stepwise Regression Modeling</a></li>
   <li><a href="#final-variable-analysis" id="toc-final-variable-analysis" class="nav-link" data-scroll-target="#final-variable-analysis">Final Variable Analysis</a></li>
   </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
@@ -135,7 +135,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#remove-highly-correlated-variables" id="toc-remove-highly-correlated-variables" class="nav-link" data-scroll-target="#remove-highly-correlated-variables">Remove Highly Correlated Variables</a></li>
   <li><a href="#compute-stepwise-regression" id="toc-compute-stepwise-regression" class="nav-link" data-scroll-target="#compute-stepwise-regression">Compute Stepwise Regression</a></li>
-  <li><a href="#final-model-results" id="toc-final-model-results" class="nav-link" data-scroll-target="#final-model-results">Final Model Results</a></li>
+  <li><a href="#model-results" id="toc-model-results" class="nav-link" data-scroll-target="#model-results">Model Results</a></li>
   </ul></li>
   <li><a href="#final-variable-analysis-1" id="toc-final-variable-analysis-1" class="nav-link" data-scroll-target="#final-variable-analysis-1">Final Variable Analysis</a>
   <ul class="collapse">
@@ -203,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><p>The second data set comes from the US Department of Education’s College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.</p>
 <p>(https://collegescorecard.ed.gov/data/)</p></li>
-<li><p>The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.</p></li>
+<li><p>The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.</p></li>
 <li><p>There were 2,989 variables in the original data set, many of which we don’t need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are 6681 observations in the data set, representing all of the colleges and universities in the United States.</p></li>
 </ul>
 <section id="variable-summary" class="level4">
@@ -528,7 +528,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
-<p>After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100.</p>
+<p>After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100. As the rank gets higher, the mean cost of attendance also tends to increases.</p>
 </section>
 <section id="means-of-rank-by-categorical-variables" class="level3">
 <h3 class="anchored" data-anchor-id="means-of-rank-by-categorical-variables">Means of Rank by Categorical Variables</h3>
@@ -726,7 +726,7 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 </section>
 <section id="approach-2-stepwise-regression-modeling" class="level2">
-<h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-modeling">Approach #2: Stepwise regression modeling</h2>
+<h2 class="anchored" data-anchor-id="approach-2-stepwise-regression-modeling">Approach #2: Stepwise Regression Modeling</h2>
 <p>Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.</p>
 <p>In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.</p>
 <p>There are two main steps in this approach.</p>
@@ -896,44 +896,44 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th style="text-align: left;">variable</th>
-<th style="text-align: right;">r_squared</th>
-<th style="text-align: right;">scaled_slope</th>
-<th style="text-align: right;">slope</th>
+<th style="text-align: right;">R-Squared</th>
+<th style="text-align: right;">Scaled Slope</th>
+<th style="text-align: right;">Un-scaled Slope</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">SAT_AVG</td>
+<td style="text-align: left;">Avg. SAT</td>
 <td style="text-align: right;">0.6291468</td>
 <td style="text-align: right;">-115.00</td>
 <td style="text-align: right;">-0.9277</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ACTCMMID</td>
+<td style="text-align: left;">Med. ACT</td>
 <td style="text-align: right;">0.6062324</td>
 <td style="text-align: right;">-112.90</td>
 <td style="text-align: right;">-30.0400</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">C150_4</td>
+<td style="text-align: left;">Graduation Rate</td>
 <td style="text-align: right;">0.5137627</td>
 <td style="text-align: right;">-103.50</td>
 <td style="text-align: right;">-735.2000</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">AVGFACSAL</td>
+<td style="text-align: left;">Avg. Faculty Salary</td>
 <td style="text-align: right;">0.4692148</td>
 <td style="text-align: right;">-98.89</td>
 <td style="text-align: right;">-0.0347</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ADM_RATE</td>
+<td style="text-align: left;">Admission Rate</td>
 <td style="text-align: right;">0.4048157</td>
 <td style="text-align: right;">91.74</td>
 <td style="text-align: right;">387.0200</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">PCTPELL</td>
+<td style="text-align: left;">% Students with Pell Grants</td>
 <td style="text-align: right;">0.2476545</td>
 <td style="text-align: right;">71.75</td>
 <td style="text-align: right;">644.7600</td>
@@ -1118,8 +1118,8 @@ rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
 </div>
 <p>In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable <code>FAMINC</code> was removed, leading to a decrease in AIC. Then, one-by-one, it removes <code>PCTPELL</code>, <code>ENDOWBEGIN</code>, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of <code>UGDS_HISP</code> led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.</p>
 </section>
-<section id="final-model-results" class="level3">
-<h3 class="anchored" data-anchor-id="final-model-results">Final Model Results</h3>
+<section id="model-results" class="level3">
+<h3 class="anchored" data-anchor-id="model-results">Model Results</h3>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/visualize-stepwise-model-1.png" class="img-fluid" width="672"></p>

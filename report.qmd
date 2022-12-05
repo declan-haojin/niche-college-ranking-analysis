@@ -63,7 +63,7 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
     (https://collegescorecard.ed.gov/data/)
 
--   The College Scorecard is updated by the Education Department as it collects new data. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.
+-   The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.
 
 -   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the United States.
 
@@ -715,7 +715,7 @@ colleges_levels |>
   knitr::kable()
 ```
 
-After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100.
+After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100. As the rank gets higher, the mean cost of attendance also tends to increases.
 
 ### Means of Rank by Categorical Variables
 
@@ -1012,7 +1012,24 @@ r2_slopes <- r_squared_values |>
   slice_head(n = 6) |> 
   mutate(
     scaled_slope = c(-115.0, -112.9, -103.5, -98.89, 91.74, 71.75),
-    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02, 644.76)         )
+    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02, 644.76)       
+  ) |> 
+  rename(
+    "R-Squared" = r_squared,
+    "Scaled Slope" = scaled_slope,
+    "Un-scaled Slope" = slope
+  ) |> 
+  mutate(
+    variable = case_when (
+      variable == "SAT_AVG" ~ "Avg. SAT",
+      variable == "ACTCMMID" ~ "Med. ACT",
+      variable == "C150_4" ~ "Graduation Rate",
+      variable == "AVGFACSAL" ~ "Avg. Faculty Salary",
+      variable == "ADM_RATE" ~ "Admission Rate",
+      variable == "PCTPELL" ~ "% Students with Pell Grants",
+      TRUE ~ variable
+    )
+  )
 
 r2_slopes |> knitr::kable()
 ```
