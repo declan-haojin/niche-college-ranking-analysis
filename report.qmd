@@ -723,7 +723,7 @@ colleges_levels |>
   knitr::kable()
 ```
 
-After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100.
+After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100. As the rank gets higher, the mean cost of attendance also tends to increases.
 
 ### Means of Rank by Categorical Variables
 
@@ -795,7 +795,7 @@ In our project, we will join two data sets: The Niche College Rankings list and 
 
 We have split the first part of our analysis into two approaches. The first approach consists of looking at he linear relationship between the numerical explanatory variables and college rank using R-squared variables. The second approach consists of building a stepwise regression model between many explanatory variables and college rank. As the variables that appear in the final model will be most important for determining rank, we will use the model results to corroborate our results from the first approach. As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we decided to simply use the stepwise regression model to determine if there is a strong association between those variables and rank.
 
-In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association with it. 
+In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association with it.
 
 ## Approach #1: Individual Variable Analysis
 
