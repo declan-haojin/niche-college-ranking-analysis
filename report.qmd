@@ -8,7 +8,7 @@ execute:
 message: false
 warning: false
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r}
@@ -1212,6 +1212,10 @@ Qualitatively, it appears that region and Carnegie Classification have the clear
 All of the variables with the top 5 R-squared values appeared in the final stepwise regression model except for ACTCMMID (median ACT score) and C150_4 (graduation rate). These were not used in the model because both of them had a high correlation with SAT_AVG (average SAT). Because SAT_AVG ended up in the final model, we can reasonably assume that they also have a strong association with rank based on the model's selection process. Therefore, we conclude that SAT_AVG, ACTCMMID, C150_4, and ADM_RATE have the strongest association with rank and we will characterize the relationship below.
 
 # Discussion
+
+In this section you\'ll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions. In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved. Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here. Lastly, this section will include ideas for future work.
+
+\
 
 There are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. This is because the model selected variables based on AIC rather than R-squared values. Additionally, it examines the collective predictive power of the variables rather than simply the predictive ability of variables individually. NOT DONE
 
