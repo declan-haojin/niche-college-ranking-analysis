@@ -1,7 +1,7 @@
 ---
 title: "College Ranking Predictions"
 subtitle: "Report"
-format: html
+format: pdf
 editor: visual
 execute:
   echo: false
@@ -53,8 +53,6 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   The first data set comes from Niche's "2023 Best Colleges in America" list
 
-    (https://www.niche.com/colleges/search/best-colleges/)
-
 -   Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022.
 
 -   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
@@ -63,15 +61,13 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.
 
-    (https://collegescorecard.ed.gov/data/)
-
 -   The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies.
 
 -   There were 2,989 variables in the original data set, many of which we don't need to answer our question, and since this data set was too large to load into RStudio, we used Excel to narrow this to 31 variables. We chose any variables that we thought would have an impact on college rank, and excluded redundant ones like specific breaksdowns of test scores. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the United States.
 
 #### Variable Summary
 
-Here is a summary of the variables we will be using in our analysis. We selected every one we thought could impact rank, but left some out, such as test score breakdowns to avoid redundancy.
+Here is a summary of the variables we will be using in our analysis. We selected every one we thought could impact rank, but left some out, such as test score breakdowns, to avoid redundancy.
 
 Categorical:
 
@@ -678,8 +674,6 @@ scaled_data |>
 
 ## Exploratory Data Analysis
 
-### Means of Different Variables by Rank Group
-
 ```{r}
 #| label: exploration-by-rank-group
 
@@ -719,103 +713,13 @@ colleges_levels |>
 
 After grouping the schools into five groups of 100 by their rank, we see that different metrics vary considerably across the group. As the rank level gets higher, the mean admission rate increases, the mean SAT Average decreases, the mean ACT Median decreases, and the cost of attendance decreases. As far as demographic statistics, 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100. As the rank gets higher, the mean cost of attendance also tends to increases.
 
-### Means of Rank by Categorical Variables
-
-Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups. For Carnegie classification, any classification with only one school was removed from the analysis.
-
-```{r}
-
-#| label: exploration-control-region
-
-group_by_control <- data |> 
-  group_by(CONTROL) |>
-  summarize(
-    mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank)
-
-
-p1 <- group_by_control |> 
-  ggplot(aes(x = reorder(CONTROL, + mean_rank), y = mean_rank, fill = CONTROL)) + 
-  geom_col() +
-  theme(legend.position = "none") + 
-  labs(
-    x = "Control of School", 
-    y = "Mean Rank",
-    title = "Mean Rank by Control"
-  )
-
-
-group_by_region <- data |> 
-  group_by(REGION) |> 
-  summarize(
-    mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank)
-
-
-
-p2 <- group_by_region |>
-  drop_na(REGION) |> 
-  ggplot(aes(x = reorder(REGION, + mean_rank), y  = mean_rank, fill = REGION)) + 
-  geom_col() +
-  theme(
-    legend.position = "none",
-    axis.text.x = element_text(size = 7)
-  ) + 
-  labs(
-    x = "REGION", 
-    y = "Mean Rank",
-    title = "Mean Rank by Region"
-  )
-
-grid.arrange(p1, p2)
-```
-
-```{r}
-
-#| label: exploration-CCBASIC
-
-group_by_CCBASIC <- data |> 
-  group_by(CCBASIC) |> 
-  summarize(
-    mean_rank = mean(rank)
-  ) |> 
-  arrange(mean_rank)
-
-group_by_CCBASIC |>
-  drop_na(CCBASIC) |>
-   filter(
-    CCBASIC != "Special Focus Four-Year: Business & Management Schools" &
-    CCBASIC != "Baccalaureate/Associate's Colleges: Mixed Baccalaureate/Associate's" &
-    CCBASIC != "Special Focus Four-Year: Other Special Focus Institutions" &
-    CCBASIC != "Special Focus Four-Year: Other Technology-Related Schools" &
-    CCBASIC != "Tribal Colleges"
-  ) |> 
-  ggplot(aes(y = reorder(CCBASIC, + mean_rank), x = mean_rank, fill = CCBASIC)) + 
-  geom_col() +
-  theme(legend.position = "none") + 
-  labs(
-    y = "Carnegie Classification", 
-    x = "Mean Rank",
-    title = "Mean Rank by Carnegie \nClassification"
-  )
-
-```
-
-We observe that private non-profit colleges have a higher mean rank than public colleges or private for-profit colleges.
-
-As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
-
-Looking at the Carnegie Classification, Doctoral Universities: Very High Research Activity have the highest mean rank, followed by Special Focus Four-Year: Engineering Schools. Master's Colleges and Universities: Medium Programs have the lowest mean rank.
+We also looked at means of rank by categorical variables, and seen that there does appear to be an association between them and rank, so we decided to include them all in our subsequent analysis. We have included our exploratory analysis in our appendix.
 
 ## Research Question and Hypothesis
 
 **Question:** Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?
 
 **Hypothesis:** We hypothesize that SAT/ACT scores, acceptance rate, and family income will have the strongest association with rank because since Niche's audience is in large part students applying to college, we believe that they prioritize variables important in the college admissions process. Of these variables, we predict that SAT/ACT score will have strong negative relationship, acceptance rate will have a strong positive relationship, and family income will have a strong negative relationship with rank.
-
-In our project, we will join two data sets: The Niche College Rankings list and the US Department of Education College Scorecard
 
 # Methodology
 
@@ -825,26 +729,18 @@ In the second part of our analysis, we will combine the results of the two appro
 
 ## Approach #1: Individual Numerical Variable Analysis
 
-1.  Create a linear regression model between each individual explanatory variable and college rank.
-
-2.  Calculate the R-squared value for each respective model, rank the values from highest to lowest, and select the variables with the top 6 R-squared values.
-
-3.  Create 6 scatter plots (with lines of best fit) to visualize the relationships between the 6 variables (determined in section 2) and college rank.
-
-4.  Recreate the individual models with the scaled explanatory variables, and calculate the respective slopes between each of the scaled explanatory variables and college rank.
-
-5.  Calculate the respective slopes between each of the un-scaled explanatory variables and college rank.
+First, we will create a linear regression models between each individual explanatory variable and college rank. Then, we will calculate the R-squared value for each respective model, rank the values from highest to lowest, and select the variables with the highest R-squared values.
 
 ## Approach #2: Stepwise Regression Modeling
 
-Another method we used to answer our research question of which characteristics are most associated with university rankings is through stepwise regression model. A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
+A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.
 
 In our research, we will use both forward and backward selections in the stepwise regression model by utilizing MASS package. We will evaluate the performance of each iteration of the model based on Akaike information criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice.
 
 There are two main steps in this approach.
 
 1.  Create a correlation matrix to check correlation coefficients between variables so as to not use similar variables in our model. If two variables had an absolute value of r greater than 0.8, meaning they were too similar in how they factored into rankings, we only picked one of them to put into the model.
-2.  Compute the stepwise regression model using MASS package and mainly stepAIC() functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable.
+2.  Compute the stepwise regression model using MASS package and mainly `stepAIC()` functions for model selections based on AIC. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable.
 
 In the end, this will give us the best final model with much fewer variables. Those variables are the most influential factors to the rank of the college.
 
@@ -852,13 +748,9 @@ In the end, this will give us the best final model with much fewer variables. Th
 
 We will examine the final variables selected by both approaches and analyze their relationships with college rank by:
 
-1.  Interpreting the R-squared values to determine strength of linear association
+1.  Interpreting the R-squared values and graphs to characterize the linear association for each variable and rank.
 
-2.  interpreting the graphs to visualize this relationship.
-
-3.  Using the scaled slopes to determine which explanatory variable has the greatest influence on college on a school having a higher rank.
-
-4.  Using the un-scaled slopes to interpret the relationships.h
+2.  Calculate the linear regression slopes between each of the explanatory variables (scaled and non-scaled) and college rank. Then we will use the scaled slopes to determine which explanatory variable has the greatest influence on college on a school having a higher rank. We will interpret the relationships using the non-scaled slopes.
 
 # Results
 
@@ -938,16 +830,16 @@ Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), av
 ```{r}
 #| label: correlation-matrix
 
-    data_for_corr <- scaled_data |>
-      dplyr::select(is.numeric)
+data_for_corr <- scaled_data |>
+  dplyr::select(is.numeric)
 
-    correlations = data_for_corr |>
-      dplyr::select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
-        na.omit() |>
-        cor() 
+correlations = data_for_corr |>
+  dplyr::select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
+    na.omit() |>
+    cor() 
 
-    correlations |>
-        corrplot(method="color")
+correlations |>
+    corrplot(method="color")
 ```
 
 The correlation matrix above provides a visual representation of the correlation between all variable pairs. Below, is the filtered correlation matrix that only displays entries with values greater than or equal to 0.8.
@@ -1127,9 +1019,6 @@ All of the variables with the top 5 R-squared values appeared in the final stepw
 
 #| label: numerical-graphs
 
-
-
-
 a1 <- colleges |> 
   ggplot(aes(x = SAT_AVG, y = rank)) +
   geom_point(alpha = 0.25) +
@@ -1270,3 +1159,101 @@ Finally, we believe that future avenues for this project could include analyzing
 Learned how to do for loops from TA Eli Gnesin
 
 We used the `scale()` function found at https://www.statology.org/standardize-data-in-r/
+
+https://www.niche.com/colleges/search/best-colleges/
+
+https://collegescorecard.ed.gov/data/
+
+# Appendix
+
+## Exploratory Analysis: Means of Rank by Categorical Variables
+
+Below, we group the schools by the different categorical variables in our analysis and then take the mean rank for each of those groups. For Carnegie classification, any classification with only one school was removed from the analysis.
+
+```{r}
+
+#| label: exploration-control-region
+
+group_by_control <- data |> 
+  group_by(CONTROL) |>
+  summarize(
+    mean_rank = mean(rank)
+  ) |> 
+  arrange(mean_rank)
+
+
+p1 <- group_by_control |> 
+  ggplot(aes(x = reorder(CONTROL, + mean_rank), y = mean_rank, fill = CONTROL)) + 
+  geom_col() +
+  theme(legend.position = "none") + 
+  labs(
+    x = "Control of School", 
+    y = "Mean Rank",
+    title = "Mean Rank by Control"
+  )
+
+
+group_by_region <- data |> 
+  group_by(REGION) |> 
+  summarize(
+    mean_rank = mean(rank)
+  ) |> 
+  arrange(mean_rank)
+
+
+
+p2 <- group_by_region |>
+  drop_na(REGION) |> 
+  ggplot(aes(x = reorder(REGION, + mean_rank), y  = mean_rank, fill = REGION)) + 
+  geom_col() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 7)
+  ) + 
+  labs(
+    x = "REGION", 
+    y = "Mean Rank",
+    title = "Mean Rank by Region"
+  )
+
+grid.arrange(p1, p2)
+```
+
+```{r}
+
+#| label: exploration-CCBASIC
+
+group_by_CCBASIC <- data |> 
+  group_by(CCBASIC) |> 
+  summarize(
+    mean_rank = mean(rank)
+  ) |> 
+  arrange(mean_rank)
+
+group_by_CCBASIC |>
+  drop_na(CCBASIC) |>
+   filter(
+    CCBASIC != "Special Focus Four-Year: Business & Management Schools" &
+    CCBASIC != "Baccalaureate/Associate's Colleges: Mixed Baccalaureate/Associate's" &
+    CCBASIC != "Special Focus Four-Year: Other Special Focus Institutions" &
+    CCBASIC != "Special Focus Four-Year: Other Technology-Related Schools" &
+    CCBASIC != "Tribal Colleges"
+  ) |> 
+  ggplot(aes(y = reorder(CCBASIC, + mean_rank), x = mean_rank, fill = CCBASIC)) + 
+  geom_col() +
+  theme(legend.position = "none") + 
+  labs(
+    y = "Carnegie Classification", 
+    x = "Mean Rank",
+    title = "Mean Rank by Carnegie \nClassification"
+  )
+
+```
+
+We observe that private non-profit colleges have a higher mean rank than public colleges or private for-profit colleges.
+
+As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
+
+Looking at the Carnegie Classification, Doctoral Universities: Very High Research Activity have the highest mean rank, followed by Special Focus Four-Year: Engineering Schools. Master's Colleges and Universities: Medium Programs have the lowest mean rank.
+
+## 
