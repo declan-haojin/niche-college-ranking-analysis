@@ -1164,6 +1164,28 @@ https://www.niche.com/colleges/search/best-colleges/
 
 https://collegescorecard.ed.gov/data/
 
+https://www.youtube.com/watch?v=ejR8LnQziPY
+
+https://stackoverflow.com/questions/57248708/stepwise-model-selection-in-an-r-tidyverse-workflow
+
+https://stackoverflow.com/questions/53135404/filter-correlation-matrix-r
+
+https://stackoverflow.com/questions/68093071/how-to-highlight-high-correlations-in-ggpairs-correlation-matrix
+
+http://www.sthda.com/english/wiki/visualize-correlation-matrix-using-correlogram
+
+https://www.tutorialspoint.com/how-to-deal-with-missing-values-to-calculate-correlation-matrix-in-r
+
+https://www.displayr.com/how-to-create-a-correlation-matrix-in-r/
+
+https://stats.stackexchange.com/questions/550537/how-to-get-r-squared-after-doing-stepwise-model-selection-in-regression-in-r
+
+http://www.sthda.com/english/articles/37-model-selection-essentials-in-r/154-stepwise-regression-essentials-in-r/
+
+https://www.researchgate.net/figure/R-2-and-RMSE-of-forward-stepwise-regression-models-vs-WHO-algorithm_tbl1_354396022
+
+https://www.r-bloggers.com/2016/05/visualizing-bootrapped-stepwise-regression-in-r-using-plotly/
+
 # Appendix
 
 ## Exploratory Analysis: Means of Rank by Categorical Variables
