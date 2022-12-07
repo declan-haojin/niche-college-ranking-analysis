@@ -903,7 +903,7 @@ aic_df |>
 
 ```
 
-The plot above visually displays the decreasing AIC value as variables get taken out and potentially re-added. Each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
+The plot above visually displays the decreasing AIC value as variables get taken out and potentially re-added. Each point represents a new iteration of the model after a certain variable is taken out (-) or added (+). The final iteration is the best model because its AIC value is the lowest.
 
 **Model Results**
 
@@ -922,13 +922,13 @@ final_model_fit <- linear_reg() |>
 
 ```
 
-We can further tell that this is our best model because it has an r-squared coefficient of `r glance(final_model_fit)$r.squared`. The variables here can then be considered to be the variables that affect a college's ranking the most. Region (`REGION`) and type of school (`CONTROL`, `CCBASIC`) influence its ranking. There are certain qualities of its undergraduate population that are more statistically significant than others and were thus included in this model: overall undergraduate population, number of Asians, Hispanics, mixed students, and first-generation students, and average age when the undergraduated enrolled. Average SAT score was also significant enough to be include into the model, and `ACCREDAGENCY` and cost of attendance were also the final two variables considered significant enough for our best model.
+Our final model has an R-squared coefficient of `r glance(final_model_fit)$r.squared` which means it covers a significant amount of the variation in rank. The variables here can be considered to be the variables that are most associated with a college's ranking.
 
 ## Final Variable Analysis
 
 **Categorical Variable Analysis**
 
-All four categorical variables appeared in the final model, and therefore we can assume that they have a significant association with rank.
+All four categorical variables appeared in the final model, and therefore we can assume that they have a significant association with rank. (Note that for these graphs we dropped `NAs` and removed levels that only had one observation.)
 
 ```{r}
 #| label: rank-vs-region
@@ -996,17 +996,11 @@ colleges_levels |>
   )
 ```
 
-Note that for these graphs we dropped `NAs` and removed levels that only had one observation.
-
-The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks.
-
-There does not appear to be a obvious pattern in the accreditation agency graph, which could be because some of the agencies corresponded to very few schools in the top 500. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph.
+The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph.
 
 There are only 4 `Private, For-profit` schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between `Private, Non-profit` and `Public` are similar, although the first appears to have a larger proportion of `1-100` schools, and the latter a higher proportion of `401-500` schools.
 
-There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. It appears that the lower the rank, the higher proportion of schools in `Doctoral Universities: Very High Research Activity` and `Baccalaureate Colleges: Arts & Sciences Focus`. However, the opposite appeared to be true for all other classifications with 3 or more rank categories. Like accreditation agencies, some classifications corresponded to very few schools in the top 500.
-
-Qualitatively, it appears that region and Carnegie Classification have the clearest relationship with rank; however, the final model indicates that they all have an association with rank.
+There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. The lower the rank, the higher proportion of schools in `Doctoral Universities: Very High Research Activity` and `Baccalaureate Colleges: Arts & Sciences Focus`. However, the opposite appeared to be true for all other classifications with 3 or more rank categories.
 
 **Numerical Variable Analysis**
 
