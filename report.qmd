@@ -902,10 +902,13 @@ All four categorical variables appeared in the final model, and therefore we can
 ```{r}
 #| label: rank-vs-region
 #| layout-nrow: 2
-#| fig-height: 6
+#| fig-height: 6.5
 
 colleges_levels |>
   drop_na(REGION) |>
+  mutate(
+    REGION = fct_relevel(REGION, "Plains", "Rocky Mountains", "Southwest", "Great Lakes", "Southeast",  "Far West", "Mid East", "New England")
+  ) |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
@@ -914,7 +917,8 @@ colleges_levels |>
     x = "Proportion",
     y = "Region",
     fill = "Rank"
-  )
+  ) +
+  theme(legend.position = "left")
 
 colleges_levels |>
   drop_na(ACCREDAGENCY) |>
@@ -923,8 +927,11 @@ colleges_levels |>
     ACCREDAGENCY != "National Association of Schools of Theatre" &
     ACCREDAGENCY != "Transnational Association of Christian Colleges and Schools"
   ) |>
+  mutate(
+    ACCREDAGENCY = fct_relevel(ACCREDAGENCY, "New England Commission on Higher Education", "Accrediting Commission of Career Schools and Colleges", "Northwest Commission on Colleges and Universities", "Higher Learning Commission", "Southern Association of Colleges and Schools Commission on Colleges", "Middle States Commission on Higher Education", "Western Association of Schools and Colleges Senior Colleges and University Commission")
+  ) |>
   ggplot(aes(y = str_wrap(ACCREDAGENCY, 30), fill = fct_rev(level))) +
-  geom_bar(position = "fill") +
+  geom_bar(position = "fill", show.legend = FALSE) +
   scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
     title = "Rank vs Accreditation Agency",
@@ -935,8 +942,11 @@ colleges_levels |>
 
 colleges_levels |>
   drop_na(CONTROL) |>
+  mutate(
+    CONTROL = fct_relevel(CONTROL, "Private, For-profit", "Public", "Private, Non-profit")
+  ) |>
   ggplot(aes(y = CONTROL, fill = fct_rev(level))) +
-  geom_bar(position = "fill") +
+  geom_bar(position = "fill", show.legend = FALSE) +
   scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
     title = "Rank vs Control",
@@ -955,7 +965,7 @@ colleges_levels |>
     CCBASIC != "Tribal Colleges"
   ) |>
   ggplot(aes(y = str_wrap(CCBASIC, 30), fill = fct_rev(level))) +
-  geom_bar(position = "fill") +
+  geom_bar(position = "fill", show.legend = FALSE) +
   scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
     title = "Rank vs Carnegie Classification",
