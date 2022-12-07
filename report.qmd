@@ -8,7 +8,7 @@ execute:
 message: false
 warning: false
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r}
@@ -49,7 +49,7 @@ niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
 
-**Data Set #1: Niche**
+### Data Set #1: Niche
 
 -   The first data set comes from Niche's "2023 Best Colleges in America" list
 
@@ -57,7 +57,7 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
-**Data Set #2: US Department of Education**
+### Data Set #2: US Department of Education
 
 -   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.
 
@@ -816,7 +816,6 @@ r_squared_values <- tibble(
 
 r_squared_values |>
   arrange(desc(r_squared)) |>
-  slice(1:6) |>
   knitr::kable()
 ```
 
@@ -830,7 +829,6 @@ Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), av
 
 ```{r}
 #| label: correlation-matrix
-#| output: false
 
 data_for_corr <- scaled_data |>
   dplyr::select(is.numeric)
@@ -844,7 +842,7 @@ correlations |>
     corrplot(method="color")
 ```
 
-Below is the correlation table that only displays variable pairs with correlation values greater than or equal to 0.8.
+The correlation matrix above provides a visual representation of the correlation between all variable pairs. Below, is the filtered correlation matrix that only displays entries with values greater than or equal to 0.8.
 
 ```{r}
 #| label: display-correlation-pair-to-be-removed
@@ -860,16 +858,20 @@ correlations[correlations < 0.8 | correlations == 1] <- ""
 | FAMINC, MD_FAMINC            | 0.9538                   |
 | SAT_AVG, ACTCMMID            | 0.9756                   |
 
-We will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID`, `MARRIED` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
+According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`), (`C150_4`, `SAT_AVG`), (`C150_4`, `ACTCMMID`) and (`ACTCMMID`, `SAT_AVG`). Therefore, we will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
 
 ### Compute Stepwise Regression
+
+As mentioned in methodology, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
 
 ```{r}
 #| label: stepwise-regression-model
 
 stepwise_data <- scaled_data |>
-  dplyr::select(c("rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
-
+  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
+stepwise_data |>
+  names() |>
+  knitr::kable(col.names = "Selected Variables")
 # Factorize variable
 stepwise_data <- stepwise_data |>
   mutate(
@@ -881,7 +883,7 @@ stepwise_data <- stepwise_data |>
 library(MASS)
 stepwise_data = na.omit(stepwise_data)
 # Fit the full model
-full_model <- lm(rank ~ ., data = stepwise_data)
+full_model <- lm(rank ~. -college, data = stepwise_data)
 # Stepwise regression model
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 
@@ -933,9 +935,11 @@ final_model_fit <- linear_reg() |>
     UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL + 
     AGE_ENTRY + SAT_AVG + FIRST_GEN + UGDS_HISP, data = scaled_data)
 
+glance(final_model_fit) |>
+  knitr::kable()
 ```
 
-We can further tell that this is our best model because it has an r-squared coefficient of `r glance(final_model_fit)$r.squared`. The variables here can then be considered to be the variables that affect a college's ranking the most. Region (`REGION`) and type of school (`CONTROL`, `CCBASIC`) influence its ranking. There are certain qualities of its undergraduate population that are more statistically significant than others and were thus included in this model: overall undergraduate population, number of Asians, Hispanics, mixed students, and first-generation students, and average age when the undergraduated enrolled. Average SAT score was also significant enough to be include into the model, and `ACCREDAGENCY` and cost of attendance were also the final two variables considered significant enough for our best model.
+We can further tell that this is our best model because it has an r-squared coefficient of 0.774. The variables here can then be considered to be the variables that affect a college's ranking the most. Region (`REGION`) and type of school (`CONTROL`, `CCBASIC`) influence its ranking. There are certain qualities of its undergraduate population that are more statistically significant than others and were thus included in this model: overall undergraduate population, number of Asians, Hispanics, mixed students, and first-generation students, and average age when the undergraduated enrolled. Average SAT score was also significant enough to be include into the model, and `ACCREDAGENCY` and cost of attendance were also the final two variables considered significant enough for our best model.
 
 ## Final Variable Analysis
 
@@ -949,6 +953,7 @@ All four categorical variables appeared in the final model, and therefore we can
 #| fig-height: 6
 
 colleges_levels |>
+  drop_na(REGION) |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
@@ -960,6 +965,12 @@ colleges_levels |>
   )
 
 colleges_levels |>
+  drop_na(ACCREDAGENCY) |>
+   filter(
+    ACCREDAGENCY != "EXEMPT" &
+    ACCREDAGENCY != "National Association of Schools of Theatre" &
+    ACCREDAGENCY != "Transnational Association of Christian Colleges and Schools"
+  ) |>
   ggplot(aes(y = str_wrap(ACCREDAGENCY, 30), fill = fct_rev(level))) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
@@ -971,6 +982,7 @@ colleges_levels |>
   )
 
 colleges_levels |>
+  drop_na(CONTROL) |>
   ggplot(aes(y = CONTROL, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
@@ -982,6 +994,14 @@ colleges_levels |>
   )
 
 colleges_levels |>
+  drop_na(CCBASIC) |>
+   filter(
+    CCBASIC != "Special Focus Four-Year: Business & Management Schools" &
+    CCBASIC != "Baccalaureate/Associate's Colleges: Mixed Baccalaureate/Associate's" &
+    CCBASIC != "Special Focus Four-Year: Other Special Focus Institutions" &
+    CCBASIC != "Special Focus Four-Year: Other Technology-Related Schools" &
+    CCBASIC != "Tribal Colleges"
+  ) |> 
   ggplot(aes(y = str_wrap(CCBASIC, 30), fill = fct_rev(level))) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
@@ -991,9 +1011,9 @@ colleges_levels |>
     y = "Carnegie Classification (Basic)",
     fill = "Rank"
   )
-
-
 ```
+
+Note that for these graphs we dropped `NAs` and removed levels that only had one observation.
 
 The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks.
 
@@ -1138,21 +1158,15 @@ Looking at the scaled slope allows us to tell which variables have the greatest 
 
 # Discussion
 
-Based on our analysis, `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSAL`, and `ADM_RATE` are the numerical explanatory variables most associated with college ranking (as determined in our individual variable analysis and confirmed in our step-wise regression model). We hypothesized that SAT/ACT scores, acceptance rate, and family income would have the strongest association with rank, and our results mostly confirm this hypothesis. SAT/ACT/Acceptance Rate were among the most correlated variables, but family income was not in the top five, possibly because financial aid allows students from a variety of situations to attend universities.
+Based on our analysis and approaches, `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSAL`, and `ADM_RATE` are the numerical explanatory variables most associated with college ranking, which partially confirm our initial hypothesis. SAT/ACT/Admission Rate were among the most correlated variables, but family income was not in the top five, possibly because financial aid allows students from various financial backgrounds to attend universities. These relationships indicate certain priorities in college rankings. The existence of the SAT, ACT, and admission rate variables in the top five highlight how rankings prioritize selectivity in college admissions. This makes us wonder if colleges focus on improving admissions selectivity over their quality of education and student outcomes. The inclusion of graduation rate and faculty salary do tell slightly different stories. While graduation rate indicates a focus on the ability of a university to meet the needs of its students, faculty salary may indicate the quality of the faculty both in teaching and research.
 
-These relationships indicate certain priorities in college rankings. As SAT and ACT scores are the most correlated variables and the acceptance rate is in the top five, it is clear that the rankings highly prioritize selectivity in college admissions. This is logical since the audience of the rankings is mostly prospective students who are applying to college. There are obvious concerns with this approach: does it cause colleges to prioritize improving admissions selectivity over their quality of education and student outcomes? The inclusion of graduation rate and faculty salary do tell slightly different stories. Graduation rate indicates a focus on the ability of a university to meet the needs of its students and give them the resources and support. Faculty salary, in a way, may indicate the quality of the faculty both in teaching and research.
+The stepwise regression model indicated that the categorical variables `REGION`, `ACCREDAGENCY`, `CONTROL`, and `CCBASIC` were also important to calculating rank. Unlike the numerical variables, it is interesting to note that these variables cannot change easily from year-to-year, so colleges cannot use them to manipulate their rankings. Additionally, there are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. We believe that this is because AIC examines the collective predictive power of the variables rather than the individual predictive ability.
 
-However, the stepwise regression model indicated that the categorical variables `REGION`, `ACCREDAGENCY`, `CONTROL`, and `CCBASIC` were also important to calculating rank. None of these variables were in our hypothesis. It is important to consider that none of these variables change as easily or frequently from year-to-year as the five numerical variables listen above---therefore, while they may be important to rank, schools cannot easily use them to manipulate their rankings.
+The limitations of our analysis are as follows: We left the categorical variables out of the first approach because we do not know a way to numerically analyze them, and in doing so, we could not subject these variables to the same two-step confirmation process that we did for the numerical values. Furthermore, we assumed that all variables had a linear relationship with ranks so we could use linear regression modeling to analyze them. Additionally, our linear models assume that rank is continuous and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided that a linear regression model was our best approach. All of these issues could be resolved by learning and implementing more appropriate statistical methods.
 
-Additionally, there are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. We believe that this is because the model selected variables based on AIC rather than R-squared values. Additionally, it examines the collective predictive power of the variables rather than simply the predictive ability of variables individually.
+Finally, we believe that future avenues for this project could include analyzing and comparing more ranking systems, such as those created by US News and Forbes. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at over 1000 colleges to see if our results stay consistent between colleges throughout the country, and perhaps even throughout the world.
 
-It is important to recognize the limitations of our analysis, which are as follows: We left the categorical variables out of the first approach because we do not know a way to analyze numerically each variable's individual relationship with rank. In doing so, we did not subject these variables to the same two-step confirmation process that we did the numerical values. Furthermore, we assumed that all variables had linear relationship with ranks so we could use linear regression modelling to analyze them, which is within the scope of this class. Additionally, our linear models assume that rank is continuos and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided to use the linear regression to model the relationship between rank and other variables. All of these issues could be resolved by learning and implementing more appropriate statistical methods.
-
-Finally, we believe that future avenues for this project could include analyzing more ranking systems, such as those created by US News and Forbes, and potentially even comparing the systems. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at more than 500 universities, ideally above 1000, to see if our results stay the same in universities throughout the country, and perhaps even throughout the world.
-
-    \newpage
-
-# References
+## References
 
 Learned how to do for loops from TA Eli Gnesin
 
@@ -1276,11 +1290,4 @@ As far as region, schools from New England have the highest mean rank, while sch
 
 Looking at the Carnegie Classification, Doctoral Universities: Very High Research Activity have the highest mean rank, followed by Special Focus Four-Year: Engineering Schools. Master's Colleges and Universities: Medium Programs have the lowest mean rank.
 
-## Full R-square Value List
-
-```{r}
-#| label: r-square-value-list
-r_squared_values |>
-  arrange(desc(r_squared)) |>
-  knitr::kable()
-```
+## 
