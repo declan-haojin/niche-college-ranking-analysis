@@ -43,18 +43,17 @@ niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
 
-
 For our analysis, we will be joining the following two data set sets:
 
 **Data Set #1: Niche**
 
--   The first data set comes from Niche's "2023 Best Colleges in America" list. Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022. There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
+The first data set comes from Niche's "2023 Best Colleges in America" list. Niche aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, to build their list of college rankings. The rankings list is updated monthly. However, Niche only receives data from the US Department of Education on an annual basis. The Niche data was scraped by Maia on October 17-19 2022. There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
-### Data Set #2: US Department of Education
+**Data Set #2: US Department of Education**
 
--   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies. There were 2,989 variables in the original data set, but we narrowed to 31 variables we thought could have an influence on rank. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the United States.
+The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies. There were 2,989 variables in the original data set, but we narrowed to 31 variables we thought could have an influence on rank. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the United States.
 
-#### Variable Summary
+**Variable Summary**
 
 Here is a summary of the variables we will be using in our analysis. We selected every one we thought could impact rank, but left some out, such as test score breakdowns, to avoid redundancy.
 
@@ -87,7 +86,7 @@ Here is a summary of the variables we will be using in our analysis. We selected
 ### Data Preparation
 
 1.  To get the data, we scraped from Niche.com and downloaded data from the US Department of Education. The steps were done in an R script titled `niche-scrape.R`
-2.  We had to adjust for institution name discrepancies between the two data sets before joining the two. `University of South Florida - Sarasota-Manatee` and `University of South Florida - St. Petersburg` were removed because they did not exist in both data sets.
+2.  We had to adjust for institution name discrepancies between the two data sets before joining the two. `University of South Florida-Sarasota-Manatee` and `University of South Florida-St. Petersburg` were removed because they did not exist in both data sets.
 
 ```{r}
 #| label: fix-college-names
@@ -635,7 +634,7 @@ data <- data |>
   )
 ```
 
-4.  All of the numerical variables are on different scales, so we created a scaled version of the data, with mean 0 and standard deviation 1. Here is the first row of the data set below.
+4.  All of the numerical variables are on different scales, so we created scaled version of the numerical explanatory variables, with mean 0 and standard deviation 1.
 
 ```{r}
 #| label: scale-numerical-variables
@@ -652,10 +651,6 @@ other_variables <- data |>
 scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables) |>
   relocate(college)
 
-scaled_data |>
-  slice_head() |>
-  knitr::kable()
-
 ```
 
 ## Exploratory Data Analysis
@@ -668,11 +663,11 @@ scaled_data |>
 colleges_levels <- data |>
   mutate(
     level = case_when(
-      rank <= 100 ~ "1 to 100",
-      rank > 100 & rank <= 200 ~ "101 to 200",
-      rank > 200 & rank <= 300 ~ "201 to 300",
-      rank > 300 & rank <= 400 ~ "301 to 400",
-      rank > 400 & rank <= 500 ~ "401 to 500",
+      rank <= 100 ~ "1-100",
+      rank > 100 & rank <= 200 ~ "101-200",
+      rank > 200 & rank <= 300 ~ "201-300",
+      rank > 300 & rank <= 400 ~ "301-400",
+      rank > 400 & rank <= 500 ~ "401-500",
     ),
     .after = rank
   )
@@ -699,9 +694,7 @@ colleges_levels |>
   knitr::kable()
 ```
 
-As the rank group gets higher, the mean admission rate increases and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100
-
-We have included our exploratory analysis of categorical variables in our appendix.
+As the rank group gets higher, the mean admission rate increases and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have considerably fewer White students and considerably more Asian students than schools ranked above 100. There is a relationship between the categorical variables and rank, and included our exploratory analysis of categorical variables in our appendix.
 
 ## Research Question and Hypothesis
 
@@ -746,7 +739,7 @@ We will examine the final variables selected by both approaches and analyze thei
 
 **Table of R-squared Values**
 
-The table below gives the R-squared values from the linear regression models between each individual explanatory variable in our data set and colleges rank, arranged in descending order.
+The table below gives the five highest R-squared values from the linear regression models between each individual explanatory variable in our data set and colleges rank, arranged in descending order. To see the full list of
 
 ```{r}
 #| label: find-r2
@@ -919,8 +912,6 @@ The plot above visually displays the decreasing AIC value as variables get taken
         UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL +
         AGE_ENTRY + SAT_AVG + FIRST_GEN + UGDS_HISP
 
-
-
 ```{r}
 #| label: r-squared-final-model
 
@@ -948,7 +939,7 @@ colleges_levels |>
   drop_na(REGION) |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
-  scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
+  scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
     title = "Rank vs Geographic Region of the United States",
     x = "Proportion",
@@ -965,7 +956,7 @@ colleges_levels |>
   ) |>
   ggplot(aes(y = str_wrap(ACCREDAGENCY, 30), fill = fct_rev(level))) +
   geom_bar(position = "fill") +
-  scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
+  scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
     title = "Rank vs Accreditation Agency",
     x = "Proportion",
@@ -977,7 +968,7 @@ colleges_levels |>
   drop_na(CONTROL) |>
   ggplot(aes(y = CONTROL, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
-  scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
+  scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
     title = "Rank vs Control",
     x = "Proportion",
@@ -996,7 +987,7 @@ colleges_levels |>
   ) |>
   ggplot(aes(y = str_wrap(CCBASIC, 30), fill = fct_rev(level))) +
   geom_bar(position = "fill") +
-  scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
+  scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
     title = "Rank vs Carnegie Classification",
     x = "Proportion",
