@@ -826,7 +826,7 @@ Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), av
 
 ## Approach #2: Stepwise Regression Model
 
-### Remove Highly Correlated Variables
+**Remove Highly Correlated Variables**
 
 ```{r}
 #| label: correlation-matrix
@@ -862,10 +862,11 @@ correlations[correlations < 0.8 | correlations == 1] <- ""
 
 We will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID`, `MARRIED` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
 
-### Compute Stepwise Regression
+**Compute Stepwise Regression**
 
 ```{r}
 #| label: stepwise-regression-model
+#| fontsize: 2pt
 
 stepwise_data <- scaled_data |>
   dplyr::select(c("rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
@@ -885,15 +886,13 @@ full_model <- lm(rank ~ ., data = stepwise_data)
 # Stepwise regression model
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 
-stepwise_model$anova
+# stepwise_model$anova
 ```
-
-In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
-
-### Model Results
 
 ```{r}
 #| label: visualize-stepwise-model
+#| fig.height: 2.3
+#| fig.width: 6
 
 aic_value = stepwise_model$anova$AIC
 
@@ -923,6 +922,15 @@ aic_df |>
   
 ```
 
+In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
+
+**Model Results**
+
+    Final Model:
+    rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE + 
+        UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL + 
+        AGE_ENTRY + SAT_AVG + FIRST_GEN + UGDS_HISP
+
 The plot above visually displays the decreasing AIC value as variables get taken out and potentially re-added.
 
 ```{r}
@@ -939,7 +947,7 @@ We can further tell that this is our best model because it has an r-squared coef
 
 ## Final Variable Analysis
 
-### Categorical Variable Analysis
+**Categorical Variable Analysis**
 
 All four categorical variables appeared in the final model, and therefore we can assume that they have a significant association with rank.
 
@@ -1005,7 +1013,7 @@ There appear to be the greatest differences between bars of proportions of rank 
 
 Qualitatively, it appears that region and Carnegie Classification have the clearest relationship with rank; however, the final model indicates that they all have an association with rank.
 
-### Numerical Variable Analysis
+**Numerical Variable Analysis**
 
 All of the variables with the top 5 R-squared values appeared in the final stepwise regression model except for `ACTCMMID` (median ACT score) and `C150_4` (graduation rate). These were not used in the model because both of them had a high correlation with `SAT_AVG` (average SAT). Because `SAT_AVG` ended up in the final model, we can reasonably assume that they also have a strong association with rank based on the model's selection process. Therefore, we conclude that `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSAL`, and `ADM_RATE` have the strongest association with rank and we will characterize the relationship below.
 
@@ -1150,39 +1158,7 @@ It is important to recognize the limitations of our analysis, which are as follo
 
 Finally, we believe that future avenues for this project could include analyzing more ranking systems, such as those created by US News and Forbes, and potentially even comparing the systems. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at more than 500 universities, ideally above 1000, to see if our results stay the same in universities throughout the country, and perhaps even throughout the world.
 
-    \newpage
-
-# References
-
-Learned how to do for loops from TA Eli Gnesin
-
-We used the `scale()` function found at https://www.statology.org/standardize-data-in-r/
-
-https://www.niche.com/colleges/search/best-colleges/
-
-https://collegescorecard.ed.gov/data/
-
-https://www.youtube.com/watch?v=ejR8LnQziPY
-
-https://stackoverflow.com/questions/57248708/stepwise-model-selection-in-an-r-tidyverse-workflow
-
-https://stackoverflow.com/questions/53135404/filter-correlation-matrix-r
-
-https://stackoverflow.com/questions/68093071/how-to-highlight-high-correlations-in-ggpairs-correlation-matrix
-
-http://www.sthda.com/english/wiki/visualize-correlation-matrix-using-correlogram
-
-https://www.tutorialspoint.com/how-to-deal-with-missing-values-to-calculate-correlation-matrix-in-r
-
-https://www.displayr.com/how-to-create-a-correlation-matrix-in-r/
-
-https://stats.stackexchange.com/questions/550537/how-to-get-r-squared-after-doing-stepwise-model-selection-in-regression-in-r
-
-http://www.sthda.com/english/articles/37-model-selection-essentials-in-r/154-stepwise-regression-essentials-in-r/
-
-https://www.researchgate.net/figure/R-2-and-RMSE-of-forward-stepwise-regression-models-vs-WHO-algorithm_tbl1_354396022
-
-https://www.r-bloggers.com/2016/05/visualizing-bootrapped-stepwise-regression-in-r-using-plotly/
+{{< pagebreak >}}
 
 # Appendix
 
@@ -1284,3 +1260,37 @@ r_squared_values |>
   arrange(desc(r_squared)) |>
   knitr::kable()
 ```
+
+{{< pagebreak >}}
+
+# References
+
+-   Learned how to do for loops from TA Eli Gnesin
+
+-   We used the `scale()` function found at https://www.statology.org/standardize-data-in-r/
+
+-   https://www.niche.com/colleges/search/best-colleges/
+
+-   https://collegescorecard.ed.gov/data/
+
+-   https://www.youtube.com/watch?v=ejR8LnQziPY
+
+-   https://stackoverflow.com/questions/57248708/stepwise-model-selection-in-an-r-tidyverse-workflow
+
+-   https://stackoverflow.com/questions/53135404/filter-correlation-matrix-r
+
+-   https://stackoverflow.com/questions/68093071/how-to-highlight-high-correlations-in-ggpairs-correlation-matrix
+
+-   http://www.sthda.com/english/wiki/visualize-correlation-matrix-using-correlogram
+
+-   https://www.tutorialspoint.com/how-to-deal-with-missing-values-to-calculate-correlation-matrix-in-r
+
+-   https://www.displayr.com/how-to-create-a-correlation-matrix-in-r/
+
+-   https://stats.stackexchange.com/questions/550537/how-to-get-r-squared-after-doing-stepwise-model-selection-in-regression-in-r
+
+-   http://www.sthda.com/english/articles/37-model-selection-essentials-in-r/154-stepwise-regression-essentials-in-r/
+
+-   https://www.researchgate.net/figure/R-2-and-RMSE-of-forward-stepwise-regression-models-vs-WHO-algorithm_tbl1_354396022
+
+-   https://www.r-bloggers.com/2016/05/visualizing-bootrapped-stepwise-regression-in-r-using-plotly/
