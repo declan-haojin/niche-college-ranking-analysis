@@ -937,6 +937,7 @@ final_model_fit <- linear_reg() |>
 
 glance(final_model_fit) |>
   knitr::kable()
+
 ```
 
 We can further tell that this is our best model because it has an r-squared coefficient of 0.774. The variables here can then be considered to be the variables that affect a college's ranking the most. Region (`REGION`) and type of school (`CONTROL`, `CCBASIC`) influence its ranking. There are certain qualities of its undergraduate population that are more statistically significant than others and were thus included in this model: overall undergraduate population, number of Asians, Hispanics, mixed students, and first-generation students, and average age when the undergraduated enrolled. Average SAT score was also significant enough to be include into the model, and `ACCREDAGENCY` and cost of attendance were also the final two variables considered significant enough for our best model.
