@@ -925,7 +925,7 @@ colleges_levels |>
   ) +
   theme(legend.position = "left")
 
-colleges_levels |>
+colleges_levels_acc <- colleges_levels |>
   drop_na(ACCREDAGENCY) |>
    filter(
     ACCREDAGENCY != "EXEMPT" &
@@ -933,17 +933,18 @@ colleges_levels |>
     ACCREDAGENCY != "Transnational Association of Christian Colleges and Schools"
   ) |>
   mutate(
-    ACCREDAGENCY = fct_relevel(ACCREDAGENCY, "New England Commission on Higher Education", "Accrediting Commission of Career Schools and Colleges", "Northwest Commission on Colleges and Universities", "Higher Learning Commission", "Southern Association of Colleges and Schools Commission on Colleges", "Middle States Commission on Higher Education", "Western Association of Schools and Colleges Senior Colleges and University Commission"), 
     ACCREDAGENCY = case_when(
-      ACCREDAGENCY == "New England Commission on Higher Education" ~ "New England Commission on\nHigher Education", 
-      ACCREDAGENCY == "Accrediting Commission of Career Schools and Colleges" ~ "Accrediting Commission of\nCareer Schools and Colleges"
-    ), 
+      ACCREDAGENCY == "New England Commission on Higher Education" ~ "New England Commission on\nHigher Education",
+      ACCREDAGENCY == "Accrediting Commission of Career Schools and Colleges" ~ "Accrediting Commission of\nCareer Schools and Colleges",
       ACCREDAGENCY == "Northwest Commission on Colleges and Universities" ~ "Northwest Commission on\nColleges and Universities",
-      ACCREDAGENCY == "Higher Learning Commission" ~ "Higher Learning Commission", 
+      ACCREDAGENCY == "Higher Learning Commission" ~ "Higher Learning Commission",
       ACCREDAGENCY == "Southern Association of Colleges and Schools Commission on Colleges" ~ "Southern Association\nof Colleges and Schools\nCommission on Colleges",
       ACCREDAGENCY == "Middle States Commission on Higher Education" ~ "Middle States Commission on\nHigher Education",
       ACCREDAGENCY == "Western Association of Schools and Colleges Senior Colleges and University Commission" ~ "Western Association of Schools\nand Colleges Senior Colleges\nand University Commission"
-  ) |>
+  ))
+colleges_levels_acc |>
+  mutate(
+  ACCREDAGENCY = fct_relevel(ACCREDAGENCY,"Accrediting Commission of\nCareer Schools and Colleges", "Northwest Commission on\nColleges and Universities", "Higher Learning Commission", "Southern Association\nof Colleges and Schools\nCommission on Colleges", "Middle States Commission on\nHigher Education", "Western Association of Schools\nand Colleges Senior Colleges\nand University Commission", "New England Commission on\nHigher Education")) |>
   ggplot(aes(y = ACCREDAGENCY, fill = fct_rev(level))) +
   geom_bar(position = "fill", show.legend = FALSE) +
   scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
@@ -969,7 +970,7 @@ colleges_levels |>
     fill = "Rank"
   )
 
-colleges_levels |>
+colleges_levels_cc <- colleges_levels |>
   drop_na(CCBASIC) |>
    filter(
     CCBASIC != "Special Focus Four-Year: Business & Management Schools" &
@@ -977,6 +978,25 @@ colleges_levels |>
     CCBASIC != "Special Focus Four-Year: Other Special Focus Institutions" &
     CCBASIC != "Special Focus Four-Year: Other Technology-Related Schools" &
     CCBASIC != "Tribal Colleges"
+  ) |>
+  mutate(
+    CCBASIC = case_when(
+    CCBASIC == "Doctoral Universities: Very High Research Activity" ~ "Doctoral Universities: Very\nHigh Research Activity",
+    CCBASIC == "Baccalaureate Colleges: Arts & Sciences Focus" ~ "Baccalaureate Colleges: Arts &\nSciences Focus", 
+    CCBASIC == "Doctoral Universities: High Research Activity" ~ "Doctoral Universities: High\nResearch Activity",
+    CCBASIC == "Master's Colleges & Universities: Small Programs" ~ "Master's Colleges &\nUniversities: Small Programs",
+    CCBASIC == "Baccalaureate Colleges: Diverse Fields" ~ "Baccalaureate Colleges:\nDiverse Fields",
+    CCBASIC == "Special Focus Four−Year: Engineering Schools", ~ "Special Focus Four−Year:\nEngineering Schools",
+    CCBASIC == "Special Focus Four−Year: Faith−Related Institutions" ~ "Special Focus Four−Year:\nFaith−Related Institutions",
+    CCBASIC == "Special Focus Four−Year: Arts, Music & Design Schools" ~ "Special Focus Four−Year: Arts,\nMusic & Design Schools",
+    CCBASIC == "Doctoral/Professional Universities" ~ "Doctoral/Professional\nUniversities",
+    CCBASIC == "Master's Colleges & Universities: Larger Programs" ~ "Master's Colleges &\nUniversities: Larger Programs",
+    CCBASIC == "Master's Colleges & Universities: Medium Programs" ~ "Master's Colleges &\nUniversities: Medium Programs",
+    CCBASIC == "Special Focus Four−Year: Other Health Professions Schools" ~ "Special Focus Four−Year: Other\nHealth Professions Schools"
+  ))
+colleges_levels_cc |>
+  mutate(
+    CCBASIC = fct_relevel(CCBASIC, "Special Focus Four−Year: Other\nHealth Professions Schools", "Master's Colleges &\nUniversities: Medium Programs", "Master's Colleges &\nUniversities: Larger Programs", "Doctoral/Professional\nUniversities", "Special Focus Four−Year: Arts,\nMusic & Design Schools", "Special Focus Four−Year:\nFaith−Related Institutions", "Special Focus Four−Year:\nEngineering Schools", "Baccalaureate Colleges:\nDiverse Fields", "Master's Colleges &\nUniversities: Small Programs", "Doctoral Universities: High\nResearch Activity", "Baccalaureate Colleges: Arts &\nSciences Focus", "Doctoral Universities: Very\nHigh Research Activity")
   ) |>
   ggplot(aes(y = str_wrap(CCBASIC, 30), fill = fct_rev(level))) +
   geom_bar(position = "fill", show.legend = FALSE) +
