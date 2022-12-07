@@ -8,7 +8,7 @@ execute:
 message: false
 warning: false
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r}
@@ -49,7 +49,7 @@ niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
 
-### Data Set #1: Niche
+**Data Set #1: Niche**
 
 -   The first data set comes from Niche's "2023 Best Colleges in America" list
 
@@ -57,7 +57,7 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
-### Data Set #2: US Department of Education
+**Data Set #2: US Department of Education**
 
 -   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.
 
@@ -829,6 +829,7 @@ Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), av
 
 ```{r}
 #| label: correlation-matrix
+#| output: false
 
 data_for_corr <- scaled_data |>
   dplyr::select(is.numeric)
@@ -842,7 +843,7 @@ correlations |>
     corrplot(method="color")
 ```
 
-The correlation matrix above provides a visual representation of the correlation between all variable pairs. Below, is the filtered correlation matrix that only displays entries with values greater than or equal to 0.8.
+Below is the correlation table that only displays variable pairs with correlation values greater than or equal to 0.8.
 
 ```{r}
 #| label: display-correlation-pair-to-be-removed
@@ -858,20 +859,16 @@ correlations[correlations < 0.8 | correlations == 1] <- ""
 | FAMINC, MD_FAMINC            | 0.9538                   |
 | SAT_AVG, ACTCMMID            | 0.9756                   |
 
-According to the filtered table, these variable pairs are (`MD_FAMINC`, `FAMINC`), (`C150_4`, `SAT_AVG`), (`C150_4`, `ACTCMMID`) and (`ACTCMMID`, `SAT_AVG`). Therefore, we will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
+We will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID`, `MARRIED` and preserve `SAT_AVG` and `FAMINC` to represent all other variables.
 
 ### Compute Stepwise Regression
-
-As mentioned in methodology, we will use `MASS` package and `StepAIC()` function to perform the stepwise regression process for model selections.
 
 ```{r}
 #| label: stepwise-regression-model
 
 stepwise_data <- scaled_data |>
-  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
-stepwise_data |>
-  names() |>
-  knitr::kable(col.names = "Selected Variables")
+  dplyr::select(c("rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
+
 # Factorize variable
 stepwise_data <- stepwise_data |>
   mutate(
@@ -883,7 +880,7 @@ stepwise_data <- stepwise_data |>
 library(MASS)
 stepwise_data = na.omit(stepwise_data)
 # Fit the full model
-full_model <- lm(rank ~. -college, data = stepwise_data)
+full_model <- lm(rank ~ ., data = stepwise_data)
 # Stepwise regression model
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 
@@ -1154,7 +1151,9 @@ It is important to recognize the limitations of our analysis, which are as follo
 
 Finally, we believe that future avenues for this project could include analyzing more ranking systems, such as those created by US News and Forbes, and potentially even comparing the systems. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at more than 500 universities, ideally above 1000, to see if our results stay the same in universities throughout the country, and perhaps even throughout the world.
 
-## References
+    \newpage
+
+# References
 
 Learned how to do for loops from TA Eli Gnesin
 
