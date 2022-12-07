@@ -39,15 +39,15 @@ niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
 
-For our analysis, we joined two datasets:
+For our analysis, we joined two datasets using the `left_join()` function.
 
 **Data Set #1 - Niche:** Niche's "2023 Best Colleges in America" list aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, and is updated monthly. The Niche data was scraped by Maia on October 17-19 2022. There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
-**Data Set #2 - US Department of Education:** The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies. There were 2,989 variables in the original data set, but we narrowed to 31 variables we thought could have an influence on rank. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the United States.
-
-The second dataset comes from the US Department of Education's College Scorecard from the 2020-2021 school year. There were `r ncol(us_dep_of_ed)` variables in the original data set, but we narrowed to 30 variables we thought could have an influence on rank. We left variables out to avoid redundancy, such as test score breakdowns. There are `r nrow(us_dep_of_ed)` observations in the data set, representing all of the colleges and universities in the US.
+**Data Set #2 - US Department of Education:** The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies. There were 2,989 variables in the original data set, many of which we don't need to answer our question, so we selected `r ncol(us_dep_of_ed)` variables before importing into R-Studio. We further narrowed to 31 variables we thought could have the most influence on rank. There are `r nrow(us_dep_of_ed)` observations, representing all US colleges and universities.
 
 **Variable Summary:**
+
+After joining the two data sets and selecting relevant variables, we will use 32 variables:
 
 -   `college`: Institution name (Categorical)
 -   `rank`: Rank of school on Niche list (Quantitative)
@@ -75,7 +75,7 @@ The second dataset comes from the US Department of Education's College Scorecard
 ### Data Preparation
 
 1.  To get the data, we scraped from Niche.com and downloaded data from the US Department of Education. The steps were done in `niche-scrape.R`
-2.  `University of South Florida-Sarasota-Manatee` and `University of South Florida-St. Petersburg` were removed because they did not exist in both datasets due to naming discrepancies.
+2.  `University of South Florida-Sarasota-Manatee` and `University of South Florida-St. Petersburg` were removed because they did not exist in both datasets. Names of colleges were edited to ensure a successful join.
 
 ```{r}
 #| label: fix-college-names
@@ -505,6 +505,8 @@ us_dep_of_ed <- us_dep_of_ed |>
   )
 ```
 
+3.  We then joined the two data sets using the `left_join()` function. The resulting data set has 498 observations and 64 variables (although we ultimately chose to only use 32 in our analysis).
+
 ```{r}
 #| label: join-datasets
 
@@ -556,6 +558,8 @@ chosen_variables <- c(
 data <- colleges |>
   dplyr::select(chosen_variables)
 ```
+
+4.  Many of the categorical variables had their levels listed as numbers, so we edited the dataset to have the the true names of the levels
 
 ```{r}
 #| label: clean-categorical-variables
@@ -621,7 +625,7 @@ data <- data |>
   )
 ```
 
-3.  All of the numerical variables are on different scales, so we created scaled version of the numerical explanatory variables, with mean 0 and standard deviation 1.
+5.  All of the numerical variables are on different scales, so we created scaled version of the numerical explanatory variables, with mean 0 and standard deviation 1.
 
 ```{r}
 #| label: scale-numerical-variables
@@ -975,11 +979,7 @@ colleges_levels |>
   )
 ```
 
-The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph.
-
-There are only 4 `Private, For-profit` schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between `Private, Non-profit` and `Public` are similar, although the first appears to have a larger proportion of `1-100` schools, and the latter a higher proportion of `401-500` schools.
-
-There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. The lower the rank, the higher proportion of schools in `Doctoral Universities: Very High Research Activity` and `Baccalaureate Colleges: Arts & Sciences Focus`. However, the opposite appeared to be true for all other classifications with 3 or more rank categories.
+The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph. There are only 4 `Private, For-profit` schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between `Private, Non-profit` and `Public` are similar, although the first appears to have a larger proportion of `1-100` schools, and the latter a higher proportion of `401-500` schools. There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. The lower the rank, the higher proportion of schools in `Doctoral Universities: Very High Research Activity` and `Baccalaureate Colleges: Arts & Sciences Focus`. However, the opposite appeared to be true for all other classifications with 3 or more rank categories.
 
 **Numerical Variable Analysis**
 
@@ -1100,9 +1100,7 @@ r2_slopes |> knitr::kable()
 
 63% of the variation in college rank can be explained by average SAT score. This same interpretation can be used for all of the variables. Looking further at the relationships, there is a negative relationship between SAT/ACT/Graduation Rate/Faculty Salary and rank. This indicates that as the variables increase, the rank of the school decreases. There is a positive relationship between admission rate and rank, indicating that as this variable increases, the rank of a school increases.
 
-The non-scaled slope shows that on average, we expect a 1-point increase in median ACT score to drop the rank of a school by 30 places. Since admission rate is scaled from 0-1, we need to divide the slope by 100 to interpret it. It indicates that a 1-point drop in admission rate will, on average, result in an estimated drop in rank of the school by 3.87 places. The other variables can be interpreted in the same manner.
-
-Scaled slopes allow us to compare them and tell the change in which numerical variable has the greatest impact on a school's rank. An interesting trend is that among the five most associated variables, the higher the R-squared the higher absolute value of scaled-slope, indicating that variables that have the strongest association to rank also have the greatest influence on decreasing rank. This is logical because Niche likely tie their rankings to variables with the greatest differentiation between higher and lower ranks. This is also concerning because if schools know which variables are most associated to rank and which ones have the greatest impact on decreasing it, it is fairly easy for them to know which variables to change if they wanted to manipulate the rankings.
+The non-scaled slope shows that on average, we expect a 1-point increase in median ACT score to drop the rank of a school by 30 places. Since admission rate is scaled from 0-1, we need to divide the slope by 100 to interpret it. It indicates that a 1-point drop in admission rate will, on average, result in an estimated drop in rank of the school by 3.87 places. The other variables can be interpreted in the same manner. Scaled slopes allow us to compare them and tell the change in which numerical variable has the greatest impact on a school's rank. An interesting trend is that among the five most associated variables, the higher the R-squared the higher absolute value of scaled-slope, indicating that variables that have the strongest association to rank also have the greatest influence on decreasing rank. This is logical because Niche likely tie their rankings to variables with the greatest differentiation between higher and lower ranks. This is also concerning because if schools know which variables are most associated to rank and which ones have the greatest impact on decreasing it, it is fairly easy for them to know which variables to change if they wanted to manipulate the rankings.
 
 ## Discussion
 
@@ -1110,9 +1108,7 @@ Based on our analysis and approaches, `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSA
 
 The stepwise regression model indicated that the categorical variables `REGION`, `ACCREDAGENCY`, `CONTROL`, and `CCBASIC` were also important to calculating rank. Unlike the numerical variables, it is interesting to note that these variables cannot change easily from year-to-year, so colleges cannot use them to manipulate their rankings. Additionally, there are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. We believe that this is because AIC examines the collective predictive power of the variables rather than the individual predictive ability.
 
-The limitations of our analysis are as follows: We left the categorical variables out of the first approach because we do not know a way to numerically analyze them, and in doing so, we could not subject these variables to the same two-step confirmation process that we did for the numerical values. Furthermore, we assumed that all variables had a linear relationship with ranks so we could use linear regression modeling to analyze them. Additionally, our linear models assume that rank is continuous and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided that a linear regression model was our best approach. All of these issues could be resolved by learning and implementing more appropriate statistical methods.
-
-Finally, we believe that future avenues for this project could include analyzing and comparing more ranking systems, such as those created by US News and Forbes. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at over 1000 colleges to see if our results stay consistent between colleges throughout the country, and perhaps even throughout the world.
+The limitations of our analysis are as follows: We left the categorical variables out of the first approach because we do not know a way to numerically analyze them, and in doing so, we could not subject these variables to the same two-step confirmation process that we did for the numerical values. Furthermore, we assumed that all variables had a linear relationship with ranks so we could use linear regression modeling to analyze them. Additionally, our linear models assume that rank is continuous and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided that a linear regression model was our best approach. All of these issues could be resolved by learning and implementing more appropriate statistical methods. Finally, we believe that future avenues for this project could include analyzing and comparing more ranking systems, such as those created by US News and Forbes. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at over 1000 colleges to see if our results stay consistent between colleges throughout the country, and perhaps even throughout the world.
 
 {{< pagebreak >}}
 
@@ -1209,6 +1205,8 @@ As far as region, schools from New England have the highest mean rank, while sch
 Looking at the Carnegie Classification, Doctoral Universities: Very High Research Activity have the highest mean rank, followed by Special Focus Four-Year: Engineering Schools. Master's Colleges and Universities: Medium Programs have the lowest mean rank.
 
 ### Full R-square Value List
+
+Here is the full list of R-squared values from the linear regression models between individual numerical explanatory variables and college rank.
 
 ```{r}
 #| label: r-square-value-list
