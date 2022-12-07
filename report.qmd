@@ -7,8 +7,8 @@ execute:
   echo: false
 message: false
 warning: false
-editor_options: 
-  chunk_output_type: inline
+editor_options:
+  chunk_output_type: console
 ---
 
 ```{r}
@@ -49,7 +49,7 @@ niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
 
-**Data Set #1: Niche**
+### Data Set #1: Niche
 
 -   The first data set comes from Niche's "2023 Best Colleges in America" list
 
@@ -57,7 +57,7 @@ us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppres
 
 -   There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
-**Data Set #2: US Department of Education**
+### Data Set #2: US Department of Education
 
 -   The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States.
 
@@ -677,7 +677,7 @@ scaled_data |>
 ```{r}
 #| label: exploration-by-rank-group
 
-colleges_levels <- data |> 
+colleges_levels <- data |>
   mutate(
     level = case_when(
       rank <= 100 ~ "1 to 100",
@@ -689,8 +689,8 @@ colleges_levels <- data |>
     .after = rank
   )
 
-colleges_levels |> 
-  group_by(level) |> 
+colleges_levels |>
+  group_by(level) |>
   summarize(
     mean_ADM_Rate = mean(ADM_RATE, na.rm = TRUE),
     mean_SAT_AVG = mean(SAT_AVG, na.rm = TRUE),
@@ -698,7 +698,7 @@ colleges_levels |>
     mean_UGDS_WHITE = mean(UGDS_WHITE, na.rm = TRUE),
     mean_UGDS_ASIAN = mean(UGDS_ASIAN, na.rm = TRUE),
     mean_COSTT4_A = mean(COSTT4_A, na.rm = TRUE)
-  ) |> 
+  ) |>
   rename(
     "Interval" = level,
     "Mean Admission Rate" = mean_ADM_Rate,
@@ -707,7 +707,7 @@ colleges_levels |>
     "Mean % White Students" = mean_UGDS_WHITE,
     "Mean % Asian Students" = mean_UGDS_ASIAN,
     "Mean Cost of Attendance" = mean_COSTT4_A
-  ) |> 
+  ) |>
   knitr::kable()
 ```
 
@@ -798,20 +798,20 @@ r2s <- numeric()
 for(var in numerical_variables) {
   temp_df <- data |>
   dplyr::select(c(rank, var))
-  
+
   model <- linear_reg() |>
     set_engine("lm") |>
     fit(rank ~ ., data = temp_df)
-  
+
   r2 <- glance(model)$r.squared
-  
+
   r2s <- c(r2s, r2)
 }
 
 r_squared_values <- tibble(
-  variable = numerical_variables, 
+  variable = numerical_variables,
   r_squared = r2s
-  ) |> 
+  ) |>
   filter(variable != "COSTT4_P")
 
 r_squared_values |>
@@ -838,13 +838,13 @@ data_for_corr <- scaled_data |>
 correlations = data_for_corr |>
   dplyr::select(-c("NPT4_PUB", "NPT4_PRIV", "COSTT4_P")) |>
     na.omit() |>
-    cor() 
+    cor()
 
 correlations |>
     corrplot(method="color")
 ```
 
-Below is the correlation table that only displays variable pairs with correlation values greater than or equal to 0.8.
+Below is the correlation table that displays the variable pairs with correlation values greater than or equal to 0.8.
 
 ```{r}
 #| label: display-correlation-pair-to-be-removed
@@ -869,7 +869,7 @@ We will drop the variables `C150_4`, `MD_FAMINC`, `ACTCMMID`, `MARRIED` and pres
 #| fontsize: 2pt
 
 stepwise_data <- scaled_data |>
-  dplyr::select(c("rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
+  dplyr::select(c("college", "rank", "REGION", "CONTROL", "CCBASIC", "ACCREDAGENCY", "ADM_RATE", "UGDS", "UGDS_WHITE", "UGDS_BLACK", "UGDS_HISP", "UGDS_ASIAN", "UGDS_AIAN", "UGDS_NHPI", "UGDS_2MOR", "UGDS_NRA", "UGDS_UNKN", "COSTT4_A", "AVGFACSAL", "PCTPELL", "AGE_ENTRY", "FAMINC", "ENDOWBEGIN", "SAT_AVG", "FEMALE", "FIRST_GEN"))
 
 # Factorize variable
 stepwise_data <- stepwise_data |>
@@ -882,7 +882,7 @@ stepwise_data <- stepwise_data |>
 library(MASS)
 stepwise_data = na.omit(stepwise_data)
 # Fit the full model
-full_model <- lm(rank ~ ., data = stepwise_data)
+full_model <- lm(rank ~. -college, data = stepwise_data)
 # Stepwise regression model
 stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 
@@ -911,7 +911,7 @@ aic_df <- aic_df |>
 aic_df |>
   ggplot(aes(x = variables, y = aic_value)) +
   geom_point() +
-  geom_line(group = 1) + 
+  geom_line(group = 1) +
   scale_y_continuous(breaks = seq(3415, 3431, by = 2)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
   labs(
@@ -919,26 +919,26 @@ aic_df |>
     x = "Selection step",
     y = "AIC"
   )
-  
+
 ```
 
-In the stepwise regression shown above, each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
+The plot above visually displays the decreasing AIC value as variables get taken out and potentially re-added. Each step represents a new iteration of the model after a certain variable is taken out. For example, the first step represents the first iteration with all the variables. Then, the variable `FAMINC` was removed, leading to a decrease in AIC. Then, one-by-one, it removes `PCTPELL`, `ENDOWBEGIN`, each level of undergraduate ethnicities, and female student population to continue making the best model for our data. Finally, the re-addition of `UGDS_HISP` led to the final iteration our of model with just 16 variables. We can tell this is the best model because its AIC value is the lowest.
 
 **Model Results**
 
     Final Model:
-    rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE + 
-        UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL + 
+    rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
+        UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL +
         AGE_ENTRY + SAT_AVG + FIRST_GEN + UGDS_HISP
 
-The plot above visually displays the decreasing AIC value as variables get taken out and potentially re-added.
+
 
 ```{r}
 #| label: r-squared-final-model
 
 final_model_fit <- linear_reg() |>
-  fit(rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE + 
-    UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL + 
+  fit(rank ~ REGION + CONTROL + CCBASIC + ACCREDAGENCY + ADM_RATE +
+    UGDS + UGDS_ASIAN + UGDS_2MOR + UGDS_UNKN + COSTT4_A + AVGFACSAL +
     AGE_ENTRY + SAT_AVG + FIRST_GEN + UGDS_HISP, data = scaled_data)
 
 ```
@@ -957,6 +957,7 @@ All four categorical variables appeared in the final model, and therefore we can
 #| fig-height: 6
 
 colleges_levels |>
+  drop_na(REGION) |>
   ggplot(aes(y = REGION, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
@@ -968,6 +969,12 @@ colleges_levels |>
   )
 
 colleges_levels |>
+  drop_na(ACCREDAGENCY) |>
+   filter(
+    ACCREDAGENCY != "EXEMPT" &
+    ACCREDAGENCY != "National Association of Schools of Theatre" &
+    ACCREDAGENCY != "Transnational Association of Christian Colleges and Schools"
+  ) |>
   ggplot(aes(y = str_wrap(ACCREDAGENCY, 30), fill = fct_rev(level))) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
@@ -979,6 +986,7 @@ colleges_levels |>
   )
 
 colleges_levels |>
+  drop_na(CONTROL) |>
   ggplot(aes(y = CONTROL, fill = fct_rev(level))) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
@@ -990,6 +998,14 @@ colleges_levels |>
   )
 
 colleges_levels |>
+  drop_na(CCBASIC) |>
+   filter(
+    CCBASIC != "Special Focus Four-Year: Business & Management Schools" &
+    CCBASIC != "Baccalaureate/Associate's Colleges: Mixed Baccalaureate/Associate's" &
+    CCBASIC != "Special Focus Four-Year: Other Special Focus Institutions" &
+    CCBASIC != "Special Focus Four-Year: Other Technology-Related Schools" &
+    CCBASIC != "Tribal Colleges"
+  ) |>
   ggplot(aes(y = str_wrap(CCBASIC, 30), fill = fct_rev(level))) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1 to 100", "101 to 200", "201 to 300", "301 to 400", "401 to 500")) +
@@ -999,9 +1015,9 @@ colleges_levels |>
     y = "Carnegie Classification (Basic)",
     fill = "Rank"
   )
-
-
 ```
+
+Note that for these graphs we dropped `NAs` and removed levels that only had one observation.
 
 The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks.
 
@@ -1023,7 +1039,7 @@ All of the variables with the top 5 R-squared values appeared in the final stepw
 
 #| label: numerical-graphs
 
-a1 <- colleges |> 
+a1 <- colleges |>
   ggplot(aes(x = SAT_AVG, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1031,9 +1047,9 @@ a1 <- colleges |>
   labs(
     x = "Avg. SAT",
     y = "Rank"
-  ) 
+  )
 
-a2 <- colleges |> 
+a2 <- colleges |>
   ggplot(aes(x = ACTCMMID, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1043,7 +1059,7 @@ a2 <- colleges |>
     y = "Rank"
   )
 
-a3 <- colleges |> 
+a3 <- colleges |>
   ggplot(aes(x = C150_4, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1053,7 +1069,7 @@ a3 <- colleges |>
     y = "Rank"
   )
 
-a4 <- colleges |> 
+a4 <- colleges |>
   ggplot(aes(x = AVGFACSAL, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1063,7 +1079,7 @@ a4 <- colleges |>
     y = "Rank"
   )
 
-a5 <- colleges |> 
+a5 <- colleges |>
   ggplot(aes(x = ADM_RATE, y = rank)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm") +
@@ -1108,17 +1124,17 @@ linear_reg() |> fit(rank ~ PCTPELL, data = colleges)
 #| label: r2-slopes-kable
 
 r2_slopes <- r_squared_values |>
-  arrange(desc(r_squared)) |> 
-  slice_head(n = 6) |> 
+  arrange(desc(r_squared)) |>
+  slice_head(n = 6) |>
   mutate(
     scaled_slope = c(-115.0, -112.9, -103.5, -98.89, 91.74, 71.75),
-    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02, 644.76)       
-  ) |> 
+    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02, 644.76)
+  ) |>
   rename(
     "R-Squared" = r_squared,
     "Scaled Slope" = scaled_slope,
     "Non-scaled Slope" = slope
-  ) |> 
+  ) |>
   mutate(
     variable = case_when (
       variable == "SAT_AVG" ~ "Avg. SAT",
@@ -1146,17 +1162,13 @@ Looking at the scaled slope allows us to tell which variables have the greatest 
 
 # Discussion
 
-Based on our analysis, `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSAL`, and `ADM_RATE` are the numerical explanatory variables most associated with college ranking (as determined in our individual variable analysis and confirmed in our step-wise regression model). We hypothesized that SAT/ACT scores, acceptance rate, and family income would have the strongest association with rank, and our results mostly confirm this hypothesis. SAT/ACT/Acceptance Rate were among the most correlated variables, but family income was not in the top five, possibly because financial aid allows students from a variety of situations to attend universities.
+Based on our analysis and approaches, `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSAL`, and `ADM_RATE` are the numerical explanatory variables most associated with college ranking, which partially confirm our initial hypothesis. SAT/ACT/Admission Rate were among the most correlated variables, but family income was not in the top five, possibly because financial aid allows students from various financial backgrounds to attend universities. These relationships indicate certain priorities in college rankings. The existence of the SAT, ACT, and admission rate variables in the top five highlight how rankings prioritize selectivity in college admissions. This makes us wonder if colleges focus on improving admissions selectivity over their quality of education and student outcomes. The inclusion of graduation rate and faculty salary do tell slightly different stories. While graduation rate indicates a focus on the ability of a university to meet the needs of its students, faculty salary may indicate the quality of the faculty both in teaching and research.
 
-These relationships indicate certain priorities in college rankings. As SAT and ACT scores are the most correlated variables and the acceptance rate is in the top five, it is clear that the rankings highly prioritize selectivity in college admissions. This is logical since the audience of the rankings is mostly prospective students who are applying to college. There are obvious concerns with this approach: does it cause colleges to prioritize improving admissions selectivity over their quality of education and student outcomes? The inclusion of graduation rate and faculty salary do tell slightly different stories. Graduation rate indicates a focus on the ability of a university to meet the needs of its students and give them the resources and support. Faculty salary, in a way, may indicate the quality of the faculty both in teaching and research.
+The stepwise regression model indicated that the categorical variables `REGION`, `ACCREDAGENCY`, `CONTROL`, and `CCBASIC` were also important to calculating rank. Unlike the numerical variables, it is interesting to note that these variables cannot change easily from year-to-year, so colleges cannot use them to manipulate their rankings. Additionally, there are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. We believe that this is because AIC examines the collective predictive power of the variables rather than the individual predictive ability.
 
-However, the stepwise regression model indicated that the categorical variables `REGION`, `ACCREDAGENCY`, `CONTROL`, and `CCBASIC` were also important to calculating rank. None of these variables were in our hypothesis. It is important to consider that none of these variables change as easily or frequently from year-to-year as the five numerical variables listen above---therefore, while they may be important to rank, schools cannot easily use them to manipulate their rankings.
+The limitations of our analysis are as follows: We left the categorical variables out of the first approach because we do not know a way to numerically analyze them, and in doing so, we could not subject these variables to the same two-step confirmation process that we did for the numerical values. Furthermore, we assumed that all variables had a linear relationship with ranks so we could use linear regression modeling to analyze them. Additionally, our linear models assume that rank is continuous and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided that a linear regression model was our best approach. All of these issues could be resolved by learning and implementing more appropriate statistical methods.
 
-Additionally, there are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. We believe that this is because the model selected variables based on AIC rather than R-squared values. Additionally, it examines the collective predictive power of the variables rather than simply the predictive ability of variables individually.
-
-It is important to recognize the limitations of our analysis, which are as follows: We left the categorical variables out of the first approach because we do not know a way to analyze numerically each variable's individual relationship with rank. In doing so, we did not subject these variables to the same two-step confirmation process that we did the numerical values. Furthermore, we assumed that all variables had linear relationship with ranks so we could use linear regression modelling to analyze them, which is within the scope of this class. Additionally, our linear models assume that rank is continuos and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided to use the linear regression to model the relationship between rank and other variables. All of these issues could be resolved by learning and implementing more appropriate statistical methods.
-
-Finally, we believe that future avenues for this project could include analyzing more ranking systems, such as those created by US News and Forbes, and potentially even comparing the systems. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at more than 500 universities, ideally above 1000, to see if our results stay the same in universities throughout the country, and perhaps even throughout the world.
+Finally, we believe that future avenues for this project could include analyzing and comparing more ranking systems, such as those created by US News and Forbes. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at over 1000 colleges to see if our results stay consistent between colleges throughout the country, and perhaps even throughout the world.
 
 {{< pagebreak >}}
 
@@ -1170,44 +1182,44 @@ Below, we group the schools by the different categorical variables in our analys
 
 #| label: exploration-control-region
 
-group_by_control <- data |> 
+group_by_control <- data |>
   group_by(CONTROL) |>
   summarize(
     mean_rank = mean(rank)
-  ) |> 
+  ) |>
   arrange(mean_rank)
 
 
-p1 <- group_by_control |> 
-  ggplot(aes(x = reorder(CONTROL, + mean_rank), y = mean_rank, fill = CONTROL)) + 
+p1 <- group_by_control |>
+  ggplot(aes(x = reorder(CONTROL, + mean_rank), y = mean_rank, fill = CONTROL)) +
   geom_col() +
-  theme(legend.position = "none") + 
+  theme(legend.position = "none") +
   labs(
-    x = "Control of School", 
+    x = "Control of School",
     y = "Mean Rank",
     title = "Mean Rank by Control"
   )
 
 
-group_by_region <- data |> 
-  group_by(REGION) |> 
+group_by_region <- data |>
+  group_by(REGION) |>
   summarize(
     mean_rank = mean(rank)
-  ) |> 
+  ) |>
   arrange(mean_rank)
 
 
 
 p2 <- group_by_region |>
-  drop_na(REGION) |> 
-  ggplot(aes(x = reorder(REGION, + mean_rank), y  = mean_rank, fill = REGION)) + 
+  drop_na(REGION) |>
+  ggplot(aes(x = reorder(REGION, + mean_rank), y  = mean_rank, fill = REGION)) +
   geom_col() +
   theme(
     legend.position = "none",
     axis.text.x = element_text(size = 7)
-  ) + 
+  ) +
   labs(
-    x = "REGION", 
+    x = "REGION",
     y = "Mean Rank",
     title = "Mean Rank by Region"
   )
@@ -1219,11 +1231,11 @@ grid.arrange(p1, p2)
 
 #| label: exploration-CCBASIC
 
-group_by_CCBASIC <- data |> 
-  group_by(CCBASIC) |> 
+group_by_CCBASIC <- data |>
+  group_by(CCBASIC) |>
   summarize(
     mean_rank = mean(rank)
-  ) |> 
+  ) |>
   arrange(mean_rank)
 
 group_by_CCBASIC |>
@@ -1234,12 +1246,12 @@ group_by_CCBASIC |>
     CCBASIC != "Special Focus Four-Year: Other Special Focus Institutions" &
     CCBASIC != "Special Focus Four-Year: Other Technology-Related Schools" &
     CCBASIC != "Tribal Colleges"
-  ) |> 
-  ggplot(aes(y = reorder(CCBASIC, + mean_rank), x = mean_rank, fill = CCBASIC)) + 
+  ) |>
+  ggplot(aes(y = reorder(CCBASIC, + mean_rank), x = mean_rank, fill = CCBASIC)) +
   geom_col() +
-  theme(legend.position = "none") + 
+  theme(legend.position = "none") +
   labs(
-    y = "Carnegie Classification", 
+    y = "Carnegie Classification",
     x = "Mean Rank",
     title = "Mean Rank by Carnegie \nClassification"
   )
