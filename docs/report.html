@@ -162,7 +162,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <section id="research-background" class="level3">
 <h3 class="anchored" data-anchor-id="research-background">Research Background</h3>
-<p>Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as Niche.com to to help them decide where to apply. In recent years, these lists have been heavily criticized as they encourage universities to prioritize certain metrics and manipulate the system to raise their ranks. It is important for students to know where these rankings come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college’s ranking. For reference, when we say a “low rank,” we refer to schools with a lower numerical rank, such as #1. When we say a “high rank,” we refer to schools with a high numerical rank, such as #500.</p>
+<p>Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as Niche.com to help them decide where to apply. In recent years, these lists have been heavily criticized as they encourage universities to prioritize certain metrics and manipulate the system to raise their ranks. It is important for students to know where these rankings come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college’s ranking. For reference, when we say a “low rank,” we refer to schools with a lower numerical rank, such as #1. When we say a “high rank,” we refer to schools with a high numerical rank, such as #500.</p>
 </section>
 </section>
 <section id="data" class="level2">
@@ -172,7 +172,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>For our analysis, we joined two datasets:</p>
 <p><strong>Data Set #1 - Niche:</strong> Niche’s “2023 Best Colleges in America” list aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, and is updated monthly. The Niche data was scraped by Maia on October 17-19 2022. There are 500 observations, representing the top 500 schools in the United States. Each observation has two variables: <code>college</code> (institution name) and <code>rank</code>.</p>
-<p><strong>Data Set #2 - US Department of Education:</strong> The second data set comes from the US Department of Education’s College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies. There were 2,989 variables in the original data set, many of which we don’t need to answer our question, so we selected 63 variables before importing into R-Studio. We further narrowed to 31 variables we thought could have the most influence on rank. There are 6681 observations, representing all US colleges and universities.</p>
+<p><strong>Data Set #2 - US Department of Education:</strong> The second data set comes from the US Department of Education’s College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies. There were 2,989 variables in the original data set, many of which we don’t need to answer our question, so we selected 63 variables before importing into R-Studio. We further narrowed to 31 variables we thought could have the most influence on rank. There are 6681 observations, representing all US colleges and universities.</p>
 <p><strong>Variable Summary:</strong></p>
 <ul>
 <li><code>college</code>: Institution name (Categorical)</li>
@@ -202,7 +202,13 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
 <ol type="1">
 <li>To get the data, we scraped from Niche.com and downloaded data from the US Department of Education. The steps were done in <code>niche-scrape.R</code></li>
-<li><code>University of South Florida-Sarasota-Manatee</code> and <code>University of South Florida-St. Petersburg</code> were removed because they did not exist in both datasets due to naming discrepancies.</li>
+<li>Naming discrepancies between the two data sets were fixed to ensure as successful merge. <code>University of South Florida-Sarasota-Manatee</code> and <code>University of South Florida-St. Petersburg</code> were removed because they did not exist in both datasets.</li>
+</ol>
+<div class="cell">
+
+</div>
+<ol start="3" type="1">
+<li>The data sets were joined using the <code>left_join()</code> function. The resulting data set has 488 observations with 32 variables.</li>
 </ol>
 <div class="cell">
 
@@ -210,14 +216,14 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 
 </div>
+<ol start="4" type="1">
+<li>Categorical variables whose levels were listed as numbers were updated to reflect their interpretable levels.</li>
+</ol>
 <div class="cell">
 
 </div>
-<div class="cell">
-
-</div>
-<ol start="3" type="1">
-<li>All of the numerical variables are on different scales, so we created scaled version of the numerical explanatory variables, with mean 0 and standard deviation 1.</li>
+<ol start="5" type="1">
+<li>All of the numerical variables are on different scales, so we created a scaled version of the numerical explanatory variables, with mean 0 and standard deviation 1.</li>
 </ol>
 <div class="cell">
 
@@ -300,7 +306,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
-<p>As the rank group gets higher, the mean admission rate increases and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have fewer White students and more Asian students than all other. We observed a relationship between the categorical variables and rank, and included that exploratory analysis in the appendix.</p>
+<p>As the rank group gets higher, the mean admission rate increases, and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have fewer White students and more Asian students than all other rank groups. We observed a relationship between the categorical variables and rank and included that exploratory analysis in the appendix.</p>
 </section>
 <section id="research-question-and-hypothesis" class="level2">
 <h2 class="anchored" data-anchor-id="research-question-and-hypothesis">Research Question and Hypothesis</h2>
@@ -309,26 +315,26 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="methodology" class="level2">
 <h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
-<p>We split the first part of our analysis into two approaches. In the first we look at the linear relationship between the numerical explanatory variables and college rank using R-squared values. In the second we build a stepwise regression model between the variables and college rank. As the variables in the final model will be most important for determining rank, we will use the model results to corroborate our results from the first approach. As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we will use the stepwise regression model to determine if there is a strong association between those variables and rank. In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association.</p>
+<p>We split the first part of our analysis into two approaches. In the first, we look at the linear relationship between the numerical explanatory variables and college rank using R-squared values. In the second we build a stepwise regression model between the variables and college rank. As the variables in the final model will be most important for determining rank, we will use the model results to corroborate our results from the first approach. As we cannot find an R-squared value or an other numerical metric to measure a relationship involving a categorical variable, we will use the stepwise regression model to determine if there is a strong association between those variables and rank. In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association.</p>
 <section id="approach-1-individual-numerical-variable-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="approach-1-individual-numerical-variable-analysis">Approach #1: Individual Numerical Variable Analysis</h3>
 <p>First, we will create linear regression models between each individual explanatory variable and rank. Then, we will calculate the R-squared value for each respective model, rank the values from highest to lowest, and select the variables with the highest R-squared values.</p>
 </section>
 <section id="approach-2-stepwise-regression-modeling" class="level3">
 <h3 class="anchored" data-anchor-id="approach-2-stepwise-regression-modeling">Approach #2: Stepwise Regression Modeling</h3>
-<p>A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined and thus it is crucial to have a automated workflow for model selections.</p>
+<p>A stepwise regression model can manage large amounts of potential predictor variables and fine-tune the model to choose the best predictor variables from the available options. In our case, we have more than 25 variables to be examined, and thus it is crucial to have an automated workflow for model selections.</p>
 <p>There are two main steps in this approach. First, we will create a correlation matrix to check correlation coefficients between variables. If two variables have an absolute value of r greater than 0.8, meaning they were too similar in how they factored into rankings, we only picked one of them to put into the model. Then, we will compute the stepwise regression model (both forward and backward selections) using the <code>MASS</code> package and <code>stepAIC()</code> functions for model selections based on Akaike Information Criterion (AIC). AIC is used to compare different possible models and determine which one is the best fit for the data in statistic practice. For the initial setting of the linear regression model, we will import all the valid variables into the model to predict the rank variable.</p>
 </section>
 <section id="final-variable-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="final-variable-analysis">Final Variable Analysis</h3>
-<p>We will examine the final variables selected by both approaches by first interpreting the R-squared values and graphs to characterize the linear association for each variable and rank. Then, we will calculate the linear regression slopes between each of the explanatory variables (scaled and non-scaled) and college rank. Then, we will use the scaled slopes to determine which explanatory variable has the greatest influence on college on a school having a higher rank. We will interpret the relationships using the non-scaled slopes.</p>
+<p>We will examine the final variables selected by both approaches by first interpreting the R-squared values and graphs to characterize the linear association for each variable and rank. Then, we will calculate the linear regression slopes between each of the explanatory variables (scaled and non-scaled) and college rank. Then, we will use the scaled slopes to determine which explanatory variable has the greatest influence on college on a school having a low rank. We will interpret the relationships using the non-scaled slopes.</p>
 </section>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
 <section id="approach-1-individual-numerical-variable-analysis-1" class="level3">
 <h3 class="anchored" data-anchor-id="approach-1-individual-numerical-variable-analysis-1">Approach #1: Individual Numerical Variable Analysis</h3>
-<p>The table below gives the highest R-squared values for relationships between each individual explanatory variable in our data set and colleges rank. The full list of values is in the appendix.</p>
+<p>The table below gives the highest R-squared values for relationships between each individual explanatory variable in our data set and college rank. The full list of values is in the appendix.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -368,7 +374,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p><code>COSTT4_P</code> (Average cost of attendance for program-year institutions) has been removed because there are only two observations.</p>
-<p>Average SAT (<code>SAT_AVG</code>), median ACT (<code>ACTCMMID</code>), graduation rate (<code>C150_4</code>), average faculty salary (<code>AVGFACSAL</code>), and admission rate (<code>ADM_RATE</code>), are the five variables with the strongest correlation to rank, based on their R-Squared values Therefore, they are the variables we will be examining later in our analysis. We chose five as a cutoff because there is a substantial difference between the R-squared value of these five and the next variable (<code>PCTPELL)</code>.</p>
+<p>Average SAT (<code>SAT_AVG</code>), median ACT (<code>ACTCMMID</code>), graduation rate (<code>C150_4</code>), average faculty salary (<code>AVGFACSAL</code>), and admission rate (<code>ADM_RATE</code>), are the five variables with the strongest correlation to rank, based on their R-Squared values. Therefore, they are the variables we will be examining later in our analysis. We chose five as a cutoff because there is a substantial difference between the R-squared value of these five and the next variable (<code>PCTPELL)</code>.</p>
 </section>
 <section id="approach-2-stepwise-regression-model" class="level3">
 <h3 class="anchored" data-anchor-id="approach-2-stepwise-regression-model">Approach #2: Stepwise Regression Model</h3>
@@ -409,7 +415,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>This table displays high correlated variables. We will drop the variables <code>C150_4</code>, <code>MD_FAMINC</code>, <code>ACTCMMID</code>, <code>MARRIED</code> and preserve <code>SAT_AVG</code> and <code>FAMINC</code> to represent all other variables.</p>
+<p>This table displays highly correlated variables. We will drop the variables <code>C150_4</code>, <code>MD_FAMINC</code>, <code>ACTCMMID</code>, <code>MARRIED</code> and preserve <code>SAT_AVG</code> and <code>FAMINC</code> to represent all other variables.</p>
 <p><strong>Compute Stepwise Regression</strong></p>
 <div class="cell" data-fontsize="2pt">
 
@@ -521,12 +527,12 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>63% of the variation in college rank can be explained by average SAT score. This same interpretation can be used for all of the variables. Looking further at the relationships, there is a negative relationship between SAT/ACT/Graduation Rate/Faculty Salary and rank. This indicates that as the variables increase, the rank of the school decreases. There is a positive relationship between admission rate and rank, indicating that as this variable increases, the rank of a school increases.</p>
-<p>The non-scaled slope shows that on average, we expect a 1-point increase in median ACT score to drop the rank of a school by 30 places. Since admission rate is scaled from 0-1, we need to divide the slope by 100 to interpret it. It indicates that a 1-point drop in admission rate will, on average, result in an estimated drop in rank of the school by 3.87 places. The other variables can be interpreted in the same manner. Scaled slopes allow us to compare them and tell the change in which numerical variable has the greatest impact on a school’s rank. An interesting trend is that among the five most associated variables, the higher the R-squared the higher absolute value of scaled-slope, indicating that variables that have the strongest association to rank also have the greatest influence on decreasing rank. This is logical because Niche likely tie their rankings to variables with the greatest differentiation between higher and lower ranks. This is also concerning because if schools know which variables are most associated to rank and which ones have the greatest impact on decreasing it, it is fairly easy for them to know which variables to change if they wanted to manipulate the rankings.</p>
+<p>The non-scaled slope shows that on average, we expect a 1-point increase in median ACT score to drop the rank of a school by 30 places. Since admission rate is scaled from 0-1, we need to divide the slope by 100 to interpret it. It indicates that a 1-point drop in admission rate will, on average, result in an estimated drop in rank of the school by 3.87 places. The other variables can be interpreted in the same manner. Scaled slopes allow us to compare them and tell the change in which numerical variable has the greatest impact on decreasing a school’s rank. An interesting trend is that among the five most associated variables, the higher the R-squared, the higher the absolute value of scaled-slope, indicating that variables that have the strongest association to rank also have the greatest influence on decreasing rank. This is logical because Niche likely ties their rankings to variables with the greatest differentiation between higher and lower ranks. This is also concerning because if schools know which variables are most associated to rank and which ones have the greatest impact on decreasing it, it is fairly easy for them to know which variables to change if they wanted to manipulate the rankings.</p>
 </section>
 </section>
 <section id="discussion" class="level2">
 <h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
-<p>Based on our analysis and approaches, <code>SAT_AVG</code>, <code>ACTCMMID</code>, <code>C150_4</code>, <code>AVGFACSAL</code>, and <code>ADM_RATE</code> are the numerical explanatory variables most associated with college ranking, which partially confirm our initial hypothesis. SAT/ACT/Admission Rate were among the most correlated variables, but family income was not in the top five, possibly because financial aid allows students from various financial backgrounds to attend universities. These relationships indicate certain priorities in college rankings. The existence of the SAT, ACT, and admission rate variables in the top five highlight how rankings prioritize selectivity in college admissions. This makes us wonder if colleges focus on improving admissions selectivity over their quality of education and student outcomes. The inclusion of graduation rate and faculty salary do tell slightly different stories. While graduation rate indicates a focus on the ability of a university to meet the needs of its students, faculty salary may indicate the quality of the faculty both in teaching and research.</p>
+<p>Based on our analysis and approaches, <code>SAT_AVG</code>, <code>ACTCMMID</code>, <code>C150_4</code>, <code>AVGFACSAL</code>, and <code>ADM_RATE</code> are the numerical explanatory variables most associated with college ranking, which partially confirms our initial hypothesis. SAT/ACT/Admission Rate were among the most correlated variables, but family income was not in the top five, possibly because financial aid allows students from various financial backgrounds to attend universities. These relationships indicate certain priorities in college rankings. The existence of the SAT, ACT, and admission rate variables in the top five highlights how rankings prioritize selectivity in college admissions. This makes us wonder if colleges focus on improving admissions selectivity over their quality of education and student outcomes. The inclusion of graduation rate and faculty salary do tell slightly different stories. While graduation rate indicates a focus on the ability of a university to meet the needs of its students, faculty salary may indicate the quality of the faculty both in teaching and research.</p>
 <p>The stepwise regression model indicated that the categorical variables <code>REGION</code>, <code>ACCREDAGENCY</code>, <code>CONTROL</code>, and <code>CCBASIC</code> were also important to calculating rank. Unlike the numerical variables, it is interesting to note that these variables cannot change easily from year-to-year, so colleges cannot use them to manipulate their rankings. Additionally, there are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. We believe that this is because AIC examines the collective predictive power of the variables rather than the individual predictive ability.</p>
 <p>The limitations of our analysis are as follows: We left the categorical variables out of the first approach because we do not know a way to numerically analyze them, and in doing so, we could not subject these variables to the same two-step confirmation process that we did for the numerical values. Furthermore, we assumed that all variables had a linear relationship with ranks so we could use linear regression modeling to analyze them. Additionally, our linear models assume that rank is continuous and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided that a linear regression model was our best approach. All of these issues could be resolved by learning and implementing more appropriate statistical methods. Finally, we believe that future avenues for this project could include analyzing and comparing more ranking systems, such as those created by US News and Forbes. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at over 1000 colleges to see if our results stay consistent between colleges throughout the country, and perhaps even throughout the world.</p>
 <div style="page-break-after: always;"></div>
