@@ -106,13 +106,9 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
   <li><a href="#research-background" id="toc-research-background" class="nav-link" data-scroll-target="#research-background">Research Background</a></li>
-  </ul></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
-  <ul class="collapse">
-  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
-  </ul></li>
-  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
   <li><a href="#research-question-and-hypothesis" id="toc-research-question-and-hypothesis" class="nav-link" data-scroll-target="#research-question-and-hypothesis">Research Question and Hypothesis</a></li>
+  </ul></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
   <li><a href="#approach-1-individual-numerical-variable-analysis" id="toc-approach-1-individual-numerical-variable-analysis" class="nav-link" data-scroll-target="#approach-1-individual-numerical-variable-analysis">Approach #1: Individual Numerical Variable Analysis</a></li>
@@ -164,9 +160,8 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="research-background">Research Background</h3>
 <p>Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as Niche.com to help them decide where to apply. In recent years, these lists have been heavily criticized as they encourage universities to prioritize certain metrics and manipulate the system to raise their ranks. It is important for students to know where these rankings come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college’s ranking. For reference, when we say a “low rank,” we refer to schools with a lower numerical rank, such as #1. When we say a “high rank,” we refer to schools with a high numerical rank, such as #500.</p>
 </section>
-</section>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
 <div class="cell">
 
 </div>
@@ -198,8 +193,8 @@ ul.task-list li input[type="checkbox"] {
 <li><code>SAT_AVG</code>: Average SAT equivalent score of students admitted (Q)</li>
 <li><code>ACTCMMID</code>: Midpoint of the ACT cumulative score (Q)</li>
 </ul>
-<section id="data-preparation" class="level3">
-<h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
+<section id="data-preparation" class="level4">
+<h4 class="anchored" data-anchor-id="data-preparation">Data Preparation</h4>
 <ol type="1">
 <li>To get the data, we scraped from Niche.com and downloaded data from the US Department of Education. The steps were done in <code>niche-scrape.R</code></li>
 <li>Naming discrepancies between the two data sets were fixed to ensure as successful merge. <code>University of South Florida-Sarasota-Manatee</code> and <code>University of South Florida-St. Petersburg</code> were removed because they did not exist in both datasets.</li>
@@ -229,9 +224,8 @@ ul.task-list li input[type="checkbox"] {
 
 </div>
 </section>
-</section>
-<section id="exploratory-data-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<section id="exploratory-data-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h4>
 <p><strong>Means of Selected Numerical Variables by Rank Group</strong></p>
 <div class="cell">
 <div class="cell-output-display">
@@ -308,10 +302,12 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>As the rank group gets higher, the mean admission rate increases, and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have fewer White students and more Asian students than all other rank groups. We observed a relationship between the categorical variables and rank and included that exploratory analysis in the appendix.</p>
 </section>
-<section id="research-question-and-hypothesis" class="level2">
-<h2 class="anchored" data-anchor-id="research-question-and-hypothesis">Research Question and Hypothesis</h2>
+</section>
+<section id="research-question-and-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="research-question-and-hypothesis">Research Question and Hypothesis</h3>
 <p><strong>Question:</strong> Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?</p>
 <p><strong>Hypothesis:</strong> We hypothesize that SAT/ACT scores, acceptance rate, and family income will have the strongest association with rank because since Niche’s audience is in large part students applying to college, we believe that they prioritize variables important in the college admissions process. Of these variables, we predict that SAT/ACT score and family income will have a strong negative relationship, and acceptance rate will have a strong positive relationship with rank.</p>
+</section>
 </section>
 <section id="methodology" class="level2">
 <h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
