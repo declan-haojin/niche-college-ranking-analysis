@@ -30,7 +30,7 @@ library(knitr)
 
 Every year, millions of students apply to colleges across the United States, and many of them use college rankings lists from sources such as Niche.com to help them decide where to apply. In recent years, these lists have been heavily criticized as they encourage universities to prioritize certain metrics and manipulate the system to raise their ranks. It is important for students to know where these rankings come from and what they actually measure. In this project, we will explore how influential different metrics are in determining a college's ranking. For reference, when we say a "low rank," we refer to schools with a lower numerical rank, such as #1. When we say a "high rank," we refer to schools with a high numerical rank, such as #500.
 
-## Data
+### Data
 
 ```{r}
 #| label: import
@@ -70,7 +70,7 @@ For our analysis, we joined two datasets:
 -   `SAT_AVG`: Average SAT equivalent score of students admitted (Q)
 -   `ACTCMMID`: Midpoint of the ACT cumulative score (Q)
 
-### Data Preparation
+#### Data Preparation
 
 1.  To get the data, we scraped from Niche.com and downloaded data from the US Department of Education. The steps were done in `niche-scrape.R`
 2.  Naming discrepancies between the two data sets were fixed to ensure as successful merge. `University of South Florida-Sarasota-Manatee` and `University of South Florida-St. Petersburg` were removed because they did not exist in both datasets.
@@ -642,7 +642,7 @@ scaled_data <- cbind(other_variables, scaled_continuous_numeric_variables) |>
 
 ```
 
-## Exploratory Data Analysis
+#### Exploratory Data Analysis
 
 **Means of Selected Numerical Variables by Rank Group**
 
@@ -685,7 +685,7 @@ colleges_levels |>
 
 As the rank group gets higher, the mean admission rate increases, and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have fewer White students and more Asian students than all other rank groups. We observed a relationship between the categorical variables and rank and included that exploratory analysis in the appendix.
 
-## Research Question and Hypothesis
+### Research Question and Hypothesis
 
 **Question:** Which characteristics of a university are most associated with rankings on the Niche College Ranking list? Of these characteristics, what is the relationship between high and low rank?
 
