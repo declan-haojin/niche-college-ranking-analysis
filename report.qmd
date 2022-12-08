@@ -905,9 +905,8 @@ All four categorical variables appeared in the final model, so we can assume tha
 
 ```{r}
 #| label: rank-vs-region
-#| eval: false
 #| layout-nrow: 2
-#| fig-height: 6.5
+#| fig-height: 7
 
 colleges_levels |>
   drop_na(REGION) |>
@@ -923,9 +922,12 @@ colleges_levels |>
     y = "Region",
     fill = "Rank"
   ) +
-  theme(legend.position = "left")
-
-colleges_levels_acc <- colleges_levels |>
+  theme(
+    legend.position = "left",
+    axis.text.y = element_text(size = 14)
+  )
+  
+colleges_levels |>
   drop_na(ACCREDAGENCY) |>
    filter(
     ACCREDAGENCY != "EXEMPT" &
@@ -933,18 +935,7 @@ colleges_levels_acc <- colleges_levels |>
     ACCREDAGENCY != "Transnational Association of Christian Colleges and Schools"
   ) |>
   mutate(
-    ACCREDAGENCY = case_when(
-      ACCREDAGENCY == "New England Commission on Higher Education" ~ "New England Commission on\nHigher Education",
-      ACCREDAGENCY == "Accrediting Commission of Career Schools and Colleges" ~ "Accrediting Commission of\nCareer Schools and Colleges",
-      ACCREDAGENCY == "Northwest Commission on Colleges and Universities" ~ "Northwest Commission on\nColleges and Universities",
-      ACCREDAGENCY == "Higher Learning Commission" ~ "Higher Learning Commission",
-      ACCREDAGENCY == "Southern Association of Colleges and Schools Commission on Colleges" ~ "Southern Association\nof Colleges and Schools\nCommission on Colleges",
-      ACCREDAGENCY == "Middle States Commission on Higher Education" ~ "Middle States Commission on\nHigher Education",
-      ACCREDAGENCY == "Western Association of Schools and Colleges Senior Colleges and University Commission" ~ "Western Association of Schools\nand Colleges Senior Colleges\nand University Commission"
-  ))
-colleges_levels_acc |>
-  mutate(
-  ACCREDAGENCY = fct_relevel(ACCREDAGENCY,"Accrediting Commission of\nCareer Schools and Colleges", "Northwest Commission on\nColleges and Universities", "Higher Learning Commission", "Southern Association\nof Colleges and Schools\nCommission on Colleges", "Middle States Commission on\nHigher Education", "Western Association of Schools\nand Colleges Senior Colleges\nand University Commission", "New England Commission on\nHigher Education")) |>
+  ACCREDAGENCY = fct_relevel(ACCREDAGENCY,"Accrediting Commission of Career Schools and Colleges", "Northwest Commission on Colleges and Universities", "Higher Learning Commission", "Southern Association of Colleges and Schools Commission on Colleges", "Middle States Commission on Higher Education", "Western Association of Schools and Colleges Senior Colleges and University Commission", "New England Commission on Higher Education")) |>
   ggplot(aes(y = ACCREDAGENCY, fill = fct_rev(level))) +
   geom_bar(position = "fill", show.legend = FALSE) +
   scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
@@ -953,7 +944,9 @@ colleges_levels_acc |>
     x = "Proportion",
     y = "Accreditation Agency",
     fill = "Rank"
-  )
+  ) +
+  scale_y_discrete(labels = label_wrap(30)) +
+  theme(axis.text.y = element_text(size = 14))
 
 colleges_levels |>
   drop_na(CONTROL) |>
@@ -968,9 +961,10 @@ colleges_levels |>
     x = "Proportion",
     y = "Control",
     fill = "Rank"
-  )
+  ) +
+  theme(axis.text.y = element_text(size = 14))
 
-colleges_levels_cc <- colleges_levels |>
+colleges_levels |>
   drop_na(CCBASIC) |>
    filter(
     CCBASIC != "Special Focus Four-Year: Business & Management Schools" &
@@ -980,25 +974,9 @@ colleges_levels_cc <- colleges_levels |>
     CCBASIC != "Tribal Colleges"
   ) |>
   mutate(
-    CCBASIC = case_when(
-    CCBASIC == "Doctoral Universities: Very High Research Activity" ~ "Doctoral Universities: Very\nHigh Research Activity",
-    CCBASIC == "Baccalaureate Colleges: Arts & Sciences Focus" ~ "Baccalaureate Colleges: Arts &\nSciences Focus", 
-    CCBASIC == "Doctoral Universities: High Research Activity" ~ "Doctoral Universities: High\nResearch Activity",
-    CCBASIC == "Master's Colleges & Universities: Small Programs" ~ "Master's Colleges &\nUniversities: Small Programs",
-    CCBASIC == "Baccalaureate Colleges: Diverse Fields" ~ "Baccalaureate Colleges:\nDiverse Fields",
-    CCBASIC == "Special Focus Four−Year: Engineering Schools", ~ "Special Focus Four−Year:\nEngineering Schools",
-    CCBASIC == "Special Focus Four−Year: Faith−Related Institutions" ~ "Special Focus Four−Year:\nFaith−Related Institutions",
-    CCBASIC == "Special Focus Four−Year: Arts, Music & Design Schools" ~ "Special Focus Four−Year: Arts,\nMusic & Design Schools",
-    CCBASIC == "Doctoral/Professional Universities" ~ "Doctoral/Professional\nUniversities",
-    CCBASIC == "Master's Colleges & Universities: Larger Programs" ~ "Master's Colleges &\nUniversities: Larger Programs",
-    CCBASIC == "Master's Colleges & Universities: Medium Programs" ~ "Master's Colleges &\nUniversities: Medium Programs",
-    CCBASIC == "Special Focus Four−Year: Other Health Professions Schools" ~ "Special Focus Four−Year: Other\nHealth Professions Schools"
-  ))
-colleges_levels_cc |>
-  mutate(
-    CCBASIC = fct_relevel(CCBASIC, "Special Focus Four−Year: Other\nHealth Professions Schools", "Master's Colleges &\nUniversities: Medium Programs", "Master's Colleges &\nUniversities: Larger Programs", "Doctoral/Professional\nUniversities", "Special Focus Four−Year: Arts,\nMusic & Design Schools", "Special Focus Four−Year:\nFaith−Related Institutions", "Special Focus Four−Year:\nEngineering Schools", "Baccalaureate Colleges:\nDiverse Fields", "Master's Colleges &\nUniversities: Small Programs", "Doctoral Universities: High\nResearch Activity", "Baccalaureate Colleges: Arts &\nSciences Focus", "Doctoral Universities: Very\nHigh Research Activity")
+    CCBASIC = fct_relevel(CCBASIC, "Special Focus Four-Year: Other Health Professions Schools", "Master's Colleges & Universities: Medium Programs", "Master's Colleges & Universities: Larger Programs", "Doctoral/Professional Universities", "Special Focus Four-Year: Arts, Music & Design Schools", "Special Focus Four-Year: Faith-Related Institutions", "Special Focus Four-Year: Engineering Schools", "Baccalaureate Colleges: Diverse Fields", "Master's Colleges & Universities: Small Programs", "Doctoral Universities: High Research Activity", "Baccalaureate Colleges: Arts & Sciences Focus", "Doctoral Universities: Very High Research Activity")
   ) |>
-  ggplot(aes(y = str_wrap(CCBASIC, 30), fill = fct_rev(level))) +
+  ggplot(aes(y = CCBASIC, fill = fct_rev(level))) +
   geom_bar(position = "fill", show.legend = FALSE) +
   scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
@@ -1006,10 +984,12 @@ colleges_levels_cc |>
     x = "Proportion",
     y = "Carnegie Classification (Basic)",
     fill = "Rank"
-  )
+  ) +
+  scale_y_discrete(labels = label_wrap(30)) +
+  theme(axis.text.y = element_text(size = 14))
 ```
 
-The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph. There are only 4 `Private, For-profit` schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between `Private, Non-profit` and `Public` are similar, although the first appears to have a larger proportion of `1-100` schools, and the latter a higher proportion of `401-500` schools. There appear to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. The lower the rank, the higher proportion of schools in `Doctoral Universities: Very High Research Activity` and `Baccalaureate Colleges: Arts & Sciences Focus`. However, the opposite appeared to be true for all other classifications with 3 or more rank categories.
+The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph. There are only 4 `Private, For-profit` schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between `Private, Non-profit` and `Public` are similar, although the first appears to have a larger proportion of `1-100` schools, and the latter a higher proportion of `401-500` schools. There appears to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. The lower the rank, the higher proportion of schools in `Doctoral Universities: Very High Research Activity` and `Baccalaureate Colleges: Arts & Sciences Focus`. However, the opposite appears to be true for all other classifications with 3 or more rank categories.
 
 **Numerical Variable Analysis**
 
