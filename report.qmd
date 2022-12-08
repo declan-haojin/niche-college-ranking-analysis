@@ -21,7 +21,7 @@ library(tidymodels)
 library(scales)
 library(ggthemes)
 library(gridExtra)
-
+library(knitr)
 ```
 
 ## Introduction
@@ -682,7 +682,7 @@ colleges_levels |>
     "Mean % Asian Students" = mean_UGDS_ASIAN,
     "Mean Cost of Attendance" = mean_COSTT4_A
   ) |>
-  knitr::kable()
+  kable()
 ```
 
 As the rank group gets higher, the mean admission rate increases and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have fewer White students and more Asian students than all others. We observed a relationship between the categorical variables and rank, and included that exploratory analysis in the appendix.
@@ -774,7 +774,7 @@ r_squared_values <- tibble(
 r_squared_values |>
   arrange(desc(r_squared)) |>
   slice(1:6) |>
-  knitr::kable()
+  kable()
 ```
 
 `COSTT4_P` (Average cost of attendance for program-year institutions) has been removed because there are only two observations.
@@ -1105,7 +1105,7 @@ r2_slopes <- r_squared_values |>
     )
   )
 
-r2_slopes |> knitr::kable()
+r2_slopes |> kable()
 ```
 
 63% of the variation in college rank can be explained by average SAT score. This same interpretation can be used for all of the variables. Looking further at the relationships, there is a negative relationship between SAT/ACT/Graduation Rate/Faculty Salary and rank. This indicates that as the variables increase, the rank of the school decreases. There is a positive relationship between admission rate and rank, indicating that as this variable increases, the rank of a school increases.
@@ -1222,7 +1222,7 @@ Here is the full list of R-squared values from the linear regression models betw
 #| label: r-square-value-list
 r_squared_values |>
   arrange(desc(r_squared)) |>
-  knitr::kable()
+  kable()
 ```
 
 {{< pagebreak >}}
@@ -1258,3 +1258,5 @@ r_squared_values |>
 -   https://www.researchgate.net/figure/R-2-and-RMSE-of-forward-stepwise-regression-models-vs-WHO-algorithm_tbl1_354396022
 
 -   https://www.r-bloggers.com/2016/05/visualizing-bootrapped-stepwise-regression-in-r-using-plotly/
+
+-   https://www.tutorialspoint.com/how-to-increase-the-x-axis-labels-font-size-using-ggplot2-in-r#:\~:text=More%20Detail-,To%20increase%20the%20X%2Daxis%20labels%20font%20size%20using%20ggplot2,the%20scale%20for%20X%2Daxis.
