@@ -39,15 +39,13 @@ niche_data_500 <- read_csv("data/niche_data_500.csv")
 us_dep_of_ed <- read_csv("data/us_dep_of_ed.csv", na = c("NULL", "PrivacySuppressed"))
 ```
 
-For our analysis, we joined two datasets using the `left_join()` function.
+For our analysis, we joined two datasets:
 
 **Data Set #1 - Niche:** Niche's "2023 Best Colleges in America" list aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, and is updated monthly. The Niche data was scraped by Maia on October 17-19 2022. There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
 **Data Set #2 - US Department of Education:** The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies. There were 2,989 variables in the original data set, many of which we don't need to answer our question, so we selected `r ncol(us_dep_of_ed)` variables before importing into R-Studio. We further narrowed to 31 variables we thought could have the most influence on rank. There are `r nrow(us_dep_of_ed)` observations, representing all US colleges and universities.
 
 **Variable Summary:**
-
-After joining the two data sets and selecting relevant variables, we will use 32 variables:
 
 -   `college`: Institution name (Categorical)
 -   `rank`: Rank of school on Niche list (Quantitative)
@@ -75,7 +73,7 @@ After joining the two data sets and selecting relevant variables, we will use 32
 ### Data Preparation
 
 1.  To get the data, we scraped from Niche.com and downloaded data from the US Department of Education. The steps were done in `niche-scrape.R`
-2.  `University of South Florida-Sarasota-Manatee` and `University of South Florida-St. Petersburg` were removed because they did not exist in both datasets. Names of colleges were edited to ensure a successful join.
+2.  `University of South Florida-Sarasota-Manatee` and `University of South Florida-St. Petersburg` were removed because they did not exist in both datasets due to naming discrepancies.
 
 ```{r}
 #| label: fix-college-names
@@ -505,8 +503,6 @@ us_dep_of_ed <- us_dep_of_ed |>
   )
 ```
 
-3.  We then joined the two data sets using the `left_join()` function. The resulting data set has 498 observations and 64 variables (although we ultimately chose to only use 32 in our analysis).
-
 ```{r}
 #| label: join-datasets
 
@@ -558,8 +554,6 @@ chosen_variables <- c(
 data <- colleges |>
   dplyr::select(chosen_variables)
 ```
-
-4.  Many of the categorical variables had their levels listed as numbers, so we edited the dataset to have the the true names of the levels
 
 ```{r}
 #| label: clean-categorical-variables
@@ -625,7 +619,7 @@ data <- data |>
   )
 ```
 
-5.  All of the numerical variables are on different scales, so we created scaled version of the numerical explanatory variables, with mean 0 and standard deviation 1.
+3.  All of the numerical variables are on different scales, so we created scaled version of the numerical explanatory variables, with mean 0 and standard deviation 1.
 
 ```{r}
 #| label: scale-numerical-variables
@@ -682,10 +676,10 @@ colleges_levels |>
     "Mean % Asian Students" = mean_UGDS_ASIAN,
     "Mean Cost of Attendance" = mean_COSTT4_A
   ) |>
-  kable()
+  knitr::kable()
 ```
 
-As the rank group gets higher, the mean admission rate increases and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have fewer White students and more Asian students than all others. We observed a relationship between the categorical variables and rank, and included that exploratory analysis in the appendix.
+As the rank group gets higher, the mean admission rate increases and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have fewer White students and more Asian students than all other. We observed a relationship between the categorical variables and rank, and included that exploratory analysis in the appendix.
 
 ## Research Question and Hypothesis
 
@@ -695,7 +689,7 @@ As the rank group gets higher, the mean admission rate increases and the mean SA
 
 ## Methodology
 
-We split the first part of our analysis into two approaches. In the first, we look at the linear relationship between the numerical explanatory variables and college rank using R-squared values. In the second, we build a stepwise regression model between the variables and college rank. As the variables in the final model will be most important for determining rank, we will use the model results to corroborate our results from the first approach. As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we will use the stepwise regression model to determine if there is a strong association between those variables and rank. In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association.
+We split the first part of our analysis into two approaches. In the first we look at the linear relationship between the numerical explanatory variables and college rank using R-squared values. In the second we build a stepwise regression model between the variables and college rank. As the variables in the final model will be most important for determining rank, we will use the model results to corroborate our results from the first approach. As we cannot find an R-squared value or other numerical metric to measure a relationship involving a categorical variable, we will use the stepwise regression model to determine if there is a strong association between those variables and rank. In the second part of our analysis, we will combine the results of the two approaches and characterize the relationship between rank and the variables with the strongest association.
 
 ### Approach #1: Individual Numerical Variable Analysis
 
@@ -774,7 +768,7 @@ r_squared_values <- tibble(
 r_squared_values |>
   arrange(desc(r_squared)) |>
   slice(1:6) |>
-  kable()
+  knitr::kable()
 ```
 
 `COSTT4_P` (Average cost of attendance for program-year institutions) has been removed because there are only two observations.
@@ -926,7 +920,7 @@ colleges_levels |>
     legend.position = "left",
     axis.text.y = element_text(size = 14)
   )
-  
+
 colleges_levels |>
   drop_na(ACCREDAGENCY) |>
    filter(
@@ -1105,7 +1099,7 @@ r2_slopes <- r_squared_values |>
     )
   )
 
-r2_slopes |> kable()
+r2_slopes |> knitr::kable()
 ```
 
 63% of the variation in college rank can be explained by average SAT score. This same interpretation can be used for all of the variables. Looking further at the relationships, there is a negative relationship between SAT/ACT/Graduation Rate/Faculty Salary and rank. This indicates that as the variables increase, the rank of the school decreases. There is a positive relationship between admission rate and rank, indicating that as this variable increases, the rank of a school increases.
@@ -1118,7 +1112,8 @@ Based on our analysis and approaches, `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSA
 
 The stepwise regression model indicated that the categorical variables `REGION`, `ACCREDAGENCY`, `CONTROL`, and `CCBASIC` were also important to calculating rank. Unlike the numerical variables, it is interesting to note that these variables cannot change easily from year-to-year, so colleges cannot use them to manipulate their rankings. Additionally, there are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. We believe that this is because AIC examines the collective predictive power of the variables rather than the individual predictive ability.
 
-The limitations of our analysis are as follows: We left the categorical variables out of the first approach because we do not know a way to numerically analyze them, and in doing so, we could not subject these variables to the same two-step confirmation process that we did for the numerical values. Furthermore, we assumed that all variables had a linear relationship with ranks so we could use linear regression modeling to analyze them. Additionally, our linear models assume that rank is continuous and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided that a linear regression model was our best approach. All of these issues could be resolved by learning and implementing more appropriate statistical methods. Finally, we believe that future avenues for this project could include analyzing and comparing more ranking systems, such as those created by US News and Forbes. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at over 1000 colleges to see if our results stay consistent between colleges throughout the country, and perhaps even throughout the world.
+The limitations of our analysis are as follows: We left the categorical variables out of the first approach because we do not know a way to numerically analyze them, and in doing so, we could not subject these variables to the same two-step confirmation process that we did for the numerical values. Furthermore, we assumed that all variables had a linear relationship with ranks so we could use linear regression modeling to analyze them. Additionally, our linear models assume that rank is continuous and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided that a linear regression model was our best approach. All of these issues could be resolved by learning and implementing more appropriate statistical methods.
+Finally, we believe that future avenues for this project could include analyzing and comparing more ranking systems, such as those created by US News and Forbes. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at over 1000 colleges to see if our results stay consistent between colleges throughout the country, and perhaps even throughout the world.
 
 {{< pagebreak >}}
 
