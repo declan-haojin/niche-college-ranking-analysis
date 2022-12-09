@@ -1,5 +1,5 @@
 ---
-title: "College Ranking Predictions"
+title: "Factors Most Important to University Ranking"
 subtitle: "Report"
 format: html
 editor: visual
@@ -43,21 +43,21 @@ For our analysis, we joined two datasets:
 
 **Data Set #1 - Niche:** Niche's "2023 Best Colleges in America" list aggregates data from a variety of sources, including the US Department of Education and reviews from students and alumni, and is updated monthly. The Niche data was scraped by Maia on October 17-19 2022. There are `r nrow(niche_data_500)` observations, representing the top 500 schools in the United States. Each observation has two variables: `college` (institution name) and `rank`.
 
-**Data Set #2 - US Department of Education:** The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies. There were 2,989 variables in the original data set, many of which we don't need to answer our question, so we selected `r ncol(us_dep_of_ed)` variables before importing into R-Studio. We further narrowed to 31 variables we thought could have the most influence on rank. There are `r nrow(us_dep_of_ed)` observations, representing all US colleges and universities.
+**Data Set #2 - US Department of Education:** The second data set comes from the US Department of Education's College Scorecard, which is an exhaustive summary of characteristics and statistics for all colleges and universities in the United States. The College Scorecard is updated by the Education Department as it collects new data, but most of the data comes from the 2020-2021 school year. Data used in the scorecard comes from data reported by the institutions, data on federal financial aid, data from taxes, and data from other federal agencies. There were 2,989 variables in the original data set, many of which we don't need to answer our question, so we selected `r ncol(us_dep_of_ed)` variables before importing into RStudio. We further narrowed to the 31 variables we thought could have the most influence on rank. There are `r nrow(us_dep_of_ed)` observations, representing all US colleges and universities.
 
 **Variable Summary:**
 
 -   `college`: Institution name (Categorical)
 -   `rank`: Rank of school on Niche list (Quantitative)
--   `REGION:` US geographic region (C)
--   `ACCREDAGENCY`: Accreditor for institution (C)
+-   `REGION`: US geographic region (C)
+-   `ACCREDAGENCY`: Accrediting agency for institution (C)
 -   `CONTROL`: Public, Private nonprofit, or Private for-profit (C)
 -   `CCBASIC`: Carnegie Classification (basic) (C)
 -   `ADM_RATE`: Admission rate (Q)
--   `UGDS:` enrollment of undergraduate certificate/degree-seeking students (Q)
--   `UGDS_WHITE`, `UGDS_BLACK`, `UGDS_HISP`, `UGDS_ASIAN`, `UGDS_AIAN`, `UGDS_NHPI`, `UGDS_2MOR`, and `UGDS_UNKN`: enrollment of undergraduate students of each racial/ethnic group (Q)
--   `NPT4_PUB`, `NPT4_PRIV` Average net price for Title IV institutions (public and private) (Q)
--   `COSTT4_A`, `COSTT4_P` Average cost of attendance (academic- and program-year institutions) (Q)
+-   `UGDS`: Enrollment of undergraduate certificate/degree-seeking students (Q)
+-   `UGDS_WHITE`, `UGDS_BLACK`, `UGDS_HISP`, `UGDS_ASIAN`, `UGDS_AIAN`, `UGDS_NHPI`, `UGDS_2MOR`, and `UGDS_UNKN`: Enrollment of undergraduate students of each racial/ethnic group (Q)
+-   `NPT4_PUB`, `NPT4_PRIV`: Average net price for Title IV institutions (public and private) (Q)
+-   `COSTT4_A`, `COSTT4_P`: Average cost of attendance (academic- and program-year institutions) (Q)
 -   `AVGFACSAL`: Average faculty salary (Q)
 -   `PCTPELL`: Percentage of undergraduates who receive a Pell Grant (Q)
 -   `C150_4`: Completion rate for first-time, full-time students at four-year institutions (Q)
@@ -503,7 +503,7 @@ us_dep_of_ed <- us_dep_of_ed |>
   )
 ```
 
-3.  The data sets were joined using the `left_join()` function. The resulting data set has 488 observations with 32 variables.
+3.  The data sets were joined using the `left_join()` function. The resulting data set has 498 observations with 33 variables.
 
 ```{r}
 #| label: join-datasets
@@ -669,7 +669,7 @@ colleges_levels |>
     mean_ACTCMMID = mean(ACTCMMID, na.rm = TRUE),
     mean_UGDS_WHITE = mean(UGDS_WHITE, na.rm = TRUE),
     mean_UGDS_ASIAN = mean(UGDS_ASIAN, na.rm = TRUE),
-    mean_COSTT4_A = mean(COSTT4_A, na.rm = TRUE)
+    mean_FAMINC = mean(FAMINC, na.rm = TRUE)
   ) |>
   rename(
     "Interval" = level,
@@ -678,12 +678,12 @@ colleges_levels |>
     "Mean ACT Median" =  mean_ACTCMMID,
     "Mean % White Students" = mean_UGDS_WHITE,
     "Mean % Asian Students" = mean_UGDS_ASIAN,
-    "Mean Cost of Attendance" = mean_COSTT4_A
+    "Mean Family Income" = mean_FAMINC
   ) |>
-  knitr::kable()
+  kable()
 ```
 
-As the rank group gets higher, the mean admission rate increases, and the mean SAT Average, ACT Median, and cost of attendance decreases. 1-100 ranked schools have fewer White students and more Asian students than all other rank groups. We observed a relationship between the categorical variables and rank and included that exploratory analysis in the appendix.
+As the rank group gets higher, the mean admission rate increases, and the mean SAT Average, ACT Median, and family income decreases. 1-100 ranked schools have fewer White students and more Asian students than all other rank groups. We observed a relationship between the categorical variables and rank and included that exploratory analysis in the appendix.
 
 ### Research Question and Hypothesis
 
@@ -772,12 +772,12 @@ r_squared_values <- tibble(
 r_squared_values |>
   arrange(desc(r_squared)) |>
   slice(1:6) |>
-  knitr::kable()
+  kable()
 ```
 
-`COSTT4_P` (Average cost of attendance for program-year institutions) has been removed because there are only two observations.
+`COSTT4_P` (Average cost of attendance for program-year institutions) has been removed because there are only two observations, resulting in an R-squared value of 1.
 
-Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), average faculty salary (`AVGFACSAL`), and admission rate (`ADM_RATE`), are the five variables with the strongest correlation to rank, based on their R-Squared values. Therefore, they are the variables we will be examining later in our analysis. We chose five as a cutoff because there is a substantial difference between the R-squared value of these five and the next variable (`PCTPELL)`.
+Average SAT (`SAT_AVG`), median ACT (`ACTCMMID`), graduation rate (`C150_4`), average faculty salary (`AVGFACSAL`), and admission rate (`ADM_RATE`) are the five variables with the strongest correlation to rank, based on their R-squared values. Therefore, they are the variables we will be examining later in our analysis. We chose five as a cutoff because there is a substantial difference between the R-squared value of these five and the next variable (`PCTPELL`).
 
 ### Approach #2: Stepwise Regression Model
 
@@ -844,8 +844,8 @@ stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
 
 ```{r}
 #| label: visualize-stepwise-model
-#| fig.height: 2.3
-#| fig.width: 6
+#| fig-height: 2.5
+#| fig-width: 6
 
 aic_value = stepwise_model$anova$AIC
 
@@ -915,7 +915,7 @@ colleges_levels |>
   geom_bar(position = "fill") +
   scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
-    title = "Rank vs Geographic Region of the United States",
+    title = "Rank vs Geographic Region of the US",
     x = "Proportion",
     y = "Region",
     fill = "Rank"
@@ -938,9 +938,9 @@ colleges_levels |>
   geom_bar(position = "fill", show.legend = FALSE) +
   scale_fill_viridis_d(limits = c("1-100", "101-200", "201-300", "301-400", "401-500")) +
   labs(
-    title = "Rank vs Accreditation Agency",
+    title = "Rank vs Accrediting Agency",
     x = "Proportion",
-    y = "Accreditation Agency",
+    y = "Accrediting Agency",
     fill = "Rank"
   ) +
   scale_y_discrete(labels = label_wrap(30)) +
@@ -987,14 +987,17 @@ colleges_levels |>
   theme(axis.text.y = element_text(size = 14))
 ```
 
-The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks. Additionally, as accreditation agency is often based on location, it reflects results similar to the region graph. There are only 4 `Private, For-profit` schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between `Private, Non-profit` and `Public` are similar, although the first appears to have a larger proportion of `1-100` schools, and the latter a higher proportion of `401-500` schools. There appears to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. The lower the rank, the higher proportion of schools in `Doctoral Universities: Very High Research Activity` and `Baccalaureate Colleges: Arts & Sciences Focus`. However, the opposite appears to be true for all other classifications with 3 or more rank categories.
+The Geographic Region graph shows that New England has the highest proportion of top-100 schools, while the Plains has the lowest. Apart from the `New England` and `NA` bars, the differences in proportions of rank groups do not vary dramatically between bars. It is possible that the strength of the correlation between rank and region is driven in large part by the association New England has with schools with the lowest 100 ranks. Additionally, as accrediting agency is often based on location, it reflects results similar to the region graph.
+
+There are only 4 `Private, For-profit` schools in the top 500, and all of them are ranked between 301 and 400. The proportions of ranks between `Private, Non-profit` and `Public` are similar, although the first appears to have a larger proportion of `1-100` schools, and the latter a higher proportion of `401-500` schools.
+
+There appears to be the greatest differences between bars of proportions of rank groups in the Carnegie Classification group, suggesting that this has the strongest association with rank. The lower the rank, the higher proportion of schools in `Doctoral Universities: Very High Research Activity` and `Baccalaureate Colleges: Arts & Sciences Focus`. However, the opposite appears to be true for all other classifications with 3 or more rank categories.
 
 **Numerical Variable Analysis**
 
-All of the variables with the top 5 R-squared values appeared in the final stepwise regression model except for `ACTCMMID` (median ACT score) and `C150_4` (graduation rate). These were not used in the model because both of them had a high correlation with `SAT_AVG` (average SAT). Because `SAT_AVG` ended up in the final model, we can reasonably assume that they also have a strong association with rank based on the model's selection process. Therefore, we conclude that `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSAL`, and `ADM_RATE` have the strongest association with rank, and we will characterize the relationship below.
+All of the variables with the top 5 R-squared values appeared in the final stepwise regression model except for `ACTCMMID` (median ACT score) and `C150_4` (graduation rate). These were not used in the model because both of them had a high correlation with `SAT_AVG` (average SAT). Because `SAT_AVG` ended up in the final model, we can reasonably assume that they also have a strong association with rank based on the model's selection process. Therefore, we conclude that `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSAL`, and `ADM_RATE` have the strongest association with rank, and we will characterize the relationships below.
 
 ```{r}
-
 #| label: numerical-graphs
 
 a1 <- colleges |>
@@ -1003,6 +1006,7 @@ a1 <- colleges |>
   geom_smooth(method = "lm") +
   scale_y_continuous(limits = c(0,500)) +
   labs(
+    title = "Average SAT vs Rank",
     x = "Avg. SAT",
     y = "Rank"
   )
@@ -1013,6 +1017,7 @@ a2 <- colleges |>
   geom_smooth(method = "lm") +
   scale_y_continuous(limits = c(0,500)) +
   labs(
+    title = "Median ACT vs Rank",
     x = "Med. ACT",
     y = "Rank"
   )
@@ -1023,6 +1028,7 @@ a3 <- colleges |>
   geom_smooth(method = "lm") +
   scale_y_continuous(limits = c(0,500)) +
   labs(
+    title = "Graduation Rate vs Rank",
     x = "Graduation Rate",
     y = "Rank"
   )
@@ -1033,6 +1039,7 @@ a4 <- colleges |>
   geom_smooth(method = "lm") +
   scale_y_continuous(limits = c(0,500)) +
   labs(
+    title = "Average Faculty Salary vs Rank",
     x = "Avg. Faculty Salary",
     y = "Rank"
   )
@@ -1043,10 +1050,10 @@ a5 <- colleges |>
   geom_smooth(method = "lm") +
   scale_y_continuous(limits = c(0,500)) +
   labs(
+    title = "Admission Rate vs Rank",
     x = "Admission Rate",
     y = "Rank"
   )
-
 
 grid.arrange(a1, a2, a3, a4, a5, ncol = 2)
 ```
@@ -1070,21 +1077,18 @@ linear_reg() |> fit(rank ~ AVGFACSAL, data = colleges)
 
 linear_reg() |> fit(rank ~ ADM_RATE, data = scaled_data)
 linear_reg() |> fit(rank ~ ADM_RATE, data = colleges)
-
-linear_reg() |> fit(rank ~ PCTPELL, data = scaled_data)
-linear_reg() |> fit(rank ~ PCTPELL, data = colleges)
 ```
 
 ```{r}
 
 #| label: r2-slopes-kable
 
-r2_slopes <- r_squared_values |>
+final_variables_table <- r_squared_values |>
   arrange(desc(r_squared)) |>
-  slice_head(n = 6) |>
+  slice_head(n = 5) |>
   mutate(
-    scaled_slope = c(-115.0, -112.9, -103.5, -98.89, 91.74, 71.75),
-    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02, 644.76)
+    scaled_slope = c(-115.0, -112.9, -103.5, -98.89, 91.74),
+    slope = c(-0.9277, -30.04, -735.2, -0.0347, 387.02)
   ) |>
   rename(
     "R-Squared" = r_squared,
@@ -1092,21 +1096,21 @@ r2_slopes <- r_squared_values |>
     "Non-scaled Slope" = slope
   ) |>
   mutate(
-    variable = case_when (
+    variable = case_when(
       variable == "SAT_AVG" ~ "Avg. SAT",
       variable == "ACTCMMID" ~ "Med. ACT",
       variable == "C150_4" ~ "Graduation Rate",
       variable == "AVGFACSAL" ~ "Avg. Faculty Salary",
       variable == "ADM_RATE" ~ "Admission Rate",
-      variable == "PCTPELL" ~ "% Students with Pell Grants",
       TRUE ~ variable
     )
   )
 
-r2_slopes |> knitr::kable()
+final_variables_table |> 
+  kable()
 ```
 
-63% of the variation in college rank can be explained by average SAT score. This same interpretation can be used for all of the variables. Looking further at the relationships, there is a negative relationship between SAT/ACT/Graduation Rate/Faculty Salary and rank. This indicates that as the variables increase, the rank of the school decreases. There is a positive relationship between admission rate and rank, indicating that as this variable increases, the rank of a school increases.
+63% of the variation in college rank can be explained by average SAT score. This same interpretation can be used for all of the variables. Looking further at the relationships, there is a negative relationship between SAT, ACT, Graduation Rate, and Faculty Salary, and rank. This indicates that as the variables increase, the rank of the school decreases. There is a positive relationship between admission rate and rank, indicating that as this variable increases, the rank of a school increases.
 
 The non-scaled slope shows that on average, we expect a 1-point increase in median ACT score to drop the rank of a school by 30 places. Since admission rate is scaled from 0-1, we need to divide the slope by 100 to interpret it. It indicates that a 1-point drop in admission rate will, on average, result in an estimated drop in rank of the school by 3.87 places. The other variables can be interpreted in the same manner. Scaled slopes allow us to compare them and tell the change in which numerical variable has the greatest impact on decreasing a school's rank. An interesting trend is that among the five most associated variables, the higher the R-squared, the higher the absolute value of scaled-slope, indicating that variables that have the strongest association to rank also have the greatest influence on decreasing rank. This is logical because Niche likely ties their rankings to variables with the greatest differentiation between higher and lower ranks. This is also concerning because if schools know which variables are most associated to rank and which ones have the greatest impact on decreasing it, it is fairly easy for them to know which variables to change if they wanted to manipulate the rankings.
 
@@ -1114,7 +1118,7 @@ The non-scaled slope shows that on average, we expect a 1-point increase in medi
 
 Based on our analysis and approaches, `SAT_AVG`, `ACTCMMID`, `C150_4`, `AVGFACSAL`, and `ADM_RATE` are the numerical explanatory variables most associated with college ranking, which partially confirms our initial hypothesis. SAT/ACT/Admission Rate were among the most correlated variables, but family income was not in the top five, possibly because financial aid allows students from various financial backgrounds to attend universities. These relationships indicate certain priorities in college rankings. The existence of the SAT, ACT, and admission rate variables in the top five highlights how rankings prioritize selectivity in college admissions. This makes us wonder if colleges focus on improving admissions selectivity over their quality of education and student outcomes. The inclusion of graduation rate and faculty salary do tell slightly different stories. While graduation rate indicates a focus on the ability of a university to meet the needs of its students, faculty salary may indicate the quality of the faculty both in teaching and research.
 
-The stepwise regression model indicated that the categorical variables `REGION`, `ACCREDAGENCY`, `CONTROL`, and `CCBASIC` were also important to calculating rank. Unlike the numerical variables, it is interesting to note that these variables cannot change easily from year-to-year, so colleges cannot use them to manipulate their rankings. Additionally, there are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. We believe that this is because AIC examines the collective predictive power of the variables rather than the individual predictive ability.
+The stepwise regression model indicated that the categorical variables `REGION`, `ACCREDAGENCY`, `CONTROL`, and `CCBASIC` were also important to calculating rank, but we did not include any of them in our hypothesis. Unlike the numerical variables, it is interesting to note that these variables cannot change easily from year-to-year, so colleges cannot easily use them to manipulate their rankings. Additionally, there are some variables that appear in the final model that have a lower individual R-squared value than some that were taken out of the model. We believe that this is because AIC examines the collective predictive power of the variables rather than the individual predictive ability.
 
 The limitations of our analysis are as follows: We left the categorical variables out of the first approach because we do not know a way to numerically analyze them, and in doing so, we could not subject these variables to the same two-step confirmation process that we did for the numerical values. Furthermore, we assumed that all variables had a linear relationship with ranks so we could use linear regression modeling to analyze them. Additionally, our linear models assume that rank is continuous and goes on forever. We recognize that this is not the case, but since the rank values have meaning and we have not learned how to properly work with ranked data in this class, we decided that a linear regression model was our best approach. All of these issues could be resolved by learning and implementing more appropriate statistical methods. Finally, we believe that future avenues for this project could include analyzing and comparing more ranking systems, such as those created by US News and Forbes. It would be useful if students could understand what each system values and use the one most in line with their priorities. Additionally, we would like to look at over 1000 colleges to see if our results stay consistent between colleges throughout the country, and perhaps even throughout the world.
 
@@ -1210,7 +1214,7 @@ We observe that private non-profit colleges have a higher mean rank than public 
 
 As far as region, schools from New England have the highest mean rank, while schools from the Plains have the lowest mean rank.
 
-Looking at the Carnegie Classification, Doctoral Universities: Very High Research Activity have the highest mean rank, followed by Special Focus Four-Year: Engineering Schools. Master's Colleges and Universities: Medium Programs have the lowest mean rank.
+Looking at the Carnegie Classification, `Doctoral Universities: Very High Research Activity` have the highest mean rank, followed by `Special Focus Four-Year: Engineering Schools`. `Master's Colleges and Universities: Medium Programs` have the lowest mean rank.
 
 ### Full R-square Value List
 
@@ -1227,9 +1231,9 @@ r_squared_values |>
 
 ## References
 
--   Learned how to do for loops from TA Eli Gnesin
+-   Learned how to use for loops from TA Eli Gnesin
 
--   We used the `scale()` function found at https://www.statology.org/standardize-data-in-r/
+-   https://www.statology.org/standardize-data-in-r/
 
 -   https://www.niche.com/colleges/search/best-colleges/
 
