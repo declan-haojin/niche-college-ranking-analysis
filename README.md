@@ -1,3 +1,3 @@
-# project
+# Niche college ranking analysis
 
-Project repo for STA 199 - Fall 2022.
+This project aims to explore how associated and influential different metrics are in determining a college’s ranking on the Niche College Ranking List. Our research methodology is split into two parts: the first approach consists of looking at he linear relationship between the numerical explanatory variables and college rank using R-squared variables. The second approach consists of building a stepwise regression model between many explanatory variables and college rank. The results suggest that numeric variables SAT/ACT scores, completion rate, average faculty salary, and admission rate and categorical variables region, accrediting agency for institution, ownership of the university (Public, Private Non-profit, or Private For-profit) and Carnegie classification are most important to rank. The results provide insight into what factors are important to college rankings, and will help students make more informed decisions when applying to college.
